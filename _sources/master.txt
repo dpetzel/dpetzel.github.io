@@ -3,6 +3,11 @@ Sitemap
 
 .. toctree::
    :maxdepth: 1
+   :hidden:
+
+   404.rst
+   403.rst
+
 
    2013/09/22/adventures_in_django_performance_analysis
    2013/09/22/chef_minitest_and_slow_starting_web_application
