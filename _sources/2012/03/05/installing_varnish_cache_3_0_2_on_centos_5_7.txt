@@ -13,6 +13,8 @@ If you are here, you probably already know what Varnish is, but in case you don�
 
 	Varnish Cache is an open source, state of the art web application accelerator. It is installed in front of your webserver where it will 
 	cache the content, resulting in a huge performance boost.
+	
+.. more::
 
 Now that we’ve gotten that out of way, lets get to it. As is the case with most things I post, this is not intended to be an official “how-to” document, but rather a journal of my adventures in doing it. As should always be the case I’m starting with the supplied installation documentation located here: https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat
 

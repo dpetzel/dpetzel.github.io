@@ -9,6 +9,9 @@ Debugging WinRM
 .. comments::
 
 Some notes on my first attempts at doing details debugging and troubleshooting of WinRM
+
+.. more::
+
 Useful Articles
 
 * http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458

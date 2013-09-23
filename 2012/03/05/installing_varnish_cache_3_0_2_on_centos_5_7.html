@@ -91,7 +91,7 @@
 <blockquote>
 <div>Varnish Cache is an open source, state of the art web application accelerator. It is installed in front of your webserver where it will
 cache the content, resulting in a huge performance boost.</div></blockquote>
-<p>Now that we’ve gotten that out of way, lets get to it. As is the case with most things I post, this is not intended to be an official “how-to” document, but rather a journal of my adventures in doing it. As should always be the case I’m starting with the supplied installation documentation located here: <a class="reference external" href="https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat">https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat</a></p>
+<div id="more"> </div><p>Now that we’ve gotten that out of way, lets get to it. As is the case with most things I post, this is not intended to be an official “how-to” document, but rather a journal of my adventures in doing it. As should always be the case I’m starting with the supplied installation documentation located here: <a class="reference external" href="https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat">https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat</a></p>
 <p>Start with a vanilla minimal install of Centos 5.7. I did perform a ‘yum update’ &amp; ‘reboot’ after the initial installation of the OS, before starting with installing Varnish.</p>
 <p>Lets create a repo file and leverage Varnish’s existing repo. We also need libedit out of EPEL, so enabling that repo as well. I suppose I could have just grabbed the single RPM just as easily…</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /tmp

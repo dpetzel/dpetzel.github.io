@@ -19,6 +19,8 @@ menu as well as my modal dialog box. At first I had only noticed the issue on th
 a hard time figuring out what was going on, and thought perhaps I had done something wrong on the superfish menu. 
 Once I noticed it was also affecting my modal dialog, I became suspicious of cloud zoom.
 
+.. more::
+
 I went through and tried a few different things, and finally just disabled cloud zoom. 
 At that point my drop down menu was now correctly displayed over top of the image. 
 I spent some time looking through the cloud-zoom site with no luck. I spent quite a bit of time googling with no luck.

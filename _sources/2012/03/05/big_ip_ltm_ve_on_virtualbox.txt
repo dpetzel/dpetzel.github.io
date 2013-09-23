@@ -10,6 +10,8 @@ BIG-IP LTM VE on VirtualBox
 
 I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and I didn't have the access to a test box that I had when I initially wrote it. So I decided I'd give the BIG-IP LTM VE a whirl.
 
+.. more::
+
 I'm on a VirtualBox kick right now, but the appliance choices there don't list VirtualBox. Inspired by this post, I figured I'd give it a shot since it looked simple enough. I'm re-documenting the process here, so I can just add a little more detail around this.
 
 Start by registering (or signing in if you already have an account) via https://www.f5.com/trial/big-ip-ltm-virtual-edition.php.

@@ -91,31 +91,7 @@
 harder than I would have guessed. I was trying to manually generate an array from within my template.
 I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
 ip addresses which are allowed to see the template code, but everyone else should get the boot.</p>
-<p>Now, I don’t write a lot of code, let alone Velocity code, so I figured I’d hit up the
-user documentation for Velocity: <a class="reference external" href="http://velocity.apache.org/engine/devel/user-guide.htm">http://velocity.apache.org/engine/devel/user-guide.htm</a>.
-Would you believe I found nothing of the sorts? I found how to loop through an existing array,
-but nothing on creating a new one from within the template.</p>
-<p>Well, after some googling I found a few newsgroup posts. I wanted to capture the syntax here,
-as it was incredibly easy. And just as if you had been provided the array from underlying java code
-you can loop through your template generated array.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#set($AllowedIPs= [&quot;1.1.1.1&quot;,&quot;2.2.2.2&quot;])</span>
-</pre></div>
-</div>
-<p>Thats it. I couldn’t believe it took me more than 30 seconds to find this :(. In any event
-if anyone is curious the code looks a bit like the following.</p>
-<p><em>Note:</em> The system on which the code is running, provides access to
-a variable, $remoteIPAddress, which is the client IP. Without that provided variable this will of
-course not work:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#set($AllowedIPs= [&quot;1.1.1.1&quot;,&quot;2.2.2.2&quot;])</span>
-<span class="c">#foreach($IpAddress in $AllowedIPs)</span>
-   <span class="c">#if($remoteIPAddress eq $IpAddress)</span>
-      <span class="c">## Do Whatever you need in here, and it will only happen</span>
-      <span class="c">## For authorized IP addresses</span>
-   <span class="c">#end</span>
-<span class="c">#end</span>
-</pre></div>
-</div>
-</div>
+<p><a class="readmore" href="2012/03/05/template_generated_array_in_velocity.html#more">Read more...</a></p></div>
         <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>
@@ -138,65 +114,7 @@ course not work:</p>
         <div class="section" id="sending-an-smtp-email-in-python-3">
 <h1><a href="2012/03/05/sending_an_smtp_email_in_python_3.html">Sending an SMTP email in Python 3</a></h1>
 <p>This took me far longer than it should have, and while I’d like to blame shotty documentation and sparse examples it was probably my own stupidity causing the issue. Whatever the case maybe I wanted to jot down my results as I’m sure I’ll need to do this again.</p>
-<p>I’d like go on a rant about how much harder this was than it should be and how an easier module should exist. However, the fact that I can’t write an easier module lends itself to the “Don’t Complain, Contribute” motto, so I’ll settle on the belief that its not easier for a good reason, and maybe one day if I ever get really good at Python I can make it easier.</p>
-<p>For the time challenged people who don’t want to read, here is the condensed version with no explanation:</p>
-<div class="highlight-python"><pre>import smtplib
-import string
-
-subject = &quot;My Wicked Cool Subject Line&quot;
-to = &quot;rec1@domain1.com,rec2@domain.com&quot;.split(&quot;,&quot;)
-from = &quot;sender@domain.com&quot;
-body_text = &quot;Enter the contents of your body here&quot;
-body = &quot;From: {0} \r\n \
-        To: {1} \r\n \
-        Subject: {2} \r\n \
-        {3} \r\n&quot;.format(FROM, &quot;, &quot;.join(TO), SUBJECT, text)
-server = smtplib.SMTP(&quot;YourSMTPServerName&quot;,YourSMTPServerPort)
-server.login(&quot;you@yourdomain.com&quot;,&quot;yourpassword&quot;)
-server.set_debuglevel(1)
-server.sendmail(from, to, body)
-server.quit()</pre>
-</div>
-<p>For those that want a little more explanation, aside from reading the python docs, I’ve added some quick notes around some of the stuff that is not uber obvious. So the first thing we need is the SMTP module:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">smtplib</span>
-</pre></div>
-</div>
-<p>Then we’ll need the string module. Quite likely there are other ways to accomplish this, but this is the method I took:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">string</span>
-</pre></div>
-</div>
-<p>The following is using some variables to over-simplify the whole mess, but you should get the idea:</p>
-<div class="highlight-python"><pre>subject = &quot;My Wicked Cool Subject Line&quot;
-#add as many as you need separated by commas
-to = &quot;rec1@domain1.com,rec2@domain.com&quot;.split(&quot;,&quot;)
-from = &quot;sender@domain.com&quot;
-#obviously you can dynamically generate this variable.
-body_text = &quot;Enter the contents of your body here&quot;
-#didn't bother to read all the gory details, but from what I gather
-# This approach is used to set some SMTP headers, and munch everything
-# into a single body entity.
-body = &quot;From: {0} \r\n \
-        To: {1} \r\n \
-        Subject: {2} \r\n \
-        {3} \r\n&quot;.format(FROM, &quot;, &quot;.join(TO), SUBJECT, text)
-#This part is pretty cool. It uses the new format method in lieu of the
-# older %s approach. Honestly I find it simpler than the %s approach.
-
-server = smtplib.SMTP(&quot;YourSMTPServerName&quot;,YourSMTPServerPort)
-#You only need if your not connecting to the defacto standard 25.
-
-#This line is needed because my SMTP server requires Auth. If yours doesnt
-# Omit this.
-server.login(&quot;you@yourdomain.com&quot;,&quot;yourpassword&quot;)
-
-#I'm curious and wanted to see what was happening. So I flipped on debugging.
-server.set_debuglevel(1)
-# Fire Away!
-server.sendmail(from, to, body)
-#End you session.
-server.quit()</pre>
-</div>
-</div>
+<p><a class="readmore" href="2012/03/05/sending_an_smtp_email_in_python_3.html#more">Read more...</a></p></div>
         <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>
@@ -228,22 +146,7 @@ server.quit()</pre>
 menu as well as my modal dialog box. At first I had only noticed the issue on the drop menu, and was having
 a hard time figuring out what was going on, and thought perhaps I had done something wrong on the superfish menu.
 Once I noticed it was also affecting my modal dialog, I became suspicious of cloud zoom.</p>
-<p>I went through and tried a few different things, and finally just disabled cloud zoom.
-At that point my drop down menu was now correctly displayed over top of the image.
-I spent some time looking through the cloud-zoom site with no luck. I spent quite a bit of time googling with no luck.</p>
-<p>I turned my attention to the jQuery UI documentation for anything that might be a clue.
-I was reading through the various options and came upon the zIndex option. I had no idea what zIndex was (I am no jQuery expert).
-Long story short, I finally got to this article: <a class="reference external" href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
-So I randomly picked a stupid high zIndex (100,000), and sure enough it worked! So the question of the day is WHY?
-and what is the value of zIndex I need to use? Well on a hunch I started digging through the cloud zoom javascript and found line 350:</p>
-<div class="highlight-python"><pre>$(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');</pre>
-</div>
-<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower than that will be displayed behind my images.
-So of course, I put this to the test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
-<p>A quick refresh and everything is working perfect!. zIndex... who knew...</p>
-<p>In case you are wondering, yes I did test an iteration with the index of the menu and modal dialog set to be lower
-than 9999 and as expected they were hidden by the cloud zoom image.</p>
-</div>
+<p><a class="readmore" href="2012/03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html#more">Read more...</a></p></div>
         <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>
@@ -265,145 +168,8 @@ than 9999 and as expected they were hidden by the cloud zoom image.</p>
         </div>
         <div class="section" id="converting-zenoss-vmware-virtual-appliance-to-virtualbox">
 <h1><a href="2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html">Converting Zenoss VMWare Virtual Appliance to VirtualBox</a></h1>
-<div class="section" id="purpose">
-<h2>Purpose</h2>
 <p>So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox</p>
-</div>
-<div class="section" id="instructions">
-<h2>Instructions</h2>
-<div class="section" id="linux">
-<h3>Linux</h3>
-<ul>
-<li><p class="first">Download the existing VMware Image:</p>
-<div class="highlight-python"><pre>cd /tmp
-wget http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/4.1.70-1427/zenoss-4.1.70-1427-x86_64.vmware.zip</pre>
-</div>
-</li>
-<li><p class="first">Unzip the downloaded zip file:</p>
-<div class="highlight-python"><pre>unzip zenoss-4.1.70-1427-x86_64.vmware.zip</pre>
-</div>
-</li>
-<li><p class="first">Create a new VirtualBox VM:</p>
-<div class="highlight-python"><pre>VM_NAME=&quot;Zenoss_4.1_Appliance&quot;
-VM_BASE_PATH=/VMs
-sudo mkdir $VM_BASE_PATH
-sudo chmod 777 $VM_BASE_PATH
-VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register</pre>
-</div>
-</li>
-<li><p class="first">Move the VMDK file over to the VM’s directory:</p>
-<div class="highlight-python"><pre>mv zenoss-4.1.70-1427-x86_64.vmdk $VM_BASE_PATH/$VM_NAME/</pre>
-</div>
-</li>
-<li><p class="first">Change Settings on the newly created VM:</p>
-<div class="highlight-python"><pre>VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on</pre>
-</div>
-</li>
-<li><p class="first">Attach the VMDK file to the VM:</p>
-<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name &quot;SCSI Controller&quot; --add scsi --controller LsiLogic
-VBoxManage storageattach $VM_NAME --storagectl &quot;SCSI Controller&quot; --type hdd --port 0 --medium $VM_BASE_PATH/$VM_NAME/zenoss-4.1.70-1427-x86_64.vmdk</pre>
-</div>
-</li>
-<li><p class="first">Add a DVD/CD Drive (At a minimum you’ll need this for installing Guest Additions):</p>
-<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name &quot;IDE Controller&quot; --add ide --controller PIIX4
-VBoxManage storageattach $VM_NAME --storagectl &quot;IDE Controller&quot; --type dvddrive --port 1 --device 0 --medium emptydrive</pre>
-</div>
-</li>
-<li><p class="first">Power on the new Virtual Machine:</p>
-<div class="highlight-python"><pre>VBoxManage startvm $VM_NAME</pre>
-</div>
-</li>
-<li><p class="first">Once the VM has started up, log into the console and Remove VMWare Tools:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">vmware</span><span class="o">-</span><span class="n">uninstall</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">pl</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">Use the VirtualBox documentation to install VirtualBox Guest Additions</p>
-</li>
-</ul>
-</div>
-<div class="section" id="windows">
-<h3>Windows</h3>
-<p>Lets get our powershell on...All commands are run in a power shell prompt</p>
-<ul>
-<li><p class="first">Setup some Variables:</p>
-<div class="highlight-python"><pre>$buildNumber = &quot;4.1.70-1434&quot;
-$arch = &quot;x86_64&quot;
-$baseFileName = &quot;zenoss-$buildNumber-$arch&quot;
-$zipFileName = &quot;$baseFileName.vmware.zip&quot;
-$zipFileDownloadUrl = &quot;http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/$buildNumber/$zipFileName&quot;
-
-$VM_NAME=&quot;Zenoss_Appliance_$buildNumber&quot;
-$VM_BASE_PATH=&quot;\VMs&quot;</pre>
-</div>
-</li>
-<li><p class="first">Download the existing VMware Image:</p>
-<div class="highlight-python"><pre>cd \temp
-$webclient = New-Object System.Net.WebClient
-echo &quot;Going to Download File. This will take a long time without output. Be Patient&quot;
-$webclient.DownloadFile($zipFileDownloadUrl,&quot;$pwd\$zipFileName&quot;)</pre>
-</div>
-</li>
-<li><p class="first">Unzip the downloaded zip file:</p>
-<div class="highlight-python"><pre>$shell_app=new-object -com shell.application
-$zip_file = $shell_app.namespace((Get-Location).Path + &quot;\$zipFileName&quot;)
-$destination = $shell_app.namespace((Get-Location).Path)
-$destination.Copyhere($zip_file.items())</pre>
-</div>
-</li>
-<li><p class="first">Create a new VirtualBox VM:</p>
-<div class="highlight-python"><pre>if ((Test-Path -path $VM_BASE_PATH) -ne $True){New-Item $VM_BASE_PATH -type directory}
-VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register</pre>
-</div>
-</li>
-<li><p class="first">Move the VMDK file over to the VM’s directory:</p>
-<div class="highlight-python"><pre>mv $baseFileName\$baseFileName.vmdk $VM_BASE_PATH\$VM_NAME\</pre>
-</div>
-</li>
-<li><p class="first">Change Settings on the newly created VM:</p>
-<div class="highlight-python"><pre>VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on</pre>
-</div>
-</li>
-<li><p class="first">Attach the VMDK file to the VM:</p>
-<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name &quot;SCSI Controller&quot; --add scsi --controller LsiLogic
-VBoxManage storageattach $VM_NAME --storagectl &quot;SCSI Controller&quot; --type hdd --port 0 --medium $VM_BASE_PATH\$VM_NAME\$baseFileName.vmdk</pre>
-</div>
-</li>
-<li><p class="first">Add a DVD/CD Drive (At a minimum you’ll need this for installing Guest Additions):</p>
-<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name &quot;IDE Controller&quot; --add ide --controller PIIX4
-VBoxManage storageattach $VM_NAME --storagectl &quot;IDE Controller&quot; --type dvddrive --port 1 --device 0 --medium (get-command VBoxGuestAdditions.iso).Path</pre>
-</div>
-</li>
-<li><p class="first">Some Optional Port forwards I find useful:</p>
-<div class="highlight-python"><pre>VBoxManage controlvm $VM_NAME natpf1 &quot;SSH,tcp,,8022,,22&quot;
-VBoxManage controlvm $VM_NAME natpf1 &quot;ZOPE,tcp,,8080,,8080&quot;</pre>
-</div>
-</li>
-<li><p class="first">Power on the new Virtual Machine:</p>
-<div class="highlight-python"><pre>VBoxManage startvm $VM_NAME</pre>
-</div>
-</li>
-<li><p class="first">Once the VM has started up, log into the console (root/zenoss) and Remove VMWare Tools:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">vmware</span><span class="o">-</span><span class="n">uninstall</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">pl</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">While still logged into the console, install VirtualBox guest additions:</p>
-<div class="highlight-python"><pre>yum -y install bzip2 make gcc
-mkdir /media/ga
-mount /dev/cdrom /media/ga
-/media/ga/VBoxLinuxAdditions.run</pre>
-</div>
-</li>
-<li><p class="first">Reboot for good measure:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">reboot</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
+<p><a class="readmore" href="2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html#more">Read more...</a></p></div>
         <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>

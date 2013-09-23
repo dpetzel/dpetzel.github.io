@@ -13,6 +13,8 @@ harder than I would have guessed. I was trying to manually generate an array fro
 I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
 ip addresses which are allowed to see the template code, but everyone else should get the boot.
 
+.. more::
+
 Now, I don't write a lot of code, let alone Velocity code, so I figured I'd hit up the
 user documentation for Velocity: http://velocity.apache.org/engine/devel/user-guide.htm.
 Would you believe I found nothing of the sorts? I found how to loop through an existing array,

@@ -10,6 +10,8 @@ Live With Mynt
 
 So I've been hearing a bit lately about static site generators. So the last couple of nights I decided to finally do a little homework and better understand it.
 
+.. more::
+
 So after reading about the various options out there I ended up experimenting with several of the available Python options (Mynt, Pelican, Nikola, and Hyde). I went with Python, as I am primarily a Windows users and I've always had an easier time getting Python packages working on Windows than Ruby (which is why I kept looking despite Jekyll being so popular). 
 
 I was not overwhelmed by any of the offerings, and it was clear that these are not solutions for the "average" user. You need to small amount of technical skill to get any of them up and running and understand their template systems. 

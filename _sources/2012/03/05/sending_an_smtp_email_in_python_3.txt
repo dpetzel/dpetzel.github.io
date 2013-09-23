@@ -10,6 +10,8 @@ Sending an SMTP email in Python 3
 
 This took me far longer than it should have, and while I'd like to blame shotty documentation and sparse examples it was probably my own stupidity causing the issue. Whatever the case maybe I wanted to jot down my results as I'm sure I'll need to do this again.
 
+.. more::
+
 I'd like go on a rant about how much harder this was than it should be and how an easier module should exist. However, the fact that I can't write an easier module lends itself to the "Don't Complain, Contribute" motto, so I'll settle on the belief that its not easier for a good reason, and maybe one day if I ever get really good at Python I can make it easier.
 
 For the time challenged people who don't want to read, here is the condensed version with no explanation::

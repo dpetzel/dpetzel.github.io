@@ -8,9 +8,9 @@ Converting Zenoss VMWare Virtual Appliance to VirtualBox
 .. tags:: Zenoss, VMWare, VirtualBox
 .. comments::
 
-Purpose
-+++++++
 So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox
+
+.. more::
 
 Instructions
 ++++++++++++

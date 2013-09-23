@@ -20,6 +20,8 @@ with `Heroku`_. I've know about it for a while now, and have gone so
 far as reading some of the documentation, however I've never actually
 tried using it. So today, I decided to change that. 
 
+.. more::
+
 So my first question was what should I run. I'm not really in a coding
 mood today so I figured I would pick something someone else has already
 written. Earlier this week a colleague of mine turned me onto `Uptime`_

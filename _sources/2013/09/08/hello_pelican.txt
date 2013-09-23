@@ -13,6 +13,8 @@ off my attempts at a static site using Mynt, which I detailed
 `Here <|filename|Live_with_mynt.rst>`_. There really wasn't anything wrong with
 Mynt, it just didn't feel right to me after having trying to use it.
 
+.. more::
+
 One of the reasons I decided to make the switch was Pelicans themes. I don't
 have a single artistic or stylish cell in my body, so I heavily rely on themes
 by people who are good at making things look good. I really couldn't find
