@@ -12,6 +12,8 @@ Nothing to eye opening here but I wanted to collect some thoughs and insights
 I had this week. While I'm more of an operations guy, a while back I hacked
 up a `Django`_ based web application which uses `Celery`_ and `RabbitMQ`_.
 
+.. more::
+
 Its not an application that sees much traffic as it was created to serve a niche
 internal purpose, but it does handle web requests which result in potentially
 long running background tasks.

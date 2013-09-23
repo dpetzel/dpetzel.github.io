@@ -93,7 +93,7 @@ cookbooks. This quick post is to capture an approach I&#8217;ve grown to like fo
 doing HTTP tests of slow starting web applications. I&#8217;ve noticed that many
 services will return from an <cite>/sbin/service mysapp start</cite> well before
 the application has fully started and is accepting HTTP connections.</p>
-<p>Originally I taken a very naive approach of timing how long the app took
+<div id="more"> </div><p>Originally I taken a very naive approach of timing how long the app took
 to startup, adding some arbitrary number of seconds and then just sleeping that
 long before testing. This is of course a stupid approach and now that I&#8217;ve
 gotten my feet wet with both <a class="reference external" href="http://www.opscode.com/chef/">Chef</a> and Ruby I&#8217;ve learned of a really simply
