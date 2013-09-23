@@ -8,13 +8,13 @@ import tinkerer.paths
 # **************************************************************
 
 # Change this to the name of your blog
-project = 'My Site'
+project = "Dave's Site"
 
 # Change this to the tagline of your blog
-tagline = 'Add intelligent tagline here'
+tagline = 'I Do Random Stuff And Occasionally Document It.'
 
 # Change this to the description of your blog
-description = 'This is an awesome blog'
+description = "A collection of thoughts, discoveries, and ramblings I've bothered to document."
 
 # Change this to your name
 author = 'David Petzel'
@@ -23,14 +23,14 @@ author = 'David Petzel'
 copyright = '2013, ' + author
 
 # Change this to your blog root URL (required for RSS feed)
-website = 'http://127.0.0.1/blog/html/'
+website = 'http://www.dpetzel.info'
 
 # **************************************************************
 # More tweaks you can do
 # **************************************************************
 
 # Add your Disqus shortname to enable comments powered by Disqus
-disqus_shortname = None
+disqus_shortname = 'dpetzel'
 
 # Change your favicon (new favicon goes in _static directory)
 html_favicon = 'tinkerer.ico'

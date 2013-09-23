@@ -1,0 +1,6 @@
+/blog
+/.project
+/.pydevproject
+*.pyc
+/index.html
+/.settings
