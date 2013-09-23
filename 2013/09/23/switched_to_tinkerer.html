@@ -15,7 +15,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
         <meta name="viewport" content="width=device-width">
-        <title>Debugging WinRM &mdash; Dave&#39;s Site</title>
+        <title>Switched To Tinkerer &mdash; Dave&#39;s Site</title>
             <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
             <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
             <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
@@ -74,46 +74,43 @@
                 </li>
               </ul>
           </nav><div class="main-container"><div class="main wrapper clearfix"><article><div class="timestamp postmeta">
-            <span>June 11, 2012</span>
+            <span>September 23, 2013</span>
         </div>
-    <div class="section" id="debugging-winrm">
-<h1>Debugging WinRM</h1>
-<p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM</p>
-<div id="more"> </div><p>Useful Articles</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458">http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458</a></li>
-<li><a class="reference external" href="http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463">http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463</a></li>
-<li><a class="reference external" href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx</a></li>
-</ul>
-<p>Enable Tracing:</p>
-<div class="highlight-python"><pre>Set-ExecutionPolicy Unrestricted
-Import-Module PSDiagnostics
-Enable-PsWsmanCombinedTrace</pre>
-</div>
-<p>Now run what command is giving grief
-Once that command produces your error, disable the trace:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">Disable</span><span class="o">-</span><span class="n">PsWsmanCombinedTrace</span>
-</pre></div>
-</div>
-<p>Output the Log entries to a text file:</p>
-<div class="highlight-python"><pre>get-winevent -logname Microsoft-Windows-WinRM/Operational | fl &gt;&gt; C:\winrm_log.txt
-get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &gt;&gt; C:\winrm2_log.txt</pre>
-</div>
-<p>Review the log and hopefully find some answers</p>
+    <div class="section" id="switched-to-tinkerer">
+<h1>Switched To Tinkerer</h1>
+<p>For anyone that might have been following along I&#8217;ve been trying out different
+solutions for static site generation of this site. I&#8217;d been running <a class="reference external" href="http://docs.getpelican.com/en/3.2/">Pelican</a>
+for a bit, but I was getting annoyed a bit with the limited directives. I&#8217;ve
+gotten used to <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> at work for some project documentation and I wanted
+to see if I could leverage some of that. A little googling later and I found
+<a class="reference external" href="http://tinkerer.me/">Tinkerer</a> which is based on Sphinx but adds some workflow around the process
+to make blogging with <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> easier.</p>
+<p>So I&#8217;ve made the switch and what you are reading now was generated with Tinkerer.
+I didn&#8217;t have very much content yet so I just manually moved everything over,
+although from what I saw if you had a lot of content it would be pretty easy
+to whip up a script to do the transfer. The big difference for me was that
+Pelican had you organize your posts by category, while Tinkerer has you organize
+them by date. Aside form that they seemed to have roughly the same features
+with Tinkerer having full Sphinx support.</p>
+<p>We&#8217;ll see if I continue to like it as time goes on. Thats all for now.</p>
 </div>
 
     <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>
         </div>
-        
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/general.html">General</a></span>
+        </div>
         <div class="tags">
             <span>
                 Tags:
-                <a href="../../../tags/windows.html">Windows</a>, <a href="../../../tags/winrm.html">WinRM</a></span>
+                <a href="../../../tags/python.html">Python</a>, <a href="../../../tags/tinkerer.html">Tinkerer</a>, <a href="../../../tags/html.html">HTML</a>, <a href="../../../tags/sphinx.html">Sphinx</a></span>
         </div>
         </div>
-    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2012/06/11/debugging_winrm";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2013/09/23/switched_to_tinkerer";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul></ul>
 </div>

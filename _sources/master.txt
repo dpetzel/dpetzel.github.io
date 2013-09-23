@@ -4,6 +4,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
    :hidden:
+   2013/09/23/switched_to_tinkerer
 
    404.rst
    403.rst
