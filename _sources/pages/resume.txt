@@ -1,21 +1,4 @@
 Resume
 ======
 
-.. warning::
-   I am **not** currently seeking new employment
-
-.. important:: 
-   I am **not** currently seeking new employment
-   
-.. note:: 
-   I am **not** currently seeking new employment
-
-.. tip:: 
-   I am **not** currently seeking new employment	
-   
-.. attention:: 
-   I am **not** currently seeking new employment
-	
-	
-Test
-
+Coming Soon...
