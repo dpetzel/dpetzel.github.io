@@ -3,13 +3,9 @@ Sitemap
 
 .. toctree::
    :maxdepth: 1
-   :hidden:
+
+
    2013/09/23/switched_to_tinkerer
-
-   404.rst
-   403.rst
-
-
    2013/09/22/adventures_in_django_performance_analysis
    2013/09/22/chef_minitest_and_slow_starting_web_application
    2013/09/08/running_uptime_on_heroku

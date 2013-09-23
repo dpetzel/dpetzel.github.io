@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Dave's Site</title>
+        <link>http://www.dpetzel.info/</link>
+        <description>I Do Random Stuff And Occasionally Document It.</description>
+        <language>en-us</language>
+        <pubDate>Mon, 23 Sep 2013 00:00:00 -0400</pubDate>
+        
+        <item>
+            <link>http://www.dpetzel.info/2013/09/23/switched_to_tinkerer.html</link>
+            <guid>http://www.dpetzel.info/2013/09/23/switched_to_tinkerer.html</guid>
+            <title><![CDATA[Switched To Tinkerer]]></title>
+            <description><![CDATA[<div class="section" id="switched-to-tinkerer">
+<h1>Switched To Tinkerer</h1>
+<p>For anyone that might have been following along I’ve been trying out different
+solutions for static site generation of this site. I’d been running <a class="reference external" href="http://docs.getpelican.com/en/3.2">Pelican</a>
+for a bit, but I was getting annoyed a bit with the limited directives. I’ve
+gotten used to <a class="reference external" href="http://sphinx-doc.org">Sphinx</a> at work for some project documentation and I wanted
+to see if I could leverage some of that. A little googling later and I found
+<a class="reference external" href="http://tinkerer.me">Tinkerer</a> which is based on Sphinx but adds some workflow around the process
+to make blogging with <a class="reference external" href="http://sphinx-doc.org">Sphinx</a> easier.</p>
+<p>So I’ve made the switch and what you are reading now was generated with Tinkerer.
+I didn’t have very much content yet so I just manually moved everything over,
+although from what I saw if you had a lot of content it would be pretty easy
+to whip up a script to do the transfer. The big difference for me was that
+Pelican had you organize your posts by category, while Tinkerer has you organize
+them by date. Aside form that they seemed to have roughly the same features
+with Tinkerer having full Sphinx support.</p>
+<p>We’ll see if I continue to like it as time goes on. Thats all for now.</p>
+</div>]]></description>
+            <category><![CDATA[ General ]]></category>
+             <pubDate>Mon, 23 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/22/adventures_in_django_performance_analysis.html</link>
+            <guid>http://www.dpetzel.info/2013/09/22/adventures_in_django_performance_analysis.html</guid>
+            <title><![CDATA[Adventures in Django Performance Analysis]]></title>
+            <description><![CDATA[<div class="section" id="adventures-in-django-performance-analysis">
+<h1>Adventures in Django Performance Analysis</h1>
+<p>Nothing to eye opening here but I wanted to collect some thoughs and insights
+I had this week. While I’m more of an operations guy, a while back I hacked
+up a <a class="reference external" href="https://www.djangoproject.com">Django</a> based web application which uses <a class="reference external" href="http://www.celeryproject.org">Celery</a> and <a class="reference external" href="http://www.rabbitmq.com">RabbitMQ</a>.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/22/adventures_in_django_performance_analysis.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Programming ]]></category>
+             <pubDate>Sun, 22 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/22/chef_minitest_and_slow_starting_web_application.html</link>
+            <guid>http://www.dpetzel.info/2013/09/22/chef_minitest_and_slow_starting_web_application.html</guid>
+            <title><![CDATA[Chef Minitest and Slow Starting Web Application]]></title>
+            <description><![CDATA[<div class="section" id="chef-minitest-and-slow-starting-web-application">
+<h1>Chef Minitest and Slow Starting Web Application</h1>
+<p>As I have started to become proficient with <a class="reference external" href="http://www.opscode.com/chef">Chef</a> I’ve also gotten used to
+using the <a class="reference external" href="https://github.com/calavera/minitest-chef-handler">minitest-chef-handler</a> for writing integration tests for my
+cookbooks. This quick post is to capture an approach I’ve grown to like for
+doing HTTP tests of slow starting web applications. I’ve noticed that many
+services will return from an <cite>/sbin/service mysapp start</cite> well before
+the application has fully started and is accepting HTTP connections.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/22/chef_minitest_and_slow_starting_web_application.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Chef ]]></category>
+             <pubDate>Sun, 22 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/08/running_uptime_on_heroku.html</link>
+            <guid>http://www.dpetzel.info/2013/09/08/running_uptime_on_heroku.html</guid>
+            <title><![CDATA[Running Uptime on Heroku]]></title>
+            <description><![CDATA[<div class="section" id="running-uptime-on-heroku">
+<h1>Running Uptime on Heroku</h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you don’t really care how I got there, skip to the
+“Condensed” section for the bare bones info.</p>
+</div>
+<div class="section" id="the-process">
+<h2>The Process</h2>
+<p>For today’s adventure I’ve decided to finally get my hands dirty
+with <a class="reference external" href="http://heroku.com">Heroku</a>. I’ve know about it for a while now, and have gone so
+far as reading some of the documentation, however I’ve never actually
+tried using it. So today, I decided to change that.</p>
+</div><p><a class="readmore" href="http://www.dpetzel.info/2013/09/08/running_uptime_on_heroku.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ General ]]></category>
+             <pubDate>Sun, 08 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/08/hello_pelican.html</link>
+            <guid>http://www.dpetzel.info/2013/09/08/hello_pelican.html</guid>
+            <title><![CDATA[Hello Pelican]]></title>
+            <description><![CDATA[<div class="section" id="hello-pelican">
+<h1>Hello Pelican</h1>
+<p>So I’ve <cite>gone live</cite> with a static site using <a class="reference external" href="http://docs.getpelican.com">Pelican</a>. Originally I had kicked
+off my attempts at a static site using Mynt, which I detailed
+<a class="reference external" href="|filename|Live_with_mynt.rst">Here</a>. There really wasn’t anything wrong with
+Mynt, it just didn’t feel right to me after having trying to use it.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/08/hello_pelican.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ General ]]></category>
+             <pubDate>Sun, 08 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html</link>
+            <guid>http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html</guid>
+            <title><![CDATA[Publishing A Zenoss ZenPack to PyPi Using Travis-CI]]></title>
+            <description><![CDATA[<div class="section" id="publishing-a-zenoss-zenpack-to-pypi-using-travis-ci">
+<h1>Publishing A Zenoss ZenPack to PyPi Using Travis-CI</h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don’t see more ZenPacks on PyPi.</p>
+<p class="last">So read on if you are curious about how it <em>might</em> work, but please don’t
+make this part of your standard ZenPack release process.</p>
+</div>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Zenoss ]]></category>
+             <pubDate>Sat, 07 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2013/09/03/live_with_mynt.html</link>
+            <guid>http://www.dpetzel.info/2013/09/03/live_with_mynt.html</guid>
+            <title><![CDATA[Live With Mynt]]></title>
+            <description><![CDATA[<div class="section" id="live-with-mynt">
+<h1>Live With Mynt</h1>
+<p>So I’ve been hearing a bit lately about static site generators. So the last couple of nights I decided to finally do a little homework and better understand it.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/03/live_with_mynt.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ General ]]></category>
+             <pubDate>Tue, 03 Sep 2013 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/06/11/debugging_winrm.html</link>
+            <guid>http://www.dpetzel.info/2012/06/11/debugging_winrm.html</guid>
+            <title><![CDATA[Debugging WinRM]]></title>
+            <description><![CDATA[<div class="section" id="debugging-winrm">
+<h1>Debugging WinRM</h1>
+<p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/06/11/debugging_winrm.html#more">Read more...</a></p></div>]]></description>
+             <pubDate>Mon, 11 Jun 2012 00:00:00 -0400</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/big_ip_ltm_ve_on_virtualbox.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/big_ip_ltm_ve_on_virtualbox.html</guid>
+            <title><![CDATA[BIG-IP LTM VE on VirtualBox]]></title>
+            <description><![CDATA[<div class="section" id="big-ip-ltm-ve-on-virtualbox">
+<h1>BIG-IP LTM VE on VirtualBox</h1>
+<p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and I didn’t have the access to a test box that I had when I initially wrote it. So I decided I’d give the BIG-IP LTM VE a whirl.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/big_ip_ltm_ve_on_virtualbox.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ VirtualBox ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html</guid>
+            <title><![CDATA[Installing Varnish Cache 3.0.2 on Centos 5.7]]></title>
+            <description><![CDATA[<div class="section" id="installing-varnish-cache-3-0-2-on-centos-5-7">
+<h1>Installing Varnish Cache 3.0.2 on Centos 5.7</h1>
+<p>If you are here, you probably already know what Varnish is, but in case you don’t….https://www.varnish-cache.org/</p>
+<blockquote>
+<div>Varnish Cache is an open source, state of the art web application accelerator. It is installed in front of your webserver where it will
+cache the content, resulting in a huge performance boost.</div></blockquote>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Caching ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html</guid>
+            <title><![CDATA[Installing Apache Traffic Server 3.0.1 on Centos 5.7]]></title>
+            <description><![CDATA[<div class="section" id="installing-apache-traffic-server-3-0-1-on-centos-5-7">
+<h1>Installing Apache Traffic Server 3.0.1 on Centos 5.7</h1>
+<p>A quick chronicle of my journey to install Apache Traffic Servers on Centos 5.7. In the end it ended up being a lot easier than I was expecting, given how sporadic and incomplete the documentation on their site is.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Caching ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/template_generated_array_in_velocity.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/template_generated_array_in_velocity.html</guid>
+            <title><![CDATA[Template Generated Array in Velocity]]></title>
+            <description><![CDATA[<div class="section" id="template-generated-array-in-velocity">
+<h1>Template Generated Array in Velocity</h1>
+<p>Today I was trying to do something in a velocity template that I found to be a little
+harder than I would have guessed. I was trying to manually generate an array from within my template.
+I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
+ip addresses which are allowed to see the template code, but everyone else should get the boot.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/template_generated_array_in_velocity.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Programming ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/sending_an_smtp_email_in_python_3.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/sending_an_smtp_email_in_python_3.html</guid>
+            <title><![CDATA[Sending an SMTP email in Python 3]]></title>
+            <description><![CDATA[<div class="section" id="sending-an-smtp-email-in-python-3">
+<h1>Sending an SMTP email in Python 3</h1>
+<p>This took me far longer than it should have, and while I’d like to blame shotty documentation and sparse examples it was probably my own stupidity causing the issue. Whatever the case maybe I wanted to jot down my results as I’m sure I’ll need to do this again.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/sending_an_smtp_email_in_python_3.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Programming ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html</link>
+            <guid>http://www.dpetzel.info/2012/03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html</guid>
+            <title><![CDATA[Cloud Zoom Is Blocking My Modal Dialog Box]]></title>
+            <description><![CDATA[<div class="section" id="cloud-zoom-is-blocking-my-modal-dialog-box">
+<h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
+<ul class="simple">
+<li>I’ve got a page that is using a few different jQuery dependent features/functions.</li>
+<li>I’m using the superfish drop down menu</li>
+<li>I’m also using the jQuery UI Dialog for a modal dialog box</li>
+<li>And finally, I’m using Cloud Zoom for some image excitement</li>
+</ul>
+<p>The issue I was having is that the Cloud Zoom enhanced image was being displayed in front of my drop down
+menu as well as my modal dialog box. At first I had only noticed the issue on the drop menu, and was having
+a hard time figuring out what was going on, and thought perhaps I had done something wrong on the superfish menu.
+Once I noticed it was also affecting my modal dialog, I became suspicious of cloud zoom.</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Programming ]]></category>
+             <pubDate>Mon, 05 Mar 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+        <item>
+            <link>http://www.dpetzel.info/2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html</link>
+            <guid>http://www.dpetzel.info/2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html</guid>
+            <title><![CDATA[Converting Zenoss VMWare Virtual Appliance to VirtualBox]]></title>
+            <description><![CDATA[<div class="section" id="converting-zenoss-vmware-virtual-appliance-to-virtualbox">
+<h1>Converting Zenoss VMWare Virtual Appliance to VirtualBox</h1>
+<p>So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox</p>
+<p><a class="readmore" href="http://www.dpetzel.info/2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html#more">Read more...</a></p></div>]]></description>
+            <category><![CDATA[ Zenoss ]]></category>
+             <pubDate>Fri, 10 Feb 2012 00:00:00 -0500</pubDate>
+        </item>
+    
+    </channel>
+</rss>
