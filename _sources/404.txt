@@ -1,6 +1,4 @@
 The URL you requested was not found.
 ====================================
 
-.. comments::
-
 Not Found

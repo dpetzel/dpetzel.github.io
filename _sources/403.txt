@@ -1,6 +1,5 @@
 403 Permission Denied
 =====================
 
-.. comments::
 
 Permission Denied
