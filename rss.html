@@ -89,71 +89,7 @@ why you don’t see more ZenPacks on PyPi.</p>
 <p class="last">So read on if you are curious about how it <em>might</em> work, but please don’t
 make this part of your standard ZenPack release process.</p>
 </div>
-<p>I recently had the need to update the <a class="reference external" href="https://github.com/ZCA/ZenPacks.community.f5">F5 ZenPack</a>. It had been a while since
-I had updated a Pack so I was hopeful that the process for releasing a new
-pack (<a class="reference external" href="http://wiki.zenoss.org/Releasing_your_ZenPack">http://wiki.zenoss.org/Releasing_your_ZenPack</a>) had been updated to be
-a little less manual. Don’t get me wrong the system that is in place is a vast
-improvement of what used to exist, but I’m just not excited about how manual
-the process is. Maybe I’ll write up a seperate page about what I dislike about
-the process, but the focus on this page is not to complain about that process,
-but rather show what I think is a better (more automatted) solution.</p>
-<p>So the goal I set out was with:</p>
-<ul class="simple">
-<li>I didn’t want to continue to maintain two different versions of documentation
-(I keep a README.rst with the pack, but the Wiki requires wiki markup)</li>
-<li>I didn’t want to manually upload any build artifacts</li>
-<li>I want to lay the ground work for some testing (I’ve historically done a poor
-job at adding tests to my ZenPacks, but I’m hoping to change that)</li>
-</ul>
-<p>So I set out on the road of using <a class="reference external" href="https://travis-ci.org">Travis CI</a> uploading <a class="reference external" href="http://pypi.python.org">PyPi</a>. So the first
-step I took was getting integration with PyPi`_ outside of Travis. After reading
-up on the documentation at <a class="reference external" href="http://docs.python.org/3/distutils/packageindex.html">http://docs.python.org/3/distutils/packageindex.html</a></p>
-<p>I added the following release.sh script to my ZenPacks repo:</p>
-<div class="highlight-python"><pre>#! /bin/bash
-
-# Create a .pypirc file in the home directory
-echo &quot;[distutils]
-index-servers =
-        pypi
-
-[pypi]&quot; &gt; ~/.pypirc
-
-echo &quot;username: &quot; &quot;$PYPI_USER&quot; &gt;&gt; ~/.pypirc
-echo &quot;password: &quot; &quot;$PYPI_PWD&quot; &gt;&gt; ~/.pypirc
-
-python setup.py sdist bdist_egg upload
-rm -f ~/.pypirc</pre>
-</div>
-<p>So what this does is read in my PyPi username and password from an environment
-variable so I don’t need to keep them in the repo. Additionally if someone else
-ever wants to become a contributor it should allow them to use the same script</p>
-<p>I did a one time registration of the ZenPack outside of this script, and from
-there on out, I’m able to just run <cite>sh release.sh</cite> from the root of the repo
-and it will upload the compile compile egg (which contains the version) to PyPi.</p>
-<p>So right out of the gate, I’ve hit two of my three targets. But I wanted to take
-it a little further. While running <cite>sh release.sh</cite> is pretty easy, I wanted
-to see about automatically testing and upload the egg. This is where things
-got a little trickier, but still not to bad...</p>
-<p>The <a class="reference external" href="https://travis-ci.org">Travis CI</a> getting started documentation is pretty indepth, so I don’t want
-to recreate that here, but I do want to call out you’ll want to read up
-how to do the encrypted environment stuff.</p>
-<p>So after some trial and error (I’m not sure why, but it took me a while to krok
-the encrypted environment variable stuff), I ended up with this <a class="reference external" href="https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml">.travis.yml</a>.</p>
-<p>So now everytime I push a change up to the github repo, a service hook fires
-and <a class="reference external" href="https://travis-ci.org">Travis CI</a> starts building my ZenPack immediatly. You can see those build
-resuts here: <a class="reference external" href="https://travis-ci.org/ZCA/ZenPacks.community.f5">https://travis-ci.org/ZCA/ZenPacks.community.f5</a></p>
-<p>As part of the build process it will produce two egg files, one for Python2.6
-(Zenoss 3.x) and one for Python 2.7 (Zenoss 4.x), and upload them automatically
-to <a class="reference external" href="http://pypi.python.org">PyPi</a>.</p>
-<p>I do have to say, I was not 100% comfortable with the idea of handing over some
-much private information to Travis (allowing them access to my GitHub account,
-as well as trusting that their encryption keys are secure). In the end, I just
-ensured I was using information I don’t use on any other sites. I still
-can’t say I’m entirely comfortable with it, but sometimes you just have to be
-a little trusting. We’ll see....</p>
-<p>The process did go smooth enough, that I intend to convert some of the other
-ZenPacks I maintain and see how it goes longer term.</p>
-</div>]]></description>
+<p><a class="readmore" href="http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html#more">Read more...</a></p></div>]]></description>
             <category><![CDATA[ Zenoss ]]></category>
              <pubDate>Sat, 07 Sep 2013 00:00:00 -0400</pubDate>
         </item>

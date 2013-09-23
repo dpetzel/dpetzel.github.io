@@ -16,6 +16,8 @@ Publishing A Zenoss ZenPack to PyPi Using Travis-CI
 	
 	So read on if you are curious about how it *might* work, but please don't
 	make this part of your standard ZenPack release process.
+	
+.. more::
 
 
 I recently had the need to update the `F5 ZenPack`_. It had been a while since
