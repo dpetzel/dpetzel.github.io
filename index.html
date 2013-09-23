@@ -1,0 +1,1175 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
+        <meta name="viewport" content="width=device-width">
+        <title>Home &mdash; Dave&#39;s Site</title>
+            <link rel="stylesheet" href="_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="_static/main.css" type="text/css">
+            <link rel="stylesheet" href="_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="_static/plugins.js"></script>
+        <script src="_static/main.js"></script>
+        <link rel="next" title="Older" href="page2.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="_static/underscore.js"></script><script type="text/javascript" src="_static/doctools.js"></script><script type="text/javascript" src="_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Adjusts document height if sidebar is taller
+            var documentwrapper = document.getElementsByTagName("article")[0];
+            var sidebar = document.getElementsByClassName("sidebar")[0];
+
+            if (sidebar.offsetHeight > documentwrapper.offsetHeight)
+            {
+                var mainwrapper = document.getElementsByClassName("main")[0];
+                documentwrapper.style.minHeight = mainwrapper.offsetHeight + "px";
+            }
+
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header>
+            <hgroup>
+              <h1><a href="#">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+          </header>
+      <nav>
+            <ul><li class="quicklink"><div class="rss">
+        <a href="rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+    </div></li><li class="main-nav">
+                  <a href="#">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="pages/about.html">About</a>
+                </li>
+              <li class="main-nav">
+                  <a href="pages/resume.html">Resume</a>
+                </li>
+              </ul>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="page2.html">Older</a> &raquo; </li>
+        </ul><div class="timestamp postmeta">
+            <span>September 22, 2013</span>
+        </div>
+        <div class="section" id="adventures-in-django-performance-analysis">
+<h1><a href="2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a></h1>
+<p>Nothing to eye opening here but I wanted to collect some thoughs and insights
+I had this week. While I’m more of an operations guy, a while back I hacked
+up a <a class="reference external" href="https://www.djangoproject.com">Django</a> based web application which uses <a class="reference external" href="http://www.celeryproject.org">Celery</a> and <a class="reference external" href="http://www.rabbitmq.com">RabbitMQ</a>.</p>
+<p>Its not an application that sees much traffic as it was created to serve a niche
+internal purpose, but it does handle web requests which result in potentially
+long running background tasks.</p>
+<p>There are a few pages and process that are painfully slow. So this week I set
+out to improve some of slower components of the application. I felt like I had
+a pretty good idea of what sucked and why but I wanted to gather some metrics
+first so I could understand if the changes I was going to make were the right
+changes to make. As of today, I’ve not made any code changes to improve
+performance, but I wanted to collect my observations after having adding some
+instrumentation.</p>
+<div class="section" id="new-relic-integration">
+<h2>New Relic Integration</h2>
+<p>At work <a class="reference external" href="http://newrelic.com">New Relic</a> has been getting a lot of buzz for the magic it works on
+Java based applications. I was aware they had some <a class="reference external" href="http://www.python.org">Python</a> integration, but
+up until this week I had not looked too closely at it. To be fair I still don’t
+think I’ve spent enough time reading all their documentation to fully appreciate
+all they have to offer, as I was pretty focused on integration with my <a class="reference external" href="https://www.djangoproject.com">Django</a>
+application.</p>
+<p>The first thing I noticed was my “google-foo” was failing on producing anything
+useful.  I got as far as <a class="reference external" href="http://newrelic.com/python/django">http://newrelic.com/python/django</a> which is a great
+marketing page, but I needed the technical know-how on how to hook things up.
+(I’m a <a class="reference external" href="http://newrelic.com">New Relic</a> noob all the way around). What I thought was interesting here is
+once I did find their documentation it was tremendous, so it was odd that my
+searches had been coming up so dry...</p>
+<p>I read through the bits and pieces on <a class="reference external" href="https://newrelic.com/docs/python">https://newrelic.com/docs/python/</a>.
+I was starting to get pretty excited as this looked like it was going to be really
+easy. <a class="reference external" href="https://newrelic.com/docs/python/python-agent-integration">https://newrelic.com/docs/python/python-agent-integration</a> seemed to have
+all the key pieces I needed, so I got to work.</p>
+<p>I run my application under a <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> so I added <span class="docutils literal"><span class="pre">newrelic</span></span> to my
+requirements.txt and ran a quick <span class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></span>. The
+package was installed without any issues. No crazy dependencies and no compile
+errors (which are all to uncommon when installing packages with pip).</p>
+<p>Next up for me was getting the agent registered with my web server
+(Apache running mod_wsgi). They offer several ways of doing doing things, but I
+settled on the <em>Manual integration with code</em> approach. So I added the following
+to my wsgi script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">newrelic.agent</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">nr_conf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_folder</span><span class="p">,</span> <span class="s">&quot;conf&quot;</span><span class="p">,</span> <span class="s">&quot;newrelic-django.conf&quot;</span><span class="p">)</span>
+        <span class="n">newrelic</span><span class="o">.</span><span class="n">agent</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">nr_conf</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">newrelic</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Failed loading New Relic config: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nr_conf</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Failed to import newrelic agent&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This deviates just a touch from their example so let me explain the key pieces
+here. <span class="docutils literal"><span class="pre">project_folder</span></span> is a variable that was already in my wsgi_script and
+is simply the path to where all my code lives. I’m storing the <span class="docutils literal"><span class="pre">newrelic-django.conf</span></span>
+in a <span class="docutils literal"><span class="pre">conf</span></span> sub-folder. The examples on the <a class="reference external" href="http://newrelic.com">New Relic</a> site worked, but for
+me I wanted to be sure that if anything was wrong with the agent or the
+configuration file it wouldn’t hinder my apps ability to start. As a result I
+wrapped their example with some try/except blocks and logging.</p>
+<p>About 2-3 minutes after restarting Apache on my local development VM where I
+was testing this, I started seeing very detailed statistics in <a class="reference external" href="http://newrelic.com">New Relic</a>.
+I was in awe for several minutes at the insane level of detail they were able
+to collect including database query times and mapping out my downstream
+dependencies. It was truly amazing!</p>
+<p>I did however notice that none of my <a class="reference external" href="http://www.celeryproject.org">Celery</a> tasks were getting any information.
+I did recall I had read that had to be handle separately. So this lead me
+to <a class="reference external" href="https://newrelic.com/docs/python/python-agent-and-celery">https://newrelic.com/docs/python/python-agent-and-celery</a>. I’m running
+<a class="reference external" href="http://www.celeryproject.org">Celery</a> under <a class="reference external" href="http://smarden.org/runit">runit</a> so I had to update my run script. In the process I learned
+a little more about runit and environment variables (I’m still pretty new to
+using <a class="reference external" href="http://smarden.org/runit">runit</a>). <a class="reference external" href="http://smarden.org/runit/chpst.8.html">http://smarden.org/runit/chpst.8.html</a> is where they discuss this
+but for me it was not immediately clear. Here is what I did:</p>
+<ol class="arabic simple">
+<li>create a new directory in the <em>same directory</em> as my run script. I named it
+<span class="docutils literal"><span class="pre">env</span></span></li>
+<li>In my <span class="docutils literal"><span class="pre">env</span></span> directory I created a file called <span class="docutils literal"><span class="pre">NEW_RELIC_CONFIG_FILE</span></span>.</li>
+<li>I populated <span class="docutils literal"><span class="pre">env/NEW_RELIC_CONFIG_FILE</span></span> with the path to my configuration
+file.</li>
+</ol>
+<p>So now when <a class="reference external" href="http://smarden.org/runit">runit</a> kicks off my celeryd process it will have the proper
+environment variable set.</p>
+<p>So now it was time to update my run script. Here is what it looked like before:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">exec</span> /usr/bin/env chpst -u myapps_user <span class="se">\</span>
+  path_to_virtualenv/bin/python <span class="se">\</span>
+  path_to_my_code/manage.py <span class="se">\</span>
+  celeryd
+</pre></div>
+</div>
+<p>And here is what it looked like after. As you can see not all that different:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="hll"><span class="nb">exec</span> /usr/bin/env chpst -e env -u myapps_user <span class="se">\</span>
+</span><span class="hll">  path_to_virtualenv/bin/python <span class="se">\</span>
+</span><span class="hll">  path_to_virtualenv/bin/newrelic-admin run-program <span class="se">\</span>
+</span>  path_to_virtualenv/bin/python <span class="se">\</span>
+  path_to_my_code/manage.py <span class="se">\</span>
+  celeryd
+</pre></div>
+</div>
+<p>Restarted my service and sure enough in just a minute or two I had stats showing
+up in <a class="reference external" href="http://newrelic.com">New Relic</a>. I will say it didn’t have quite the awe inspiring level of
+detail that the web application had, but still pretty awesome for making 0 code
+changes, and simply starting up using their wrapper.</p>
+<p>That was it, up and running in about about 1.5 hours including time to read
+the documentation. Lets ship it!!.</p>
+<p>I rolled out my updated code to QA and started seeing <strong>nothing</strong>. WTF....
+Trolling through the logs I found this:</p>
+<div class="highlight-none"><div class="highlight"><pre>newrelic.core.data_collector WARNING - Data collector is not contactable via the proxy host 'myproxyhost' on port 8080 with proxy user of None. This can be because of a network issue or because of the data collector being restarted. In the event that contact cannot be made after a period of time then please report this problem to New Relic support for further investigation. The error raised was SSLError(SSLError(SSLError('_ssl.c:489: The handshake operation timed out',),),).
+</pre></div>
+</div>
+<p>Now I was prepared a bit for this as I knew I’d be running behind a proxy server
+so I had planned for this and included proxy configuration in my configuration
+INI file. Assuming I had done something wrong I reviewed the proxy related
+information in <a class="reference external" href="https://newrelic.com/docs/python/python-agent-configuration">https://newrelic.com/docs/python/python-agent-configuration</a>.
+Everything looked correct. Typical debugging ensues without any luck. So I
+start hacking a ton of debugging output into their agent code and learned that
+the HTTP end point I’m failing on is <span class="docutils literal"><span class="pre">https://collector.newrelic.com/agent_listener/invoke_raw_method</span></span>.
+Using curl from the command line I’m able to confirm proxy connectivity is
+working. Several more WTF’s follow.. While I don’t pretend to fully understand
+all the moving pieces I was able to see their agent is using the requests library
+and the dictionary they were passing for proxies looked different than the
+<a class="reference external" href="http://www.python-requests.org/en/latest/user/advanced/adventures_in_django_performance_analysis.html#proxies">examples on the requests site</a>.</p>
+<p>The newrelic agent was using <span class="docutils literal"><span class="pre">{'https':</span> <span class="pre">'myproxyhost:8080'}</span></span>,
+however requests shows it as <span class="docutils literal"><span class="pre">{'https':</span> <span class="pre">'http://myproxyhost:8080'}</span></span></p>
+<p>Here is how I had my agent INI originally:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">proxy_host</span> <span class="o">=</span> <span class="s">myproxyhost</span>
+<span class="na">proxy_port</span> <span class="o">=</span> <span class="s">8080</span>
+</pre></div>
+</div>
+<p>So I changed it to this:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="na">proxy_host</span> <span class="o">=</span> <span class="s">http://myproxyhost</span>
+<span class="na">proxy_port</span> <span class="o">=</span> <span class="s">8080</span>
+</pre></div>
+</div>
+<p>After a restart everything was working fine and I was seeing stats from my
+nodes behind my proxy server. Success!!. While I think this is actually a bug
+in their agent code, I was happy to see I would work around it with a
+configuration change.</p>
+</div>
+<div class="section" id="memcached-vs-locmem">
+<h2>Memcached Vs Locmem</h2>
+<p>I’ve got a few instances of my application running and early on I had added some
+<strong>very</strong> basic caching. Early on there was only a single instance so I thought
+I was doing myself a favor by keeping things simple and using the <span class="docutils literal"><span class="pre">locmem</span></span>
+cache backend. When the time came to scale up to more instances I knew this was
+not the best approach as cache was not being shared across instances and if
+wanted to run with multiple Apache processes those processes, even though there
+under the same instance of Apache, were not actually sharing cache. I should note
+that the reason for adding more instances wasn’t load related, but simply to
+avoid having a single point of failure. So at that time I didn’t explore
+switching to Memcached as I didn’t really want to change anything, I just
+wanted more instances to avoid the SPF.</p>
+<p>Fast-forward and I figured since I’m focused on the subject let me eliminate
+what I know is an inefficiency and switch to Memcached so all my instances
+are now sharing cache. Since I had recently hooked up New Relic I had some
+really great statistics. I could see, on average, one of the more frequent
+pages of the application were taking about 2 seconds (horrible I know.. I knew it
+was slow, but was ashamed when I saw just how slow it really was).  So I updated
+my configuration to use a <strong>remote</strong> (not on the same box) Memcached cluster.
+I didn’t make any other changes to code or configuration, yet as soon as I rolled
+out I saw an average of about 700ms reduction in response time. That warrants
+repeating.... <strong>Doing nothing except changing from locmem to Memcached resulted
+in around 700ms of reduced page load time</strong>.</p>
+<p>I am not suggesting that locmem is bad. In fact, when I first implemented it
+made a pretty large improvement, but it was very interesting see to how much
+of an improvement Memcached made, considering we were going from in process
+cache to an external (across the network) cache. My take away from this was
+that there are cases were a remote cache can actually be more beneficial than
+a local cache, if your sharing information across many instances.</p>
+</div>
+<div class="section" id="celery-apply-vs-apply-async">
+<h2>Celery apply vs apply_async</h2>
+<p>The last thing I poked at this week was usage of <a class="reference external" href="http://www.celeryproject.org">Celery</a>‘s <span class="docutils literal"><span class="pre">apply()</span></span> method
+vs <span class="docutils literal"><span class="pre">apply_aysync</span></span>. For those that don’t know the difference, <span class="docutils literal"><span class="pre">apply_async</span></span>
+will drop a message onto the queue and wait for celeryd to process it
+asynchronously. Using <span class="docutils literal"><span class="pre">apply()</span></span> is defined as:</p>
+<div class="highlight-python"><pre>Execute this task locally, by blocking until the task returns</pre>
+</div>
+<p>I was curious what sort of overhead was involved in the process of dropping the
+message onto the queue. I created a task that did no actual work:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">celery.task</span> <span class="kn">import</span> <span class="n">task</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">test_task</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>After that I timed the calls to both <span class="docutils literal"><span class="pre">apply()</span></span> and <span class="docutils literal"><span class="pre">apply_aysync</span></span>. On my
+system, where <a class="reference external" href="http://www.rabbitmq.com">RabbitMQ</a> is running on the same box (so no network hops
+involved in this test), <span class="docutils literal"><span class="pre">apply()</span></span> would run the task in about 3-4ms while
+<span class="docutils literal"><span class="pre">apply_aysync</span></span> ranged between 13-16ms with occasional anomalies of 30-34ms.</p>
+<p>For my purposes this is plenty fast enough, but I was a little surprised to
+see that level of overhead.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary</h2>
+<p>In summary, it was an interesting set of exercises and for the most part
+confirmed many of my suspicions, but its nice to finally have some real
+metrics around this. Now that I’m measuring all this great stuff its time to
+start improving it!</p>
+</div>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/programming.html">Programming</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/django.html">Django</a>, <a href="tags/python.html">Python</a>, <a href="tags/celery.html">Celery</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/22/adventures_in_django_performance_analysis.html#disqus_thread" data-disqus-identifier="2013/09/22/adventures_in_django_performance_analysis">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>September 22, 2013</span>
+        </div>
+        <div class="section" id="chef-minitest-and-slow-starting-web-application">
+<h1><a href="2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a></h1>
+<p>As I have started to become proficient with <a class="reference external" href="http://www.opscode.com/chef">Chef</a> I’ve also gotten used to
+using the <a class="reference external" href="https://github.com/calavera/minitest-chef-handler">minitest-chef-handler</a> for writing integration tests for my
+cookbooks. This quick post is to capture an approach I’ve grown to like for
+doing HTTP tests of slow starting web applications. I’ve noticed that many
+services will return from an <cite>/sbin/service mysapp start</cite> well before
+the application has fully started and is accepting HTTP connections.</p>
+<p>Originally I taken a very naive approach of timing how long the app took
+to startup, adding some arbitrary number of seconds and then just sleeping that
+long before testing. This is of course a stupid approach and now that I’ve
+gotten my feet wet with both <a class="reference external" href="http://www.opscode.com/chef">Chef</a> and Ruby I’ve learned of a really simply
+approach to poll the service frequently and eventually giving up or succeeding.</p>
+<p>Here is an example of the approach I am using these days</p>
+<div class="highlight-ruby"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">'minitest/spec'</span>
+<span class="nb">require</span> <span class="s2">&quot;net/http&quot;</span>
+
+<span class="n">describe_recipe</span> <span class="s1">'mycookbook::myrecipe'</span> <span class="k">do</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Assertions</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Context</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Resources</span>
+  <span class="n">it</span> <span class="s2">&quot;listens on the desired HTTP Port&quot;</span> <span class="k">do</span>
+    <span class="k">begin</span>
+      <span class="n">tries</span> <span class="o">||=</span> <span class="mi">12</span>
+      <span class="n">http_port</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="ss">:myapp</span><span class="o">][</span><span class="ss">:http_port</span><span class="o">]</span>
+      <span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="ss">:ipaddress</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">http_port</span><span class="p">)</span>
+    <span class="k">rescue</span>
+      <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;HTTP listner is not available yet&quot;</span><span class="p">)</span>
+      <span class="nb">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+      <span class="k">retry</span> <span class="k">unless</span> <span class="p">(</span><span class="n">tries</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zero?</span>
+    <span class="k">end</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">must_be_kind_of</span><span class="p">(</span><span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTPOK</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</td></tr></table></div>
+<p>So lets break this down a bit:</p>
+<ul class="simple">
+<li>The first couple of lines are boiler plate imports. We will be leveraging
+some spec tests and using the net/http library in our tests.</li>
+<li>Line 4 starts a describe_recipe block (which ends on 20).</li>
+<li>Lines 5-7 include some bits from <span class="docutils literal"><span class="pre">Minitest::Chef</span></span>. In general you should
+move these out to a helper module, but thats out of the scope of this post.
+For the purposes of this post just know you need to have them in order for
+this to work properly (I actually think the only one that is really required
+is <span class="docutils literal"><span class="pre">MiniTest::Chef::Context</span></span>, but all the examples you find tend to include
+all 3, so I’m leaving them as I don’t believe there is much harm in including
+and not using them.</li>
+<li>Line 8 starts another block (which ends on line 19) which is essentially a
+description of what we will be testing.</li>
+</ul>
+<p>All of the items I just described are pretty generic for tests. They are
+not directly related to the purpose of this post, but I include them for the
+purpose of a complete example. Now lets look a little closer at the bits that
+do the test:</p>
+<div class="highlight-ruby"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">begin</span>
+  <span class="n">tries</span> <span class="o">||=</span> <span class="mi">12</span>
+  <span class="n">http_port</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="ss">:myapp</span><span class="o">][</span><span class="ss">:http_port</span><span class="o">]</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="ss">:ipaddress</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">http_port</span><span class="p">)</span>
+<span class="k">rescue</span>
+  <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;HTTP listner is not available yet&quot;</span><span class="p">)</span>
+  <span class="nb">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+  <span class="k">retry</span> <span class="k">unless</span> <span class="p">(</span><span class="n">tries</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zero?</span>
+<span class="k">end</span>
+<span class="n">response</span><span class="o">.</span><span class="n">must_be_kind_of</span><span class="p">(</span><span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTPOK</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>By wrapping everything in a begin/rescue block we can leverage Ruby’s built-in
+<span class="docutils literal"><span class="pre">retry</span></span> statement which I also just recently learned about and has allowed
+me to cleanup a good bit of self-rolled retry logic I’ve written.</p>
+<p>I’m certainly no Ruby expert so the following explanation is how I understand
+these pieces to work:</p>
+<ul class="simple">
+<li>Line 2 reads “Use the current value of the variable <span class="docutils literal"><span class="pre">tries</span></span>. If the variable
+is not currently set, start with a value of <strong>12</strong>”.</li>
+<li>Next we are going to fetch the HTTP port from a node attribute. I’ve seen examples
+were folks bake the HTTP port into the test, but I prefer using a node attribute
+so that my recipe can configure the application on that port and my test will
+use that same port. In the future if I ever change the port, I don’t need
+to update the test.</li>
+<li>Line 4 is going to invoke an HTTP request to the path of “/” on the local node
+using its IP address (rather than localhost or 127.0.0.1).</li>
+</ul>
+<p>Now comes the real magic. When something goes wrong (IE the application is not
+accepting HTTP connections yet) we hit the rescue block. When that happens the
+following occurs:</p>
+<ul class="simple">
+<li>Log a debug level message that we haven’t finished starting yet</li>
+<li>Wait for 5 seconds</li>
+<li>And finally the magic wand in the equation... Line 8 reads “decrement the
+value of the tries variable by one (12 - 1 = 11). After decrementing the
+variable check if the variable is equal to 0. If it is not, retry the code
+that was in the begin section (lines 2-4).</li>
+</ul>
+<p>So this block will check if the application is accepting HTTP connections once
+every 5 seconds for a maximum of 12 tries (one minute). If at
+any point we get an HTTP response, it stops trying. Additionally if we have
+not gotten a response in 12 attempts we also stop trying.</p>
+<p>This allows us to not wait for 60 seconds when the app usually takes 10 seconds
+to start, but may sometimes take 25-30 seconds.</p>
+<p>Finally, line 10 registers the assertion with minitest. We are asserting
+that the response is going to be instance of <a class="reference external" href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTPOK.html">Net::OK</a>.
+Had we hit our maximum number of retries this would have been nil and failed.
+Additionally if for some reason we got some sort of HTTP error this would
+also fail.</p>
+<p>So as I mentioned earlier there are other ways to accomplish this but I like
+this approach as its pretty easy to understand for someone that doesn’t know
+Ruby all that well (ME!), and has the benefit of not waiting too much longer
+than necessary when waiting for a service to start.</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/chef.html">Chef</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/chef.html">Chef</a>, <a href="tags/minitest.html">Minitest</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/22/chef_minitest_and_slow_starting_web_application.html#disqus_thread" data-disqus-identifier="2013/09/22/chef_minitest_and_slow_starting_web_application">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>September 08, 2013</span>
+        </div>
+        <div class="section" id="running-uptime-on-heroku">
+<h1><a href="2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you don’t really care how I got there, skip to the
+“Condensed” section for the bare bones info.</p>
+</div>
+<div class="section" id="the-process">
+<h2>The Process</h2>
+<p>For today’s adventure I’ve decided to finally get my hands dirty
+with <a class="reference external" href="http://heroku.com">Heroku</a>. I’ve know about it for a while now, and have gone so
+far as reading some of the documentation, however I’ve never actually
+tried using it. So today, I decided to change that.</p>
+<p>So my first question was what should I run. I’m not really in a coding
+mood today so I figured I would pick something someone else has already
+written. Earlier this week a colleague of mine turned me onto <a class="reference external" href="https://github.com/fzaninotto/uptime">Uptime</a>
+so I figured, what the heck its as good as any.</p>
+<p>After a little more digging, I found that there were enough free pieces
+to Heroku that I should be able to run this experiment at no charge.
+Bonus!!</p>
+<p>So the reading started with:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">https://devcenter.heroku.com/articles/getting-started-with-nodejs</a></li>
+<li><a class="reference external" href="https://gist.github.com/amree/5884081">https://gist.github.com/amree/5884081</a></li>
+</ul>
+<p>That link the gist was superhelpful, however I didn’t really care for
+the fact that the credentials would be stored in the configuration
+file. After a little more digging I ended up on <a class="reference external" href="http://lorenwest.github.io/node-config/latest">http://lorenwest.github.io/node-config/latest/</a>. The key piece of information on this page was:</p>
+<div class="highlight-python"><pre>Environment variables can be used to override file configurations. Any environment variable that starts with $CONFIG_ is set into the CONFIG object.</pre>
+</div>
+<p>I recalled reading in the Heroku docs that I could set environment
+variables for my application. So at this point I feel like I’ve got
+enough information to get started. Here we go...</p>
+<p>The first thing I did was sign up for a Heroku account from their
+front page. I must say this was one of the easiest signup processes
+I have ever seen. I also thought it was interesting (only because it was
+different) that during the sign up process you don’t create your password
+until AFTER you get your verification email.</p>
+<p>Next I installed the Heroku toolbelt (I’m doing this testing on a
+Linux Mint workstation):</p>
+<div class="highlight-python"><pre>wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh</pre>
+</div>
+<p>That couldn’t have been any easier.. So now I cloned the <a class="reference external" href="https://github.com/fzaninotto/uptime">Uptime</a>
+github repo:</p>
+<div class="highlight-python"><pre>git clone https://github.com/fzaninotto/uptime.git
+cd uptime</pre>
+</div>
+<p>Next I logged into Heroku:</p>
+<div class="highlight-python"><pre>heroku login</pre>
+</div>
+<p>This is a brand new test workstation I’m using so I didn’t have any
+ssh keys configured yet. Heroku appears to take care of that as well:</p>
+<div class="highlight-python"><pre>Could not find an existing public key.
+Would you like to generate one? [Yn] Y
+Generating new SSH public key.
+Uploading SSH public key /home/dave/.ssh/id_rsa.pub... done
+Authentication successful.</pre>
+</div>
+<p>I’m assuming had I already had keys, this would have been skipped..
+From there I setup the application in Heroku:</p>
+<div class="highlight-python"><pre>heroku create my-uptime
+Creating my-uptime... done, stack is cedar
+http://my-uptime.herokuapp.com/ | git@heroku.com:my-uptime.git
+Git remote heroku added</pre>
+</div>
+<p>So things interesting at this step happened:</p>
+<ol class="arabic simple">
+<li>The name I originally chose came back with <cite>!    Name is already taken</cite>.
+This seems to indicate that two people can’t have the same application.
+Interesting, but no big deal as some simple name prefixing would easy
+solve this</li>
+<li>It automatically created a new git remote for me. This was pretty cool
+In some of the reading I did I kept seeing references to
+<span class="docutils literal"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">heroku</span> <span class="pre">master</span></span>, and I was wondering why none of them
+references creating the remote. Now I know.</li>
+</ol>
+<p>Now we need to add in support for MongoDB (which uptime uses). This was
+the first actual issue I ran into. I’m sure it was in the docs somewhere
+but I must have missed it:</p>
+<div class="highlight-python"><pre>heroku addons:add mongolab
+Adding mongolab on my-uptime... failed
+ !    Please verify your account to install this add-on
+ !    For more information, see http://devcenter.heroku.com/categories/billing
+ !    Verify now at https://heroku.com/verify</pre>
+</div>
+<p>Hitting that verify page I was prompted for my credit card info. Wait
+a minute... I could have sworn I read that the <a class="reference external" href="https://addons.heroku.com/mongohq">Mongo HQ</a> addon said
+I could use the <strong>MongoHQ Sandbox</strong> for free.... And then I found this:
+<a class="reference external" href="https://devcenter.heroku.com/articles/account-verification">https://devcenter.heroku.com/articles/account-verification</a></p>
+<blockquote>
+<div>It becomes a requirement once you wish to use add-ons other than
+postgresql:dev or pgbackups:plus–even if the add-ons are free.
+This is because some features (most notably outgoing email and
+custom domains) carry a potential for abuse.</div></blockquote>
+<p>OK, that seems fair. I accommodated and gave them my CC info. Now lets
+try adding Mongo support again:</p>
+<div class="highlight-python"><pre>heroku addons:add mongolab
+Adding mongolab on my-uptime... done, v3 (free)
+Welcome to MongoLab.  Your new subscription is being created and will be available shortly.  Please consult the MongoLab Add-on Admin UI to check on its progress.
+Use `heroku addons:docs mongolab` to view documentation.</pre>
+</div>
+<p>Much better!! Next I created the <strong>Procfile</strong>. Which seems to instruct
+Heroku <em>how</em> to run the application:</p>
+<div class="highlight-python"><pre>echo &quot;web: node web.js&quot; &gt; Procfile
+git add Procfile
+git commit -m &quot;adding Procfile&quot;</pre>
+</div>
+<p>So this is where my path and that of the gist I was following started
+to diverge a little bit. The gist talks about hacking up the config
+file, while I want to use environment variables. So the first thing
+I did was fetch my mongo connection info:</p>
+<div class="highlight-python"><pre>heroku config
+=== my-uptime Config Vars
+MONGOLAB_URI: mongodb://heroku_app########:randomchars@host.mongolab.com:12345/heroku_app########</pre>
+</div>
+<p>From that I’m able to figure out the following connection information</p>
+<ul class="simple">
+<li>Database Host = host.mongolab.com</li>
+<li>Database Port = 12345</li>
+<li>Database User = heroku_app########</li>
+<li>Database Password = randomchars</li>
+<li>Database Name = heroku_app######## (Seems to match my username, not
+sure if that is always the case or not)</li>
+</ul>
+<p>OK, so from here I know I can see my username will be <cite>heroku_app########`</cite>
+and my password will be <span class="docutils literal"><span class="pre">randomchars</span></span>. Now lets set those in environment
+variables so I can safely commit my stuff to github without giving
+away the keys to the kingdom:</p>
+<div class="highlight-python"><pre>heroku config:set NODE_ENV=production
+heroku config:set $CONFIG_mongodb.server=host.mongolab.com:12345
+heroku config:set $CONFIG_mongodb.database=heroku_app########
+heroku config:set $CONFIG_mongodb.user=heroku_app########
+heroku config:set $CONFIG_mongodb.password=randomchars</pre>
+</div>
+<p>OK, In theory that should handle our configuration. I think I’m ready
+to push the app:</p>
+<div class="highlight-python"><pre>git push heroku master
+... a bunch of output ending in..
+
+-----&gt; Compiled slug size: 24.3MB
+-----&gt; Launching... done, v9
+       http://my-uptime.herokuapp.com deployed to Heroku
+
+To git@heroku.com:my-uptime.git
+ * [new branch]      master -&gt; master</pre>
+</div>
+<p>OK that seems to have gone smoothly, I guess its time to start it:</p>
+<div class="highlight-python"><pre>heroku ps:scale web=1
+Scaling web dynos... done, now running 1</pre>
+</div>
+<p>OK, seems like it should be running...:</p>
+<div class="highlight-python"><pre>heroku ps
+=== web (1X): `node web.js`
+web.1: crashed 2013/09/08 16:20:03 (~ 5m ago)</pre>
+</div>
+<p>Also confirmed, I couldn’t hit the application on the default port of
+8082... So now we dive into what went wrong.... Running <span class="docutils literal"><span class="pre">heroku</span> <span class="pre">--help</span></span>
+yields there is a logs subcommand. Amognst the chaos of that output I
+find this line:</p>
+<div class="highlight-python"><pre>Error: Cannot find module '/app/web.js'</pre>
+</div>
+<p>Turns out there is a comment on that gist which indicates we’ve used
+the wrong js module. Lets fix that up and re-push:</p>
+<div class="highlight-python"><pre>echo web: node app.js &gt; Procfile
+git add Procfile
+git commit -m &quot;fixing module name&quot;
+git push heroku master
+..the same lots of output as last time we pushed</pre>
+</div>
+<p>Is it working now?:</p>
+<div class="highlight-python"><pre>heroku ps
+=== web (1X): `node app.js`
+web.1: crashed 2013/09/08 16:32:11 (~ 1m ago)</pre>
+</div>
+<p>doh!. what now...Using <span class="docutils literal"><span class="pre">heroku</span> <span class="pre">logs</span></span>. I find this line now:</p>
+<div class="highlight-python"><pre>MongoDB error: failed to connect to [localhost:27017]</pre>
+</div>
+<p>Hmmm.. Localhost and 27017 (the default mongodb port). Neither of those
+are the values I set in my environment variables.... Lets look into
+that. Running <span class="docutils literal"><span class="pre">heroku</span> <span class="pre">config</span></span> shows that my named spaced env vars
+didnt actually take, and instead they were all applied at the root
+level:</p>
+<div class="highlight-python"><pre>heroku config
+=== my-uptime Config Vars
+.database:    heroku_app########
+.password:    randomchars
+.server:      host.mongolab.com:12345
+.user:        heroku_app########</pre>
+</div>
+<p>So back to the drawing board on assigning those config values...
+A re-read of <a class="reference external" href="http://lorenwest.github.io/node-config/latest">http://lorenwest.github.io/node-config/latest/</a> yields
+I’m dumb and can’t read.... I should use underscores not dots to
+delimite my vars... Lets try this again:</p>
+<div class="highlight-python"><pre>heroku config:set $CONFIG_mongodb_password=randomchars
+Setting config vars and restarting my-uptime... failed
+ !    Config var key must not be empty.</pre>
+</div>
+<p>OK, doesn’t like that... I’m guessing the leading dollar sign in the
+docs shouldn’t be used when setting this, trying it a different way:</p>
+<div class="highlight-python"><pre>heroku config:set CONFIG_mongodb_password=randomchars
+Setting config vars and restarting mp-uptime... done, v13
+CONFIG_mongodb_password: randomchars</pre>
+</div>
+<p>Looks better...:</p>
+<div class="highlight-python"><pre>heroku config
+=== mp-uptime Config Vars
+.database:               heroku_app########
+.password:               randomchars
+.server:                 host.mongolab.com:12345
+.user:                   heroku_app########
+CONFIG_mongodb_password: randomchars</pre>
+</div>
+<p>Before we go any further, lets clean up my previous mess before I forget
+about it:</p>
+<div class="highlight-python"><pre>heroku config:unset .database .password .server .user
+Unsetting .database and restarting my-uptime... done, v14
+Unsetting .password and restarting my-uptime... done, v15
+Unsetting .server and restarting my-uptime... done, v16
+Unsetting .user and restarting my-uptime... done, v17</pre>
+</div>
+<p>Perfect, mess removed, now lets set up the new ones...:</p>
+<div class="highlight-python"><pre>heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app########
+Setting config vars and restarting my-uptime... done, v18
+CONFIG_mongodb_database: heroku_app########
+CONFIG_mongodb_server:   host.mongolab.com:12345
+CONFIG_mongodb_user:     heroku_app########</pre>
+</div>
+<p>Running <span class="docutils literal"><span class="pre">heroku</span> <span class="pre">logs</span></span> yields the same issue:</p>
+<div class="highlight-python"><pre>MongoDB error: failed to connect to [localhost:27017]</pre>
+</div>
+<p>Clearly I’m not doing something right with these environment variables
+Some trial and error that isn’t all that benificial ensues...
+After a couple hours of back tracking and seconding guessing, I finally
+figured this out.... It turns out that the vFrom the terminal::ersion of the config module
+that suppors the environment variable stuff is newer than what is declared
+in uptime’s package.json so it was being ignored!!. So edit package.json
+and replaced:</p>
+<div class="highlight-python"><pre>&quot;config&quot;:    &quot;0.4.15&quot;,
+with
+&quot;config&quot;:    &quot;0.4.27&quot;,</pre>
+</div>
+<p>And I also figured out by looking through the node-config code that the
+env var prefix should be <strong>CONFIG</strong> not <strong>$CONFIG</strong>.</p>
+<p>So lets get things rolling again.... First ensure are ENV vars are set:</p>
+<div class="highlight-python"><pre>heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars</pre>
+</div>
+<p># And now we have to push our application update using our new package.json:</p>
+<div class="highlight-python"><pre>git add package.json
+git commit -m &quot;bump config dependency&quot;
+git push heroku master
+..the same lots of output as last time we pushed</pre>
+</div>
+<p>And what do you know, I can hit the web interface via <a class="reference external" href="http://my-uptime.herokuapp.com">http://my-uptime.herokuapp.com</a>.
+Progress!! But all is not perfect yet..``heroku logs`` yields:</p>
+<div class="highlight-python"><pre>[Error: http://localhost:8082/api/checks/needingPoll resource not available: connect ECONNREFUSED]</pre>
+</div>
+<p>Lets see about fixing that up:</p>
+<div class="highlight-python"><pre>heroku config:set CONFIG_monitor_apiUrl='http://my-uptime.herokuapp.com/api'</pre>
+</div>
+<p>No more errors!! I think we are in business finally.</p>
+</div>
+<div class="section" id="condensed">
+<h2>Condensed</h2>
+<p>Clone the Repo:</p>
+<div class="highlight-python"><pre>git clone https://github.com/fzaninotto/uptime.git
+cd uptime</pre>
+</div>
+<p>Log into Heroku:</p>
+<div class="highlight-python"><pre>heroku login</pre>
+</div>
+<p>Create the app:</p>
+<div class="highlight-python"><pre>heroku create my-uptime</pre>
+</div>
+<p>Add Mongo support:</p>
+<div class="highlight-python"><pre>heroku addons:add mongolab</pre>
+</div>
+<p>Show Mongo Connection Info:</p>
+<div class="highlight-python"><pre>heroku config</pre>
+</div>
+<p>Set connection info into environment variables (to keep them out of
+configuration files) as well as other config options:</p>
+<div class="highlight-python"><pre>heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars CONFIG_monitor_apiUrl='http://yourapp.herokuapp.com/api'</pre>
+</div>
+<p>Edit package.json and replace:</p>
+<div class="highlight-python"><pre>&quot;config&quot;:    &quot;0.4.15&quot;,
+with
+&quot;config&quot;:    &quot;0.4.27&quot;,</pre>
+</div>
+<p>Create the Procfile:</p>
+<div class="highlight-python"><pre>echo web: node app.js &gt; Procfile</pre>
+</div>
+<p>Deploy it:</p>
+<div class="highlight-python"><pre>git add .
+git commit -m &quot;adjustments&quot;
+git push heroku master</pre>
+</div>
+<p>Start it up with one dyno (the free tier):</p>
+<div class="highlight-python"><pre>heroku ps:scale web=1
+Scaling web dynos... done, now running 1</pre>
+</div>
+<p>Verify:</p>
+<div class="highlight-python"><pre>heroku logs --tail</pre>
+</div>
+</div>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/general.html">General</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/nodejs.html">Nodejs</a>, <a href="tags/uptime.html">Uptime</a>, <a href="tags/heroku.html">Heroku</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/08/running_uptime_on_heroku.html#disqus_thread" data-disqus-identifier="2013/09/08/running_uptime_on_heroku">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>September 08, 2013</span>
+        </div>
+        <div class="section" id="hello-pelican">
+<h1><a href="2013/09/08/hello_pelican.html">Hello Pelican</a></h1>
+<p>So I’ve <cite>gone live</cite> with a static site using <a class="reference external" href="http://docs.getpelican.com">Pelican</a>. Originally I had kicked
+off my attempts at a static site using Mynt, which I detailed
+<a class="reference external" href="|filename|Live_with_mynt.rst">Here</a>. There really wasn’t anything wrong with
+Mynt, it just didn’t feel right to me after having trying to use it.</p>
+<p>One of the reasons I decided to make the switch was Pelicans themes. I don’t
+have a single artistic or stylish cell in my body, so I heavily rely on themes
+by people who are good at making things look good. I really couldn’t find
+many themes at all for Mynt, while Pelican has a pretty nice collection in their
+<a class="reference external" href="https://github.com/getpelican/pelican-themes">Pelican Themes Repo</a>, which is where I found this one (attributed in the
+footer).</p>
+<p>The other thing was the directory layout just seems more “me”. I know that sounds
+dumb, but I’m a believer in picking tools that fit your style, assuming the
+technical merits are all the same. This was most certainly a case of that.</p>
+<p>Not much else to report, just wanted to get the traditional “hello world” post
+out there...</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/general.html">General</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/python.html">Python</a>, <a href="tags/pelican.html">Pelican</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/08/hello_pelican.html#disqus_thread" data-disqus-identifier="2013/09/08/hello_pelican">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>September 07, 2013</span>
+        </div>
+        <div class="section" id="publishing-a-zenoss-zenpack-to-pypi-using-travis-ci">
+<h1><a href="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don’t see more ZenPacks on PyPi.</p>
+<p class="last">So read on if you are curious about how it <em>might</em> work, but please don’t
+make this part of your standard ZenPack release process.</p>
+</div>
+<p>I recently had the need to update the <a class="reference external" href="https://github.com/ZCA/ZenPacks.community.f5">F5 ZenPack</a>. It had been a while since
+I had updated a Pack so I was hopeful that the process for releasing a new
+pack (<a class="reference external" href="http://wiki.zenoss.org/Releasing_your_ZenPack">http://wiki.zenoss.org/Releasing_your_ZenPack</a>) had been updated to be
+a little less manual. Don’t get me wrong the system that is in place is a vast
+improvement of what used to exist, but I’m just not excited about how manual
+the process is. Maybe I’ll write up a seperate page about what I dislike about
+the process, but the focus on this page is not to complain about that process,
+but rather show what I think is a better (more automatted) solution.</p>
+<p>So the goal I set out was with:</p>
+<ul class="simple">
+<li>I didn’t want to continue to maintain two different versions of documentation
+(I keep a README.rst with the pack, but the Wiki requires wiki markup)</li>
+<li>I didn’t want to manually upload any build artifacts</li>
+<li>I want to lay the ground work for some testing (I’ve historically done a poor
+job at adding tests to my ZenPacks, but I’m hoping to change that)</li>
+</ul>
+<p>So I set out on the road of using <a class="reference external" href="https://travis-ci.org">Travis CI</a> uploading <a class="reference external" href="http://pypi.python.org">PyPi</a>. So the first
+step I took was getting integration with PyPi`_ outside of Travis. After reading
+up on the documentation at <a class="reference external" href="http://docs.python.org/3/distutils/packageindex.html">http://docs.python.org/3/distutils/packageindex.html</a></p>
+<p>I added the following release.sh script to my ZenPacks repo:</p>
+<div class="highlight-python"><pre>#! /bin/bash
+
+# Create a .pypirc file in the home directory
+echo &quot;[distutils]
+index-servers =
+        pypi
+
+[pypi]&quot; &gt; ~/.pypirc
+
+echo &quot;username: &quot; &quot;$PYPI_USER&quot; &gt;&gt; ~/.pypirc
+echo &quot;password: &quot; &quot;$PYPI_PWD&quot; &gt;&gt; ~/.pypirc
+
+python setup.py sdist bdist_egg upload
+rm -f ~/.pypirc</pre>
+</div>
+<p>So what this does is read in my PyPi username and password from an environment
+variable so I don’t need to keep them in the repo. Additionally if someone else
+ever wants to become a contributor it should allow them to use the same script</p>
+<p>I did a one time registration of the ZenPack outside of this script, and from
+there on out, I’m able to just run <cite>sh release.sh</cite> from the root of the repo
+and it will upload the compile compile egg (which contains the version) to PyPi.</p>
+<p>So right out of the gate, I’ve hit two of my three targets. But I wanted to take
+it a little further. While running <cite>sh release.sh</cite> is pretty easy, I wanted
+to see about automatically testing and upload the egg. This is where things
+got a little trickier, but still not to bad...</p>
+<p>The <a class="reference external" href="https://travis-ci.org">Travis CI</a> getting started documentation is pretty indepth, so I don’t want
+to recreate that here, but I do want to call out you’ll want to read up
+how to do the encrypted environment stuff.</p>
+<p>So after some trial and error (I’m not sure why, but it took me a while to krok
+the encrypted environment variable stuff), I ended up with this <a class="reference external" href="https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml">.travis.yml</a>.</p>
+<p>So now everytime I push a change up to the github repo, a service hook fires
+and <a class="reference external" href="https://travis-ci.org">Travis CI</a> starts building my ZenPack immediatly. You can see those build
+resuts here: <a class="reference external" href="https://travis-ci.org/ZCA/ZenPacks.community.f5">https://travis-ci.org/ZCA/ZenPacks.community.f5</a></p>
+<p>As part of the build process it will produce two egg files, one for Python2.6
+(Zenoss 3.x) and one for Python 2.7 (Zenoss 4.x), and upload them automatically
+to <a class="reference external" href="http://pypi.python.org">PyPi</a>.</p>
+<p>I do have to say, I was not 100% comfortable with the idea of handing over some
+much private information to Travis (allowing them access to my GitHub account,
+as well as trusting that their encryption keys are secure). In the end, I just
+ensured I was using information I don’t use on any other sites. I still
+can’t say I’m entirely comfortable with it, but sometimes you just have to be
+a little trusting. We’ll see....</p>
+<p>The process did go smooth enough, that I intend to convert some of the other
+ZenPacks I maintain and see how it goes longer term.</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/zenoss.html">Zenoss</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/zenoss.html">Zenoss</a>, <a href="tags/zenpack.html">ZenPack</a>, <a href="tags/travis_ci.html">Travis-CI</a>, <a href="tags/pypi.html">PyPi</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html#disqus_thread" data-disqus-identifier="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>September 03, 2013</span>
+        </div>
+        <div class="section" id="live-with-mynt">
+<h1><a href="2013/09/03/live_with_mynt.html">Live With Mynt</a></h1>
+<p>So I’ve been hearing a bit lately about static site generators. So the last couple of nights I decided to finally do a little homework and better understand it.</p>
+<p>So after reading about the various options out there I ended up experimenting with several of the available Python options (Mynt, Pelican, Nikola, and Hyde). I went with Python, as I am primarily a Windows users and I’ve always had an easier time getting Python packages working on Windows than Ruby (which is why I kept looking despite Jekyll being so popular).</p>
+<p>I was not overwhelmed by any of the offerings, and it was clear that these are not solutions for the “average” user. You need to small amount of technical skill to get any of them up and running and understand their template systems.</p>
+<p>At the end of the day I decided to go with Mynt as it seemed to be most basic. Some of the others had more plugins and such, but for how rarely I do this, I don’t need much.</p>
+<p>One of the other things I wanted to learn more about was using GitHub Pages for user pages. At worked I’ve played a fair amount with GH-Pages for project sites,  but since I’d never done a user page, I decided I’d host my personal site created with Mynt on my Github Personal Page. I’m not sure why, but I don’t really care for the way its implemented requiring you to understand git branches and what not, but I’ve grown used to it and have learned to tolerate it :).</p>
+<p>One of the really cool things I found completely by accident during my digging was <a class="reference external" href="https://github.com/davisp/ghp-import">https://github.com/davisp/ghp-import/</a>. ghp-import makes it super easy to publish a directory of compiled content to a given Github branch. Once I figured this out the whole multiple branch thing becomes less annoying. So I configured my repo’s default branch to be <strong>source</strong>, leaving <strong>master</strong> as the place the compiled content would end up. Then I’m able to easily push with a simple one-liner:</p>
+<div class="highlight-python"><pre>ghp-import _build -p -r origin -b master</pre>
+</div>
+<p>OK.... thats enough for now, back to the innerwebs to see what else I can learn</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/general.html">General</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/python.html">Python</a>, <a href="tags/mynt.html">Mynt</a>, <a href="tags/html.html">HTML</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/03/live_with_mynt.html#disqus_thread" data-disqus-identifier="2013/09/03/live_with_mynt">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>June 11, 2012</span>
+        </div>
+        <div class="section" id="debugging-winrm">
+<h1><a href="2012/06/11/debugging_winrm.html">Debugging WinRM</a></h1>
+<p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM
+Useful Articles</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458">http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458</a></li>
+<li><a class="reference external" href="http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463">http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463</a></li>
+<li><a class="reference external" href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx</a></li>
+</ul>
+<p>Enable Tracing:</p>
+<div class="highlight-python"><pre>Set-ExecutionPolicy Unrestricted
+Import-Module PSDiagnostics
+Enable-PsWsmanCombinedTrace</pre>
+</div>
+<p>Now run what command is giving grief
+Once that command produces your error, disable the trace:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Disable</span><span class="o">-</span><span class="n">PsWsmanCombinedTrace</span>
+</pre></div>
+</div>
+<p>Output the Log entries to a text file:</p>
+<div class="highlight-python"><pre>get-winevent -logname Microsoft-Windows-WinRM/Operational | fl &gt;&gt; C:\winrm_log.txt
+get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &gt;&gt; C:\winrm2_log.txt</pre>
+</div>
+<p>Review the log and hopefully find some answers</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/windows.html">Windows</a>, <a href="tags/winrm.html">WinRM</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2012/06/11/debugging_winrm.html#disqus_thread" data-disqus-identifier="2012/06/11/debugging_winrm">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>March 05, 2012</span>
+        </div>
+        <div class="section" id="big-ip-ltm-ve-on-virtualbox">
+<h1><a href="2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a></h1>
+<p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and I didn’t have the access to a test box that I had when I initially wrote it. So I decided I’d give the BIG-IP LTM VE a whirl.</p>
+<p>I’m on a VirtualBox kick right now, but the appliance choices there don’t list VirtualBox. Inspired by this post, I figured I’d give it a shot since it looked simple enough. I’m re-documenting the process here, so I can just add a little more detail around this.</p>
+<p>Start by registering (or signing in if you already have an account) via <a class="reference external" href="https://www.f5.com/trial/big-ip-ltm-virtual-edition.php">https://www.f5.com/trial/big-ip-ltm-virtual-edition.php</a>.</p>
+<p>Navigate the screens to get your trial key, and subsequent download. You’ll want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I thought I would be cool and download the 10.2 file. Turns out you can’t activate the 10.2 trial… How dumb… anyway save yourself some time and just download 10.1</p>
+<p>From within the VirtualBox UI, select File –&gt; Import Appliance</p>
+<p>Select Choose and locate the .ova file you just downloaded. Click Next</p>
+<p>There are just a couple of settings you’ll want to tweak on Import Settings page:</p>
+<ol class="arabic simple">
+<li>Give your appliance a name (or just accept the default)</li>
+<li>Change to 2 CPUs</li>
+<li>Changes to 2048MB of RAM</li>
+<li>Change the file extension on the virtual disk image to be a .vdi</li>
+</ol>
+<p>You should see a license agreement, agree to it of course.</p>
+<p>One the import is complete, I’d suggest setting each network adaptor to host-only networking, unless you really need it to talk externally. Regardless of if you change that or not, power on the VM now.</p>
+<p>The first thing you’ll need to do is assign a management IP. Start by logging into the vm through the VirtualBox console. credentials are root/default. At the CLI type config. I opted let DHCP do its thing by answering Yes “use automatic configuration of ip address”</p>
+<p>type ifconfig and you should see any entry like eth0:mgmt. This will give you the IP address of your management interface. Using https navigate to that IP addresses in a browser on your workstation. https://192.168.1.100 (or whatever IP you got). <strong>NOTE</strong> the username and password for the UI is different than the cli. Use admin/admin for logging into the webui</p>
+<p>You’ll be prompted to run through a setup wizard. Its self explanatory enough that I don’t think I need to cover it here. From here you are on your own. Proceed as you see fit.</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/virtualbox.html">VirtualBox</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/f5.html">F5</a>, <a href="tags/bigip.html">BigIP</a>, <a href="tags/virtualbox.html">VirtualBox</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2012/03/05/big_ip_ltm_ve_on_virtualbox.html#disqus_thread" data-disqus-identifier="2012/03/05/big_ip_ltm_ve_on_virtualbox">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>March 05, 2012</span>
+        </div>
+        <div class="section" id="installing-varnish-cache-3-0-2-on-centos-5-7">
+<h1><a href="2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a></h1>
+<p>If you are here, you probably already know what Varnish is, but in case you don’t….https://www.varnish-cache.org/</p>
+<blockquote>
+<div>Varnish Cache is an open source, state of the art web application accelerator. It is installed in front of your webserver where it will
+cache the content, resulting in a huge performance boost.</div></blockquote>
+<p>Now that we’ve gotten that out of way, lets get to it. As is the case with most things I post, this is not intended to be an official “how-to” document, but rather a journal of my adventures in doing it. As should always be the case I’m starting with the supplied installation documentation located here: <a class="reference external" href="https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat">https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat</a></p>
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a ‘yum update’ &amp; ‘reboot’ after the initial installation of the OS, before starting with installing Varnish.</p>
+<p>Lets create a repo file and leverage Varnish’s existing repo. We also need libedit out of EPEL, so enabling that repo as well. I suppose I could have just grabbed the single RPM just as easily…</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /tmp
+wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+rpm -i epel-release-5-4.noarch.rpm
+rpm --nosignature -i http://repo.varnish-cache.org/redhat/varnish-3.0/el5/noarch/varnish-release-3.0-1.noarch.rpm
+</pre></div>
+</div>
+<p>Install Varnish and its various dependencies</p>
+<div class="highlight-bash"><div class="highlight"><pre>yum -y install varnish
+</pre></div>
+</div>
+<p>Fire it up!</p>
+<div class="highlight-bash"><div class="highlight"><pre>service varnish start
+</pre></div>
+</div>
+<p>Check that its alive (The 503 response code is expected right now)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># curl -I http://localhost:6081</span>
+HTTP/1.1 503 Service Unavailable
+Server: Varnish
+Content-Type: text/html; <span class="nv">charset</span><span class="o">=</span>utf-8
+Retry-After: 5
+Content-Length: 419
+Accept-Ranges: bytes
+Date: Thu, 01 Dec 2011 02:27:30 GMT
+X-Varnish: 1562514354
+Age: 0
+Via: 1.1 varnish
+Connection: close
+</pre></div>
+</div>
+<p>That’s about it, doesn’t get much easier than that. Perhaps if I get more ambitious I’ll post some configuration tweaks and or cool tricks (if I learn any).</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/caching.html">Caching</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/varnish.html">Varnish</a>, <a href="tags/http.html">HTTP</a>, <a href="tags/caching.html">Caching</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html#disqus_thread" data-disqus-identifier="2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>March 05, 2012</span>
+        </div>
+        <div class="section" id="installing-apache-traffic-server-3-0-1-on-centos-5-7">
+<h1><a href="2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html">Installing Apache Traffic Server 3.0.1 on Centos 5.7</a></h1>
+<p>A quick chronicle of my journey to install Apache Traffic Servers on Centos 5.7. In the end it ended up being a lot easier than I was expecting, given how sporadic and incomplete the documentation on their site is.</p>
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a ‘yum update’ &amp; ‘reboot’ after the initial installation of the OS, before starting with installing ATS</p>
+<p>Do the installation:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /tmp
+wget http://www.carfab.com/apachesoftware//trafficserver/trafficserver-3.0.1.tar.bz2
+yum -y install gcc gcc-c++ pcre pcre-devel tcl tcl-devel openssl-devel expat-devel
+tar -jxvf trafficserver-3.0.1.tar.bz2
+<span class="nb">cd</span> /tmp/trafficserver-3.0.1
+./configure --prefix<span class="o">=</span>/opt/trafficserver
+make
+make install
+</pre></div>
+</div>
+<p>At this point it was installed for me, however I ran into one <em>really</em> boneheaded mistake. Mostly my own fault, but the documentation in the getting started guide is misleading as well. From this page <a class="reference external" href="http://trafficserver.apache.org/docs/v2/admin/getstart.htm">http://trafficserver.apache.org/docs/v2/admin/getstart.htm</a> it says:</p>
+<ol class="arabic simple">
+<li>Log on to the Traffic Server node as the Traffic Server administrator and navigate to the Traffic Server bin directory.</li>
+<li>Enter the following command:</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>./start_traffic_server
+./trafficserver start
+</pre></div>
+</div>
+<p>The problem is that start_traffic_server does not exist. Since I’m brand new to traffic server, I can’t be sure, but I suspect this is a relic from 2.x. The next challenge was running “./trafficserver start”. This gives the illusion that the server has started, but I ran into issues with traffic_line and traffic_shell errors. You can see the details of those errors in my semi-embarrassing forum post here: <a class="reference external" href="http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser">http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser</a></p>
+<p>For those that want to cut to the chase, start traffic server with “trafficserver start” notice the omission of the underscore. Running this command also starts traffic_cop and traffic_manager. I ended up finding this by reading the INSTALL file that was included in the source download. Yes, I did read the file before attempting to install, but as I already admitted, glossed right over the closely named file.</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/caching.html">Caching</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/apache_traffic_server.html">Apache Traffic Server</a>, <a href="tags/http.html">HTTP</a>, <a href="tags/caching.html">Caching</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html#disqus_thread" data-disqus-identifier="2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7">Leave a comment</a>
+        </div></div><div class="archive_link">
+        <a href="archive.html"> &mdash; Blog Archive &mdash; </a>
+    </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="page2.html">Older</a> &raquo; </li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+        </li><li>
+            <a href="2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+        </li><li>
+            <a href="2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+        </li><li>
+            <a href="2013/09/08/hello_pelican.html">Hello Pelican</a>
+        </li><li>
+            <a href="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+        </li><li>
+            <a href="2013/09/03/live_with_mynt.html">Live With Mynt</a>
+        </li><li>
+            <a href="2012/06/11/debugging_winrm.html">Debugging WinRM</a>
+        </li><li>
+            <a href="2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
+        </li><li>
+            <a href="2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
+        </li><li>
+            <a href="2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html">Installing Apache Traffic Server 3.0.1 on Centos 5.7</a>
+        </li></ul>
+</div>
+</section><section><div class="widget" id="searchbox">
+    <h1>Search</h1>
+    <form action="search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="webfont">L</span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, David Petzel. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><script type="text/javascript">    var disqus_shortname = "dpetzel";    disqus_count();</script><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

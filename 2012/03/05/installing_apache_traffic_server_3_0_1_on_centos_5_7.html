@@ -1,0 +1,173 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
+        <meta name="viewport" content="width=device-width">
+        <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7 &mdash; Dave&#39;s Site</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Template Generated Array in Velocity" href="template_generated_array_in_velocity.html" /><link rel="prev" title="Installing Varnish Cache 3.0.2 on Centos 5.7" href="installing_varnish_cache_3_0_2_on_centos_5_7.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Adjusts document height if sidebar is taller
+            var documentwrapper = document.getElementsByTagName("article")[0];
+            var sidebar = document.getElementsByClassName("sidebar")[0];
+
+            if (sidebar.offsetHeight > documentwrapper.offsetHeight)
+            {
+                var mainwrapper = document.getElementsByClassName("main")[0];
+                documentwrapper.style.minHeight = mainwrapper.offsetHeight + "px";
+            }
+
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header>
+            <hgroup>
+              <h1><a href="../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+          </header>
+      <nav>
+            <ul><li class="quicklink"><div class="rss">
+        <a href="../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+    </div></li><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/resume.html">Resume</a>
+                </li>
+              </ul>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a></li>
+            <li class="right"><a href="template_generated_array_in_velocity.html">Template Generated Array in Velocity</a> &raquo; </li>
+        </ul><div class="timestamp postmeta">
+            <span>March 05, 2012</span>
+        </div>
+    <div class="section" id="installing-apache-traffic-server-3-0-1-on-centos-5-7">
+<h1>Installing Apache Traffic Server 3.0.1 on Centos 5.7</h1>
+<p>A quick chronicle of my journey to install Apache Traffic Servers on Centos 5.7. In the end it ended up being a lot easier than I was expecting, given how sporadic and incomplete the documentation on their site is.</p>
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a ‘yum update’ &amp; ‘reboot’ after the initial installation of the OS, before starting with installing ATS</p>
+<p>Do the installation:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /tmp
+wget http://www.carfab.com/apachesoftware//trafficserver/trafficserver-3.0.1.tar.bz2
+yum -y install gcc gcc-c++ pcre pcre-devel tcl tcl-devel openssl-devel expat-devel
+tar -jxvf trafficserver-3.0.1.tar.bz2
+<span class="nb">cd</span> /tmp/trafficserver-3.0.1
+./configure --prefix<span class="o">=</span>/opt/trafficserver
+make
+make install
+</pre></div>
+</div>
+<p>At this point it was installed for me, however I ran into one <em>really</em> boneheaded mistake. Mostly my own fault, but the documentation in the getting started guide is misleading as well. From this page <a class="reference external" href="http://trafficserver.apache.org/docs/v2/admin/getstart.htm">http://trafficserver.apache.org/docs/v2/admin/getstart.htm</a> it says:</p>
+<ol class="arabic simple">
+<li>Log on to the Traffic Server node as the Traffic Server administrator and navigate to the Traffic Server bin directory.</li>
+<li>Enter the following command:</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>./start_traffic_server
+./trafficserver start
+</pre></div>
+</div>
+<p>The problem is that start_traffic_server does not exist. Since I’m brand new to traffic server, I can’t be sure, but I suspect this is a relic from 2.x. The next challenge was running “./trafficserver start”. This gives the illusion that the server has started, but I ran into issues with traffic_line and traffic_shell errors. You can see the details of those errors in my semi-embarrassing forum post here: <a class="reference external" href="http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser">http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser</a></p>
+<p>For those that want to cut to the chase, start traffic server with “trafficserver start” notice the omission of the underscore. Running this command also starts traffic_cop and traffic_manager. I ended up finding this by reading the INSTALL file that was included in the source download. Yes, I did read the file before attempting to install, but as I already admitted, glossed right over the closely named file.</p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/caching.html">Caching</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/apache_traffic_server.html">Apache Traffic Server</a>, <a href="../../../tags/http.html">HTTP</a>, <a href="../../../tags/caching.html">Caching</a></span>
+        </div>
+        </div>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a></li>
+            <li class="right"><a href="template_generated_array_in_velocity.html">Template Generated Array in Velocity</a> &raquo; </li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="../../../2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+        </li><li>
+            <a href="../../../2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+        </li><li>
+            <a href="../../../2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+        </li><li>
+            <a href="../../../2013/09/08/hello_pelican.html">Hello Pelican</a>
+        </li><li>
+            <a href="../../../2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+        </li><li>
+            <a href="../../../2013/09/03/live_with_mynt.html">Live With Mynt</a>
+        </li><li>
+            <a href="../../06/11/debugging_winrm.html">Debugging WinRM</a>
+        </li><li>
+            <a href="big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
+        </li><li>
+            <a href="installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
+        </li><li>
+            <a href="#">Installing Apache Traffic Server 3.0.1 on Centos 5.7</a>
+        </li></ul>
+</div>
+</section><section><div class="widget" id="searchbox">
+    <h1>Search</h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="webfont">L</span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, David Petzel. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

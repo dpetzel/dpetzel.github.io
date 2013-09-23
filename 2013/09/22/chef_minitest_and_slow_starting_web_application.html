@@ -1,0 +1,284 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
+        <meta name="viewport" content="width=device-width">
+        <title>Chef Minitest and Slow Starting Web Application &mdash; Dave&#39;s Site</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Running Uptime on Heroku" href="../08/running_uptime_on_heroku.html" /><link rel="prev" title="Adventures in Django Performance Analysis" href="adventures_in_django_performance_analysis.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Adjusts document height if sidebar is taller
+            var documentwrapper = document.getElementsByTagName("article")[0];
+            var sidebar = document.getElementsByClassName("sidebar")[0];
+
+            if (sidebar.offsetHeight > documentwrapper.offsetHeight)
+            {
+                var mainwrapper = document.getElementsByClassName("main")[0];
+                documentwrapper.style.minHeight = mainwrapper.offsetHeight + "px";
+            }
+
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header>
+            <hgroup>
+              <h1><a href="../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+          </header>
+      <nav>
+            <ul><li class="quicklink"><div class="rss">
+        <a href="../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+    </div></li><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/resume.html">Resume</a>
+                </li>
+              </ul>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a></li>
+            <li class="right"><a href="../08/running_uptime_on_heroku.html">Running Uptime on Heroku</a> &raquo; </li>
+        </ul><div class="timestamp postmeta">
+            <span>September 22, 2013</span>
+        </div>
+    <div class="section" id="chef-minitest-and-slow-starting-web-application">
+<h1>Chef Minitest and Slow Starting Web Application</h1>
+<p>As I have started to become proficient with <a class="reference external" href="http://www.opscode.com/chef/">Chef</a> I&#8217;ve also gotten used to
+using the <a class="reference external" href="https://github.com/calavera/minitest-chef-handler">minitest-chef-handler</a> for writing integration tests for my
+cookbooks. This quick post is to capture an approach I&#8217;ve grown to like for
+doing HTTP tests of slow starting web applications. I&#8217;ve noticed that many
+services will return from an <cite>/sbin/service mysapp start</cite> well before
+the application has fully started and is accepting HTTP connections.</p>
+<p>Originally I taken a very naive approach of timing how long the app took
+to startup, adding some arbitrary number of seconds and then just sleeping that
+long before testing. This is of course a stupid approach and now that I&#8217;ve
+gotten my feet wet with both <a class="reference external" href="http://www.opscode.com/chef/">Chef</a> and Ruby I&#8217;ve learned of a really simply
+approach to poll the service frequently and eventually giving up or succeeding.</p>
+<p>Here is an example of the approach I am using these days</p>
+<div class="highlight-ruby"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;minitest/spec&#39;</span>
+<span class="nb">require</span> <span class="s2">&quot;net/http&quot;</span>
+
+<span class="n">describe_recipe</span> <span class="s1">&#39;mycookbook::myrecipe&#39;</span> <span class="k">do</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Assertions</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Context</span>
+  <span class="kp">include</span> <span class="ss">MiniTest</span><span class="p">:</span><span class="ss">:Chef</span><span class="o">::</span><span class="no">Resources</span>
+  <span class="n">it</span> <span class="s2">&quot;listens on the desired HTTP Port&quot;</span> <span class="k">do</span>
+    <span class="k">begin</span>
+      <span class="n">tries</span> <span class="o">||=</span> <span class="mi">12</span>
+      <span class="n">http_port</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="ss">:myapp</span><span class="o">][</span><span class="ss">:http_port</span><span class="o">]</span>
+      <span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="ss">:ipaddress</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">http_port</span><span class="p">)</span>
+    <span class="k">rescue</span>
+      <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;HTTP listner is not available yet&quot;</span><span class="p">)</span>
+      <span class="nb">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+      <span class="k">retry</span> <span class="k">unless</span> <span class="p">(</span><span class="n">tries</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zero?</span>
+    <span class="k">end</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">must_be_kind_of</span><span class="p">(</span><span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTPOK</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</td></tr></table></div>
+<p>So lets break this down a bit:</p>
+<ul class="simple">
+<li>The first couple of lines are boiler plate imports. We will be leveraging
+some spec tests and using the net/http library in our tests.</li>
+<li>Line 4 starts a describe_recipe block (which ends on 20).</li>
+<li>Lines 5-7 include some bits from <span class="docutils literal"><span class="pre">Minitest::Chef</span></span>. In general you should
+move these out to a helper module, but thats out of the scope of this post.
+For the purposes of this post just know you need to have them in order for
+this to work properly (I actually think the only one that is really required
+is <span class="docutils literal"><span class="pre">MiniTest::Chef::Context</span></span>, but all the examples you find tend to include
+all 3, so I&#8217;m leaving them as I don&#8217;t believe there is much harm in including
+and not using them.</li>
+<li>Line 8 starts another block (which ends on line 19) which is essentially a
+description of what we will be testing.</li>
+</ul>
+<p>All of the items I just described are pretty generic for tests. They are
+not directly related to the purpose of this post, but I include them for the
+purpose of a complete example. Now lets look a little closer at the bits that
+do the test:</p>
+<div class="highlight-ruby"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">begin</span>
+  <span class="n">tries</span> <span class="o">||=</span> <span class="mi">12</span>
+  <span class="n">http_port</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="ss">:myapp</span><span class="o">][</span><span class="ss">:http_port</span><span class="o">]</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="ss">:ipaddress</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">http_port</span><span class="p">)</span>
+<span class="k">rescue</span>
+  <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;HTTP listner is not available yet&quot;</span><span class="p">)</span>
+  <span class="nb">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+  <span class="k">retry</span> <span class="k">unless</span> <span class="p">(</span><span class="n">tries</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zero?</span>
+<span class="k">end</span>
+<span class="n">response</span><span class="o">.</span><span class="n">must_be_kind_of</span><span class="p">(</span><span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTPOK</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>By wrapping everything in a begin/rescue block we can leverage Ruby&#8217;s built-in
+<span class="docutils literal"><span class="pre">retry</span></span> statement which I also just recently learned about and has allowed
+me to cleanup a good bit of self-rolled retry logic I&#8217;ve written.</p>
+<p>I&#8217;m certainly no Ruby expert so the following explanation is how I understand
+these pieces to work:</p>
+<ul class="simple">
+<li>Line 2 reads &#8220;Use the current value of the variable <span class="docutils literal"><span class="pre">tries</span></span>. If the variable
+is not currently set, start with a value of <strong>12</strong>&#8221;.</li>
+<li>Next we are going to fetch the HTTP port from a node attribute. I&#8217;ve seen examples
+were folks bake the HTTP port into the test, but I prefer using a node attribute
+so that my recipe can configure the application on that port and my test will
+use that same port. In the future if I ever change the port, I don&#8217;t need
+to update the test.</li>
+<li>Line 4 is going to invoke an HTTP request to the path of &#8220;/&#8221; on the local node
+using its IP address (rather than localhost or 127.0.0.1).</li>
+</ul>
+<p>Now comes the real magic. When something goes wrong (IE the application is not
+accepting HTTP connections yet) we hit the rescue block. When that happens the
+following occurs:</p>
+<ul class="simple">
+<li>Log a debug level message that we haven&#8217;t finished starting yet</li>
+<li>Wait for 5 seconds</li>
+<li>And finally the magic wand in the equation... Line 8 reads &#8220;decrement the
+value of the tries variable by one (12 - 1 = 11). After decrementing the
+variable check if the variable is equal to 0. If it is not, retry the code
+that was in the begin section (lines 2-4).</li>
+</ul>
+<p>So this block will check if the application is accepting HTTP connections once
+every 5 seconds for a maximum of 12 tries (one minute). If at
+any point we get an HTTP response, it stops trying. Additionally if we have
+not gotten a response in 12 attempts we also stop trying.</p>
+<p>This allows us to not wait for 60 seconds when the app usually takes 10 seconds
+to start, but may sometimes take 25-30 seconds.</p>
+<p>Finally, line 10 registers the assertion with minitest. We are asserting
+that the response is going to be instance of <a class="reference external" href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTPOK.html">Net::OK</a>.
+Had we hit our maximum number of retries this would have been nil and failed.
+Additionally if for some reason we got some sort of HTTP error this would
+also fail.</p>
+<p>So as I mentioned earlier there are other ways to accomplish this but I like
+this approach as its pretty easy to understand for someone that doesn&#8217;t know
+Ruby all that well (ME!), and has the benefit of not waiting too much longer
+than necessary when waiting for a service to start.</p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/chef.html">Chef</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/chef.html">Chef</a>, <a href="../../../tags/minitest.html">Minitest</a></span>
+        </div>
+        </div>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2013/09/22/chef_minitest_and_slow_starting_web_application";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a></li>
+            <li class="right"><a href="../08/running_uptime_on_heroku.html">Running Uptime on Heroku</a> &raquo; </li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+        </li><li>
+            <a href="#">Chef Minitest and Slow Starting Web Application</a>
+        </li><li>
+            <a href="../08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+        </li><li>
+            <a href="../08/hello_pelican.html">Hello Pelican</a>
+        </li><li>
+            <a href="../07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+        </li><li>
+            <a href="../03/live_with_mynt.html">Live With Mynt</a>
+        </li><li>
+            <a href="../../../2012/06/11/debugging_winrm.html">Debugging WinRM</a>
+        </li><li>
+            <a href="../../../2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
+        </li><li>
+            <a href="../../../2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
+        </li><li>
+            <a href="../../../2012/03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html">Installing Apache Traffic Server 3.0.1 on Centos 5.7</a>
+        </li></ul>
+</div>
+</section><section><div class="widget" id="searchbox">
+    <h1>Search</h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="webfont">L</span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, David Petzel. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

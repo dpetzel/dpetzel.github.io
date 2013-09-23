@@ -1,0 +1,287 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
+        <meta name="viewport" content="width=device-width">
+        <title>Converting Zenoss VMWare Virtual Appliance to VirtualBox &mdash; Dave&#39;s Site</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="prev" title="Cloud Zoom Is Blocking My Modal Dialog Box" href="../../03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Adjusts document height if sidebar is taller
+            var documentwrapper = document.getElementsByTagName("article")[0];
+            var sidebar = document.getElementsByClassName("sidebar")[0];
+
+            if (sidebar.offsetHeight > documentwrapper.offsetHeight)
+            {
+                var mainwrapper = document.getElementsByClassName("main")[0];
+                documentwrapper.style.minHeight = mainwrapper.offsetHeight + "px";
+            }
+
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header>
+            <hgroup>
+              <h1><a href="../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+          </header>
+      <nav>
+            <ul><li class="quicklink"><div class="rss">
+        <a href="../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+    </div></li><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/resume.html">Resume</a>
+                </li>
+              </ul>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="../../03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html">Cloud Zoom Is Blocking My Modal Dialog Box</a></li>
+            <li class="right"></li>
+        </ul><div class="timestamp postmeta">
+            <span>February 10, 2012</span>
+        </div>
+    <div class="section" id="converting-zenoss-vmware-virtual-appliance-to-virtualbox">
+<h1>Converting Zenoss VMWare Virtual Appliance to VirtualBox</h1>
+<div class="section" id="purpose">
+<h2>Purpose</h2>
+<p>So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox</p>
+</div>
+<div class="section" id="instructions">
+<h2>Instructions</h2>
+<div class="section" id="linux">
+<h3>Linux</h3>
+<ul>
+<li><p class="first">Download the existing VMware Image:</p>
+<div class="highlight-python"><pre>cd /tmp
+wget http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/4.1.70-1427/zenoss-4.1.70-1427-x86_64.vmware.zip</pre>
+</div>
+</li>
+<li><p class="first">Unzip the downloaded zip file:</p>
+<div class="highlight-python"><pre>unzip zenoss-4.1.70-1427-x86_64.vmware.zip</pre>
+</div>
+</li>
+<li><p class="first">Create a new VirtualBox VM:</p>
+<div class="highlight-python"><pre>VM_NAME="Zenoss_4.1_Appliance"
+VM_BASE_PATH=/VMs
+sudo mkdir $VM_BASE_PATH
+sudo chmod 777 $VM_BASE_PATH
+VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register</pre>
+</div>
+</li>
+<li><p class="first">Move the VMDK file over to the VM&#8217;s directory:</p>
+<div class="highlight-python"><pre>mv zenoss-4.1.70-1427-x86_64.vmdk $VM_BASE_PATH/$VM_NAME/</pre>
+</div>
+</li>
+<li><p class="first">Change Settings on the newly created VM:</p>
+<div class="highlight-python"><pre>VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on</pre>
+</div>
+</li>
+<li><p class="first">Attach the VMDK file to the VM:</p>
+<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name "SCSI Controller" --add scsi --controller LsiLogic
+VBoxManage storageattach $VM_NAME --storagectl "SCSI Controller" --type hdd --port 0 --medium $VM_BASE_PATH/$VM_NAME/zenoss-4.1.70-1427-x86_64.vmdk</pre>
+</div>
+</li>
+<li><p class="first">Add a DVD/CD Drive (At a minimum you&#8217;ll need this for installing Guest Additions):</p>
+<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4
+VBoxManage storageattach $VM_NAME --storagectl "IDE Controller" --type dvddrive --port 1 --device 0 --medium emptydrive</pre>
+</div>
+</li>
+<li><p class="first">Power on the new Virtual Machine:</p>
+<div class="highlight-python"><pre>VBoxManage startvm $VM_NAME</pre>
+</div>
+</li>
+<li><p class="first">Once the VM has started up, log into the console and Remove VMWare Tools:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">vmware</span><span class="o">-</span><span class="n">uninstall</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">pl</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Use the VirtualBox documentation to install VirtualBox Guest Additions</p>
+</li>
+</ul>
+</div>
+<div class="section" id="windows">
+<h3>Windows</h3>
+<p>Lets get our powershell on...All commands are run in a power shell prompt</p>
+<ul>
+<li><p class="first">Setup some Variables:</p>
+<div class="highlight-python"><pre>$buildNumber = "4.1.70-1434"
+$arch = "x86_64"
+$baseFileName = "zenoss-$buildNumber-$arch"
+$zipFileName = "$baseFileName.vmware.zip"
+$zipFileDownloadUrl = "http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/$buildNumber/$zipFileName"
+
+$VM_NAME="Zenoss_Appliance_$buildNumber"
+$VM_BASE_PATH="\VMs"</pre>
+</div>
+</li>
+<li><p class="first">Download the existing VMware Image:</p>
+<div class="highlight-python"><pre>cd \temp
+$webclient = New-Object System.Net.WebClient
+echo "Going to Download File. This will take a long time without output. Be Patient"
+$webclient.DownloadFile($zipFileDownloadUrl,"$pwd\$zipFileName")</pre>
+</div>
+</li>
+<li><p class="first">Unzip the downloaded zip file:</p>
+<div class="highlight-python"><pre>$shell_app=new-object -com shell.application
+$zip_file = $shell_app.namespace((Get-Location).Path + "\$zipFileName")
+$destination = $shell_app.namespace((Get-Location).Path)
+$destination.Copyhere($zip_file.items())</pre>
+</div>
+</li>
+<li><p class="first">Create a new VirtualBox VM:</p>
+<div class="highlight-python"><pre>if ((Test-Path -path $VM_BASE_PATH) -ne $True){New-Item $VM_BASE_PATH -type directory}
+VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register</pre>
+</div>
+</li>
+<li><p class="first">Move the VMDK file over to the VM&#8217;s directory:</p>
+<div class="highlight-python"><pre>mv $baseFileName\$baseFileName.vmdk $VM_BASE_PATH\$VM_NAME\</pre>
+</div>
+</li>
+<li><p class="first">Change Settings on the newly created VM:</p>
+<div class="highlight-python"><pre>VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on</pre>
+</div>
+</li>
+<li><p class="first">Attach the VMDK file to the VM:</p>
+<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name "SCSI Controller" --add scsi --controller LsiLogic
+VBoxManage storageattach $VM_NAME --storagectl "SCSI Controller" --type hdd --port 0 --medium $VM_BASE_PATH\$VM_NAME\$baseFileName.vmdk</pre>
+</div>
+</li>
+<li><p class="first">Add a DVD/CD Drive (At a minimum you&#8217;ll need this for installing Guest Additions):</p>
+<div class="highlight-python"><pre>VBoxManage storagectl $VM_NAME --name "IDE Controller" --add ide --controller PIIX4
+VBoxManage storageattach $VM_NAME --storagectl "IDE Controller" --type dvddrive --port 1 --device 0 --medium (get-command VBoxGuestAdditions.iso).Path</pre>
+</div>
+</li>
+<li><p class="first">Some Optional Port forwards I find useful:</p>
+<div class="highlight-python"><pre>VBoxManage controlvm $VM_NAME natpf1 "SSH,tcp,,8022,,22"
+VBoxManage controlvm $VM_NAME natpf1 "ZOPE,tcp,,8080,,8080"</pre>
+</div>
+</li>
+<li><p class="first">Power on the new Virtual Machine:</p>
+<div class="highlight-python"><pre>VBoxManage startvm $VM_NAME</pre>
+</div>
+</li>
+<li><p class="first">Once the VM has started up, log into the console (root/zenoss) and Remove VMWare Tools:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">vmware</span><span class="o">-</span><span class="n">uninstall</span><span class="o">-</span><span class="n">tools</span><span class="o">.</span><span class="n">pl</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">While still logged into the console, install VirtualBox guest additions:</p>
+<div class="highlight-python"><pre>yum -y install bzip2 make gcc
+mkdir /media/ga
+mount /dev/cdrom /media/ga
+/media/ga/VBoxLinuxAdditions.run</pre>
+</div>
+</li>
+<li><p class="first">Reboot for good measure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">reboot</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/zenoss.html">Zenoss</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/zenoss.html">Zenoss</a>, <a href="../../../tags/vmware.html">VMWare</a>, <a href="../../../tags/virtualbox.html">VirtualBox</a></span>
+        </div>
+        </div>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="../../03/05/cloud_zoom_is_blocking_my_modal_dialog_box.html">Cloud Zoom Is Blocking My Modal Dialog Box</a></li>
+            <li class="right"></li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="../../../2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+        </li><li>
+            <a href="../../../2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+        </li><li>
+            <a href="../../../2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+        </li><li>
+            <a href="../../../2013/09/08/hello_pelican.html">Hello Pelican</a>
+        </li><li>
+            <a href="../../../2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+        </li><li>
+            <a href="../../../2013/09/03/live_with_mynt.html">Live With Mynt</a>
+        </li><li>
+            <a href="../../06/11/debugging_winrm.html">Debugging WinRM</a>
+        </li><li>
+            <a href="../../03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
+        </li><li>
+            <a href="../../03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
+        </li><li>
+            <a href="../../03/05/installing_apache_traffic_server_3_0_1_on_centos_5_7.html">Installing Apache Traffic Server 3.0.1 on Centos 5.7</a>
+        </li></ul>
+</div>
+</section><section><div class="widget" id="searchbox">
+    <h1>Search</h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="webfont">L</span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, David Petzel. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>
