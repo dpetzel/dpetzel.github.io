@@ -18,3 +18,9 @@ def publish():
     build()
     local("ghp-import -n -p -b master blog/html")
     
+def push():
+    """
+    Push source up to github
+    """
+    local("git push origin source")
+    
