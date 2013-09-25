@@ -1,8 +1,6 @@
 Switched To Tinkerer
 ====================
 
-
-
 .. author:: default
 .. categories:: General
 .. tags:: Python, Tinkerer, HTML, Sphinx

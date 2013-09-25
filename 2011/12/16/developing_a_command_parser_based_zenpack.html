@@ -16,27 +16,27 @@
         <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
         <meta name="viewport" content="width=device-width">
         <title>Developing a Command Parser Based ZenPack &mdash; Dave&#39;s Site</title>
-            <link rel="stylesheet" href="../../../../_static/normalize.css" type="text/css">
-            <link rel="stylesheet" href="../../../../_static/sphinx.css" type="text/css">
-            <link rel="stylesheet" href="../../../../_static/main.css" type="text/css">
-            <link rel="stylesheet" href="../../../../_static/modern5.css" type="text/css">
-            <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-            <link rel="stylesheet" href="../../../../_static/webfont.css" type="text/css">
-        <link rel="shortcut icon" href="../../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
-        <script src="../../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="../../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-        <script src="../../../../_static/plugins.js"></script>
-        <script src="../../../../_static/main.js"></script>
-        <link rel="alternate" type="application/rss+xml" title="RSS" href="../../../../rss.html" /><script type="text/javascript">
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="prev" title="Converting Zenoss VMWare Virtual Appliance to VirtualBox" href="../../../2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../../',
+        URL_ROOT:    '../../../',
         VERSION:     '1.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
-    </script><script type="text/javascript" src="../../../../_static/underscore.js"></script><script type="text/javascript" src="../../../../_static/doctools.js"></script><script type="text/javascript" src="../../../../_static/disqus.js"></script><script type="text/javascript" src="../../../../_static/google_analytics.js"></script>
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script><script type="text/javascript" src="../../../_static/google_analytics.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -64,27 +64,31 @@
 
       <div id="container"><header>
             <hgroup>
-              <h1><a href="../../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+              <h1><a href="../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
           </header>
       <nav>
             <ul><li class="quicklink"><div class="rss">
-        <a href="../../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+        <a href="../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
     </div></li><li class="main-nav">
-                  <a href="../../../../index.html">Home</a>
+                  <a href="../../../index.html">Home</a>
                 </li>
               <li class="main-nav">
-                  <a href="../../../../pages/about.html">About</a>
+                  <a href="../../../pages/about.html">About</a>
                 </li>
               <li class="main-nav">
-                  <a href="../../../../pages/resume.html">Resume</a>
+                  <a href="../../../pages/resume.html">Resume</a>
                 </li>
               </ul>
-          </nav><div class="main-container"><div class="main wrapper clearfix"><article>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="../../../2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html">Converting Zenoss VMWare Virtual Appliance to VirtualBox</a></li>
+            <li class="right"></li>
+        </ul><div class="timestamp postmeta">
+            <span>December 16, 2011</span>
+        </div>
     <div class="section" id="developing-a-command-parser-based-zenpack">
 <h1>Developing a Command Parser Based ZenPack</h1>
-</div>
 <div class="section" id="inspiration">
-<h1>Inspiration</h1>
+<h2>Inspiration</h2>
 <p>I still consider myself a relative newb with Zenoss as well as Python development.
 A while back I set out to write a custom <a class="reference external" href="http://github.com/dpetzel/ZenPacks.community.f5">ZenPack for use with F5 LTMs</a>. I never
 would have been able to figure this out without the assistance of a great guide
@@ -95,7 +99,7 @@ servers. I scoured the net of course hoping someone had already done the work
 for me, but no such luck. I did come across a few solutions for 2.x, but
 from what I&#8217;ve been able to gather the interface to get these stats has changed some
 (no more fetching stats over the management port). So I set out to write my own.</p>
-<p>I of course cracked Jane&#8217;s document open, but I quickly realized that it was very
+<div id="more"> </div><p>I of course cracked Jane&#8217;s document open, but I quickly realized that it was very
 SNMP-centric. This was perfect for the F5 pack as the device supports SNMP. However,
 in this case SNMP is not an option. I&#8217;ve done enough research to know that what
 I wanted to do is a custom Command Parser. The good news is that most of the concepts
@@ -112,15 +116,16 @@ at what others had already done. So I figured I should probably document the pro
 and make it available to others in case they find themselves in a similar situation.</p>
 </div>
 <div class="section" id="conventions-and-assumptions">
-<h1>Conventions and Assumptions</h1>
+<h2>Conventions and Assumptions</h2>
 <p>Throughout this document I hope to link to existing documentation where it exists
 so for things that are already covered elsewhere I will try and link to them, rather
 than recreate similar documentation.</p>
 <p>Nearly everything done from the command line on a Zenoss server should be done
 while logged in as the Zenoss user (as opposed to root). Whenever I say <em>as the zenoss user</em>
 that means:</p>
-<div class="highlight-python"><pre>ssh root@your_zenoss_server
-su - zenoss</pre>
+<div class="highlight-bash"><div class="highlight"><pre>ssh root@your_zenoss_server
+su - zenoss
+</pre></div>
 </div>
 <p>When it comes to breaking down code, I&#8217;m going to try and display the minimal
 amount of code to make my point. Some of the files might have alot of extra
@@ -134,9 +139,9 @@ and part of the ZenPack, it would be redundant to fully copy the contents of fil
 into this guide.</p>
 </div>
 <div class="section" id="lets-get-to-it">
-<h1>Lets Get To It</h1>
+<h2>Lets Get To It</h2>
 <div class="section" id="create-your-empty-zenpack-shell">
-<h2>Create Your Empty ZenPack Shell</h2>
+<h3>Create Your Empty ZenPack Shell</h3>
 <p>Creating an empty ZenPack is covered in numerous locations so I won&#8217;t dive into the
 details here. If you don&#8217;t know how to create an empty shell, refer to section
 3.2 of the <a class="reference external" href="http://community.zenoss.org/community/documentation/official_documentation/zenoss-dev-guide">Zenoss Developer&#8217;s Guide</a>. Additionally Jane&#8217;s
@@ -150,48 +155,54 @@ feel free to put the files anywhere you want, just remember that every time I
 reference &#8216;/media/zenpack_git_sources/ZenPacks.community.Varnish3/&#8217; you should
 replace that with whatever folder you copied your pack out to. Here is what I ran
 <em>as the zenoss user</em>:</p>
-<div class="highlight-python"><pre>cp -R $ZENHOME/ZenPacks/ZenPacks.community.Varnish3 /media/zenpack_git_sources/ZenPacks.community.Varnish3
-zenpack --link --install=/media/zenpack_git_sources/ZenPacks.community.Varnish3
-zenoss restart</pre>
+<div class="highlight-bash"><div class="highlight"><pre>cp -R <span class="nv">$ZENHOME</span>/ZenPacks/ZenPacks.community.Varnish3 /media/zenpack_git_sources/ZenPacks.community.Varnish3
+zenpack --link --install<span class="o">=</span>/media/zenpack_git_sources/ZenPacks.community.Varnish3
+zenoss restart
+</pre></div>
 </div>
 <p>The full restart is arguably overkill, but I find knowing which situations require
 restarting which daemons to be inconsistent so while it takes longer, I usually just
 do a full restart rather than pick and choose which daemons to restart.</p>
 </div>
 <div class="section" id="initialize-a-new-git-repo-in-your-zenpack-folder">
-<h2>Initialize a new GIT Repo in your ZenPack Folder</h2>
+<h3>Initialize a new GIT Repo in your ZenPack Folder</h3>
 <p>As Zenoss seems to be making the move to GitHub as outlined in <a class="reference external" href="http://community.zenoss.org/docs/DOC-8495">ZenPack Development Process</a>
 we are going to cooperate with that effort :) The <a class="reference external" href="http://community.zenoss.org/docs/DOC-8495">ZenPack Development Process</a>
 document does a good job already of providing both abbreviated as well as in-depth
 explanation of the process. For me I&#8217;ve got the GIT client on my Zenoss VM, rather
 than my host PC, but since we are using shared folders it should work equally well
 from either. Here is what I ran <em>as the zenoss user</em> to initialize the new repo:</p>
-<div class="highlight-python"><pre>cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
-git init</pre>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /media/zenpack_git_sources/ZenPacks.community.Varnish3
+git init
+</pre></div>
 </div>
 <p>If this is the first time using git under the zenoss user login you need
 probably need to setup your user name and email:</p>
-<div class="highlight-python"><pre>git config --global user.name "Firstname Lastname"
-git config --global user.email "your_email@youremail.com"</pre>
+<div class="highlight-bash"><div class="highlight"><pre>git config --global user.name <span class="s2">&quot;Firstname Lastname&quot;</span>
+git config --global user.email <span class="s2">&quot;your_email@youremail.com&quot;</span>
+</pre></div>
 </div>
 <p>Next I grabbed the &#8216;master&#8217; .gitignore file. Still <em>as the zenoss user</em>:</p>
-<div class="highlight-python"><pre>cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
-wget https://raw.github.com/zenoss/Community-ZenPacks-SubModules/master/.gitignore</pre>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /media/zenpack_git_sources/ZenPacks.community.Varnish3
+wget https://raw.github.com/zenoss/Community-ZenPacks-SubModules/master/.gitignore
+</pre></div>
 </div>
 <p>Additionally I use Eclipse with the pydev module on my PC as my IDE. As a result
 there are a couple of extra files we will want to add to the .gitignore file.
 If you use some other IDE (or none at all) you can skip the following lines.
 Still <em>as the zenoss user</em>:</p>
-<div class="highlight-python"><pre>cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
-echo .pydevproject &gt;&gt; .gitignore
-echo .project &gt;&gt; .gitignore</pre>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /media/zenpack_git_sources/ZenPacks.community.Varnish3
+<span class="nb">echo</span> .pydevproject &gt;&gt; .gitignore
+<span class="nb">echo</span> .project &gt;&gt; .gitignore
+</pre></div>
 </div>
 <p>Now add everything and do a commit. You should note that this commit does <strong>not</strong>
 push anything up to GitHub, it simply commits the files into your local repo.
 Once again, run the following <em>as the zenoss user</em>:</p>
-<div class="highlight-python"><pre>git add -A
+<div class="highlight-bash"><div class="highlight"><pre>git add -A
 git status
-git commit -m 'Commiting the initial empty shell'</pre>
+git commit -m <span class="s1">&#39;Commiting the initial empty shell&#39;</span>
+</pre></div>
 </div>
 <p>At this point we&#8217;ve done the following:</p>
 <ul class="simple">
@@ -204,19 +215,19 @@ git commit -m 'Commiting the initial empty shell'</pre>
 <p>Now comes the fun part... figuring out how to actually write this crazy thing:)</p>
 </div>
 <div class="section" id="identifying-the-pieces">
-<h2>Identifying The Pieces</h2>
+<h3>Identifying The Pieces</h3>
 <p>Before we get to far, its important to understand what items we want to include
 in this ZenPack. This is where it starts to get dicey if you don&#8217;t know some of the
 inner workings of Zenoss. I&#8217;ll do my best to explain or link to other documentation
 on each item.</p>
 <div class="section" id="monitoring-template">
-<h3>Monitoring Template</h3>
+<h4>Monitoring Template</h4>
 <p>Monitoring Templates, also called RRD Templates, are the real meat to getting
 your performance data displayed. We will be creating one monitoring template.
 This template will be used to trend various performance metrics.</p>
 </div>
 <div class="section" id="command-parser">
-<h3>Command Parser</h3>
+<h4>Command Parser</h4>
 <p>The whole reason for this document...... We&#8217;ll be running the <em>varnishstat</em>
 command over SSH and parsing the output to get all the data to graph. The
 <a class="reference external" href="http://community.zenoss.org/community/documentation/official_documentation/zenoss-dev-guide">Zenoss Developer&#8217;s Guide</a> talks about this in section 12.5.2. Its not very
@@ -224,12 +235,12 @@ newb friendly so thats where I hope to bridge the gap.</p>
 </div>
 </div>
 <div class="section" id="building-the-pieces">
-<h2>Building The Pieces</h2>
+<h3>Building The Pieces</h3>
 <div class="section" id="the-command-parser">
-<h3>The Command Parser</h3>
+<h4>The Command Parser</h4>
 <p>Lets create the file that will hold our new command parser:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">mkdir</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">zenpack_git_sources</span><span class="o">/</span><span class="n">ZenPacks</span><span class="o">.</span><span class="n">community</span><span class="o">.</span><span class="n">Varnish3</span><span class="o">/</span><span class="n">ZenPacks</span><span class="o">/</span><span class="n">community</span><span class="o">/</span><span class="n">Varnish3</span><span class="o">/</span><span class="n">parsers</span>
-<span class="n">touch</span> <span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">zenpack_git_sources</span><span class="o">/</span><span class="n">ZenPacks</span><span class="o">.</span><span class="n">community</span><span class="o">.</span><span class="n">Varnish3</span><span class="o">/</span><span class="n">ZenPacks</span><span class="o">/</span><span class="n">community</span><span class="o">/</span><span class="n">Varnish3</span><span class="o">/</span><span class="n">parsers</span><span class="o">/</span><span class="n">VarnishStat</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-bash"><div class="highlight"><pre>mkdir /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers
+touch /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers/VarnishStat.py
 </pre></div>
 </div>
 <p>The contents of my VarnishStat.py contain a good bit more than what I am showing
@@ -256,7 +267,8 @@ consistent look and feel. The &#8220;__name__&#8221; piece simply appends the mo
 onto the logger name. I like to do this so it is crystal clear what module a log
 entry came from.</p>
 <p>Next we need to create our new command parser class as such:</p>
-<div class="highlight-python"><pre>class VarnishStat(CommandParser):</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">VarnishStat</span><span class="p">(</span><span class="n">CommandParser</span><span class="p">):</span>
+</pre></div>
 </div>
 <p>One thing I found the hardware way is that it appears <strong>Zenoss makes some
 assumptions that the class name match the module name</strong> (including case). So
@@ -264,7 +276,8 @@ as you can see in this example we&#8217;ve created class <strong>VarnishStat</st
 file <strong>VarnishStat.py</strong>. Notice the matching names and case. Additionally the
 class should extend the <em>CommandParser</em> class we imported above.</p>
 <p>Now we need to define our single <em>required</em> method:</p>
-<div class="highlight-python"><pre>def processResults(self, cmd, result):</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">processResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+</pre></div>
 </div>
 <p>On the surface it looks simple enough, but there is actually alot of magic going
 on here. First the method <strong>has</strong> to be called <em>processResults</em>. Additionally
@@ -332,14 +345,15 @@ value &#8220;12345&#8221; to the <em>cache_hit</em> as well as <em>cache_miss</e
 datapoint and not a static value. You can see this in action toward the tail end
 of the <em>processResults</em> method in the <em>VarnishStat</em> parser.</p>
 <p>So the simpliest, working version of the parser could look like this:</p>
-<div class="highlight-python"><pre>from Products.ZenRRD.CommandParser import CommandParser
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">Products.ZenRRD.CommandParser</span> <span class="kn">import</span> <span class="n">CommandParser</span>
 
-class VarnishStat(CommandParser):
-    def processResults(self, cmd, result):
-      #Do Some Parsing Code
-      #....
-      for dp in cmd.points:
-            result.values.append((dp, 12345)</pre>
+<span class="k">class</span> <span class="nc">VarnishStat</span><span class="p">(</span><span class="n">CommandParser</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">processResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+      <span class="c">#Do Some Parsing Code</span>
+      <span class="c">#....</span>
+      <span class="k">for</span> <span class="n">dp</span> <span class="ow">in</span> <span class="n">cmd</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dp</span><span class="p">,</span> <span class="mi">12345</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>Obviously you&#8217;ll want to fill in the parsing code section with real code
 and add error checking, but that minimal amount of code could actually do
@@ -350,7 +364,7 @@ the trick</p>
 </ul>
 </div>
 <div class="section" id="the-monitoring-template">
-<h3>The Monitoring Template</h3>
+<h4>The Monitoring Template</h4>
 <p>At this point we&#8217;ve got the bare essentials around the command parser. The second
 half to making this all work is creating the monitoring template.</p>
 <ul>
@@ -426,7 +440,7 @@ In my case that is <em>ZenPacks.community.Varnish3</em>.</p>
 </div>
 </div>
 <div class="section" id="pulling-it-all-together">
-<h1>Pulling It All Together</h1>
+<h2>Pulling It All Together</h2>
 <p>So at this point you have a working command parser. This command parser is
 referenced by your new super-cool monitoring template and life is good. At this point
 you could bind your monitoring template to a device or device class and assuming
@@ -441,11 +455,12 @@ source code) will download and install into their own Zenoss installations.</p>
 <p>Follow the section &#8216;Install and Test ZenPack in Zenoss&#8217; in
 <a class="reference external" href="http://community.zenoss.org/docs/DOC-8495">ZenPack Development Process</a> to export your EGG and get your new ZenPack uploaded
 to GitHub.</p>
-<p>Thats IT!!!. I know there is a lot of information we only briefly touched on but the
+<p>Thats it!!!. I know there is a lot of information we only briefly touched on but the
 reality is Zenoss is a complex beast. No single document can give you all the
 information you need, but my hope is that this document is enough information
 for those that are familiar with Zenoss to get started writing a custom command
 parser.</p>
+</div>
 </div>
 
     <div class="postmeta">
@@ -455,41 +470,44 @@ parser.</p>
         <div class="categories">
             <span>
                 Filed under:
-                <a href="../../../../categories/zenoss.html">Zenoss</a></span>
+                <a href="../../../categories/zenoss.html">Zenoss</a></span>
         </div>
         <div class="tags">
             <span>
                 Tags:
-                <a href="../../../../tags/zenoss.html">Zenoss</a>, <a href="../../../../tags/zenpack.html">ZenPack</a></span>
+                <a href="../../../tags/zenoss.html">Zenoss</a>, <a href="../../../tags/zenpack.html">ZenPack</a></span>
         </div>
         </div>
-    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "debug/2011/12/16/developing_a_command_parser_based_zenpack";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></article><aside class="sidebar"><section><div class="widget">
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2011/12/16/developing_a_command_parser_based_zenpack";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"> &laquo; <a href="../../../2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html">Converting Zenoss VMWare Virtual Appliance to VirtualBox</a></li>
+            <li class="right"></li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../../../2013/09/23/switched_to_tinkerer.html">Switched To Tinkerer</a>
+            <a href="../../../2013/09/23/switched_to_tinkerer.html">Switched To Tinkerer</a>
         </li><li>
-            <a href="../../../../2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+            <a href="../../../2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
         </li><li>
-            <a href="../../../../2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+            <a href="../../../2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
         </li><li>
-            <a href="../../../../2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+            <a href="../../../2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
         </li><li>
-            <a href="../../../../2013/09/08/hello_pelican.html">Hello Pelican</a>
+            <a href="../../../2013/09/08/hello_pelican.html">Hello Pelican</a>
         </li><li>
-            <a href="../../../../2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+            <a href="../../../2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
         </li><li>
-            <a href="../../../../2013/09/03/live_with_mynt.html">Live With Mynt</a>
+            <a href="../../../2013/09/03/live_with_mynt.html">Live With Mynt</a>
         </li><li>
-            <a href="../../../../2012/06/11/debugging_winrm.html">Debugging WinRM</a>
+            <a href="../../../2012/06/11/debugging_winrm.html">Debugging WinRM</a>
         </li><li>
-            <a href="../../../../2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
+            <a href="../../../2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
         </li><li>
-            <a href="../../../../2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
+            <a href="../../../2012/03/05/installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a>
         </li></ul>
 </div>
 </section><section><div class="widget" id="searchbox">
     <h1>Search</h1>
-    <form action="../../../../search.html" method="get">
+    <form action="../../../search.html" method="get">
         <input type="text" name="q" />
         <button type="submit"><span class="webfont">L</span></button>
     </form>

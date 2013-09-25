@@ -1,3 +1,4 @@
+=========================================
 Developing a Command Parser Based ZenPack
 =========================================
 
@@ -20,6 +21,8 @@ servers. I scoured the net of course hoping someone had already done the work
 for me, but no such luck. I did come across a few solutions for 2.x, but
 from what I've been able to gather the interface to get these stats has changed some
 (no more fetching stats over the management port). So I set out to write my own.
+
+.. more::
 
 I of course cracked Jane's document open, but I quickly realized that it was very
 SNMP-centric. This was perfect for the F5 pack as the device supports SNMP. However,
@@ -47,7 +50,9 @@ than recreate similar documentation.
 
 Nearly everything done from the command line on a Zenoss server should be done
 while logged in as the Zenoss user (as opposed to root). Whenever I say *as the zenoss user*
-that means::
+that means:
+
+.. code-block:: bash
 
    ssh root@your_zenoss_server
    su - zenoss
@@ -80,7 +85,9 @@ and I store the files in a shared folder. This is personal preference,
 feel free to put the files anywhere you want, just remember that every time I
 reference '/media/zenpack_git_sources/ZenPacks.community.Varnish3/' you should
 replace that with whatever folder you copied your pack out to. Here is what I ran
-*as the zenoss user*::
+*as the zenoss user*:
+
+.. code-block:: bash
 
    cp -R $ZENHOME/ZenPacks/ZenPacks.community.Varnish3 /media/zenpack_git_sources/ZenPacks.community.Varnish3
    zenpack --link --install=/media/zenpack_git_sources/ZenPacks.community.Varnish3
@@ -97,18 +104,24 @@ we are going to cooperate with that effort :) The `ZenPack Development Process`_
 document does a good job already of providing both abbreviated as well as in-depth
 explanation of the process. For me I've got the GIT client on my Zenoss VM, rather
 than my host PC, but since we are using shared folders it should work equally well
-from either. Here is what I ran *as the zenoss user* to initialize the new repo::
+from either. Here is what I ran *as the zenoss user* to initialize the new repo:
+
+.. code-block:: bash
 
    cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
    git init
    
 If this is the first time using git under the zenoss user login you need
-probably need to setup your user name and email::
+probably need to setup your user name and email:
+
+.. code-block:: bash
 
    git config --global user.name "Firstname Lastname"
    git config --global user.email "your_email@youremail.com"
    
-Next I grabbed the 'master' .gitignore file. Still *as the zenoss user*::
+Next I grabbed the 'master' .gitignore file. Still *as the zenoss user*:
+
+.. code-block:: bash
 
    cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
    wget https://raw.github.com/zenoss/Community-ZenPacks-SubModules/master/.gitignore
@@ -116,7 +129,9 @@ Next I grabbed the 'master' .gitignore file. Still *as the zenoss user*::
 Additionally I use Eclipse with the pydev module on my PC as my IDE. As a result 
 there are a couple of extra files we will want to add to the .gitignore file. 
 If you use some other IDE (or none at all) you can skip the following lines.
-Still *as the zenoss user*::
+Still *as the zenoss user*:
+
+.. code-block:: bash
 
    cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
    echo .pydevproject >> .gitignore
@@ -124,7 +139,9 @@ Still *as the zenoss user*::
    
 Now add everything and do a commit. You should note that this commit does **not** 
 push anything up to GitHub, it simply commits the files into your local repo.
-Once again, run the following *as the zenoss user*::
+Once again, run the following *as the zenoss user*:
+
+.. code-block:: bash
 
    git add -A
    git status
@@ -165,7 +182,9 @@ Building The Pieces
 
 The Command Parser
 ++++++++++++++++++
-Lets create the file that will hold our new command parser::
+Lets create the file that will hold our new command parser:
+
+.. code-block:: bash
 
     mkdir /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers
     touch /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers/VarnishStat.py
@@ -176,12 +195,16 @@ of the varnishstat output and has nothing to do with creating a command parser.
 The number of items actually required in the command parser is actually much
 smaller than I thought would be required when I started out.
 
-First we start with the necessary imports. There is really only one required::
+First we start with the necessary imports. There is really only one required:
+
+.. code-block:: python
 
    from Products.ZenRRD.CommandParser import CommandParser
 
 Setup logging. This is technically not required, but Python makes logging
-so easy its really a crime to not use it::
+so easy its really a crime to not use it:
+
+.. code-block:: python
    
    import logging
    logger = logging.getLogger('.'.join(['zen', __name__]))
@@ -195,7 +218,9 @@ consistent look and feel. The "__name__" piece simply appends the module name
 onto the logger name. I like to do this so it is crystal clear what module a log
 entry came from.
 
-Next we need to create our new command parser class as such::
+Next we need to create our new command parser class as such:
+
+.. code-block:: python
 
    class VarnishStat(CommandParser):
    
@@ -205,9 +230,11 @@ as you can see in this example we've created class **VarnishStat** inside of
 file **VarnishStat.py**. Notice the matching names and case. Additionally the 
 class should extend the *CommandParser* class we imported above.
 
-Now we need to define our single *required* method::
+Now we need to define our single *required* method:
 
-      def processResults(self, cmd, result):
+.. code-block:: python
+
+	def processResults(self, cmd, result):
       
 On the surface it looks simple enough, but there is actually alot of magic going
 on here. First the method **has** to be called *processResults*. Additionally
@@ -261,7 +288,9 @@ parts (that I am aware of).
      a list of tuples, where each tuple is a datapoint, value pairing. In this
      context the datapoint is the actual datapoint object, and not the string
      representation of the datapoint name. A very contrived example of this
-     would look like::
+     would look like:
+     
+     .. code-block:: python
      
       for dp in cmd.points:
          result.values.append((dp, 12345))
@@ -274,7 +303,9 @@ parts (that I am aware of).
      datapoint and not a static value. You can see this in action toward the tail end
      of the *processResults* method in the *VarnishStat* parser.
      
-     So the simpliest, working version of the parser could look like this::
+     So the simpliest, working version of the parser could look like this:
+     
+     .. code-block:: python
      
       from Products.ZenRRD.CommandParser import CommandParser
       
@@ -380,16 +411,13 @@ Follow the section 'Install and Test ZenPack in Zenoss' in
 `ZenPack Development Process`_ to export your EGG and get your new ZenPack uploaded
 to GitHub.
 
-Thats IT!!!. I know there is a lot of information we only briefly touched on but the 
+Thats it!!!. I know there is a lot of information we only briefly touched on but the 
 reality is Zenoss is a complex beast. No single document can give you all the
 information you need, but my hope is that this document is enough information 
 for those that are familiar with Zenoss to get started writing a custom command
 parser.
-
-
  
 .. External References Below. Nothing Below This Line Should Be Rendered
-
 
 .. _ZenPack for use with F5 LTMs: http://github.com/dpetzel/ZenPacks.community.f5
 .. _Zenoss Developer's Guide: http://community.zenoss.org/community/documentation/official_documentation/zenoss-dev-guide
