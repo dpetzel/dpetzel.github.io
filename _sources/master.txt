@@ -10,6 +10,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2013/09/24/sphinx_with_external_image_annoyance
 
    2013/09/23/switched_to_tinkerer
    2013/09/22/adventures_in_django_performance_analysis

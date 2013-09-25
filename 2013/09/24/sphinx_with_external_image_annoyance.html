@@ -15,7 +15,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
         <meta name="viewport" content="width=device-width">
-        <title>BIG-IP LTM VE on VirtualBox &mdash; Dave&#39;s Site</title>
+        <title>Sphinx With External Image Annoyance &mdash; Dave&#39;s Site</title>
             <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
             <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
             <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="../../../_static/plugins.js"></script>
         <script src="../../../_static/main.js"></script>
-        <link rel="next" title="Installing Varnish Cache 3.0.2 on Centos 5.7" href="installing_varnish_cache_3_0_2_on_centos_5_7.html" /><link rel="prev" title="Debugging WinRM" href="../../06/11/debugging_winrm.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+        <link rel="next" title="Switched To Tinkerer" href="../23/switched_to_tinkerer.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
         VERSION:     '1.2.1',
@@ -80,73 +80,79 @@
                 </li>
               </ul>
           </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
-            <li class="left"> &laquo; <a href="../../06/11/debugging_winrm.html">Debugging WinRM</a></li>
-            <li class="right"><a href="installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a> &raquo; </li>
+            <li class="left"></li>
+            <li class="right"><a href="../23/switched_to_tinkerer.html">Switched To Tinkerer</a> &raquo; </li>
         </ul><div class="timestamp postmeta">
-            <span>March 05, 2012</span>
+            <span>September 24, 2013</span>
         </div>
-    <div class="section" id="big-ip-ltm-ve-on-virtualbox">
-<h1>BIG-IP LTM VE on VirtualBox</h1>
-<p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and I didn&#8217;t have the access to a test box that I had when I initially wrote it. So I decided I&#8217;d give the BIG-IP LTM VE a whirl.</p>
-<div id="more"> </div><p>I&#8217;m on a VirtualBox kick right now, but the appliance choices there don&#8217;t list VirtualBox. Inspired by this post, I figured I&#8217;d give it a shot since it looked simple enough. I&#8217;m re-documenting the process here, so I can just add a little more detail around this.</p>
-<p>Start by registering (or signing in if you already have an account) via <a class="reference external" href="https://www.f5.com/trial/big-ip-ltm-virtual-edition.php">https://www.f5.com/trial/big-ip-ltm-virtual-edition.php</a>.</p>
-<p>Navigate the screens to get your trial key, and subsequent download. You&#8217;ll want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I thought I would be cool and download the 10.2 file. Turns out you can’t activate the 10.2 trial… How dumb… anyway save yourself some time and just download 10.1</p>
-<p>From within the VirtualBox UI, select File &#8211;&gt; Import Appliance</p>
-<p>Select Choose and locate the .ova file you just downloaded. Click Next</p>
-<p>There are just a couple of settings you&#8217;ll want to tweak on Import Settings page:</p>
-<ol class="arabic simple">
-<li>Give your appliance a name (or just accept the default)</li>
-<li>Change to 2 CPUs</li>
-<li>Changes to 2048MB of RAM</li>
-<li>Change the file extension on the virtual disk image to be a .vdi</li>
-</ol>
-<p>You should see a license agreement, agree to it of course.</p>
-<p>One the import is complete, I’d suggest setting each network adaptor to host-only networking, unless you really need it to talk externally. Regardless of if you change that or not, power on the VM now.</p>
-<p>The first thing you’ll need to do is assign a management IP. Start by logging into the vm through the VirtualBox console. credentials are root/default. At the CLI type config. I opted let DHCP do its thing by answering Yes “use automatic configuration of ip address”</p>
-<p>type ifconfig and you should see any entry like eth0:mgmt. This will give you the IP address of your management interface. Using https navigate to that IP addresses in a browser on your workstation. https://192.168.1.100 (or whatever IP you got). <strong>NOTE</strong> the username and password for the UI is different than the cli. Use admin/admin for logging into the webui</p>
-<p>You’ll be prompted to run through a setup wizard. Its self explanatory enough that I don’t think I need to cover it here. From here you are on your own. Proceed as you see fit.</p>
+    <div class="section" id="sphinx-with-external-image-annoyance">
+<h1>Sphinx With External Image Annoyance</h1>
+<p>So today I was trying to clean up some of my Sphinx build warnings when
+rendering this site. I got everything fixed so I had no errors or warnings
+except for this little guy right here (truncated for easier reading):</p>
+<div class="highlight-python"><pre>~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png</pre>
+</div>
+<div id="more"> </div><p>I know I&#8217;m linking to an external image. I don&#8217;t want to store my binary images
+in my Github repo .</p>
+<p>I search google for a bit and couldn&#8217;t find anything. This was so annoying!!
+I don&#8217;t want these warnings every build to numb me to real warnings so I
+I wanted to suppress them.</p>
+<p>Well, since this is just Python lets get to work</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>grep -Rn <span class="s2">&quot;nonlocal image URI found&quot;</span> ~/virtualenvs/tinkerer/lib/python2.7/site-packages/
+/home/dave/virtualenvs/tinkerer/lib/python2.7/site-packages/sphinx/environment.py:779:                self.warn_node<span class="o">(</span><span class="s1">&#39;nonlocal image URI found: %s&#39;</span> % imguri, node<span class="o">)</span>
+</pre></div>
+</div>
+<p>So I edited line 779 in the file from:</p>
+<div class="highlight-python"><div class="highlight"><pre>     <span class="k">if</span> <span class="n">imguri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;://&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<span class="hll">             <span class="bp">self</span><span class="o">.</span><span class="n">warn_node</span><span class="p">(</span><span class="s">&#39;nonlocal image URI found: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">imguri</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+</span>             <span class="n">candidates</span><span class="p">[</span><span class="s">&#39;?&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">imguri</span>
+             <span class="k">continue</span>
+</pre></div>
+</div>
+<p>to end up with:</p>
+<div class="highlight-python"><div class="highlight"><pre>     <span class="k">if</span> <span class="n">imguri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;://&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<span class="hll">             <span class="c"># self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)</span>
+</span>             <span class="n">candidates</span><span class="p">[</span><span class="s">&#39;?&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">imguri</span>
+             <span class="k">continue</span>
+</pre></div>
+</div>
+<p>Voila! No more warning for external images. If anyone knows the <strong>right</strong> way
+to suppress these warnings (Yes I&#8217;ve read all the reasons why you shouldn&#8217;t)
+please let me know.</p>
 </div>
 
     <div class="postmeta">
         <div class="author">
             <span>Posted by David Petzel</span>
         </div>
-        <div class="categories">
-            <span>
-                Filed under:
-                <a href="../../../categories/virtualbox.html">VirtualBox</a></span>
+        
+        
         </div>
-        <div class="tags">
-            <span>
-                Tags:
-                <a href="../../../tags/f5.html">F5</a>, <a href="../../../tags/bigip.html">BigIP</a>, <a href="../../../tags/virtualbox.html">VirtualBox</a></span>
-        </div>
-        </div>
-    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2012/03/05/big_ip_ltm_ve_on_virtualbox";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
-            <li class="left"> &laquo; <a href="../../06/11/debugging_winrm.html">Debugging WinRM</a></li>
-            <li class="right"><a href="installing_varnish_cache_3_0_2_on_centos_5_7.html">Installing Varnish Cache 3.0.2 on Centos 5.7</a> &raquo; </li>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2013/09/24/sphinx_with_external_image_annoyance";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../23/switched_to_tinkerer.html">Switched To Tinkerer</a> &raquo; </li>
         </ul></article><aside class="sidebar"><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
-            <a href="../../../2013/09/24/sphinx_with_external_image_annoyance.html">Sphinx With External Image Annoyance</a>
+            <a href="#">Sphinx With External Image Annoyance</a>
         </li><li>
-            <a href="../../../2013/09/23/switched_to_tinkerer.html">Switched To Tinkerer</a>
+            <a href="../23/switched_to_tinkerer.html">Switched To Tinkerer</a>
         </li><li>
-            <a href="../../../2013/09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+            <a href="../22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
         </li><li>
-            <a href="../../../2013/09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+            <a href="../22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
         </li><li>
-            <a href="../../../2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+            <a href="../08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
         </li><li>
-            <a href="../../../2013/09/08/hello_pelican.html">Hello Pelican</a>
+            <a href="../08/hello_pelican.html">Hello Pelican</a>
         </li><li>
-            <a href="../../../2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+            <a href="../07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
         </li><li>
-            <a href="../../../2013/09/03/live_with_mynt.html">Live With Mynt</a>
+            <a href="../03/live_with_mynt.html">Live With Mynt</a>
         </li><li>
-            <a href="../../06/11/debugging_winrm.html">Debugging WinRM</a>
+            <a href="../../../2012/06/11/debugging_winrm.html">Debugging WinRM</a>
         </li><li>
-            <a href="#">BIG-IP LTM VE on VirtualBox</a>
+            <a href="../../../2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
         </li></ul>
 </div>
 </section><section><div class="widget" id="searchbox">
