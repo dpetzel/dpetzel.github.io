@@ -42,8 +42,10 @@ You can also find me at the following locations:
 .. |github| image:: https://github.com/favicon.ico
    :alt: Github
    :target: https://github.com/dpetzel
+   :height: 32
    
 .. |LinkedIn| image:: http://www.linkedin.com/favicon.ico
    :alt: LinkedIn
    :target: http://www.linkedin.com/pub/david-petzel/3/2bb/4bb/
+   :height: 32
 
