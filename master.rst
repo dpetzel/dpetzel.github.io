@@ -2,6 +2,12 @@ Sitemap
 =======
 
 .. toctree::
+   :hidden:
+   
+   403
+   404
+
+.. toctree::
    :maxdepth: 1
 
 
