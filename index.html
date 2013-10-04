@@ -83,6 +83,68 @@
             <li class="left"></li>
             <li class="right"><a href="page2.html">Older</a> &raquo; </li>
         </ul><div class="timestamp postmeta">
+            <span>October 03, 2013</span>
+        </div>
+        <div class="section" id="chef-minitest-handler-cookbook-1-0-0-released">
+<h1><a href="2013/10/03/chef_minitest_handler_cookbook_1_0_0_released.html">Chef Minitest Handler Cookbook 1.0.0 Released</a></h1>
+<p>The open source world is truly an amazing thing... This week the Chef
+<a class="reference external" href="https://github.com/btm/minitest-handler-cookbook">Minitest Handler Cookbook</a> released version 1.0.0. The version number
+itself is probably not all that significant, but the project itself is
+significant to me.</p>
+<p>You see, about a year and a half or so ago we started down the road of implementing
+Chef at may current employer. At that time, I’d never written a line of Ruby,
+had never heard of rpsec, and didn’t even know the first thing about writing
+cookbooks.</p>
+<p>As we started down this road minitest seemed to be “the way to test”. With this
+in mind I started learning and implementing a few minitests in a couple simple
+cookbooks. At first I felt like it was just extra work and although it was the
+right thing to do I wasn’t really <strong>sold</strong> that it was worth the effort.</p>
+<p>Then one day, I had to work on a cookbook someone else had wrote. Given I was
+still a Ruby noob I wasn’t overly excited about this, but it had to be done.
+I found that the author had written some minitests, and all of a sudden the
+light bulb went off! The tests they had wrote were my safety net. I could make
+my changes and with a reasonable level of assurance be sure I didn’t break
+something. Awesome!!</p>
+<p>OK cool, but what does that have to do with anything? Turns out a lot (for
+me at least). This cemented my believe in minitests and it was shortly
+after that I had to do some work on a cookbook that would run on a Windows node.
+Much to my dismay the Chef <a class="reference external" href="https://github.com/btm/minitest-handler-cookbook">Minitest Handler Cookbook</a> didn’t support
+windows!!</p>
+<p>So I moaned and complained a bit (It is a general annoyance of mine that Windows
+is so neglected in the Open source community), then realized I should stop
+being a jack-ass and contribute back.. So thats where I entered the picture.</p>
+<p>I hacked up some stuff and sent over a <a class="reference external" href="https://github.com/btm/minitest-handler-cookbook/pull/15">PR</a>. <a class="reference external" href="https://github.com/bryanwb">bryanwb</a> was <strong>super</strong> helpful and while he probably could have just
+fixed it himself in about 3 seconds he answered a lot of my dumb ruby and Chef
+related questions. After some back and forth we had a version of the PR that
+he liked and he accepted it.</p>
+<p>OK fine whatever, a PR accepted, I’d had some other PRs on other things accepted
+before, but what happened next surprised me. <a class="reference external" href="https://github.com/bryanwb">bryanwb</a> actually added me to
+the author list in the readme file. Author?!?! I contributed like 3 lines
+and had to ask more questions than I provided answers!.</p>
+<p>Anyway over time I submitted a few more things and then one day <a class="reference external" href="https://github.com/bryanwb">bryanwb</a> hits
+me up. He is having a baby is concerned about the available time he’ll have to
+work on this project. He asks if I’d like to assist. I’ve pushed my own stuff
+up before, but this marks the first time I’ve been invited to existing project.</p>
+<p>I was hesitant for a couple reasons, but I did ended up agreeing to help out, and
+as of this week I’ve actually been granted collaborator status for this cookbook
+on the Opscode community site.</p>
+<p>I know for those of you out there that live and breath open source this is a
+daily occurrence, but for me it was pretty cool to be able to contribute back
+to a project I find useful.</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/chef.html">Chef</a>, <a href="tags/ruby.html">Ruby</a>, <a href="tags/minitest.html">Minitest</a>, <a href="tags/cookbook.html">Cookbook</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/10/03/chef_minitest_handler_cookbook_1_0_0_released.html#disqus_thread" data-disqus-identifier="2013/10/03/chef_minitest_handler_cookbook_1_0_0_released">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
             <span>September 24, 2013</span>
         </div>
         <div class="section" id="sphinx-with-external-image-annoyance">
@@ -322,29 +384,6 @@ make this part of your standard ZenPack release process.</p>
         </div>
         <div class="comments">
             <a href="http://www.dpetzel.info/2012/06/11/debugging_winrm.html#disqus_thread" data-disqus-identifier="2012/06/11/debugging_winrm">Leave a comment</a>
-        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
-            <span>March 05, 2012</span>
-        </div>
-        <div class="section" id="big-ip-ltm-ve-on-virtualbox">
-<h1><a href="2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a></h1>
-<p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and I didn’t have the access to a test box that I had when I initially wrote it. So I decided I’d give the BIG-IP LTM VE a whirl.</p>
-<p><a class="readmore" href="2012/03/05/big_ip_ltm_ve_on_virtualbox.html#more">Read more...</a></p></div>
-        <div class="postmeta">
-        <div class="author">
-            <span>Posted by David Petzel</span>
-        </div>
-        <div class="categories">
-            <span>
-                Filed under:
-                <a href="categories/virtualbox.html">VirtualBox</a></span>
-        </div>
-        <div class="tags">
-            <span>
-                Tags:
-                <a href="tags/f5.html">F5</a>, <a href="tags/bigip.html">BigIP</a>, <a href="tags/virtualbox.html">VirtualBox</a></span>
-        </div>
-        <div class="comments">
-            <a href="http://www.dpetzel.info/2012/03/05/big_ip_ltm_ve_on_virtualbox.html#disqus_thread" data-disqus-identifier="2012/03/05/big_ip_ltm_ve_on_virtualbox">Leave a comment</a>
         </div></div><div class="archive_link">
         <a href="archive.html"> &mdash; Blog Archive &mdash; </a>
     </div><ul class="related clearfix">
@@ -353,6 +392,8 @@ make this part of your standard ZenPack release process.</p>
         </ul></article><aside class="sidebar"><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="2013/10/03/chef_minitest_handler_cookbook_1_0_0_released.html">Chef Minitest Handler Cookbook 1.0.0 Released</a>
+        </li><li>
             <a href="2013/09/24/sphinx_with_external_image_annoyance.html">Sphinx With External Image Annoyance</a>
         </li><li>
             <a href="2013/09/23/switched_to_tinkerer.html">Switched To Tinkerer</a>
@@ -370,8 +411,6 @@ make this part of your standard ZenPack release process.</p>
             <a href="2013/09/03/live_with_mynt.html">Live With Mynt</a>
         </li><li>
             <a href="2012/06/11/debugging_winrm.html">Debugging WinRM</a>
-        </li><li>
-            <a href="2012/03/05/big_ip_ltm_ve_on_virtualbox.html">BIG-IP LTM VE on VirtualBox</a>
         </li></ul>
 </div>
 </section><section><div class="widget" id="searchbox">

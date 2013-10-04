@@ -10,6 +10,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2013/10/03/chef_minitest_handler_cookbook_1_0_0_released
    2013/09/24/sphinx_with_external_image_annoyance
 
    2013/09/23/switched_to_tinkerer
