@@ -11,6 +11,8 @@ The open source world is truly an amazing thing... This week the Chef
 itself is probably not all that significant, but the project itself is 
 significant to me.
 
+.. more::
+
 You see, about a year and a half or so ago we started down the road of implementing
 Chef at may current employer. At that time, I'd never written a line of Ruby, 
 had never heard of rpsec, and didn't even know the first thing about writing
