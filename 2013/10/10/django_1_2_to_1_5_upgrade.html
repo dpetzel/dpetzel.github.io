@@ -1,0 +1,370 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:fb="https://www.facebook.com/2008/fbml" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="A collection of thoughts, discoveries, and ramblings I've bothered to document.">
+        <meta name="viewport" content="width=device-width">
+        <title>Django 1.2 to 1.5 Upgrade &mdash; Dave&#39;s Site</title>
+            <link rel="stylesheet" href="../../../_static/normalize.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/sphinx.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/main.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css">
+            <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+            <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css">
+        <link rel="shortcut icon" href="../../../_static/tinkerer.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="Chef Minitest Handler Cookbook 1.0.0 Released" href="../03/chef_minitest_handler_cookbook_1_0_0_released.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.html" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script><script type="text/javascript" src="../../../_static/google_analytics.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Adjusts document height if sidebar is taller
+            var documentwrapper = document.getElementsByTagName("article")[0];
+            var sidebar = document.getElementsByClassName("sidebar")[0];
+
+            if (sidebar.offsetHeight > documentwrapper.offsetHeight)
+            {
+                var mainwrapper = document.getElementsByClassName("main")[0];
+                documentwrapper.style.minHeight = mainwrapper.offsetHeight + "px";
+            }
+
+            // Scroll to content if on small screen
+            if (screen.width < 480)
+            {
+                $(document).scrollTop(document.getElementsByTagName("article")[0].offsetTop - 44);
+            }
+        });
+    </script></head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+      <div id="container"><header>
+            <hgroup>
+              <h1><a href="../../../index.html">Dave&#39;s Site</a></h1><h2>I Do Random Stuff And Occasionally Document It.</h2></hgroup>
+          </header>
+      <nav>
+            <ul><li class="quicklink"><div class="rss">
+        <a href="../../../rss.html" title="Subscribe via RSS"><span class="webfont">B</span></a>
+    </div></li><li class="main-nav">
+                  <a href="../../../index.html">Home</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/about.html">About Me</a>
+                </li>
+              <li class="main-nav">
+                  <a href="../../../pages/resume.html">Resume</a>
+                </li>
+              </ul>
+          </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../03/chef_minitest_handler_cookbook_1_0_0_released.html">Chef Minitest Handler Cookbook 1.0.0 Released</a> &raquo; </li>
+        </ul><div class="timestamp postmeta">
+            <span>October 10, 2013</span>
+        </div>
+    <div class="section" id="django-1-2-to-1-5-upgrade">
+<h1>Django 1.2 to 1.5 Upgrade</h1>
+<div class="section" id="background">
+<h2>Background</h2>
+<p>Recently I kicked off an effort to perform a long over due upgrade of the
+version of Django I am using on a project. Without getting into all the gory
+details of why, I need to upgrade from Django 1.2 to 1.5. Technically I don&#8217;t
+really have to go to 1.5, but I figure since I&#8217;m going to be messing with it
+anyway I should probably just get current. This post will journal my adventure
+down this road for better or worse. Just to satisfy curiosity, I did test
+going from 1.2 to 1.5 directly and as expected things blew up horribly.</p>
+<div id="more"> </div><p>Since I knew a ton of stuff had changed my plan attack was going to be to step
+through each an upgrade to each major version between 1.2 and 1.5 rather than
+attempting to jump straight there. I intend to run my tests with the <span class="docutils literal"><span class="pre">-Wall</span></span>
+flags so I can see all the deprecation warnings. Then I&#8217;ll tackle each
+deprecation warning one at a time. There is likely a more efficient means of
+doing this sort of thing, but its been so long since I&#8217;ve messed with this
+project I&#8217;m going to need some time to get reacquainted anyway.</p>
+</div>
+<div class="section" id="to-1-3-7">
+<h2>1.2.7 to 1.3.7</h2>
+<p>This wen&#8217;t really smooth for me. All my unit tests passed and I didn&#8217;t see
+anything immediately broken. There were a few deprecation warnings that I needed
+to address however.</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">      ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.</span>
+<span class="go">PendingDeprecationWarning</span>
+</pre></div>
+</div>
+<p>This one was pretty cut and dry as the 1.3 release notes had alerted me to this
+one: <a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes">https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes</a>.
+Simply changing the structure of that configuration item and all was well.</p>
+<p>Next up was</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">      /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.</span>
+<span class="go">class MyModelClass(models.Field):</span>
+</pre></div>
+</div>
+<p>A little google foo later and I ended up on <a class="reference external" href="http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/">http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/</a>. The advise was to update to a newer version of <span class="docutils literal"><span class="pre">django-picklefield</span></span>. I reviewed the
+dependencies I had defined in the my <span class="docutils literal"><span class="pre">requirements.txt</span></span> and I was using
+&#8216;0.3.0&#8217;, which was newer than the &#8216;0.1.9&#8217; version recommended in the article,
+and also appears to be the most current version available on pypi.python.org.</p>
+<p>With that dead end out of the way I then found <a class="reference external" href="https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value">https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value</a>.</p>
+<p>So I I updated my <span class="docutils literal"><span class="pre">get_db_prep_value</span></span> as follows.
+Old:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_db_prep_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>To:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_db_prep_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">prepared</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Kicked another test run. No more deprecation warning and tests are all passing!</p>
+<p>Next up:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">      ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken</span>
+<span class="go">RandomPool_DeprecationWarning)</span>
+</pre></div>
+</div>
+<p>It wasn&#8217;t really clear to me what I was supposed to do with this information,
+so I figured I&#8217;d start simple and upgrade the version of pycrypto I&#8217;m using
+from 2.3 to the latest available 2.6. This did <em>not</em> help.. I really have no
+clue what to do with this. Since its not coming out directly from a Django
+module, I&#8217;m going to ignore it for now....</p>
+<p>Last up was</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">      ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner</span>
+<span class="go">PendingDeprecationWarning</span>
+</pre></div>
+</div>
+<p>I recalled there was something about this in the release notes so I reviewed
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner">https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner</a>. Near as
+I can tell there is nothing I need to do here, and Django itself will handle
+this cleanup in coming versions.</p>
+<p>That concludes my 1.2.7 to 1.3.7 upgrade. I ended up keeping the updated version
+of pycrypto just because, so all and all pretty easy so far and only about 2
+hours burned on that step.</p>
+</div>
+<div class="section" id="to-1-4-8">
+<h2>1.3.7 to 1.4.8</h2>
+<p>With that section out of the way onto reading the 1.4 release notes to see
+what gotchas I need to look out for. Based on the information in the release
+notes here are the items I expect will require some attention:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults">https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults</a></li>
+<li><a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin">https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin</a></li>
+<li><a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py">https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py</a></li>
+</ul>
+<p>An initial test run after upgrading, but before any changes, is showing that the
+media stuff is indeed an issue, and I have several deprecation warnings related
+to items addressed in the release notes. This isn&#8217;t going to be as easy as the
+jump to 1.3.7 was...</p>
+<p>I&#8217;m opting to tackle the broken things first, and then I&#8217;ll address the
+deprecation warnings. So first up I&#8217;ve made a few customizations to my
+settings.py file.</p>
+<ul class="simple">
+<li>I added <span class="docutils literal"><span class="pre">django.contrib.staticfiles</span></span> to my <span class="docutils literal"><span class="pre">INSTALLED_APPS</span></span></li>
+<li>Next I renamed my <em>media</em> folder to <em>static</em>. I don&#8217;t have user uploaded media
+so this folder was for the purpose of static assets. And based on the
+documentation media is intended to be used for user generated content.</li>
+<li>I added <span class="docutils literal"><span class="pre">STATIC_URL</span> <span class="pre">=</span> <span class="pre">'/static/'</span></span> to my settings.py</li>
+<li>Updated my templates to use the new static template tag as described in
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/howto/static-files/">https://docs.djangoproject.com/en/dev/howto/static-files/</a></li>
+</ul>
+<p>While a bit tedious, that wasn&#8217;t to bad. At this point all of my tests are still
+passing, but I do have some <span class="docutils literal"><span class="pre">PendingDeprecationWarning</span></span> warnings to deal with.
+I suppose since the are Pending, I could procrastinate, but I&#8217;m in here now, so
+biting the bullet and going after them..</p>
+<p>First up</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go"> ./site-packages/django/core/management/__init__.py:455: PendingDeprecationWarning: The &#39;execute_manager&#39; function is deprecated, you likely need to update your &#39;manage.py&#39;; please see the Django 1.4 release notes (https://docs.djangoproject.com/en/dev/releases/1.4/).</span>
+<span class="go">PendingDeprecationWarning)</span>
+</pre></div>
+</div>
+<p>My imports worked out in such a way that I didn&#8217;t need to relocate the manage.py
+file so all I did was swap out the contents as outlined in <a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py">https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py</a></p>
+<p>Alas, something busted though. After swapping out the contents of manage.py I
+ended up with errors when trying to kick off my tests. I&#8217;m using the
+django-jenkins app for my tests.</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./virtualenv/bin/python -Wall my_project/manage.py jenkins</span>
+<span class="go">Unknown command: &#39;jenkins&#39;</span>
+<span class="go">Type &#39;manage.py help&#39; for usage.</span>
+</pre></div>
+</div>
+<p>I didn&#8217;t see anything immediately obvious jump out at me so I started by
+updating from django-jenkins 0.11.1 to 0.14.0. No improvment (but I&#8217;m gonna
+keep the newer version just the same).</p>
+<p>Upon further inspection of <span class="docutils literal"><span class="pre">manage.py</span> <span class="pre">--help</span></span> I noticed alot of the subcommands
+were missing. In fact all I saw were the <span class="docutils literal"><span class="pre">[django]</span></span> ones. So I moved my
+<span class="docutils literal"><span class="pre">manage.py</span></span> up one directory as discussed in the readme and all the subcommands
+reappeared, including jenkins. So that was good, but the crappy things is
+all my tests started failing... So into the weeds of import cleanup I go..
+This turned out to be much easier than I thought. All I needed was to change
+<span class="docutils literal"><span class="pre">ROOT_URLCONF</span> <span class="pre">=</span> <span class="pre">'urls'</span></span> to <span class="docutils literal"><span class="pre">ROOT_URLCONF</span> <span class="pre">=</span> <span class="pre">'my_project.urls'</span></span> and all of
+tests started passing again. Added bonus, my PendingDeprecationWarning was gone.</p>
+<p>Next up</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go"> ./site-packages/django/conf/__init__.py:75: DeprecationWarning: The ADMIN_MEDIA_PREFIX setting has been removed; use STATIC_URL instead.</span>
+<span class="go">&quot;use STATIC_URL instead.&quot;, DeprecationWarning)</span>
+</pre></div>
+</div>
+<p>This one is easy enough, I had already added STATIC_URL when I fixed up things
+earlier, so I just removed ADMIN_MEDIA_PREFIX from my settings.py</p>
+<p>It appears in the process of cleaning up some of the media stuff I also cleared
+up some of the other DeprecationWarning messages. So at this point all my tests
+are passing and no DeprecationWarning messages (aside from
+<span class="docutils literal"><span class="pre">RandomPool_DeprecationWarning</span></span> from earlier that I opted to ignore). Onto
+the final leg! Total time in this leg minus distractions was about 2.5 hours</p>
+</div>
+<div class="section" id="to-1-5-4">
+<h2>1.4.8 to 1.5.4</h2>
+<p>Upon an initial pass through the 1.5 release notes I was feeling pretty good
+as I didn&#8217;t see anything in there I though would affect me. My tests said
+otherwise (<strong>80% failure rate</strong>). The common theme seemed to be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.views.generic.simple</span> <span class="kn">import</span> <span class="n">direct_to_template</span><span class="p">,</span> <span class="n">redirect_to</span>
+<span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="n">simple</span>
+</pre></div>
+</div>
+<p>Hmm.... obviously I missed the memo somewhere...Turns out I didn&#8217;t put two and
+two together back in the my 1.3 steps as its called out there
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views">https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views</a>.
+Not to sure why I didn&#8217;t get any deprecation warnings along the way but oh well
+lets get that fixed up.</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django">http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django</a>
+was the only remotely useful link I came up with in the first couple minutes
+of searching. The common thread seems to stem from my urls.py file.</p>
+<p>It seems I have a sprinkling of <span class="docutils literal"><span class="pre">direct_to_template</span></span> and <span class="docutils literal"><span class="pre">redirect_to</span></span> being
+used. Its fairly clear that I need to switch from <em>Function-based generic views</em>
+to <em>Class-based generic views</em>, and as luck would have it the documentation has
+an awesome mapping to pull that off at <a class="reference external" href="https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/">https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/</a>.</p>
+<p>So here is what I did to my urls.py.</p>
+<ul class="simple">
+<li>Replaced <span class="docutils literal"><span class="pre">from</span> <span class="pre">django.views.generic.simple</span> <span class="pre">import</span> <span class="pre">direct_to_template,</span> <span class="pre">redirect_to</span></span>
+with <span class="docutils literal"><span class="pre">from</span> <span class="pre">django.views.generic.base</span> <span class="pre">import</span> <span class="pre">TemplateView,</span> <span class="pre">RedirectView</span></span></li>
+<li>Replaced <span class="docutils literal"><span class="pre">redirect_to</span></span> references with RedirectView as outlined in that
+migration page</li>
+<li>Replace <span class="docutils literal"><span class="pre">direct_to_template</span></span> references with TemplateView as outlined in
+that migration page</li>
+</ul>
+<p>First I had something like this (some legacy stuff to handle when URLs changed)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^base_prefix/(?P&lt;new_url&gt;.*)$&#39;</span><span class="p">,</span> <span class="n">redirect_to</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;url&#39;</span><span class="p">:</span> <span class="s">&#39;/</span><span class="si">%(new_url)s</span><span class="s">&#39;</span><span class="p">}),</span>
+<span class="n">changed</span> <span class="n">to</span>
+<span class="p">(</span><span class="s">r&#39;^base_prefix/(?P&lt;new_url&gt;.*)$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;url&#39;</span><span class="p">:</span> <span class="s">&#39;/</span><span class="si">%(new_url)s</span><span class="s">&#39;</span><span class="p">})),</span>
+</pre></div>
+</div>
+<p>That one seemed easy enough, however the next one is nastier.. Making it worse
+was it was something I didn&#8217;t write so I had to figure out the previous
+functionality first, before I could move forward. So I had a line that looked
+like <span class="docutils literal"><span class="pre">(r'^bar',</span> <span class="pre">direct_to_template,</span> <span class="pre">{'template':</span> <span class="pre">'foo/bar.html'},</span> <span class="pre">'bar'),</span></span></p>
+<p>It took me a bit to figure out that the last <em>bar</em> was actually just a
+<a class="reference external" href="https://docs.djangoproject.com/en/1.2/topics/http/urls/#naming-url-patterns">named url pattern</a></p>
+<p>So a simple switch of that call over to <span class="docutils literal"><span class="pre">(r'^bar',</span> <span class="pre">TemplateView.as_view(template_name='foo/bar.html'),</span> <span class="pre">'bar'),</span></span>
+and we&#8217;re moving along.</p>
+<p>Next up is more generic view good times</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">list_detail</span>
+<span class="ne">ImportError</span><span class="p">:</span> <span class="n">cannot</span> <span class="kn">import</span> <span class="nn">name</span> <span class="nn">list_detail</span>
+</pre></div>
+</div>
+<p>In my case this actually turned out to be an unused import, so I simply
+removed it.</p>
+<p>From there I had to a bunch of conversions of my url template tags as outlined
+in the release notes. So I had a lot of references like
+<span class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">myproject.myapp.views.someview</span> <span class="pre">arg1%}</span></span> and I had to change those to
+<span class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">&quot;myproject.myapp.views.someview&quot;</span> <span class="pre">arg1%}</span></span>.</p>
+<p>At this point I&#8217;m back to 100% testing pass rate and a single (simple)
+deprecation message to handle:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">./site-packages/django/conf/__init__.py:147: PendingDeprecationWarning: The TEMPLATE_DIRS setting must be a tuple. Please fix your settings, as auto-correction is now deprecated.</span>
+<span class="go">  PendingDeprecationWarning)</span>
+</pre></div>
+</div>
+<p>I wish they were all this easy. I went from:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+<span class="n">to</span>
+<span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">),)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Overall the process wasn&#8217;t terrible, but it was certainly not a cake walk either.
+By the time it was all said and done, it took me about 2 days (including
+randomizations and interruptions). As usual the Django documentation was
+invaluable in being to pull this off.</p>
+<p>The app has been running for a few days now and so far no unexpected explosions,
+however I should note I have been getting some random reports of CSRF errors
+since the upgrade (1 or 2 reports a day). Overall most people are having no
+issues, and I haven&#8217;t gotten too deep into that investigation, but it is
+certainly new behavior.</p>
+</div>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/programming.html">Programming</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="../../../tags/django.html">Django</a>, <a href="../../../tags/python.html">Python</a></span>
+        </div>
+        </div>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "dpetzel";    var disqus_identifier = "2013/10/10/django_1_2_to_1_5_upgrade";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="../03/chef_minitest_handler_cookbook_1_0_0_released.html">Chef Minitest Handler Cookbook 1.0.0 Released</a> &raquo; </li>
+        </ul></article><aside class="sidebar"><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="#">Django 1.2 to 1.5 Upgrade</a>
+        </li><li>
+            <a href="../03/chef_minitest_handler_cookbook_1_0_0_released.html">Chef Minitest Handler Cookbook 1.0.0 Released</a>
+        </li><li>
+            <a href="../../09/24/sphinx_with_external_image_annoyance.html">Sphinx With External Image Annoyance</a>
+        </li><li>
+            <a href="../../09/23/switched_to_tinkerer.html">Switched To Tinkerer</a>
+        </li><li>
+            <a href="../../09/22/adventures_in_django_performance_analysis.html">Adventures in Django Performance Analysis</a>
+        </li><li>
+            <a href="../../09/22/chef_minitest_and_slow_starting_web_application.html">Chef Minitest and Slow Starting Web Application</a>
+        </li><li>
+            <a href="../../09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
+        </li><li>
+            <a href="../../09/08/hello_pelican.html">Hello Pelican</a>
+        </li><li>
+            <a href="../../09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
+        </li><li>
+            <a href="../../09/03/live_with_mynt.html">Live With Mynt</a>
+        </li></ul>
+</div>
+</section><section><div class="widget" id="searchbox">
+    <h1>Search</h1>
+    <form action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <button type="submit"><span class="webfont">L</span></button>
+    </form>
+</div></section></aside></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, David Petzel. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>
