@@ -28,7 +28,7 @@
         <script>window.jQuery || document.write('<script src="_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="_static/plugins.js"></script>
         <script src="_static/main.js"></script>
-        <link rel="prev" title="Newer" href="index.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.html" /><script type="text/javascript">
+        <link rel="next" title="Older" href="page3.html" /><link rel="prev" title="Newer" href="index.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.html" /><script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '1.2.1',
@@ -81,8 +81,38 @@
               </ul>
           </nav><div class="main-container"><div class="main wrapper clearfix"><article><ul class="related clearfix">
             <li class="left"> &laquo; <a href="index.html">Newer</a></li>
-            <li class="right"></li>
+            <li class="right"><a href="page3.html">Older</a> &raquo; </li>
         </ul><div class="timestamp postmeta">
+            <span>September 07, 2013</span>
+        </div>
+        <div class="section" id="publishing-a-zenoss-zenpack-to-pypi-using-travis-ci">
+<h1><a href="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don’t see more ZenPacks on PyPi.</p>
+<p class="last">So read on if you are curious about how it <em>might</em> work, but please don’t
+make this part of your standard ZenPack release process.</p>
+</div>
+<p><a class="readmore" href="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html#more">Read more...</a></p></div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by David Petzel</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/zenoss.html">Zenoss</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a href="tags/zenoss.html">Zenoss</a>, <a href="tags/zenpack.html">ZenPack</a>, <a href="tags/travis_ci.html">Travis-CI</a>, <a href="tags/pypi.html">PyPi</a></span>
+        </div>
+        <div class="comments">
+            <a href="http://www.dpetzel.info/2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html#disqus_thread" data-disqus-identifier="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci">Leave a comment</a>
+        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
             <span>September 03, 2013</span>
         </div>
         <div class="section" id="live-with-mynt">
@@ -300,48 +330,16 @@ Once I noticed it was also affecting my modal dialog, I became suspicious of clo
         </div>
         <div class="comments">
             <a href="http://www.dpetzel.info/2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox.html#disqus_thread" data-disqus-identifier="2012/02/10/converting_zenoss_vmware_virtual_appliance_to_virtualbox">Leave a comment</a>
-        </div></div><div class="separator post_separator"></div><div class="timestamp postmeta">
-            <span>December 16, 2011</span>
-        </div>
-        <div class="section" id="developing-a-command-parser-based-zenpack">
-<h1><a href="2011/12/16/developing_a_command_parser_based_zenpack.html">Developing a Command Parser Based ZenPack</a></h1>
-<div class="section" id="inspiration">
-<h2>Inspiration</h2>
-<p>I still consider myself a relative newb with Zenoss as well as Python development.
-A while back I set out to write a custom <a class="reference external" href="http://github.com/dpetzel/ZenPacks.community.f5">ZenPack for use with F5 LTMs</a>. I never
-would have been able to figure this out without the assistance of a great guide
-written by Jane Curry. Her outstanding document can be found on the Zenoss
-community site: <a class="reference external" href="http://community.zenoss.org/docs/DOC-10268">http://community.zenoss.org/docs/DOC-10268</a></p>
-<p>I recently had a need for a ZenPack to interact with a couple of Varnish 3.x
-servers. I scoured the net of course hoping someone had already done the work
-for me, but no such luck. I did come across a few solutions for 2.x, but
-from what I’ve been able to gather the interface to get these stats has changed some
-(no more fetching stats over the management port). So I set out to write my own.</p>
-</div><p><a class="readmore" href="2011/12/16/developing_a_command_parser_based_zenpack.html#more">Read more...</a></p></div>
-        <div class="postmeta">
-        <div class="author">
-            <span>Posted by David Petzel</span>
-        </div>
-        <div class="categories">
-            <span>
-                Filed under:
-                <a href="categories/zenoss.html">Zenoss</a></span>
-        </div>
-        <div class="tags">
-            <span>
-                Tags:
-                <a href="tags/zenoss.html">Zenoss</a>, <a href="tags/zenpack.html">ZenPack</a></span>
-        </div>
-        <div class="comments">
-            <a href="http://www.dpetzel.info/2011/12/16/developing_a_command_parser_based_zenpack.html#disqus_thread" data-disqus-identifier="2011/12/16/developing_a_command_parser_based_zenpack">Leave a comment</a>
         </div></div><div class="archive_link">
         <a href="archive.html"> &mdash; Blog Archive &mdash; </a>
     </div><ul class="related clearfix">
             <li class="left"> &laquo; <a href="index.html">Newer</a></li>
-            <li class="right"></li>
+            <li class="right"><a href="page3.html">Older</a> &raquo; </li>
         </ul></article><aside class="sidebar"><section><div class="widget">
     <h1>Recent Posts</h1>
     <ul><li>
+            <a href="2013/11/24/building_a_dell_t420_with_esxi_5.html">Building a Dell T420 with ESXi 5</a>
+        </li><li>
             <a href="2013/10/10/chromecast_woes.html">Chromecast Woes</a>
         </li><li>
             <a href="2013/10/10/django_1_2_to_1_5_upgrade.html">Django 1.2 to 1.5 Upgrade</a>
@@ -359,8 +357,6 @@ from what I’ve been able to gather the interface to get these stats has change
             <a href="2013/09/08/running_uptime_on_heroku.html">Running Uptime on Heroku</a>
         </li><li>
             <a href="2013/09/08/hello_pelican.html">Hello Pelican</a>
-        </li><li>
-            <a href="2013/09/07/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci.html">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</a>
         </li></ul>
 </div>
 </section><section><div class="widget" id="searchbox">

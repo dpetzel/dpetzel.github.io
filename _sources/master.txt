@@ -10,6 +10,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2013/11/24/building_a_dell_t420_with_esxi_5
    2013/10/10/chromecast_woes
    2013/10/10/django_1_2_to_1_5_upgrade
    2013/10/03/chef_minitest_handler_cookbook_1_0_0_released
