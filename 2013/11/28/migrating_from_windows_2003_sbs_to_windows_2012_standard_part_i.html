@@ -176,14 +176,14 @@ This will allow me to take snapshots, and even clone the VM for some trial runs 
 <div class="section" id="update-time-configurations">
 <h3>Update Time Configurations</h3>
 <p>As touched on toward the end of the <a class="reference external" href="http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx">http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx</a> I updated time settings as follows:</p>
-<p>2012 Server
-.. code-block:: console</p>
-<blockquote>
-<div>w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update</div></blockquote>
-<p>SBS 2003 Server
-.. code-block:: console</p>
-<blockquote>
-<div>w32tm /config /syncfromflags:domhier /reliable:no /update</div></blockquote>
+<p>2012 Server</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update</span>
+</pre></div>
+</div>
+<p>SBS 2003 Server</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">w32tm /config /syncfromflags:domhier /reliable:no /update</span>
+</pre></div>
+</div>
 <p>At this point I&#8217;m going to let things bake for a bit. I&#8217;ve got all the &#8220;AD Stuff&#8221; moved over. At this point I&#8217;m left with all the file shares and applications (IE Virus Console) that are configured to point at this host.  As I get to moving some of these items I&#8217;ll add new parts.</p>
 </div>
 </div>

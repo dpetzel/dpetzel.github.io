@@ -138,11 +138,13 @@ Update Time Configurations
 As touched on toward the end of the http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx I updated time settings as follows:
 
 2012 Server
+
 .. code-block:: console
     
     w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update
 
 SBS 2003 Server
+
 .. code-block:: console
 
     w32tm /config /syncfromflags:domhier /reliable:no /update
