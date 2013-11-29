@@ -10,7 +10,7 @@ Migrating from Windows 2003 SBS to Windows 2012 Standard Part I
 
 I've recently been tasked with migrating a Windows 2003 Small Business Server to Windows 2013 Standard.
 
-.. more:
+.. more::
 
 Without getting into too much of the back story, the client purchased Windows 2003 SBS many moons ago, however they never leveraged anything except Active Directory and File Sharing. The use their hosting providers we mail, and don't have an appetite to change that.
 
