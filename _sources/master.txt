@@ -10,6 +10,7 @@ Sitemap
 .. toctree::
    :maxdepth: 1
 
+   2013/11/28/chocolatey_is_awesome
    2013/11/28/migrating_from_windows_2003_sbs_to_windows_2012_standard_part_i
    2013/11/24/building_a_dell_t420_with_esxi_5
    2013/10/10/chromecast_woes
