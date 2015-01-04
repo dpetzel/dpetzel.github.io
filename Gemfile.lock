@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
+    RedCloth (4.2.9-x86-mingw32)
     activesupport (4.2.0)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -21,6 +22,8 @@ GEM
     execjs (2.2.2)
     fast-stemmer (1.0.2)
     ffi (1.9.6)
+    ffi (1.9.6-x64-mingw32)
+    ffi (1.9.6-x86-mingw32)
     gemoji (2.1.0)
     github-pages (31)
       RedCloth (= 4.2.9)
@@ -95,6 +98,10 @@ GEM
     net-dns (0.8.0)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
+    nokogiri (1.6.5-x64-mingw32)
+      mini_portile (~> 0.6.0)
+    nokogiri (1.6.5-x86-mingw32)
+      mini_portile (~> 0.6.0)
     parslet (1.5.0)
       blankslate (~> 2.0)
     posix-spawn (0.3.9)
@@ -118,11 +125,16 @@ GEM
       parslet (~> 1.5.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    wdm (0.1.0)
     yajl-ruby (1.1.0)
+    yajl-ruby (1.1.0-x86-mingw32)
 
 PLATFORMS
   ruby
+  x64-mingw32
+  x86-mingw32
 
 DEPENDENCIES
   github-pages (= 31)
   rake
+  wdm (>= 0.1.0)
