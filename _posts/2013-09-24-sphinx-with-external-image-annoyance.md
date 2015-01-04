@@ -1,6 +1,8 @@
 ---
 title: Sphinx With External Image Annoyance
 layout: post
+category: [Tips/Python]
+tags: [python, sphinx]
 ---
 
 So today I was trying to clean up some of my Sphinx build warnings when
@@ -43,4 +45,3 @@ to end up with:
 Voila! No more warning for external images. If anyone knows the
 **right** way to suppress these warnings (Yes I've read all the reasons
 why you shouldn't) please let me know.
-

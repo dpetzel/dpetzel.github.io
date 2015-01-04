@@ -79,13 +79,9 @@ h1, h2, h3, h4 {
 
 /* Dave's customizations */
 
-.employer .employer {
-  padding-left:25px
-}
-
-.employer .position {
-  padding-left:25px
-}
+.employer .employer { padding-left:25px }
+.employer .position { padding-left:25px }
+ul.posts li {margin-bottom:7px; font-size:1.2em}
 
 #footer {
   height: 40px

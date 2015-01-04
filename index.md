@@ -9,6 +9,11 @@ tagline: I do random stuff and sometimes I write about it
 # Posts
 <ul class="posts">
   {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
+    <li>
+      <span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+      <br />
+      {{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+      <a href="{{ BASE_PATH }}{{ post.url }}">read more</a>
+    </li>
   {% endfor %}
 </ul>
