@@ -13,15 +13,16 @@ trivial as it would initially seem.
 If your not familiar with PoshGit, you can read a little more about it on their
 [github page](https://github.com/dahlbyk/posh-git/blob/master/readme.md). In
 a nutshell, this integration enhances your current Powershell prompt to provide
-you with git related information right in our prompt. For anyone that uses
- [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), it provides similar
+you with git related information right in your prompt. For anyone that uses
+[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh), it provides similar
 functionality to that.
 
-Powershell allows you override the prompt by configuring a [prompt function](
-http://ss64.com/ps/syntax-prompt.html) inside your profile.  So let's pause here
-this *sounds* simple enough, but the reality is there are no less than 4 possible
-files that may get loaded depending on how the profile is getting loaded. That
-whole debacle is covered in detail at <http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx>
+Powershell allows you to override the prompt by configuring a [prompt function](
+http://ss64.com/ps/syntax-prompt.html) inside your profile.  So let's pause here..
+this *sounds* simple enough, but the reality you're profile is actually loaded
+from one of a possible 4 files. Knowing exactly which one to edit is an adventure
+on all on its own. That whole debacle is covered in detail at
+<http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx>
 so I'll skip going into details there. We'll leave it at knowing there is fairly
 well documented (albeit cumbersome) methods of changing your Powershell prompt.
 
@@ -30,16 +31,15 @@ Powershell, it would seem logical that any shell customizations you may have
 already applied would be used and PoshGit would extend upon that. Sad to say
 that is not the case... Now to be fair, the README for PoshGit does cover this,
 but it takes a fair amount of connecting the dots to know that PoshGit is even
-a thing. If you are unlike me and happened to know all about PoshGit and its
-dedicated Repo, you probably would have gotten to the solution much faster than
-I did... For me there was a series of research and trial and error that lead me
+a thing. For me there was a series of research and trial and error that lead me
 to learning what PoshGit was, the fact that it was part of Github for Windows,
 and ultimately how to hack it to do what I wanted.
 
-I'll skip over pain and agony I went through getting from A to B. I'll keep it
+I'll skip over the pain and agony I went through getting from A to B. I'll keep it
 brief and say no amount of `profile.ps1` hackery will work here.
 
-Instead the key to success lies in `C:\Users\<you?\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1`.
+Instead the key to success lies in `C:\Users\<you>\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1`
+(I don't know if that GUID looking number changes between installations).
 Despite its name, this file is actually **not** a sample, but is the actual
 profile that is loaded by GitHub for Windows when using Powershell as your shell.
 
