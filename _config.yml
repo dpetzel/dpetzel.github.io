@@ -7,6 +7,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://www.dpetzel.info" # the base hostname & protocol for your site
 # twitter_username: jekyllrb
 github_username:  dpetzel
+linkedin_pub_profile: https://www.linkedin.com/pub/david-petzel/3/2bb/4bb
 
 # Build settings
 markdown: kramdown
