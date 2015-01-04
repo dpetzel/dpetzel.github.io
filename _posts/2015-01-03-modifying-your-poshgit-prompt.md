@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Modifying your PoshGit Prompt"
-category:
-tags:
+category: tips/windows
+tags: powershell, github, git, PoshGit
 ---
 {% include JB/setup %}
 If your using [Github for Windows](https://windows.github.com/), there is a
