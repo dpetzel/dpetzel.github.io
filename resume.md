@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Resume
+group: navigation
 ---
 
 # David Petzel, Systems Engineer

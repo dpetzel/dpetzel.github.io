@@ -1,9 +1,10 @@
 ---
 layout: page
 title: About
+group: navigation
 ---
 
-> {{ site.description }}
+> {{ site.tagline }}
 
 I'm a technology enthusiast, husband, dad, and
 [Geocacher](<http://www.geocaching.com/profile/?guid=2b261b0d-15e3-4c16-902f-a51932dd9ff5)
@@ -37,3 +38,28 @@ time:
 * Chef Cookbook: [consul_alerts](https://supermarket.chef.io/cookbooks/consul_alerts)
 * Chef Cookbook: [consul_kv](https://supermarket.chef.io/cookbooks/consul_kv)
 * [Python Akamai CCUAPI Client](https://pypi.python.org/pypi/ccuapi/1.1.2)
+
+You can find me in the following on-line locations:
+
+
+<div id="social-icons">
+  {% if site.author.github %}
+    <a href="https://github.com/{{ site.author.github }}">
+      <span class="icon  icon--github">
+        <img src="{{ site.baseurl }}/assets/webicon-github.svg">
+      </span>
+    </a>
+  {% endif %}
+  {% if site.author.linkedin %}
+    <a href="https://www.linkedin.com/pub/{{ site.author.linkedin }}">
+      <span class="icon  icon--github">
+        <img src="{{ site.baseurl }}/assets/webicon-linkedin.svg">
+      </span>
+    </a>
+  {% endif %}
+  <br />
+  <span class="attribution">
+    * Social Media icons provided by <a href="https://github.com/adamfairhead/webicons">Fairhead Creative</a>
+  </span>
+</div>
+<br />
