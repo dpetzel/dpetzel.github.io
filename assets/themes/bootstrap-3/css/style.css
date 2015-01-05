@@ -91,3 +91,12 @@ ul.posts li {margin-bottom:7px; font-size:1.2em}
 }
 .attribution {font-size:0.75em;}
 #social-icons img {height:35px; }
+
+.note {
+  display: inline-block;
+  padding: 9.5px;
+  background-color: #feff7c;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 10px 50px 5px 25px;
+}
