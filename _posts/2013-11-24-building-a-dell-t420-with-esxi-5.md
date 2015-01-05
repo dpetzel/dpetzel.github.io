@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Building a Dell T420 with ESXi 5"
-category: how-to
+category: "System Administration"
 tags: [Dell, VMware, ESX, OMSA, Open Manage]
 ---
 {% include JB/setup %}

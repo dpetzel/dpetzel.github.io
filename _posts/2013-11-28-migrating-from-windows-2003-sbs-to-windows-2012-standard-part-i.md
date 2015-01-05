@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Migrating from Windows 2003 SBS to Windows 2012 Standard Part I"
-category: how-to
+category: "System Administration"
 tags: [windows, small business server, active directory]
 ---
 {% include JB/setup %}
