@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Abouts on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/about/</link>
+    <link>http://www.dpetzel.info/about/</link>
     <description>Recent content in Abouts on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Sun, 18 Sep 2016 09:48:29 -0400</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/about/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/about/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About Me</title>
-      <link>http://replace-this-with-your-hugo-site.com/about/</link>
+      <link>http://www.dpetzel.info/about/</link>
       <pubDate>Sun, 18 Sep 2016 09:48:29 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/about/</guid>
+      <guid>http://www.dpetzel.info/about/</guid>
       <description>&lt;p&gt;I&amp;rsquo;m a technology enthusiast, husband, dad, and
 &lt;a href=&#34;http://www.geocaching.com/profile/?guid=2b261b0d-15e3-4c16-902f-a51932dd9ff5&#34;&gt;Geocacher&lt;/a&gt;
 I&amp;rsquo;ve worked in technology for most of my working years. Even before that I had

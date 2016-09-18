@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hardware on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/categories/hardware/</link>
+    <link>http://www.dpetzel.info/categories/hardware/</link>
     <description>Recent content in Hardware on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/categories/hardware/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/categories/hardware/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Chromecast Woes</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/chromecast-woes/</link>
+      <link>http://www.dpetzel.info/post/chromecast-woes/</link>
       <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/chromecast-woes/</guid>
+      <guid>http://www.dpetzel.info/post/chromecast-woes/</guid>
       <description>&lt;p&gt;I finally got around to picking up a &lt;a href=&#34;http://en.wikipedia.org/wiki/Chromecast&#34;&gt;Chromecast&lt;/a&gt;. I had read some reviews
 so I didn&amp;rsquo;t have any high expectations, but I couldn&amp;rsquo;t resist the urge to
 tinker with it given its price point. Boy was I disappointed&amp;hellip;.&lt;/p&gt;

@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Resumes on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/resume/</link>
+    <link>http://www.dpetzel.info/resume/</link>
     <description>Recent content in Resumes on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Sun, 18 Sep 2016 10:58:07 -0400</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/resume/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/resume/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Resume</title>
-      <link>http://replace-this-with-your-hugo-site.com/resume/</link>
+      <link>http://www.dpetzel.info/resume/</link>
       <pubDate>Sun, 18 Sep 2016 10:58:07 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/resume/</guid>
+      <guid>http://www.dpetzel.info/resume/</guid>
       <description>
 
 &lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;

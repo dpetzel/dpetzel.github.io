@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Windows on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/windows/</link>
+    <link>http://www.dpetzel.info/tags/windows/</link>
     <description>Recent content in Windows on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Wed, 30 Apr 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/tags/windows/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Remotely Enabling RDP</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</link>
+      <link>http://www.dpetzel.info/post/remotely-enabling-rdp/</link>
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</guid>
+      <guid>http://www.dpetzel.info/post/remotely-enabling-rdp/</guid>
       <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
 had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
 
@@ -37,10 +37,10 @@ reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server
     
     <item>
       <title>Chocolatey is Awesome</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/chocolatey-is-awesome/</link>
+      <link>http://www.dpetzel.info/post/chocolatey-is-awesome/</link>
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/chocolatey-is-awesome/</guid>
+      <guid>http://www.dpetzel.info/post/chocolatey-is-awesome/</guid>
       <description>&lt;p&gt;A while back a co-worker told me about Chocolately. I had taken a quick
 look and it seemed interesting, but I kind of forgot about it after
 that.&lt;/p&gt;
@@ -60,10 +60,10 @@ to revisit the packaging process at a later date :).&lt;/p&gt;
     
     <item>
       <title>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
+      <link>http://www.dpetzel.info/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
+      <guid>http://www.dpetzel.info/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
       <description>
 
 &lt;p&gt;I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
