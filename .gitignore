@@ -8,3 +8,9 @@ Thumbs.db
 
 .rbenv-version
 .rvmrc
+/blog
+/.project
+/.pydevproject
+*.pyc
+/index.html
+/.settings
