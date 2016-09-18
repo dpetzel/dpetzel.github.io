@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/git/</link>
+    <description>Recent content in Git on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sat, 03 Jan 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Modifying your PoshGit Prompt</title>
+      <link>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</guid>
+      <description>&lt;p&gt;If your using &lt;a href=&#34;https://windows.github.com/&#34;&gt;Github for Windows&lt;/a&gt;, there is a
+good chance you might be using the Powershell Git Shell. If your like me you
+may want to customize how that prompt looks. Turns out this is not nearly as
+trivial as it would initially seem.&lt;/p&gt;
+
+&lt;p&gt;If your not familiar with PoshGit, you can read a little more about it on their
+&lt;a href=&#34;https://github.com/dahlbyk/posh-git/blob/master/readme.md&#34;&gt;github page&lt;/a&gt;. In
+a nutshell, this integration enhances your current Powershell prompt to provide
+you with git related information right in your prompt. For anyone that uses
+&lt;a href=&#34;https://github.com/robbyrussell/oh-my-zsh&#34;&gt;oh-my-zsh&lt;/a&gt;, it provides similar
+functionality to that.&lt;/p&gt;
+
+&lt;p&gt;Powershell allows you to override the prompt by configuring a &lt;a href=&#34;http://ss64.com/ps/syntax-prompt.html&#34;&gt;prompt function&lt;/a&gt; inside your profile.  So let&amp;rsquo;s pause here..
+this &lt;em&gt;sounds&lt;/em&gt; simple enough, but the reality you&amp;rsquo;re profile is actually loaded
+from one of a possible 4 files. Knowing exactly which one to edit is an adventure
+on all on its own. That whole debacle is covered in detail at
+&lt;a href=&#34;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&#34;&gt;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&lt;/a&gt;
+so I&amp;rsquo;ll skip going into details there. We&amp;rsquo;ll leave it at knowing there is fairly
+well documented (albeit cumbersome) methods of changing your Powershell prompt.&lt;/p&gt;
+
+&lt;p&gt;Enter PoshGit. Since its nothing more than a wrapper around your existing
+Powershell, it would seem logical that any shell customizations you may have
+already applied would be used and PoshGit would extend upon that. Sad to say
+that is not the case&amp;hellip; Now to be fair, the README for PoshGit does cover this,
+but it takes a fair amount of connecting the dots to know that PoshGit is even
+a thing. For me there was a series of research and trial and error that lead me
+to learning what PoshGit was, the fact that it was part of Github for Windows,
+and ultimately how to hack it to do what I wanted.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll skip over the pain and agony I went through getting from A to B. I&amp;rsquo;ll keep it
+brief and say no amount of &lt;code&gt;profile.ps1&lt;/code&gt; hackery will work here.&lt;/p&gt;
+
+&lt;p&gt;Instead the key to success lies in &lt;code&gt;C:\Users\&amp;lt;you&amp;gt;\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1&lt;/code&gt;
+(I don&amp;rsquo;t know if that GUID looking number changes between installations).
+Despite its name, this file is actually &lt;strong&gt;not&lt;/strong&gt; a sample, but is the actual
+profile that is loaded by GitHub for Windows when using Powershell as your shell.&lt;/p&gt;
+
+&lt;p&gt;Start by creating a function named &lt;code&gt;global:prompt&lt;/code&gt; (I think just prompt might
+also work). Inside that function make all your customizations, and then be sure
+to include a call to &lt;code&gt;Write-VcsStatus&lt;/code&gt;. The &lt;code&gt;Write-VcsStatus&lt;/code&gt; is the key to
+ensuring you continue to get all the git integration that PoshGit supplies.&lt;/p&gt;
+
+&lt;p&gt;Here is what my function looks like. In my case I was looking to not have
+super long directory structures included in the prompt, and instead just
+display the name of the directory I&amp;rsquo;m currently in. Credit for this goes to
+&lt;a href=&#34;http://winterdom.com/2008/08/mypowershellprompt&#34;&gt;http://winterdom.com/2008/08/mypowershellprompt&lt;/a&gt; which I used to figure out
+how to change the prompt, I adapted for my own tastes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;function global:prompt {
+  $cdelim = [ConsoleColor]::DarkCyan
+  $chost = [ConsoleColor]::Green
+  $cloc = [ConsoleColor]::Cyan
+
+  write-host &amp;quot;$([char]0x0A7) &amp;quot; -n -f $cloc
+  write-host &#39; {&#39; -n -f $cdelim
+  write-host (split-path (pwd) -Leaf) -n -f $cloc
+  write-host &#39;}&#39; -n -f $cdelim
+
+  Write-VcsStatus
+
+  $global:LASTEXITCODE = $realLASTEXITCODE
+  return &amp;quot;&amp;gt; &amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If your curious, this makes my shell look something like this (but with colors):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;Windows PowerShell
+Copyright (C) 2009 Microsoft Corporation. All rights reserved.
+
+§  {dpetzel.github.io} [master +1 ~0 -0 !]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At the end of the day, the act of actually making the change wasn&amp;rsquo;t complicated
+at all, however figuring out the &amp;laquo;what and where&amp;raquo; of what to change was a time
+consuming process.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

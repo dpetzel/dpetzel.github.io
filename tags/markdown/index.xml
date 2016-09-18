@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Markdown on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/markdown/</link>
+    <description>Recent content in Markdown on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sun, 04 Jan 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Jekyll with fenced code blocks</title>
+      <link>http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks/</link>
+      <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks/</guid>
+      <description>&lt;p&gt;While hacking up some markdown files to use under Jekyll I hit a weird
+issue where code blocks written with triple ticks (aka fenced code blocks)
+wouldn&amp;rsquo;t render correctly.&lt;/p&gt;
+
+&lt;p&gt;When writing markdown, I like to express code blocks using the
+&lt;a href=&#34;https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks&#34;&gt;fenced-code-blocks&lt;/a&gt;
+syntax. I&amp;rsquo;m just getting up to speed with using Jekyll and after reading their
+documentation I found I could use their &lt;code&gt;highlight&lt;/code&gt; liquid tag, but I just didn&amp;rsquo;t
+care for the look and feel of that. I&amp;rsquo;m just used to the fenced style, so I
+wanted to use that.&lt;/p&gt;
+
+&lt;p&gt;If I did something like this, it would work:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ```
+    my code snippet
+    ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But doing this would result in the language getting included inside the code
+block. Normally you&amp;rsquo;d see the language used as a guide for highlighting, and it
+would not get actually output in the rendered content.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ```console
+    my code snippet
+    ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After a bit of digging and trial error I narrowed this down to the fact that
+I was rendering with &lt;code&gt;kramdown&lt;/code&gt;. There were some mentions of the fenced code
+blocks on &lt;a href=&#34;http://jekyllrb.com/docs/configuration/&#34;&gt;http://jekyllrb.com/docs/configuration/&lt;/a&gt; page, but it was not clear
+to me what needed to happen. This is almost certainly a result of me being new
+to Jekyll. I ended up determining that &lt;code&gt;Redcarpet&lt;/code&gt; is an alternate renderer to
+&lt;code&gt;kramdown&lt;/code&gt;. So I added the following to my &lt;code&gt;_config.yml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;markdown: redcarpet
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After making that change the fenced code blocks were now properly rendering
+even with the language being specified.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
