@@ -10,7 +10,7 @@
 	<!--[if lt IE 9]>
 	<script src="http://www.dpetzel.info//js/html5.js"></script>
 	<![endif]-->
-    
+
     <link href="http://www.dpetzel.info//index.xml" rel="alternate" type="application/rss+xml" title="Dave&#39;s Site" />
 
     <link rel='stylesheet' id='twentyfourteen-lato-css'  href='//fonts.googleapis.com/css?family=Lato%3A300%2C400%2C700%2C900%2C300italic%2C400italic%2C700italic&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
@@ -21,6 +21,24 @@
 	<script type='text/javascript' src='http://www.dpetzel.info//js/jquery/jquery.js'></script>
 	<script type='text/javascript' src='http://www.dpetzel.info//js/jquery/jquery-migrate.min.js'></script>
 	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+	<style type='text/css'>
+	pre, code {
+	    white-space: pre;
+	    overflow-x: scroll;
+			width: auto;
+	}
+	.hljs {
+	    display: inline-block;
+	    padding: 0.5em;
+	    padding-right: 5%;
+	    background: #002b36;
+	    color: #839496;
+	}
+	</style>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 <body class="home blog masthead-fixed list-view full-width grid">
@@ -39,11 +57,11 @@
 				<div class="nav-menu">
 					<ul>
 						
-						<li class="page_item"> 
+						<li class="page_item">
 							<a href="/about/">About Me</a>
 						</li>
 						
-						<li class="page_item"> 
+						<li class="page_item">
 							<a href="/resume/">Resume</a>
 						</li>
 						
@@ -86,13 +104,13 @@
 
 			
 			  <div class="summary">
-			    <h4><a href="/post/speeding-up-test-kitchen/">Speeding Up Test Kitchen</a></h4>
+			    <h4><a href="/post/chef/speeding-up-test-kitchen/">Speeding Up Test Kitchen</a></h4>
 					January 6 2015 <br />
 			    This past week I was turned on to a tiny, but game changing (for me) gem named kitchen-sync. I tend to use test-kitchen in a wide variety of configurations. Sometimes I&rsquo;m using it to drive Vagrant, most of the time, I&rsquo;m using it drive Docker, but there are times when I need it to drive remove instances such as EC2. One of my biggest pain points in this last configuration is the time it takes to copy of the cookbooks to the remote machine.
 			  </div>
 			  
 			  <div class="read-more-link">
-			    <a href="/post/speeding-up-test-kitchen/">Read More…</a>
+			    <a href="/post/chef/speeding-up-test-kitchen/">Read More…</a>
 			  </div>
 			  
 			
@@ -230,7 +248,7 @@
 		<ul>
 			
 			<li>
-				<a href="http://www.dpetzel.info/post/speeding-up-test-kitchen//index.html">Speeding Up Test Kitchen</a>
+				<a href="http://www.dpetzel.info/post/chef/speeding-up-test-kitchen//index.html">Speeding Up Test Kitchen</a>
 			</li>
 			
 			<li>
