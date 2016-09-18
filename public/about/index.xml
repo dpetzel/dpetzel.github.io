@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/about/</link>
+    <description>Recent content in Abouts on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sun, 18 Sep 2016 09:48:29 -0400</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/about/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>About Me</title>
+      <link>http://replace-this-with-your-hugo-site.com/about/</link>
+      <pubDate>Sun, 18 Sep 2016 09:48:29 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/about/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m a technology enthusiast, husband, dad, and
+&lt;a href=&#34;http://www.geocaching.com/profile/?guid=2b261b0d-15e3-4c16-902f-a51932dd9ff5&#34;&gt;Geocacher&lt;/a&gt;
+I&amp;rsquo;ve worked in technology for most of my working years. Even before that I had
+an interest in computers dating all the way back to my very first PC, a
+&lt;a href=&#34;http://en.wikipedia.org/wiki/Tandy_1000&#34;&gt;Tandy 1000&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I grew up (professionally) on the enterprise IT side of things, but later on
+moved into the web space (where I am today). I find the pace at which things
+move on the Internet interesting and exciting. There is never any shortage of
+new things to learn.&lt;/p&gt;
+
+&lt;p&gt;I started this site as a place to start collecting notes and thoughts on various
+things I was learning about and/working on. I&amp;rsquo;ve found over the years that
+you&amp;rsquo;ll spend a lot of time researching and learning how to do something and
+then about 6 months after you put it down you need it for real.
+At that point, you forget all the nuances of the thing you were doing. I generally
+try to keep some notes about these sorts of things, but I&amp;rsquo;ve never stored them
+in a way that made them easy to find again later. So I decided this would
+be that place.&lt;/p&gt;
+
+&lt;p&gt;While I generally don&amp;rsquo;t have as much time as I would like to contribute to open
+source projects, here are a few I do my best to maintain when I can find the
+time:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:F5_BIG-IP_(Open_Source)&#34;&gt;F5 BIG-IP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Rundeck&#34;&gt;Rundeck&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Varnish_3&#34;&gt;Varnish3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss_client&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_alerts&#34;&gt;consul_alerts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_kv&#34;&gt;consul_kv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/ccuapi/1.1.2&#34;&gt;Python Akamai CCUAPI Client&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

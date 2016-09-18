@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chef on Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/tags/chef/</link>
+    <description>Recent content in Chef on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Tue, 06 Jan 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/chef/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Speeding Up Test Kitchen</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</link>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</guid>
+      <description>&lt;p&gt;This past week I was turned on to a tiny, but game changing (for me) gem named
+&lt;code&gt;kitchen-sync&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I tend to use test-kitchen in a wide variety of configurations. Sometimes I&amp;rsquo;m
+using it to drive Vagrant, most of the time, I&amp;rsquo;m using it drive Docker, but
+there are times when I need it to drive remove instances such as EC2. One
+of my biggest pain points in this last configuration is the time it takes to
+copy of the cookbooks to the remote machine. If you&amp;rsquo;ve got a cookbook that
+has many dependencies (either directly or indirectly), this is a painful process.
+It is especially aggravating because you&amp;rsquo;re probably only testing a change to
+a single file, yet you have to wait for a billion other files that have not
+changed to get copied again.&lt;/p&gt;
+
+&lt;p&gt;Enter &lt;a href=&#34;https://github.com/coderanger/kitchen-sync&#34;&gt;kitchen-sync&lt;/a&gt;.  Put out
+by Noah Kantrowitz (a Chef super star), This little gem saves so much time when
+your doing iterative development. The initial creation of the instance still
+takes time as all the files have to be copied, however your second run will
+have the file copy step take only a second or two. In my case I&amp;rsquo;ve got one
+&lt;strong&gt;really nasty&lt;/strong&gt; cookbook that has so many dependencies it was taking 10-12
+minutes &lt;strong&gt;each converge&lt;/strong&gt;. Using kitchen-sync my subsequent runs take only a
+couple seconds to copy the file.&lt;/p&gt;
+
+&lt;p&gt;If you are doing any Chef development using test-kitchen and remote instances,
+this is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

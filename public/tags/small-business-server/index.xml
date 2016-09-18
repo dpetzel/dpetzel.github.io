@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Small Business Server on Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/tags/small-business-server/</link>
+    <description>Recent content in Small Business Server on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Thu, 28 Nov 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/small-business-server/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
+to Windows 2013 Standard.&lt;/p&gt;
+
+&lt;p&gt;Without getting into too much of the back story, the client purchased Windows
+2003 SBS many moons ago, however they never leveraged anything except Active
+Directory and File Sharing. They use their hosting provider&amp;rsquo;s web mail, and
+don&amp;rsquo;t have an appetite to change that.&lt;/p&gt;
+
+&lt;p&gt;Here are we many moons later and they are ready to upgrade. They&amp;rsquo;ve purchased a
+new, fairly beefy, box running Windows 2012 Standard.&lt;/p&gt;
+
+&lt;p&gt;After some discussions around the path they would prefer to take we&amp;rsquo;ve decided
+we don&amp;rsquo;t want to have to touch all of the PCs and move them to a new domain,
+and we&amp;rsquo;d like the upgrade to be as seamless as possible. To that end the decision
+was made to attempt a &lt;em&gt;migration&lt;/em&gt;. This document will hopefully capture my
+journey down this path. Its been at least 5 years since I&amp;rsquo;ve touched a &amp;laquo;real&amp;raquo;
+domain controller, so a decent amount of reading is order, but from what I have
+gathered so far this is not a standard conversion path, but it appears there
+are some options.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
+
+&lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
+lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
+performed a P2V on the existing Windows 2003 SBS host. The P2V process is
+outside the scope of this document, but was actually pretty easy. This will
+allow me to take snapshots, and even clone the VM for some trial runs
+(I don&amp;rsquo;t have any lab hardware available for this).&lt;/p&gt;
+
+&lt;p&gt;fter getting the SBS server virtualized, I proceed to configure the new 2013 box as a member server with a static IP. I ensured its primary DNS server was set to the SBS server. I did not configure any roles or features at all yet.&lt;/p&gt;
+
+&lt;p&gt;Now that I&amp;rsquo;m ready to proceed, I started by installing the support tools
+from &lt;a href=&#34;http://www.microsoft.com/en-us/download/details.aspx?id=15326&#34;&gt;http://www.microsoft.com/en-us/download/details.aspx?id=15326&lt;/a&gt;. With those
+tools in place I ran through series of tests as outlined in &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;{% highlight console %}&lt;br /&gt;
+Dcdiag /v /c /d /e /s:&lt;sbs_server&gt; &amp;gt; c:\temp\dcdiag.log
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;The first error logged was:
+{% highlight console %}
+    * Checking Service: IsmServ
+        IsmServ Service is stopped on [SERVER]
+    &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip; SERVER failed test Services
+ {% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;Based &lt;a href=&#34;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&#34;&gt;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&lt;/a&gt;,
+it appears this is expected on SBS and safe to ignore, so doing just that.&lt;/p&gt;
+
+&lt;p&gt;The next error up was:&lt;/p&gt;
+
+&lt;p&gt;{% highlight console %}
+      Starting test: systemlog
+         * The System Event log test
+         An Error Event occured.  EventID: 0xC0002719
+            Time Generated: 11/28/2013   18:05:14
+            (Event String could not be retrieved)
+         &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;. SERVER failed test systemlog
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;This seems to be related to a single event in my event log:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    Event Type: Error
+    Event Source:   DCOM
+    Event Category: None
+    Event ID:   10009
+    Date:       11/28/2013
+    Time:       6:05:14 PM
+    User:       N/A
+    Computer:   SERVER
+    Description:
+    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+
+    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I don&amp;rsquo;t see any other occurrences of this error. I&amp;rsquo;m assuming I could clear the
+event logs to not see, but I&amp;rsquo;d rather keep the event log history around, so I&amp;rsquo;m
+going to ignore this for now.&lt;/p&gt;
+
+&lt;p&gt;All the other tests passed, so I moved onto &lt;code&gt;Repadmin&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Repadmin /showrepl sbs_host /verbose /all /intersite &amp;gt;c:\repl.log
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nothing jumped out at me in this output. Next up &lt;code&gt;dnslint&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;  Dnslint /v /ad /s &amp;quot;DCipaddress&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one caught something interesting:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Notes:
+One or more DNS servers is not authoritative for the domain
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After reviewing the output I found that at some point in time someone had
+created a local host file entry for localhost that was the IP of the server.
+Traditionally I believe localhost resolves to 127.0.0.1, rather than the actual
+box IP, so I simply commented out the file entry. After that &lt;code&gt;dnslint&lt;/code&gt; came
+back clean.&lt;/p&gt;
+
+&lt;p&gt;I skipped the &lt;code&gt;adreplstatus&lt;/code&gt; checks since this is a single node, and the tool
+wanted me to install .net framework 4.0, which seemed heavy handed for a test
+I didn&amp;rsquo;t care about.&lt;/p&gt;
+
+&lt;p&gt;Next up I confirmed that both the &lt;code&gt;_msdcs.domain.local&lt;/code&gt; and &lt;code&gt;domain.local&lt;/code&gt; zones
+were set to the &lt;code&gt;Active Directory-Integrated&lt;/code&gt; type.&lt;/p&gt;
+
+&lt;p&gt;Next, I confirmed what level AD was currently at:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;Dsquery * cn=schema,cn=configuration,dc=domain,dc=local -scope base -attr objectVersion
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This returned a value of &lt;code&gt;30&lt;/code&gt; for me, which based on the link above means I&amp;rsquo;m
+at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the version of SBS on the host.&lt;/p&gt;
+
+&lt;p&gt;At this point I took a snapshot of the host as we are going to start making
+changes soon.&lt;/p&gt;
+
+&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
+
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+
+&lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
+Domain Functional Level, as well as the Forest Functional Level.
+Using &lt;code&gt;Active Directory Domains and Trusts&lt;/code&gt; I increased both of these to the
+&lt;code&gt;Windows 2003&lt;/code&gt; level. This was done on the SBS 2003 node. Since its a single
+SBS box, I figure replication time is essentially 0 so after trolling the Event
+Logs for a few minutes to ensure nothing weird popped up, I proceeded.&lt;/p&gt;
+
+&lt;p&gt;I then stepped through the process of promoting the 2012 as a domain controller
+which is well illustrated at  &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;After the restart I noticed a few things that seemed off at first. The first
+one was that I didn&amp;rsquo;t have a netlogon share on the new 2012 DC. Additionally
+there were some errors in the event log. I found that the
+&lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
+it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
+
+&lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
+itself first.&lt;/p&gt;
+
+&lt;p&gt;Once that was completed, I then update my DHCP configuration on the SBS 2003
+box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
+primary DNS server.&lt;/p&gt;
+
+&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+
+&lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
+to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
+
+&lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
+
+&lt;p&gt;2012 Server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;SBS 2003 Server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /syncfromflags:domhier /reliable:no /update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At this point I&amp;rsquo;m going to let things bake for a bit. I&amp;rsquo;ve got all the &amp;laquo;AD Stuff&amp;raquo;
+moved over. At this point I&amp;rsquo;m left with all the file shares and applications
+(IE Virus Console) that are configured to point at this host.  As I get to
+moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
+
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/categories/programming/</link>
+    <description>Recent content in Programming on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Django 1.2 to 1.5 Upgrade</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</guid>
+      <description>
+
+&lt;p&gt;Recently I kicked off an effort to perform a long over due upgrade of the
+version of Django I am using on a project. Without getting into all the gory
+details of why, I need to upgrade from Django 1.2 to 1.5. Technically I don&amp;rsquo;t
+really have to go to 1.5, but I figure since I&amp;rsquo;m going to be messing with it
+anyway I should probably just get current. This post will journal my adventure
+down this road for better or worse. Just to satisfy curiosity, I did test
+going from 1.2 to 1.5 directly and as expected things blew up horribly.&lt;/p&gt;
+
+&lt;p&gt;Since I knew a ton of stuff had changed my plan attack was going to be to step
+through each an upgrade to each major version between 1.2 and 1.5 rather than
+attempting to jump straight there. I intend to run my tests with the &lt;code&gt;-Wall&lt;/code&gt;
+flags so I can see all the deprecation warnings. Then I&amp;rsquo;ll tackle each
+deprecation warning one at a time. There is likely a more efficient means of
+doing this sort of thing, but its been so long since I&amp;rsquo;ve messed with this
+project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&#34;note&#34;&gt; &lt;strong&gt;NOTE&lt;/strong&gt;
+    To protect the innocent, any proprietary information include class names,
+    file names, paths etc have been stripped from the code snippets.
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+
+&lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
+anything immediately broken. There were a few deprecation warnings that I needed
+to address however.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+  PendingDeprecationWarning
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one was pretty cut and dry as the 1.3 release notes had alerted me to this
+one: &lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes&lt;/a&gt;.
+Simply changing the structure of that configuration item and all was well.&lt;/p&gt;
+
+&lt;p&gt;Next up was&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+  class MyModelClass(models.Field):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A little google foo later and I ended up on &lt;a href=&#34;http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/&#34;&gt;http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/&lt;/a&gt;. The advise was to update to a newer version of &lt;code&gt;django-picklefield&lt;/code&gt;. I reviewed the
+dependencies I had defined in the my &lt;code&gt;requirements.txt&lt;/code&gt; and I was using
+&amp;lsquo;0.3.0&amp;rsquo;, which was newer than the &amp;lsquo;0.1.9&amp;rsquo; version recommended in the article,
+and also appears to be the most current version available on pypi.python.org.&lt;/p&gt;
+
+&lt;p&gt;With that dead end out of the way I then found &lt;a href=&#34;https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value&#34;&gt;https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
+Old:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
+
+&lt;p&gt;Next up:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+  RandomPool_DeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It wasn&amp;rsquo;t really clear to me what I was supposed to do with this information,
+so I figured I&amp;rsquo;d start simple and upgrade the version of pycrypto I&amp;rsquo;m using
+from 2.3 to the latest available 2.6. This did &lt;em&gt;not&lt;/em&gt; help.. I really have no
+clue what to do with this. Since its not coming out directly from a Django
+module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;Last up was&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+  PendingDeprecationWarning
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I recalled there was something about this in the release notes so I reviewed
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner&lt;/a&gt;. Near as
+I can tell there is nothing I need to do here, and Django itself will handle
+this cleanup in coming versions.&lt;/p&gt;
+
+&lt;p&gt;That concludes my 1.2.7 to 1.3.7 upgrade. I ended up keeping the updated version
+of pycrypto just because, so all and all pretty easy so far and only about 2
+hours burned on that step.&lt;/p&gt;
+
+&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+
+&lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
+what gotchas I need to look out for. Based on the information in the release
+notes here are the items I expect will require some attention:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;An initial test run after upgrading, but before any changes, is showing that the
+media stuff is indeed an issue, and I have several deprecation warnings related
+to items addressed in the release notes. This isn&amp;rsquo;t going to be as easy as the
+jump to 1.3.7 was&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m opting to tackle the broken things first, and then I&amp;rsquo;ll address the
+deprecation warnings. So first up I&amp;rsquo;ve made a few customizations to my
+settings.py file.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I added &lt;code&gt;django.contrib.staticfiles&lt;/code&gt; to my &lt;code&gt;INSTALLED_APPS&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Next I renamed my &lt;em&gt;media&lt;/em&gt; folder to &lt;em&gt;static&lt;/em&gt;. I don&amp;rsquo;t have user uploaded media
+so this folder was for the purpose of static assets. And based on the
+documentation media is intended to be used for user generated content.&lt;/li&gt;
+&lt;li&gt;I added &lt;code&gt;STATIC_URL = &#39;/static/&#39;&lt;/code&gt; to my &lt;code&gt;settings.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Updated my templates to use the new static template tag as described in
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/howto/static-files/&#34;&gt;https://docs.djangoproject.com/en/dev/howto/static-files/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While a bit tedious, that wasn&amp;rsquo;t to bad. At this point all of my tests are still
+passing, but I do have some &lt;code&gt;PendingDeprecationWarning&lt;/code&gt; warnings to deal with.
+I suppose since the are Pending, I could procrastinate, but I&amp;rsquo;m in here now, so
+biting the bullet and going after them..&lt;/p&gt;
+
+&lt;p&gt;First up&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/core/management/__init__.py:455: PendingDeprecationWarning: The &#39;execute_manager&#39; function is deprecated, you likely need to update your &#39;manage.py&#39;; please see the Django 1.4 release notes (https://docs.djangoproject.com/en/dev/releases/1.4/).
+  PendingDeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My imports worked out in such a way that I didn&amp;rsquo;t need to relocate the manage.py
+file so all I did was swap out the contents as outlined in &lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Alas, something busted though. After swapping out the contents of manage.py I
+ended up with errors when trying to kick off my tests. I&amp;rsquo;m using the
+django-jenkins app for my tests.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./virtualenv/bin/python -Wall my_project/manage.py jenkins
+   Unknown command: &#39;jenkins&#39;
+   Type &#39;manage.py help&#39; for usage.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t see anything immediately obvious jump out at me so I started by
+updating from django-jenkins 0.11.1 to 0.14.0. No improvment (but I&amp;rsquo;m gonna
+keep the newer version just the same).&lt;/p&gt;
+
+&lt;p&gt;Upon further inspection of &lt;code&gt;manage.py --help&lt;/code&gt; I noticed alot of the subcommands
+were missing. In fact all I saw were the &lt;code&gt;[django]&lt;/code&gt; ones. So I moved my
+&lt;code&gt;manage.py&lt;/code&gt; up one directory as discussed in the readme and all the subcommands
+reappeared, including jenkins. So that was good, but the crappy things is
+all my tests started failing&amp;hellip; So into the weeds of import cleanup I go..
+This turned out to be much easier than I thought. All I needed was to change
+ROOT_URLCONF = &amp;lsquo;urls&amp;rsquo;&lt;code&gt;to ROOT_URLCONF = &#39;my_project.urls&#39;&lt;/code&gt; and all of
+tests started passing again. Added bonus, my PendingDeprecationWarning was gone.&lt;/p&gt;
+
+&lt;p&gt;Next up&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/conf/__init__.py:75: DeprecationWarning: The ADMIN_MEDIA_PREFIX setting has been removed; use STATIC_URL instead.
+  &amp;quot;use STATIC_URL instead.&amp;quot;, DeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one is easy enough, I had already added STATIC_URL when I fixed up things
+earlier, so I just removed ADMIN_MEDIA_PREFIX from my settings.py&lt;/p&gt;
+
+&lt;p&gt;It appears in the process of cleaning up some of the media stuff I also cleared
+up some of the other DeprecationWarning messages. So at this point all my tests
+are passing and no DeprecationWarning messages (aside from
+&lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
+the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
+
+&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+
+&lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
+as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
+otherwise (&lt;strong&gt;80% failure rate&lt;/strong&gt;). The common theme seemed to be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   from django.views.generic.simple import direct_to_template, redirect_to
+   ImportError: No module named simple
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm&amp;hellip;. obviously I missed the memo somewhere&amp;hellip;Turns out I didn&amp;rsquo;t put two and
+two together back in the my 1.3 steps as its called out there
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views&lt;/a&gt;.
+Not to sure why I didn&amp;rsquo;t get any deprecation warnings along the way but oh well
+lets get that fixed up.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django&#34;&gt;http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django&lt;/a&gt;
+was the only remotely useful link I came up with in the first couple minutes
+of searching. The common thread seems to stem from my urls.py file.&lt;/p&gt;
+
+&lt;p&gt;It seems I have a sprinkling of &lt;code&gt;direct_to_template&lt;/code&gt; and &lt;code&gt;redirect_to&lt;/code&gt; being
+used. Its fairly clear that I need to switch from &lt;em&gt;Function-based generic views&lt;/em&gt;
+to &lt;em&gt;Class-based generic views&lt;/em&gt;, and as luck would have it the documentation has
+an awesome mapping to pull that off at &lt;a href=&#34;https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/&#34;&gt;https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So here is what I did to my urls.py.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Replaced &lt;code&gt;from django.views.generic.simple import direct_to_template, redirect_to&lt;/code&gt;
+with &lt;code&gt;from django.views.generic.base import TemplateView, RedirectView&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replaced &lt;code&gt;redirect_to&lt;/code&gt; references with RedirectView as outlined in that
+migration page&lt;/li&gt;
+&lt;li&gt;Replace &lt;code&gt;direct_to_template&lt;/code&gt; references with TemplateView as outlined in
+that migration page&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;First I had something like this (some legacy stuff to handle when URLs changed)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   (r&#39;^base_prefix/(?P&amp;lt;new_url&amp;gt;.*)$&#39;, redirect_to, {&#39;url&#39;: &#39;/%(new_url)s&#39;}),
+   changed to
+   (r&#39;^base_prefix/(?P&amp;lt;new_url&amp;gt;.*)$&#39;, RedirectView.as_view(url={&#39;url&#39;: &#39;/%(new_url)s&#39;})),
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That one seemed easy enough, however the next one is nastier.. Making it worse
+was it was something I didn&amp;rsquo;t write so I had to figure out the previous
+functionality first, before I could move forward. So I had a line that looked
+like &lt;code&gt;(r&#39;^bar&#39;, direct_to_template, {&#39;template&#39;: &#39;foo/bar.html&#39;}, &#39;bar&#39;),&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;It took me a bit to figure out that the last &lt;em&gt;bar&lt;/em&gt; was actually just a
+&lt;code&gt;named url pattern &amp;lt;https://docs.djangoproject.com/en/1.2/topics/http/urls/#naming-url-patterns&amp;gt;&lt;/code&gt;_&lt;/p&gt;
+
+&lt;p&gt;So a simple switch of that call over to &lt;code&gt;(r&#39;^bar&#39;, TemplateView.as_view(template_name=&#39;foo/bar.html&#39;), &#39;bar&#39;),&lt;/code&gt;
+and we&amp;rsquo;re moving along.&lt;/p&gt;
+
+&lt;p&gt;Next up is more generic view good times&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   from django.views.generic import list_detail
+   ImportError: cannot import name list_detail
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In my case this actually turned out to be an unused import, so I simply
+removed it.&lt;/p&gt;
+
+&lt;p&gt;From there I had to a bunch of conversions of my url template tags as outlined
+in the release notes. So I had a lot of references like
+{% raw %}&lt;code&gt;{% url myproject.myapp.views.someview arg1%}&lt;/code&gt;{% endraw %} and I had to change those to
+{% raw %}&lt;code&gt;{% url &amp;quot;myproject.myapp.views.someview&amp;quot; arg1%}&lt;/code&gt;{% endraw %}.&lt;/p&gt;
+
+&lt;p&gt;At this point I&amp;rsquo;m back to 100% testing pass rate and a single (simple)
+deprecation message to handle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/conf/__init__.py:147: PendingDeprecationWarning: The TEMPLATE_DIRS setting must be a tuple. Please fix your settings, as auto-correction is now deprecated.
+     PendingDeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I wish they were all this easy. I went from:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   TEMPLATE_DIRS = os.path.join(PROJECT_DIR, &#39;templates&#39;)
+   to
+   TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
+By the time it was all said and done, it took me about 2 days (including
+randomizations and interruptions). As usual the Django documentation was
+invaluable in being to pull this off.&lt;/p&gt;
+
+&lt;p&gt;The app has been running for a few days now and so far no unexpected explosions,
+however I should note I have been getting some random reports of CSRF errors
+since the upgrade (1 or 2 reports a day). Overall most people are having no
+issues, and I haven&amp;rsquo;t gotten too deep into that investigation, but it is
+certainly new behavior.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
