@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jekyll Markdown Redcarpet on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/jekyll-markdown-redcarpet/</link>
+    <link>http://www.dpetzel.info/tags/jekyll-markdown-redcarpet/</link>
     <description>Recent content in Jekyll Markdown Redcarpet on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Sun, 04 Jan 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/jekyll-markdown-redcarpet/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/tags/jekyll-markdown-redcarpet/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Jekyll with fenced code blocks</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/jekyll-with-fenced-code-blocks/</link>
+      <link>http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks/</link>
       <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/jekyll-with-fenced-code-blocks/</guid>
+      <guid>http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks/</guid>
       <description>&lt;p&gt;While hacking up some markdown files to use under Jekyll I hit a weird
 issue where code blocks written with triple ticks (aka fenced code blocks)
 wouldn&amp;rsquo;t render correctly.&lt;/p&gt;

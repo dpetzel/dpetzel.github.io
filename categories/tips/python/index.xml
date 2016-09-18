@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tips/Python on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/categories/tips/python/</link>
+    <link>http://www.dpetzel.info/categories/tips/python/</link>
     <description>Recent content in Tips/Python on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Tue, 24 Sep 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/categories/tips/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/categories/tips/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Sphinx With External Image Annoyance</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/sphinx-with-external-image-annoyance/</link>
+      <link>http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/</link>
       <pubDate>Tue, 24 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/sphinx-with-external-image-annoyance/</guid>
+      <guid>http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/</guid>
       <description>&lt;p&gt;So today I was trying to clean up some of my Sphinx build warnings when
 rendering this site. I got everything fixed so I had no errors or
 warnings except for this little guy right here (truncated for easier

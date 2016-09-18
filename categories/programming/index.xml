@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Programming on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/categories/programming/</link>
+    <link>http://www.dpetzel.info/categories/programming/</link>
     <description>Recent content in Programming on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Django 1.2 to 1.5 Upgrade</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</link>
+      <link>http://www.dpetzel.info/post/django-12-to-15-upgrade/</link>
       <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</guid>
+      <guid>http://www.dpetzel.info/post/django-12-to-15-upgrade/</guid>
       <description>
 
 &lt;p&gt;Recently I kicked off an effort to perform a long over due upgrade of the

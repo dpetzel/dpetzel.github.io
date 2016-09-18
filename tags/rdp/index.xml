@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rdp on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/rdp/</link>
+    <link>http://www.dpetzel.info/tags/rdp/</link>
     <description>Recent content in Rdp on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Wed, 30 Apr 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/rdp/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/tags/rdp/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Remotely Enabling RDP</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</link>
+      <link>http://www.dpetzel.info/post/remotely-enabling-rdp/</link>
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</guid>
+      <guid>http://www.dpetzel.info/post/remotely-enabling-rdp/</guid>
       <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
 had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
 

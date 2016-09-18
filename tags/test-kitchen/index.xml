@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Test Kitchen on Dave&#39;s Site</title>
-    <link>http://replace-this-with-your-hugo-site.com/tags/test-kitchen/</link>
+    <link>http://www.dpetzel.info/tags/test-kitchen/</link>
     <description>Recent content in Test Kitchen on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -10,14 +10,14 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Tue, 06 Jan 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/test-kitchen/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.dpetzel.info/tags/test-kitchen/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Speeding Up Test Kitchen</title>
-      <link>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</link>
+      <link>http://www.dpetzel.info/post/speeding-up-test-kitchen/</link>
       <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</guid>
+      <guid>http://www.dpetzel.info/post/speeding-up-test-kitchen/</guid>
       <description>&lt;p&gt;This past week I was turned on to a tiny, but game changing (for me) gem named
 &lt;code&gt;kitchen-sync&lt;/code&gt;.&lt;/p&gt;
 
