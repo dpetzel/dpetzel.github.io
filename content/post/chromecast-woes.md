@@ -3,7 +3,7 @@ layout: post
 title: "Chromecast Woes"
 categories:
   - Hardware
-tags: google, chromecast
+tags: [google, chromecast]
 date: 2013-10-10
 ---
 
