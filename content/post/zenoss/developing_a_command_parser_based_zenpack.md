@@ -1,7 +1,7 @@
 ---
 categories: [Zenoss]
 date: 2011-12-16
-draft: true
+draft: false
 tags: [Zenoss]
 title: Developing a Command Parser Based ZenPack
 type: post

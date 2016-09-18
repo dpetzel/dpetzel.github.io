@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zenoss on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/zenoss/</link>
+    <description>Recent content in Zenoss on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Fri, 16 Dec 2011 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/categories/zenoss/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Developing a Command Parser Based ZenPack</title>
+      <link>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</link>
+      <pubDate>Fri, 16 Dec 2011 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</guid>
+      <description>
+
+&lt;h1 id=&#34;inspiration&#34;&gt;Inspiration&lt;/h1&gt;
+
+&lt;p&gt;I still consider myself a relative newb with Zenoss as well as Python development.
+A while back I set out to write a custom &lt;code&gt;ZenPack for use with F5 LTMs&lt;/code&gt;_. I never
+would have been able to figure this out without the assistance of a great guide
+written by Jane Curry. Her outstanding document can be found on the Zenoss
+community site: &lt;a href=&#34;http://community.zenoss.org/docs/DOC-10268&#34;&gt;http://community.zenoss.org/docs/DOC-10268&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I recently had a need for a ZenPack to interact with a couple of Varnish 3.x
+servers. I scoured the net of course hoping someone had already done the work
+for me, but no such luck. I did come across a few solutions for 2.x, but
+from what I&amp;rsquo;ve been able to gather the interface to get these stats has changed some
+(no more fetching stats over the management port). So I set out to write my own.&lt;/p&gt;
+
+&lt;p&gt;I of course cracked Jane&amp;rsquo;s document open, but I quickly realized that it was very
+SNMP-centric. This was perfect for the F5 pack as the device supports SNMP. However,
+in this case SNMP is not an option. I&amp;rsquo;ve done enough research to know that what
+I wanted to do is a custom Command Parser. The good news is that most of the concepts
+from Jane&amp;rsquo;s doc still applied, the bad news is that the mechanics were going to be
+very different.&lt;/p&gt;
+
+&lt;p&gt;I searched around a bit and I was able to find a few other ZenPacks that had taken
+this approach, but I couldn&amp;rsquo;t find any &amp;laquo;how-to&amp;raquo; style documentation. As I mentioned
+before I don&amp;rsquo;t consider myself a seasoned Python developer so for me reverse-engineering
+someone&amp;rsquo;s else&amp;rsquo;s ZenPack would be a challenge. There is a small snippet of
+information in the &lt;code&gt;Zenoss Developer&#39;s Guide&lt;/code&gt;_, but its far from a walk-through or
+step-by-step guide like Jane&amp;rsquo;s document.&lt;/p&gt;
+
+&lt;p&gt;So I came to the sad realization that the approach was going to have to be looking
+at what others had already done. So I figured I should probably document the process
+and make it available to others in case they find themselves in a similar situation.&lt;/p&gt;
+
+&lt;h1 id=&#34;conventions-and-assumptions&#34;&gt;Conventions and Assumptions&lt;/h1&gt;
+
+&lt;p&gt;Throughout this document I hope to link to existing documentation where it exists
+so for things that are already covered elsewhere I will try and link to them, rather
+than recreate similar documentation.&lt;/p&gt;
+
+&lt;p&gt;Nearly everything done from the command line on a Zenoss server should be done
+while logged in as the Zenoss user (as opposed to root). Whenever I say &lt;em&gt;as the zenoss user&lt;/em&gt;
+that means:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;ssh root@your_zenoss_server
+su - zenoss
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When it comes to breaking down code, I&amp;rsquo;m going to try and display the minimal
+amount of code to make my point. Some of the files might have alot of extra
+code that has nothing to do with the effort of writing a command parser. An
+example of this would be all of the code needed to parse the output of &lt;em&gt;varnishstat&lt;/em&gt;.
+The mechanics of parsing the data and how its laid out is not within the scope of
+this document. Its more important that we identify how we get to the point of
+being able to parse the output, as well as how to take the parsed output
+and use it to graph data. Since all the files we talk about are open source
+and part of the ZenPack, it would be redundant to fully copy the contents of files
+into this guide.&lt;/p&gt;
+
+&lt;h1 id=&#34;lets-get-to-it&#34;&gt;Lets Get To It&lt;/h1&gt;
+
+&lt;h2 id=&#34;create-your-empty-zenpack-shell&#34;&gt;Create Your Empty ZenPack Shell&lt;/h2&gt;
+
+&lt;p&gt;Creating an empty ZenPack is covered in numerous locations so I won&amp;rsquo;t dive into the
+details here. If you don&amp;rsquo;t know how to create an empty shell, refer to section
+3.2 of the &lt;code&gt;Zenoss Developer&#39;s Guide&lt;/code&gt;&lt;em&gt;. Additionally Jane&amp;rsquo;s
+&lt;code&gt;Creating Zenoss ZenPacks for Zenoss 3&lt;/code&gt;&lt;/em&gt; covers it in section 2.1.
+In this case we will be creating &lt;strong&gt;ZenPacks.community.Varnish3&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once the empty shell is created, you will certainly want to move it &lt;em&gt;out&lt;/em&gt; of the
+main ZenPack directory and into a seperate folder which we will put under
+source control. My Zenoss development instance is running on a Virtual Box VM
+and I store the files in a shared folder. This is personal preference,
+feel free to put the files anywhere you want, just remember that every time I
+reference &amp;lsquo;/media/zenpack_git_sources/ZenPacks.community.Varnish3/&amp;rsquo; you should
+replace that with whatever folder you copied your pack out to. Here is what I ran
+&lt;em&gt;as the zenoss user&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cp -R $ZENHOME/ZenPacks/ZenPacks.community.Varnish3 /media/zenpack_git_sources/ZenPacks.community.Varnish3
+zenpack --link --install=/media/zenpack_git_sources/ZenPacks.community.Varnish3
+zenoss restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The full restart is arguably overkill, but I find knowing which situations require
+restarting which daemons to be inconsistent so while it takes longer, I usually just
+do a full restart rather than pick and choose which daemons to restart.&lt;/p&gt;
+
+&lt;h2 id=&#34;initialize-a-new-git-repo-in-your-zenpack-folder&#34;&gt;Initialize a new GIT Repo in your ZenPack Folder&lt;/h2&gt;
+
+&lt;p&gt;As Zenoss seems to be making the move to GitHub as outlined in &lt;code&gt;ZenPack Development Process&lt;/code&gt;_
+we are going to cooperate with that effort :) The &lt;code&gt;ZenPack Development Process&lt;/code&gt;_
+document does a good job already of providing both abbreviated as well as in-depth
+explanation of the process. For me I&amp;rsquo;ve got the GIT client on my Zenoss VM, rather
+than my host PC, but since we are using shared folders it should work equally well
+from either. Here is what I ran &lt;em&gt;as the zenoss user&lt;/em&gt; to initialize the new repo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
+ git init
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If this is the first time using git under the zenoss user login you need
+probably need to setup your user name and email:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; git config --global user.name &amp;quot;Firstname Lastname&amp;quot;
+ git config --global user.email &amp;quot;your_email@youremail.com&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next I grabbed the &amp;lsquo;master&amp;rsquo; .gitignore file. Still &lt;em&gt;as the zenoss user&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
+ wget https://raw.github.com/zenoss/Community-ZenPacks-SubModules/master/.gitignore
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Additionally I use Eclipse with the pydev module on my PC as my IDE. As a result
+there are a couple of extra files we will want to add to the .gitignore file.
+If you use some other IDE (or none at all) you can skip the following lines.
+Still &lt;em&gt;as the zenoss user&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; cd /media/zenpack_git_sources/ZenPacks.community.Varnish3
+ echo .pydevproject &amp;gt;&amp;gt; .gitignore
+ echo .project &amp;gt;&amp;gt; .gitignore
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now add everything and do a commit. You should note that this commit does &lt;strong&gt;not&lt;/strong&gt;
+push anything up to GitHub, it simply commits the files into your local repo.
+Once again, run the following &lt;em&gt;as the zenoss user&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt; git add -A
+ git status
+ git commit -m &#39;Commiting the initial empty shell&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At this point we&amp;rsquo;ve done the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Created the empty ZenPack shell&lt;/li&gt;
+&lt;li&gt;We&amp;rsquo;ve relocated it outside of Zenoss installation directory&lt;/li&gt;
+&lt;li&gt;We&amp;rsquo;ve initialized a new &lt;em&gt;local&lt;/em&gt; GIT repository&lt;/li&gt;
+&lt;li&gt;Added a few IDE specific files that should be ignored from source control&lt;/li&gt;
+&lt;li&gt;Committed everything.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now comes the fun part&amp;hellip; figuring out how to actually write this crazy thing:)&lt;/p&gt;
+
+&lt;h2 id=&#34;identifying-the-pieces&#34;&gt;Identifying The Pieces&lt;/h2&gt;
+
+&lt;p&gt;Before we get to far, its important to understand what items we want to include
+in this ZenPack. This is where it starts to get dicey if you don&amp;rsquo;t know some of the
+inner workings of Zenoss. I&amp;rsquo;ll do my best to explain or link to other documentation
+on each item.&lt;/p&gt;
+
+&lt;p&gt;Monitoring Template
++++++++++++++++++++
+Monitoring Templates, also called RRD Templates, are the real meat to getting
+your performance data displayed. We will be creating one monitoring template.
+This template will be used to trend various performance metrics.&lt;/p&gt;
+
+&lt;p&gt;Command Parser
+++++++++++++++
+The whole reason for this document&amp;hellip;&amp;hellip; We&amp;rsquo;ll be running the &lt;em&gt;varnishstat&lt;/em&gt;
+command over SSH and parsing the output to get all the data to graph. The
+&lt;code&gt;Zenoss Developer&#39;s Guide&lt;/code&gt;_ talks about this in section 12.5.2. Its not very
+newb friendly so thats where I hope to bridge the gap.&lt;/p&gt;
+
+&lt;h2 id=&#34;building-the-pieces&#34;&gt;Building The Pieces&lt;/h2&gt;
+
+&lt;p&gt;The Command Parser
+++++++++++++++++++
+Lets create the file that will hold our new command parser:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;mkdir /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers
+touch /media/zenpack_git_sources/ZenPacks.community.Varnish3/ZenPacks/community/Varnish3/parsers/VarnishStat.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The contents of my VarnishStat.py contain a good bit more than what I am showing
+below, however most of the code in that file is used for the actual parsing
+of the varnishstat output and has nothing to do with creating a command parser.
+The number of items actually required in the command parser is actually much
+smaller than I thought would be required when I started out.&lt;/p&gt;
+
+&lt;p&gt;First we start with the necessary imports. There is really only one required:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from Products.ZenRRD.CommandParser import CommandParser
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Setup logging. This is technically not required, but Python makes logging
+so easy its really a crime to not use it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt; import logging
+ logger = logging.getLogger(&#39;.&#39;.join([&#39;zen&#39;, __name__]))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &amp;laquo;logger =&amp;raquo; line warrants a little explanation. The Python logging module
+works some magic with name spaces so an application (in this case ZenCommand) can
+decide on a logging namespace. In this case Zenoss uses the zen.* name space.
+This means any loggers we create that start with &amp;laquo;zen.&amp;raquo; will automatically inherit
+the logging settings already defined by ZenCommand helping us to ensure a
+consistent look and feel. The &amp;laquo;&lt;strong&gt;name&lt;/strong&gt;&amp;raquo; piece simply appends the module name
+onto the logger name. I like to do this so it is crystal clear what module a log
+entry came from.&lt;/p&gt;
+
+&lt;p&gt;Next we need to create our new command parser class as such:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class VarnishStat(CommandParser):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One thing I found the hardware way is that it appears &lt;strong&gt;Zenoss makes some
+assumptions that the class name match the module name&lt;/strong&gt; (including case). So
+as you can see in this example we&amp;rsquo;ve created class &lt;strong&gt;VarnishStat&lt;/strong&gt; inside of
+file &lt;strong&gt;VarnishStat.py&lt;/strong&gt;. Notice the matching names and case. Additionally the
+class should extend the &lt;em&gt;CommandParser&lt;/em&gt; class we imported above.&lt;/p&gt;
+
+&lt;p&gt;Now we need to define our single &lt;em&gt;required&lt;/em&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def processResults(self, cmd, result):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;On the surface it looks simple enough, but there is actually alot of magic going
+on here. First the method &lt;strong&gt;has&lt;/strong&gt; to be called &lt;em&gt;processResults&lt;/em&gt;. Additionally
+it should accept &lt;em&gt;cmd&lt;/em&gt; and &lt;em&gt;result&lt;/em&gt; as input paramaters. The two input parameters
+which are passed automatically by ZenCommand when it invokes your processResults
+method are the keys to success here. I&amp;rsquo;ll do my best to describe the important
+parts (that I am aware of).&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;cmd&lt;/strong&gt; is an instance of the Products.ZenRRD.zencommand.Cmd object.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;cmd.command&lt;/em&gt;: This will contain the command line that was executed. This is
+useful if you have a command line that might change, or if you need to validate
+that proper flags were used.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;cmd.points&lt;/em&gt;: This is a list of the datapoints being requested from your
+monitoring template. This one took me a few minutes to get my head around
+so I&amp;rsquo;ll go into a bit of detail. I&amp;rsquo;ll show you a visual when we talk about
+the monitoring template, but for now. Assume our monitoring template is
+named &lt;em&gt;Varnish3&lt;/em&gt; and our datasource is named &lt;em&gt;Varnish3Stats&lt;/em&gt; . We will have
+only one datasource, but we will have multiple datapoints (one for each stat).
+Lets say we defined two datapoints named &lt;em&gt;cache_hit&lt;/em&gt; and &lt;em&gt;cache_miss&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When our &lt;em&gt;processResults&lt;/em&gt; is invoked cmd.points will contain two Datapoint
+ &lt;strong&gt;objects&lt;/strong&gt;. If printed they look like:
+ [({}, &amp;lsquo;cache_hit&amp;rsquo;), ({}, &amp;lsquo;cache_miss&amp;rsquo;)]
+ Its important to understand that these are Datapoint objects, and not
+ simply strings representing the names of the Datapoints.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;cmd.result&lt;/em&gt;: Is an object instance which contains additional information
+about the results of the executed command.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;cmd.result.output&lt;/em&gt;: This is the text that was returned from the invoked
+command. &lt;strong&gt;&lt;em&gt;This is what you want to parse&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;em&gt;cmd.result.exitCode&lt;/em&gt;: This the return code from the invoked command.
+There is a good chance you want to levarage this and only attempting
+parsing on a valid return code.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;results&lt;/strong&gt; is a ParsedResults object which at the time your method is called
+contains two empty lists: &lt;em&gt;events&lt;/em&gt; and &lt;em&gt;values&lt;/em&gt;. These will be populated by
+your &lt;em&gt;processResults&lt;/em&gt; method. The results object is discussed a bit in
+section 12.5.2 of the &lt;code&gt;Zenoss Developer&#39;s Guide&lt;/code&gt;_&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;result.events&lt;/em&gt;: This is a list which will have the end result of
+creating events which will show up in the event console. As you may or
+may not use them, I&amp;rsquo;m not going to go into alot of detail, but you can
+see an example usage in the &lt;em&gt;_errors_found&lt;/em&gt; method of the VarnishStat
+parser.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;em&gt;result.values&lt;/em&gt;: This is the list you&amp;rsquo;ll use to return values for each
+datapoint which will end up in the actual RRD files. This ends up being
+a list of tuples, where each tuple is a datapoint, value pairing. In this
+context the datapoint is the actual datapoint object, and not the string
+representation of the datapoint name. A very contrived example of this
+would look like:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;  for dp in cmd.points:
+     result.values.append((dp, 12345))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This example is fairly stupid but it illustrates the concept. If you
+ recall the earlier contents of cmd.points, this would end up assigning the
+ value &amp;laquo;12345&amp;raquo; to the &lt;em&gt;cache_hit&lt;/em&gt; as well as &lt;em&gt;cache_miss&lt;/em&gt; datapoints.&lt;/p&gt;
+
+&lt;p&gt;In the real world &amp;laquo;12345&amp;raquo; would be replaced with the value of the actual
+ datapoint and not a static value. You can see this in action toward the tail end
+ of the &lt;em&gt;processResults&lt;/em&gt; method in the &lt;em&gt;VarnishStat&lt;/em&gt; parser.&lt;/p&gt;
+
+&lt;p&gt;So the simpliest, working version of the parser could look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;
+  from Products.ZenRRD.CommandParser import CommandParser
+
+  class VarnishStat(CommandParser):
+      def processResults(self, cmd, result):
+        #Do Some Parsing Code
+        #....
+        for dp in cmd.points:
+              result.values.append((dp, 12345)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Obviously you&amp;rsquo;ll want to fill in the parsing code section with real code
+ and add error checking, but that minimal amount of code could actually do
+ the trick&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Monitoring Template
++++++++++++++++++++++++
+At this point we&amp;rsquo;ve got the bare essentials around the command parser. The second
+half to making this all work is creating the monitoring template.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Start by logging into your Zenoss server UI and navigate to
+&lt;em&gt;Monitoring Templates&lt;/em&gt; section of the GUI:
+&amp;lsquo;&lt;a href=&#34;http://YourServer:8080/zport/dmd/template&#39;&#34;&gt;http://YourServer:8080/zport/dmd/template&#39;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Next hit the &amp;lsquo;+&amp;rsquo; icon in the lower left corner of your screen. This will open
+the &lt;em&gt;Add Template&lt;/em&gt; dialogue box. Give your template a name, I called mine
+&lt;em&gt;Varnish3&lt;/em&gt;. Next decide which device class to target. I&amp;rsquo;d suggest targeting the
+highest level device class that the software you are parsing could run on. As
+an example I&amp;rsquo;m targeting Varnish3 at &lt;em&gt;/Server/Linux&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2p1DGdLNiQEsWrfVELnbYzxYNFSv6lLLYMS8lwyhPXehm4PYtR5t-LkDCysr1nXr-ch3zRWoBzry8oZMgEwVRyiPAEDFGddtkg8xRh8K4VGm4/AddTemplate.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2p1DGdLNiQEsWrfVELnbYzxYNFSv6lLLYMS8lwyhPXehm4PYtR5t-LkDCysr1nXr-ch3zRWoBzry8oZMgEwVRyiPAEDFGddtkg8xRh8K4VGm4/AddTemplate.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Now you have an empty template. Click the &amp;lsquo;+&amp;rsquo; icon right under where it says
+&amp;lsquo;Data Sources&amp;rsquo;. This is &lt;strong&gt;not&lt;/strong&gt; the same &amp;lsquo;+&amp;rsquo; you just clicked. This will open the
+&amp;lsquo;Add Data Source&amp;rsquo; dialogue window.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Enter the name for your datasource, in my case it was &lt;em&gt;Varnish3Stats&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Ensure you select a type of *COMMAND**&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2pmQK9e8ZodZdiqzuYH1BcVGJcRUXl2zdl6flXVDh8CoFbvhs2EBseIzXKIIm2BxTSAfIN0v1TolVhqqp-qH-rBvxqiXKuNwPh05DT_PkbFcw/AddDataSourceButton.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2pmQK9e8ZodZdiqzuYH1BcVGJcRUXl2zdl6flXVDh8CoFbvhs2EBseIzXKIIm2BxTSAfIN0v1TolVhqqp-qH-rBvxqiXKuNwPh05DT_PkbFcw/AddDataSourceButton.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9odhg.bay.livefilestore.com/y2pVN8xE5lPpenp2Oqv1975tmrb3lvj7NrVhrHnRNvJtNS6SxCxdRiembBD69zGBTCVqToSzQWDj0P_t6DEpXiRpltUG1amRz4bkfWs4D2OVOU/AddDataSource.png?psid=1&#34;&gt;https://b9odhg.bay.livefilestore.com/y2pVN8xE5lPpenp2Oqv1975tmrb3lvj7NrVhrHnRNvJtNS6SxCxdRiembBD69zGBTCVqToSzQWDj0P_t6DEpXiRpltUG1amRz4bkfWs4D2OVOU/AddDataSource.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;You will now see your new datasource listed in the &amp;lsquo;Data Sources&amp;rsquo; column.
+Double click the newly created data source to enter &amp;lsquo;Edit Data Source&amp;rsquo; dialogue
+window. There are two critical things to complete in this window&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First, you need to be certain you select the new parser you just created.
+In my case this is &lt;em&gt;ZenPacks.community.Varnish3.parsers.Varnish3Stat&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Second, you want to populate the &amp;lsquo;Command Template&amp;rsquo; field with the actual
+command you want to run. Its worth mentioning again, &lt;strong&gt;this is the actual command
+that will get executed&lt;/strong&gt;. In this case its &lt;em&gt;/usr/bin/varnishstat -x&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;One more option to consider is the &amp;lsquo;Use SSH&amp;rsquo; checkbox. Depending on where you
+intend the command to be run, you may or may not want to enable this. In my
+case I want the &lt;em&gt;varnishstat&lt;/em&gt; command to be executed on the remote host, so
+I need to enable that option&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2peFKklL-L3aVdIOkG4_77TJRcHiOnnM3Q6hSqKqPl8xJLELNTx0QhhwRaNJ7o-7qyUTuTuBbuoEqm-7EJ7N4xSWXHotBU6ujClGn4DDveAqU/EditDataSource.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2peFKklL-L3aVdIOkG4_77TJRcHiOnnM3Q6hSqKqPl8xJLELNTx0QhhwRaNJ7o-7qyUTuTuBbuoEqm-7EJ7N4xSWXHotBU6ujClGn4DDveAqU/EditDataSource.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Once that is saved you will want to hit the small gear icon just about your newly
+created datasource and select &amp;lsquo;Add Data Point&amp;rsquo;. &lt;strong&gt;The name you enter should exactly
+match the name of the stat you want to collect&lt;/strong&gt;. Repeat this step for &lt;em&gt;each&lt;/em&gt; stat
+you want to collect. Going back to our earlier example we would add one datapoint
+named &lt;em&gt;cache_hit&lt;/em&gt; and a second datapoint named &lt;em&gt;cache_miss&lt;/em&gt;. If you recall,
+these datapoints you are creating here are what is passed as &lt;em&gt;cmd.points&lt;/em&gt; to
+your &lt;em&gt;processResults&lt;/em&gt; method.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is quite a bit to understand about datapoints which are outside the scope
+  of this document. At a high level you should understand what the different types
+  of datapoints do, and when one type is appropriate over another. Be sure to
+  review section 6.2 of the &lt;code&gt;Zenoss Administration&lt;/code&gt;_ guide as it goes into good
+  details about datapoint types.
+* You will also want to setup Graph Definitions at this time. This is another topic
+  that is covered in section 6.2.8 of the &lt;code&gt;Zenoss Administration&lt;/code&gt;_ guide so I won&amp;rsquo;t
+  re-hash it. Here is sample of what my completed template looks like:&lt;/p&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2ppTfTMLp7HwATzwfb2ao3-f5lqF8akvRtQ42q7StnSJYgR16nztu_5-vcGT-MnxwkDn3NP1g6zzvzjKpW6Sts8fevOm8vVYSsNN8xUZR2oeM/CompletedExample.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2ppTfTMLp7HwATzwfb2ao3-f5lqF8akvRtQ42q7StnSJYgR16nztu_5-vcGT-MnxwkDn3NP1g6zzvzjKpW6Sts8fevOm8vVYSsNN8xUZR2oeM/CompletedExample.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Once you have everything to your liking, we need to add this template to the
+ZenPack so it gets exported along with the command parser code we wrote. Using
+the gear menu in the lower left of your screen, select &amp;lsquo;Add to ZenPack&amp;rsquo;. You
+will be prompted with a list of ZenPacks that are currently in development mode
+(allowing updates). Select the ZenPack you created earlier in this document.
+In my case that is &lt;em&gt;ZenPacks.community.Varnish3&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2p-mk2JpG3fTJWeWxQTOri2SXZ9zSe3ZJYaZi6IF3xYVANQwc0bv9IgsMXJ5qA4SEVTfHyNahKa-qPSBpVAqzJeEx6gtw03N6TRyp0zNEOj14/AddToZenPack.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2p-mk2JpG3fTJWeWxQTOri2SXZ9zSe3ZJYaZi6IF3xYVANQwc0bv9IgsMXJ5qA4SEVTfHyNahKa-qPSBpVAqzJeEx6gtw03N6TRyp0zNEOj14/AddToZenPack.png?psid=1&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;pulling-it-all-together&#34;&gt;Pulling It All Together&lt;/h1&gt;
+
+&lt;p&gt;So at this point you have a working command parser. This command parser is
+referenced by your new super-cool monitoring template and life is good. At this point
+you could bind your monitoring template to a device or device class and assuming
+you&amp;rsquo;ve got things configured correctly, begin collecting the metrics you&amp;rsquo;ve defined
+in your monitoring template.&lt;/p&gt;
+
+&lt;p&gt;However, your command parser and template are probably too cool to keep to yourself
+so you should really share it with the rest of the Zenoss community. At this point
+you need to export your ZenPack. This will result in all your custom code and
+template(s) being pulled together into a single redistributable file commonly referred
+to as an &amp;laquo;EGG&amp;raquo; file. The EGG file is what users (who are not interested in the
+source code) will download and install into their own Zenoss installations.&lt;/p&gt;
+
+&lt;p&gt;Follow the section &amp;lsquo;Install and Test ZenPack in Zenoss&amp;rsquo; in
+&lt;code&gt;ZenPack Development Process&lt;/code&gt;_ to export your EGG and get your new ZenPack uploaded
+to GitHub.&lt;/p&gt;
+
+&lt;p&gt;Thats it!!!. I know there is a lot of information we only briefly touched on but the
+reality is Zenoss is a complex beast. No single document can give you all the
+information you need, but my hope is that this document is enough information
+for those that are familiar with Zenoss to get started writing a custom command
+parser.&lt;/p&gt;
+
+&lt;p&gt;.. External References Below. Nothing Below This Line Should Be Rendered&lt;/p&gt;
+
+&lt;p&gt;.. _ZenPack for use with F5 LTMs: &lt;a href=&#34;http://github.com/dpetzel/ZenPacks.community.f5&#34;&gt;http://github.com/dpetzel/ZenPacks.community.f5&lt;/a&gt;
+.. _Zenoss Developer&amp;rsquo;s Guide: &lt;a href=&#34;http://community.zenoss.org/community/documentation/official_documentation/zenoss-dev-guide&#34;&gt;http://community.zenoss.org/community/documentation/official_documentation/zenoss-dev-guide&lt;/a&gt;
+.. _Creating Zenoss ZenPacks for Zenoss 3: &lt;a href=&#34;http://community.zenoss.org/docs/DOC-10268&#34;&gt;http://community.zenoss.org/docs/DOC-10268&lt;/a&gt;
+.. _ZenPack Development Process: &lt;a href=&#34;http://community.zenoss.org/docs/DOC-8495&#34;&gt;http://community.zenoss.org/docs/DOC-8495&lt;/a&gt;
+.. _Zenoss Administration: &lt;a href=&#34;http://community.zenoss.org/community/documentation/official_documentation/zenoss-guide&#34;&gt;http://community.zenoss.org/community/documentation/official_documentation/zenoss-guide&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
