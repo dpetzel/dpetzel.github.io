@@ -1,0 +1,56 @@
+baseurl = "http://replace-this-with-your-hugo-site.com/"
+languageCode = "en-us"
+title = "Dave's Site"
+disqusShortname = "dpetzel"
+copyright = "© 2016 David Petzel"
+
+
+theme = "twentyfourteen"
+metaDataFormat = "yaml"
+
+[taxonomies]
+tag = "tags"
+category = "categories"
+
+[author]
+    name = "David Petzel"
+    email = "dave@petzel.email"
+
+[params]
+    # You can use markdown here.
+    brand = "foobar"
+    topline = "What should I say"
+    footline = "code with <i class='fa fa-heart'></i>"
+
+    # Show a sidebar menu
+    showRightSidebar = true
+
+    # Text for the top menu link, which goes the root URL for the site.
+    # Default (if omitted) is "Home".
+    # home = "home"
+
+    # Select a syntax highight.
+    # Check the static/css/highlight directory for options.
+    highlight = "default"
+
+    # Google Analytics.
+    googleAnalytics = "UA-16076153-1"
+
+    # Sidebar social links.
+    github = "dpetzel" # Your Github profile ID
+    bitbucket = "" # Your Bitbucket profile ID
+    linkedin = "david-petzel/3/2bb/4bb" # Your LinkedIn profile ID (from public URL)
+    googleplus = "" # Your Google+ profile ID
+    facebook = "" # Your Facebook profile ID
+    twitter = "" # Your Twitter profile ID
+    youtube = ""  # Your Youtube channel ID
+    flattr = ""  # populate with your flattr uid
+
+[blackfriday]
+    angledQuotes = true
+    fractions = false
+    hrefTargetBlank = false
+    latexDashes = true
+    plainIdAnchors = true
+    extensions = []
+    extensionmask = []
