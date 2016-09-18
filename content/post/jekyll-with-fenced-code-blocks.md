@@ -3,7 +3,7 @@ layout: post
 title: "Jekyll with fenced code blocks"
 categories:
   - tips/jekyll
-tags: jekyll, markdown, redcarpet
+tags: [jekyll, markdown, redcarpet]
 date: 2015-01-04
 ---
 

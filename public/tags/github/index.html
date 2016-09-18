@@ -114,7 +114,7 @@
 
 
 			<header class="archive-header">
-				<h1 class="archive-title">Tips/Jekyll Archive</h1>
+				<h1 class="archive-title">Github Archive</h1>
 			</header>
 
 			
@@ -129,19 +129,19 @@
 		<div class="entry-meta">
 			<span class="cat-links">
                 
-                <a href="http://www.dpetzel.info//categories/tips/jekyll/index.html" rel="category">tips/jekyll</a>
+                <a href="http://www.dpetzel.info//categories/tips/windows/index.html" rel="category">tips/windows</a>
                 
 			</span>
 		</div>
 
-		<h1 class="entry-title">Jekyll with fenced code blocks</h1>
+		<h1 class="entry-title">Modifying your PoshGit Prompt</h1>
 
 		
 		<div class="entry-meta">
 			<span class="entry-date">
-				<a href="http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks//index.html" rel="bookmark">
-					<time class="entry-date" datetime="2015-01-04 00:00:00 &#43;0000 UTC">
-						January 4 2015
+				<a href="http://www.dpetzel.info/post/modifying-your-poshgit-prompt//index.html" rel="bookmark">
+					<time class="entry-date" datetime="2015-01-03 00:00:00 &#43;0000 UTC">
+						January 3 2015
 					</time>
 				</a>
 			</span>
@@ -151,56 +151,95 @@
 	</header>
 
 	<div class="entry-content">
-		<p>While hacking up some markdown files to use under Jekyll I hit a weird
-issue where code blocks written with triple ticks (aka fenced code blocks)
-wouldn&rsquo;t render correctly.</p>
+		<p>If your using <a href="https://windows.github.com/">Github for Windows</a>, there is a
+good chance you might be using the Powershell Git Shell. If your like me you
+may want to customize how that prompt looks. Turns out this is not nearly as
+trivial as it would initially seem.</p>
 
-<p>When writing markdown, I like to express code blocks using the
-<a href="https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks">fenced-code-blocks</a>
-syntax. I&rsquo;m just getting up to speed with using Jekyll and after reading their
-documentation I found I could use their <code>highlight</code> liquid tag, but I just didn&rsquo;t
-care for the look and feel of that. I&rsquo;m just used to the fenced style, so I
-wanted to use that.</p>
+<p>If your not familiar with PoshGit, you can read a little more about it on their
+<a href="https://github.com/dahlbyk/posh-git/blob/master/readme.md">github page</a>. In
+a nutshell, this integration enhances your current Powershell prompt to provide
+you with git related information right in your prompt. For anyone that uses
+<a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a>, it provides similar
+functionality to that.</p>
 
-<p>If I did something like this, it would work:</p>
+<p>Powershell allows you to override the prompt by configuring a <a href="http://ss64.com/ps/syntax-prompt.html">prompt function</a> inside your profile.  So let&rsquo;s pause here..
+this <em>sounds</em> simple enough, but the reality you&rsquo;re profile is actually loaded
+from one of a possible 4 files. Knowing exactly which one to edit is an adventure
+on all on its own. That whole debacle is covered in detail at
+<a href="http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx">http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx</a>
+so I&rsquo;ll skip going into details there. We&rsquo;ll leave it at knowing there is fairly
+well documented (albeit cumbersome) methods of changing your Powershell prompt.</p>
 
-<pre><code>    ```
-    my code snippet
-    ```
+<p>Enter PoshGit. Since its nothing more than a wrapper around your existing
+Powershell, it would seem logical that any shell customizations you may have
+already applied would be used and PoshGit would extend upon that. Sad to say
+that is not the case&hellip; Now to be fair, the README for PoshGit does cover this,
+but it takes a fair amount of connecting the dots to know that PoshGit is even
+a thing. For me there was a series of research and trial and error that lead me
+to learning what PoshGit was, the fact that it was part of Github for Windows,
+and ultimately how to hack it to do what I wanted.</p>
+
+<p>I&rsquo;ll skip over the pain and agony I went through getting from A to B. I&rsquo;ll keep it
+brief and say no amount of <code>profile.ps1</code> hackery will work here.</p>
+
+<p>Instead the key to success lies in <code>C:\Users\&lt;you&gt;\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1</code>
+(I don&rsquo;t know if that GUID looking number changes between installations).
+Despite its name, this file is actually <strong>not</strong> a sample, but is the actual
+profile that is loaded by GitHub for Windows when using Powershell as your shell.</p>
+
+<p>Start by creating a function named <code>global:prompt</code> (I think just prompt might
+also work). Inside that function make all your customizations, and then be sure
+to include a call to <code>Write-VcsStatus</code>. The <code>Write-VcsStatus</code> is the key to
+ensuring you continue to get all the git integration that PoshGit supplies.</p>
+
+<p>Here is what my function looks like. In my case I was looking to not have
+super long directory structures included in the prompt, and instead just
+display the name of the directory I&rsquo;m currently in. Credit for this goes to
+<a href="http://winterdom.com/2008/08/mypowershellprompt">http://winterdom.com/2008/08/mypowershellprompt</a> which I used to figure out
+how to change the prompt, I adapted for my own tastes.</p>
+
+<pre><code class="language-powershell">function global:prompt {
+  $cdelim = [ConsoleColor]::DarkCyan
+  $chost = [ConsoleColor]::Green
+  $cloc = [ConsoleColor]::Cyan
+
+  write-host &quot;$([char]0x0A7) &quot; -n -f $cloc
+  write-host ' {' -n -f $cdelim
+  write-host (split-path (pwd) -Leaf) -n -f $cloc
+  write-host '}' -n -f $cdelim
+
+  Write-VcsStatus
+
+  $global:LASTEXITCODE = $realLASTEXITCODE
+  return &quot;&gt; &quot;
+}
 </code></pre>
 
-<p>But doing this would result in the language getting included inside the code
-block. Normally you&rsquo;d see the language used as a guide for highlighting, and it
-would not get actually output in the rendered content.</p>
+<p>If your curious, this makes my shell look something like this (but with colors):</p>
 
-<pre><code>    ```console
-    my code snippet
-    ```
+<pre><code class="language-powershell">Windows PowerShell
+Copyright (C) 2009 Microsoft Corporation. All rights reserved.
+
+§  {dpetzel.github.io} [master +1 ~0 -0 !]&gt;
 </code></pre>
 
-<p>After a bit of digging and trial error I narrowed this down to the fact that
-I was rendering with <code>kramdown</code>. There were some mentions of the fenced code
-blocks on <a href="http://jekyllrb.com/docs/configuration/">http://jekyllrb.com/docs/configuration/</a> page, but it was not clear
-to me what needed to happen. This is almost certainly a result of me being new
-to Jekyll. I ended up determining that <code>Redcarpet</code> is an alternate renderer to
-<code>kramdown</code>. So I added the following to my <code>_config.yml</code>:</p>
-
-<pre><code class="language-yaml">markdown: redcarpet
-</code></pre>
-
-<p>After making that change the fenced code blocks were now properly rendering
-even with the language being specified.</p>
+<p>At the end of the day, the act of actually making the change wasn&rsquo;t complicated
+at all, however figuring out the &laquo;what and where&raquo; of what to change was a time
+consuming process.</p>
 
 	</div>
 
 	<footer class="entry-meta">
 		<span class="tag-links">
 			
-                <a href="http://www.dpetzel.info//tags/jekyll/index.html" rel="tag">jekyll</a>
+                <a href="http://www.dpetzel.info//tags/powershell/index.html" rel="tag">powershell</a>
             
-                <a href="http://www.dpetzel.info//tags/markdown/index.html" rel="tag">markdown</a>
+                <a href="http://www.dpetzel.info//tags/github/index.html" rel="tag">github</a>
             
-                <a href="http://www.dpetzel.info//tags/redcarpet/index.html" rel="tag">redcarpet</a>
+                <a href="http://www.dpetzel.info//tags/git/index.html" rel="tag">git</a>
+            
+                <a href="http://www.dpetzel.info//tags/poshgit/index.html" rel="tag">PoshGit</a>
             
 		</span>
 	</footer>
@@ -242,7 +281,7 @@ even with the language being specified.</p>
 		<ul>
 			
 			<li>
-				<a href="http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks//index.html">Jekyll with fenced code blocks</a>
+				<a href="http://www.dpetzel.info/post/modifying-your-poshgit-prompt//index.html">Modifying your PoshGit Prompt</a>
 			</li>
 			
 		</ul>

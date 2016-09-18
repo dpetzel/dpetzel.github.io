@@ -3,7 +3,7 @@ layout: post
 title: "Modifying your PoshGit Prompt"
 categories:
   - tips/windows
-tags: powershell, github, git, PoshGit
+tags: [powershell, github, git, PoshGit]
 date: 2015-01-03
 ---
 
