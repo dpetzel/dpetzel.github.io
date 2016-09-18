@@ -1,0 +1,1302 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/</link>
+    <description>Recent content on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sun, 18 Sep 2016 10:58:07 -0400</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Resume</title>
+      <link>http://replace-this-with-your-hugo-site.com/resume/</link>
+      <pubDate>Sun, 18 Sep 2016 10:58:07 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/resume/</guid>
+      <description>
+
+&lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
+
+&lt;p&gt;website: &lt;a href=&#34;http://www.dpetzel.info&#34;&gt;http://www.dpetzel.info&lt;/a&gt;
+&lt;br /&gt;
+email: &lt;a href=&#34;dave@petzel.emai&#34;&gt;dave@petzel.email&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;summary-of-qualifications&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
+
+&lt;p&gt;Extensive operational experience in organizations of all sizes. Driven
+self-starter who likes to learn new things and make existing things
+better. I&amp;rsquo;ve spent the last 5+ years providing operational support in a
+large scale and very complex environment. I have a strong desire to
+automate as much as possible, and take pride in ensuring things I do
+automate are well documented.&lt;/p&gt;
+
+&lt;h2 id=&#34;professional-experience&#34;&gt;Professional Experience&lt;/h2&gt;
+
+&lt;h3 id=&#34;the-walt-disney-company-bristol-ct&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;staff-systems-engineer-espn-com&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
+
+&lt;p&gt;February - Present&lt;/p&gt;
+
+&lt;p&gt;Works closely with ESPN.com business Engineering and Production
+teams to gather requirements, troubleshoot issues, and provide
+superior customer support. Design and implementation of automation
+and configuration management systems including open source, and
+internally developed tools. Provide mentor-ship to junior team
+members and shepherd interactions between development and
+infrastructure teams to delivery highly reliable systems in a highly
+complex environment.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Work closely with build engineering team to help bridge the
+gap between operations and development.&lt;/li&gt;
+&lt;li&gt;Member of a Chef working team responsible for development of
+Chef cookbooks that are common across multiple business units.&lt;/li&gt;
+&lt;li&gt;Technical lead on a project to replace antiquated internal
+load testing appliance to a cloud based load testing solutions
+provider.&lt;/li&gt;
+&lt;li&gt;Implementation of automated Chef cookbook testing and
+promotion pipeline to ensure all cookbooks were tested before
+reaching the Chef server.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;sr-systems-engineer-espn-com&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
+
+&lt;p&gt;August 2008 - February 2013&lt;/p&gt;
+
+&lt;p&gt;Responsible for the operational support of ESPN.com and affiliate
+Internet properties. Collaborate closely with ESPN development teams
+and Disney technical teams to provide resilient, high performance
+solutions to achieve ESPN and Disney business goals. Responsible for
+planning and executing small-to-medium scale projects. Typical
+projects would include new business unit initiatives and updates to
+existing products and services that require planning, incredible
+attention to detail, and flawless execution.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developed deployment tool which allowed engineering teams to
+perform self-service code deployments freeing up hundreds of
+human hours a month.&lt;/li&gt;
+&lt;li&gt;Implemented replacement of HTTP caching tier from an
+internally developed solution to Varnish.&lt;/li&gt;
+&lt;li&gt;Developed cache flush system which allowed editors as well as
+programmatic access to flush content across entire Varnish
+cluster.&lt;/li&gt;
+&lt;li&gt;Replace single instance Cacti server with a distributed Zenoss
+implementation.&lt;/li&gt;
+&lt;li&gt;Technical participant in large scale project to migrate data
+centers.&lt;/li&gt;
+&lt;li&gt;Development and support of CFEngine promises and bundles.
+Load testing of new applications as well as capacity planning
+around major sporting events.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;part-time-instructor&#34;&gt;Part Time Instructor&lt;/h4&gt;
+
+&lt;p&gt;January 2002 – Summer 2010&lt;/p&gt;
+
+&lt;p&gt;Part time instructor for undergraduate courses. Primary courses were
+&lt;em&gt;CST 120 Intro to Hardware&lt;/em&gt;, and &lt;em&gt;CST 240 Data Communications &amp;amp;
+Networks&lt;/em&gt;. Class forums started as primarily a classroom environment
+but eventually shifted to a completely on-line based structure.&lt;/p&gt;
+
+&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
+
+&lt;h4 id=&#34;systems-engineer&#34;&gt;Systems Engineer&lt;/h4&gt;
+
+&lt;p&gt;August 2006 - August 2008&lt;/p&gt;
+
+&lt;p&gt;Provide operational support for Production and UAT infrastructure
+for a medium size software development company.&lt;/p&gt;
+
+&lt;p&gt;Primary responsibilities include:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Infrastructure and Application support of the internal
+flagship application, Affirm for Annuities, based on the
+proprietary ADMServer framework.
+Backup administration using Veritas Backup Exec and Dell Tape
+Library&lt;/li&gt;
+&lt;li&gt;Server administration and monitoring for 30+ physical Vmware
+ESX servers and 200+ virtual machines, including Windows and
+Linux&lt;/li&gt;
+&lt;li&gt;Design, Implementation, and Administration of multiple ESX
+Clusters connected to SAN storage via both iSCSI and Fiber
+Channel&lt;/li&gt;
+&lt;li&gt;Reduce ESX Server build time by over 300% by creating a custom
+shell script to handle repetitive configuration tasks involved
+in a new server build.&lt;/li&gt;
+&lt;li&gt;Support of a multi domain Active Directory Forest, utilizing a
+combination of Group Policies and Custom Scripts to facilitate
+standardization.&lt;/li&gt;
+&lt;li&gt;Exchange 2003 administration&lt;/li&gt;
+&lt;li&gt;Design and implementation of customized file mover routines
+based on Windows Batch, as well as Biztalk Server 2006&lt;/li&gt;
+&lt;li&gt;Support of Customized in house application utilizing IIS 6,
+ASPNET 2.0 and SQL Server 2005 Clusters.&lt;/li&gt;
+&lt;li&gt;Change Control and Standardization documentation&lt;/li&gt;
+&lt;li&gt;Proactive server monitoring using MOM 2005 &amp;amp; Dell Open Manage
+IT Assistant. Including custom MOM scripts to support event
+log retrieval and archiving.&lt;/li&gt;
+&lt;li&gt;Design, Implementation, and Administration of IBM Websphere MQ
+V6 Environment.&lt;/li&gt;
+&lt;li&gt;Custom script creation using PERL, Linux Shell Scripting,
+Windows Batch Scripting and VBScripting.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
+
+&lt;h4 id=&#34;sr-systems-engineer&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
+
+&lt;p&gt;March 2005 – September 2006&lt;/p&gt;
+
+&lt;p&gt;Administration of enterprise level production servers including,
+Exchange 5.5, Windows 2000 File and Print, WINS, Active Directory
+Domain Controllers, Windows 2000 Application Clusters, and VMware
+ESX Servers. Daily responsibilities include user maintenance,
+mailbox maintenance, patch management, server administration and
+monitoring, and change controls.&lt;/p&gt;
+
+&lt;p&gt;Key Accomplishments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developed a WMI VBscript to pro-actively
+monitor disk space usage on 140+ Windows Server and 455 data
+volumes.&lt;/li&gt;
+&lt;li&gt;Designed and implemented a 2-node VMware ESX server
+infrastructure, which housed 7 production virtual
+machines.&lt;/li&gt;
+&lt;li&gt;Planned and implemented a Windows 2003 multi-domain
+Active Directory architecture for a 1400+ user network consisting of
+0+ physical locations.&lt;/li&gt;
+&lt;li&gt;Designed and implemented a 2 node
+Terminal Server 2003 cluster to provide MS Outlook to 100+ OS X MAC
+clients.&lt;/li&gt;
+&lt;li&gt;Designed and implemented an “All Virtual” SharePoint
+Team Services Architecture.&lt;/li&gt;
+&lt;li&gt;Developed a pre-production WMI VBscript to centralize windows event
+logs into a SQL 2000 database and publish the consolidated logs to
+the intranet using ASP.&lt;/li&gt;
+&lt;li&gt;Designed and implemented a Neoware EzUpdate infrastructure to
+provide a true “0-touch” thin client computing environment.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;sr-desktop-engineer&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
+
+&lt;p&gt;June 2004 – March 2005&lt;/p&gt;
+
+&lt;p&gt;Sr. Desktop Engineer for level 2 support group of 1400+ PC’s and
+150+ Macs. Responsible for case queue management to ensure problem
+cases were resolved in a timely fashion while meeting customer
+satisfaction levels. Responsible for auditing of PC software
+utilizing SMS as well as software package distribution. Provided
+support to all divisions within the company including departmental
+specific software. Responsible for creation of Ghost images for new
+system models as well as updating existing images. Responsible for
+supporting CSSR group to assist them in handling difficult cases&lt;/p&gt;
+
+&lt;p&gt;Key Accomplishments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Designed and implemented a centralized Norton Ghost
+architecture that allowed multiple PCs to be imaged
+simultaneously&lt;/li&gt;
+&lt;li&gt;Expanded the utilization of the existing SMS infrastructure from
+approximately 400 PCs to 1100+&lt;/li&gt;
+&lt;li&gt;Developed a KIXtart script to check for Duplicate machine SIDs
+on the network and automatically fix any problems that were found.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;contractor-temp&#34;&gt;Contractor/Temp&lt;/h4&gt;
+
+&lt;p&gt;February 2004 – June 2004&lt;/p&gt;
+
+&lt;p&gt;Contract assignment to migrate domain user accounts to a new Active
+Directory domain, utilizing scripting techniques.&lt;/p&gt;
+
+&lt;h3 id=&#34;rkl-associates-llc-torrington-ct&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;lead-sr-technician&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
+
+&lt;p&gt;November 2001 – December 2003&lt;/p&gt;
+
+&lt;p&gt;Lead technician for a consulting firm. Responsibilities included
+procedure development to standardized technical solution
+deployments, administration of a Linux-Ensim web server for the web
+hosting side of the business. Routine support of clients maintaining
+service contracts, ranging from software updates, PC and server
+installations, LAN and WAN configurations/maintenance. Windows 2000
+and W2K SBS servers, including Exchange, ISA and SQL Server 2000.
+Support of a wide variety of applications found in the SMB market
+space. Project management of other technician’s larger projects.
+Point of contact for all new and potential clients.&lt;/p&gt;
+
+&lt;p&gt;Key Accomplishments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Developed an Access 2000 database to track all clients’
+hardware and software assets.&lt;/li&gt;
+&lt;li&gt;Implemented standardized, documented procedures for how
+various solutions should be implemented to ensure consistency
+across clients.&lt;/li&gt;
+&lt;li&gt;Performed numerous NT 4 to Windows 2000 Active directory upgrades.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;wentworth-labs-brookfield-ct&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;sr-it-support-specialist&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
+
+&lt;p&gt;Oct 2000 – Oct 2001&lt;/p&gt;
+
+&lt;p&gt;Specify, administer, maintain, and upgrade enterprise network (WAN
+and LANS), servers, network printers, and personal computers.
+Administer and maintain system security, mission critical
+Manufacturing Software, and Intranet Web/FTP sites. Perform routine
+System Administrator functions such as backups/restores, user
+account maintenance, file system (NTFS and Network Share)
+Permissions, system performance monitoring, NT Scheduler, Exchange
+Maintenance, and Virus Prevention. Create and maintain procedures,
+policies, and other documentation on equipment and software attached
+to the network. Upgrade of LAN to 100BaseT Switching Network. PIX
+Firewall installation. VPN Installation. Replacement of Older Cisco
+Routers. Creating OS and Software Images for many different hardware
+models and software types. Microsoft Exchange administration.&lt;/p&gt;
+
+&lt;p&gt;Key Accomplishments:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Upgraded an existing Multi Domain NT 4 infrastructure to a Windows 2000
+Active directory architecture consisting of 300+ users and 5 sites.&lt;/li&gt;
+&lt;li&gt;Upgraded an existing Multi Domain NT 4 infrastructure to a Windows 2000
+Active directory architecture consisting of 300+ users and 5 sites.&lt;/li&gt;
+&lt;li&gt;Upgraded the existing Exchange 5.5 infrastructure to Exchange 2000.&lt;/li&gt;
+&lt;li&gt;Designed and Implemented a centralized backup strategy
+utilizing Veritas Backup Exec 8.6.&lt;/li&gt;
+&lt;li&gt;Developed an automated PC deployment process including OS images.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;priceline-webhouse-greenwich-ct&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;systems-analyst&#34;&gt;Systems Analyst&lt;/h4&gt;
+
+&lt;p&gt;Apr 2000 - Oct 2000&lt;/p&gt;
+
+&lt;p&gt;Responsible for the overall health and accuracy of website
+transactions in a very transaction intensive environment.
+Responsibilities included monitoring, load balancing, configuring,
+and troubleshooting more than 75 NT servers and monitoring 8+ Oracle
+databases. Utilized Active Server Page (ASP) Technology, database
+function and structure, IIS 4.0, MS Transaction Server (packages and
+components), COM+, and network infrastructure. Development of
+customized utilities to aid in the troubleshooting and maintenance
+of servers.&lt;/p&gt;
+
+&lt;h3 id=&#34;howmet-corporation-winsted-ct&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;systems-support-specialist&#34;&gt;Systems Support Specialist&lt;/h4&gt;
+
+&lt;p&gt;July 1998 - Apr 2000&lt;/p&gt;
+
+&lt;p&gt;Primary responsibilities included desktop hardware and software
+support of a 125-user network. Applications included Lotus Notes,
+Microsoft Office along with Outlook, AutoCAD, Attachmate, Cyborg,
+Made 2 Manage and various vendor and home grown apps. Used Norton
+Ghost for OS imaging and SMS for software installation and
+management. Also responsible for NT server maintenance including
+backups, user account management and security. Created Access
+databases for use by various departments. Created VB applications
+for departmental use.&lt;/p&gt;
+
+&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
+
+&lt;p&gt;Northwestern Connecticut Community College Winsted, CT Computer System
+Technology, Associates Degree&lt;/p&gt;
+
+&lt;h2 id=&#34;certifications&#34;&gt;Certifications&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;MCSE - Microsoft Certified Systems Engineer (NT 4, 2000 &amp;amp; Windows 2003)&lt;/li&gt;
+&lt;li&gt;MCSA – Microsoft Certified Systems Administrator (Windows 2003)&lt;/li&gt;
+&lt;li&gt;MCP – Microsoft Certified Professional&lt;/li&gt;
+&lt;li&gt;MCP+I - Microsoft Certified Professional + Internet&lt;/li&gt;
+&lt;li&gt;Comptia (A+, INET+, Network+)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>http://replace-this-with-your-hugo-site.com/about/</link>
+      <pubDate>Sun, 18 Sep 2016 09:48:29 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/about/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m a technology enthusiast, husband, dad, and
+&lt;a href=&#34;http://www.geocaching.com/profile/?guid=2b261b0d-15e3-4c16-902f-a51932dd9ff5&#34;&gt;Geocacher&lt;/a&gt;
+I&amp;rsquo;ve worked in technology for most of my working years. Even before that I had
+an interest in computers dating all the way back to my very first PC, a
+&lt;a href=&#34;http://en.wikipedia.org/wiki/Tandy_1000&#34;&gt;Tandy 1000&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I grew up (professionally) on the enterprise IT side of things, but later on
+moved into the web space (where I am today). I find the pace at which things
+move on the Internet interesting and exciting. There is never any shortage of
+new things to learn.&lt;/p&gt;
+
+&lt;p&gt;I started this site as a place to start collecting notes and thoughts on various
+things I was learning about and/working on. I&amp;rsquo;ve found over the years that
+you&amp;rsquo;ll spend a lot of time researching and learning how to do something and
+then about 6 months after you put it down you need it for real.
+At that point, you forget all the nuances of the thing you were doing. I generally
+try to keep some notes about these sorts of things, but I&amp;rsquo;ve never stored them
+in a way that made them easy to find again later. So I decided this would
+be that place.&lt;/p&gt;
+
+&lt;p&gt;While I generally don&amp;rsquo;t have as much time as I would like to contribute to open
+source projects, here are a few I do my best to maintain when I can find the
+time:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:F5_BIG-IP_(Open_Source)&#34;&gt;F5 BIG-IP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Rundeck&#34;&gt;Rundeck&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Varnish_3&#34;&gt;Varnish3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss_client&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_alerts&#34;&gt;consul_alerts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_kv&#34;&gt;consul_kv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/ccuapi/1.1.2&#34;&gt;Python Akamai CCUAPI Client&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Speeding Up Test Kitchen</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</link>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/speeding-up-test-kitchen/</guid>
+      <description>&lt;p&gt;This past week I was turned on to a tiny, but game changing (for me) gem named
+&lt;code&gt;kitchen-sync&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I tend to use test-kitchen in a wide variety of configurations. Sometimes I&amp;rsquo;m
+using it to drive Vagrant, most of the time, I&amp;rsquo;m using it drive Docker, but
+there are times when I need it to drive remove instances such as EC2. One
+of my biggest pain points in this last configuration is the time it takes to
+copy of the cookbooks to the remote machine. If you&amp;rsquo;ve got a cookbook that
+has many dependencies (either directly or indirectly), this is a painful process.
+It is especially aggravating because you&amp;rsquo;re probably only testing a change to
+a single file, yet you have to wait for a billion other files that have not
+changed to get copied again.&lt;/p&gt;
+
+&lt;p&gt;Enter &lt;a href=&#34;https://github.com/coderanger/kitchen-sync&#34;&gt;kitchen-sync&lt;/a&gt;.  Put out
+by Noah Kantrowitz (a Chef super star), This little gem saves so much time when
+your doing iterative development. The initial creation of the instance still
+takes time as all the files have to be copied, however your second run will
+have the file copy step take only a second or two. In my case I&amp;rsquo;ve got one
+&lt;strong&gt;really nasty&lt;/strong&gt; cookbook that has so many dependencies it was taking 10-12
+minutes &lt;strong&gt;each converge&lt;/strong&gt;. Using kitchen-sync my subsequent runs take only a
+couple seconds to copy the file.&lt;/p&gt;
+
+&lt;p&gt;If you are doing any Chef development using test-kitchen and remote instances,
+this is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Jekyll with fenced code blocks</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/jekyll-with-fenced-code-blocks/</link>
+      <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/jekyll-with-fenced-code-blocks/</guid>
+      <description>&lt;p&gt;While hacking up some markdown files to use under Jekyll I hit a weird
+issue where code blocks written with triple ticks (aka fenced code blocks)
+wouldn&amp;rsquo;t render correctly.&lt;/p&gt;
+
+&lt;p&gt;When writing markdown, I like to express code blocks using the
+&lt;a href=&#34;https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks&#34;&gt;fenced-code-blocks&lt;/a&gt;
+syntax. I&amp;rsquo;m just getting up to speed with using Jekyll and after reading their
+documentation I found I could use their &lt;code&gt;highlight&lt;/code&gt; liquid tag, but I just didn&amp;rsquo;t
+care for the look and feel of that. I&amp;rsquo;m just used to the fenced style, so I
+wanted to use that.&lt;/p&gt;
+
+&lt;p&gt;If I did something like this, it would work:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ```
+    my code snippet
+    ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But doing this would result in the language getting included inside the code
+block. Normally you&amp;rsquo;d see the language used as a guide for highlighting, and it
+would not get actually output in the rendered content.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ```console
+    my code snippet
+    ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After a bit of digging and trial error I narrowed this down to the fact that
+I was rendering with &lt;code&gt;kramdown&lt;/code&gt;. There were some mentions of the fenced code
+blocks on &lt;a href=&#34;http://jekyllrb.com/docs/configuration/&#34;&gt;http://jekyllrb.com/docs/configuration/&lt;/a&gt; page, but it was not clear
+to me what needed to happen. This is almost certainly a result of me being new
+to Jekyll. I ended up determining that &lt;code&gt;Redcarpet&lt;/code&gt; is an alternate renderer to
+&lt;code&gt;kramdown&lt;/code&gt;. So I added the following to my &lt;code&gt;_config.yml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;markdown: redcarpet
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After making that change the fenced code blocks were now properly rendering
+even with the language being specified.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Modifying your PoshGit Prompt</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/modifying-your-poshgit-prompt/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/modifying-your-poshgit-prompt/</guid>
+      <description>&lt;p&gt;If your using &lt;a href=&#34;https://windows.github.com/&#34;&gt;Github for Windows&lt;/a&gt;, there is a
+good chance you might be using the Powershell Git Shell. If your like me you
+may want to customize how that prompt looks. Turns out this is not nearly as
+trivial as it would initially seem.&lt;/p&gt;
+
+&lt;p&gt;If your not familiar with PoshGit, you can read a little more about it on their
+&lt;a href=&#34;https://github.com/dahlbyk/posh-git/blob/master/readme.md&#34;&gt;github page&lt;/a&gt;. In
+a nutshell, this integration enhances your current Powershell prompt to provide
+you with git related information right in your prompt. For anyone that uses
+&lt;a href=&#34;https://github.com/robbyrussell/oh-my-zsh&#34;&gt;oh-my-zsh&lt;/a&gt;, it provides similar
+functionality to that.&lt;/p&gt;
+
+&lt;p&gt;Powershell allows you to override the prompt by configuring a &lt;a href=&#34;http://ss64.com/ps/syntax-prompt.html&#34;&gt;prompt function&lt;/a&gt; inside your profile.  So let&amp;rsquo;s pause here..
+this &lt;em&gt;sounds&lt;/em&gt; simple enough, but the reality you&amp;rsquo;re profile is actually loaded
+from one of a possible 4 files. Knowing exactly which one to edit is an adventure
+on all on its own. That whole debacle is covered in detail at
+&lt;a href=&#34;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&#34;&gt;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&lt;/a&gt;
+so I&amp;rsquo;ll skip going into details there. We&amp;rsquo;ll leave it at knowing there is fairly
+well documented (albeit cumbersome) methods of changing your Powershell prompt.&lt;/p&gt;
+
+&lt;p&gt;Enter PoshGit. Since its nothing more than a wrapper around your existing
+Powershell, it would seem logical that any shell customizations you may have
+already applied would be used and PoshGit would extend upon that. Sad to say
+that is not the case&amp;hellip; Now to be fair, the README for PoshGit does cover this,
+but it takes a fair amount of connecting the dots to know that PoshGit is even
+a thing. For me there was a series of research and trial and error that lead me
+to learning what PoshGit was, the fact that it was part of Github for Windows,
+and ultimately how to hack it to do what I wanted.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll skip over the pain and agony I went through getting from A to B. I&amp;rsquo;ll keep it
+brief and say no amount of &lt;code&gt;profile.ps1&lt;/code&gt; hackery will work here.&lt;/p&gt;
+
+&lt;p&gt;Instead the key to success lies in &lt;code&gt;C:\Users\&amp;lt;you&amp;gt;\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1&lt;/code&gt;
+(I don&amp;rsquo;t know if that GUID looking number changes between installations).
+Despite its name, this file is actually &lt;strong&gt;not&lt;/strong&gt; a sample, but is the actual
+profile that is loaded by GitHub for Windows when using Powershell as your shell.&lt;/p&gt;
+
+&lt;p&gt;Start by creating a function named &lt;code&gt;global:prompt&lt;/code&gt; (I think just prompt might
+also work). Inside that function make all your customizations, and then be sure
+to include a call to &lt;code&gt;Write-VcsStatus&lt;/code&gt;. The &lt;code&gt;Write-VcsStatus&lt;/code&gt; is the key to
+ensuring you continue to get all the git integration that PoshGit supplies.&lt;/p&gt;
+
+&lt;p&gt;Here is what my function looks like. In my case I was looking to not have
+super long directory structures included in the prompt, and instead just
+display the name of the directory I&amp;rsquo;m currently in. Credit for this goes to
+&lt;a href=&#34;http://winterdom.com/2008/08/mypowershellprompt&#34;&gt;http://winterdom.com/2008/08/mypowershellprompt&lt;/a&gt; which I used to figure out
+how to change the prompt, I adapted for my own tastes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;function global:prompt {
+  $cdelim = [ConsoleColor]::DarkCyan
+  $chost = [ConsoleColor]::Green
+  $cloc = [ConsoleColor]::Cyan
+
+  write-host &amp;quot;$([char]0x0A7) &amp;quot; -n -f $cloc
+  write-host &#39; {&#39; -n -f $cdelim
+  write-host (split-path (pwd) -Leaf) -n -f $cloc
+  write-host &#39;}&#39; -n -f $cdelim
+
+  Write-VcsStatus
+
+  $global:LASTEXITCODE = $realLASTEXITCODE
+  return &amp;quot;&amp;gt; &amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If your curious, this makes my shell look something like this (but with colors):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;Windows PowerShell
+Copyright (C) 2009 Microsoft Corporation. All rights reserved.
+
+§  {dpetzel.github.io} [master +1 ~0 -0 !]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At the end of the day, the act of actually making the change wasn&amp;rsquo;t complicated
+at all, however figuring out the &amp;laquo;what and where&amp;raquo; of what to change was a time
+consuming process.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remotely Enabling RDP</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</link>
+      <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</guid>
+      <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
+had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
+
+&lt;p&gt;There are times when a domain attached PC has RDP disabled for some reason.
+The following snippet, which I adapted from
+&lt;a href=&#34;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&#34;&gt;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&lt;/a&gt; makes it a
+little quicker. Run this from a cmd prompt as a user with admin rights on the
+remote host.&lt;/p&gt;
+
+&lt;p&gt;{% highlight bat %}
+set node=remote_pc_name
+sc \%node% start RemoteRegistry
+reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server&amp;raquo; /v fDenyTSConnections /d 0 /f
+{% endhighlight %}&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chocolatey is Awesome</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/chocolatey-is-awesome/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/chocolatey-is-awesome/</guid>
+      <description>&lt;p&gt;A while back a co-worker told me about Chocolately. I had taken a quick
+look and it seemed interesting, but I kind of forgot about it after
+that.&lt;/p&gt;
+
+&lt;p&gt;Well today, I was setting up a new machine and I had a handful of things
+I wanted to install. I was thinking to myself what a bummer it was going
+to be to have fire up Google and search for each of the package’s
+download sites. Then I recalled Chocolately. In under 10 minutes flat I
+had read the quick start, installed Chocolately, and installed a handful
+of packages on the box. It was awesome and is something Windows has been
+sorely missing for a very long time. So if you haven’t already, go check
+it out at &lt;a href=&#34;http://chocolatey.org/&#34;&gt;http://chocolatey.org/&lt;/a&gt;. Now I have to fight the urge to
+start packing up my own stuff, and focus on the task at hand. I’ll have
+to revisit the packaging process at a later date :).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
+to Windows 2013 Standard.&lt;/p&gt;
+
+&lt;p&gt;Without getting into too much of the back story, the client purchased Windows
+2003 SBS many moons ago, however they never leveraged anything except Active
+Directory and File Sharing. They use their hosting provider&amp;rsquo;s web mail, and
+don&amp;rsquo;t have an appetite to change that.&lt;/p&gt;
+
+&lt;p&gt;Here are we many moons later and they are ready to upgrade. They&amp;rsquo;ve purchased a
+new, fairly beefy, box running Windows 2012 Standard.&lt;/p&gt;
+
+&lt;p&gt;After some discussions around the path they would prefer to take we&amp;rsquo;ve decided
+we don&amp;rsquo;t want to have to touch all of the PCs and move them to a new domain,
+and we&amp;rsquo;d like the upgrade to be as seamless as possible. To that end the decision
+was made to attempt a &lt;em&gt;migration&lt;/em&gt;. This document will hopefully capture my
+journey down this path. Its been at least 5 years since I&amp;rsquo;ve touched a &amp;laquo;real&amp;raquo;
+domain controller, so a decent amount of reading is order, but from what I have
+gathered so far this is not a standard conversion path, but it appears there
+are some options.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
+
+&lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
+lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
+performed a P2V on the existing Windows 2003 SBS host. The P2V process is
+outside the scope of this document, but was actually pretty easy. This will
+allow me to take snapshots, and even clone the VM for some trial runs
+(I don&amp;rsquo;t have any lab hardware available for this).&lt;/p&gt;
+
+&lt;p&gt;fter getting the SBS server virtualized, I proceed to configure the new 2013 box as a member server with a static IP. I ensured its primary DNS server was set to the SBS server. I did not configure any roles or features at all yet.&lt;/p&gt;
+
+&lt;p&gt;Now that I&amp;rsquo;m ready to proceed, I started by installing the support tools
+from &lt;a href=&#34;http://www.microsoft.com/en-us/download/details.aspx?id=15326&#34;&gt;http://www.microsoft.com/en-us/download/details.aspx?id=15326&lt;/a&gt;. With those
+tools in place I ran through series of tests as outlined in &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;{% highlight console %}&lt;br /&gt;
+Dcdiag /v /c /d /e /s:&lt;sbs_server&gt; &amp;gt; c:\temp\dcdiag.log
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;The first error logged was:
+{% highlight console %}
+    * Checking Service: IsmServ
+        IsmServ Service is stopped on [SERVER]
+    &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip; SERVER failed test Services
+ {% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;Based &lt;a href=&#34;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&#34;&gt;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&lt;/a&gt;,
+it appears this is expected on SBS and safe to ignore, so doing just that.&lt;/p&gt;
+
+&lt;p&gt;The next error up was:&lt;/p&gt;
+
+&lt;p&gt;{% highlight console %}
+      Starting test: systemlog
+         * The System Event log test
+         An Error Event occured.  EventID: 0xC0002719
+            Time Generated: 11/28/2013   18:05:14
+            (Event String could not be retrieved)
+         &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;. SERVER failed test systemlog
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;This seems to be related to a single event in my event log:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    Event Type: Error
+    Event Source:   DCOM
+    Event Category: None
+    Event ID:   10009
+    Date:       11/28/2013
+    Time:       6:05:14 PM
+    User:       N/A
+    Computer:   SERVER
+    Description:
+    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+
+    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I don&amp;rsquo;t see any other occurrences of this error. I&amp;rsquo;m assuming I could clear the
+event logs to not see, but I&amp;rsquo;d rather keep the event log history around, so I&amp;rsquo;m
+going to ignore this for now.&lt;/p&gt;
+
+&lt;p&gt;All the other tests passed, so I moved onto &lt;code&gt;Repadmin&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Repadmin /showrepl sbs_host /verbose /all /intersite &amp;gt;c:\repl.log
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nothing jumped out at me in this output. Next up &lt;code&gt;dnslint&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;  Dnslint /v /ad /s &amp;quot;DCipaddress&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one caught something interesting:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Notes:
+One or more DNS servers is not authoritative for the domain
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After reviewing the output I found that at some point in time someone had
+created a local host file entry for localhost that was the IP of the server.
+Traditionally I believe localhost resolves to 127.0.0.1, rather than the actual
+box IP, so I simply commented out the file entry. After that &lt;code&gt;dnslint&lt;/code&gt; came
+back clean.&lt;/p&gt;
+
+&lt;p&gt;I skipped the &lt;code&gt;adreplstatus&lt;/code&gt; checks since this is a single node, and the tool
+wanted me to install .net framework 4.0, which seemed heavy handed for a test
+I didn&amp;rsquo;t care about.&lt;/p&gt;
+
+&lt;p&gt;Next up I confirmed that both the &lt;code&gt;_msdcs.domain.local&lt;/code&gt; and &lt;code&gt;domain.local&lt;/code&gt; zones
+were set to the &lt;code&gt;Active Directory-Integrated&lt;/code&gt; type.&lt;/p&gt;
+
+&lt;p&gt;Next, I confirmed what level AD was currently at:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;Dsquery * cn=schema,cn=configuration,dc=domain,dc=local -scope base -attr objectVersion
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This returned a value of &lt;code&gt;30&lt;/code&gt; for me, which based on the link above means I&amp;rsquo;m
+at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the version of SBS on the host.&lt;/p&gt;
+
+&lt;p&gt;At this point I took a snapshot of the host as we are going to start making
+changes soon.&lt;/p&gt;
+
+&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
+
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+
+&lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
+Domain Functional Level, as well as the Forest Functional Level.
+Using &lt;code&gt;Active Directory Domains and Trusts&lt;/code&gt; I increased both of these to the
+&lt;code&gt;Windows 2003&lt;/code&gt; level. This was done on the SBS 2003 node. Since its a single
+SBS box, I figure replication time is essentially 0 so after trolling the Event
+Logs for a few minutes to ensure nothing weird popped up, I proceeded.&lt;/p&gt;
+
+&lt;p&gt;I then stepped through the process of promoting the 2012 as a domain controller
+which is well illustrated at  &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;After the restart I noticed a few things that seemed off at first. The first
+one was that I didn&amp;rsquo;t have a netlogon share on the new 2012 DC. Additionally
+there were some errors in the event log. I found that the
+&lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
+it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
+
+&lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
+itself first.&lt;/p&gt;
+
+&lt;p&gt;Once that was completed, I then update my DHCP configuration on the SBS 2003
+box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
+primary DNS server.&lt;/p&gt;
+
+&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+
+&lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
+to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
+
+&lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
+
+&lt;p&gt;2012 Server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;SBS 2003 Server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /syncfromflags:domhier /reliable:no /update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At this point I&amp;rsquo;m going to let things bake for a bit. I&amp;rsquo;ve got all the &amp;laquo;AD Stuff&amp;raquo;
+moved over. At this point I&amp;rsquo;m left with all the file shares and applications
+(IE Virus Console) that are configured to point at this host.  As I get to
+moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
+
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building a Dell T420 with ESXi 5</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/building-a-dell-t420-with-esxi-5/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/building-a-dell-t420-with-esxi-5/</guid>
+      <description>
+
+&lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
+would run ESXi 5 on it.&lt;/p&gt;
+
+&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;My day job does not really allow me much hands on access to hardware any more
+so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
+the chance to work on this as a side project. The server came
+pre-installed with Windows 2012 Standard. I have a need to run a couple of VM&amp;rsquo;s and I
+decided I wanted to run ESXi on the host, and run the 2013 standard box as
+a VM. For anyone that is curious, I didn&amp;rsquo;t pick ESXi because its &amp;laquo;better&amp;raquo; than
+Hyper-V (I have no clue how they stack up anymore). I simply chose it because
+its been a couple of years since I&amp;rsquo;ve built an ESX host and I wanted to see
+how things have evolved.&lt;/p&gt;
+
+&lt;p&gt;The first thing I did was use the VMWare converter utility to P2V the existing
+installation out to a VMWare workstation format. I didn&amp;rsquo;t &lt;em&gt;really&lt;/em&gt; need to do
+this since the OS was not customized yet, and I could reinstall, but this
+was a chance to play with the converter, and see if if I could PBV the existing
+installation and have it running on the newly rebuilt box. It worked well,
+and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
+about getting the box built.&lt;/p&gt;
+
+&lt;h2 id=&#34;installing-open-manage-server-administrator&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
+
+&lt;p&gt;So step one was to grab the installation bits from
+&lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
+I went with version 7.3.0.2 as it was the most recent available. It downloaded
+the file to my workstation, as opposed to directly on the ESX host.&lt;/p&gt;
+
+&lt;p&gt;Next I started following the ESXi specific instructions in the
+&lt;a href=&#34;ftp://ftp.dell.com/Manuals/all-products/esuprt_software/esuprt_ent_sys_mgmt/esuprt_ent_sys_mgmt_opnmng_sw/dell-opnmang-sw-v7.3_User%27s%20Guide2_en-us.pdf&#34;&gt;Open Manage User Guide&lt;/a&gt;.
+While I can appreciate the time it takes to work up instructions that cover such
+a wide array of platforms, I found these instructions a bit lacking. They had
+several typos (missing spaces in command line commands) as well as were unclear
+on a couple things, so I&amp;rsquo;ll spend a little more time to add some details here.&lt;/p&gt;
+
+&lt;p&gt;I chose to go with the &amp;laquo;Using The vSphere CLI&amp;raquo; portion of the instructions, as
+it seemed to be the most straight forward for folks without existing ESX
+infrastructures in place. So with that, I had to download and install the
+&lt;a href=&#34;http://www.vmware.com/support/developer/vcli/&#34;&gt;vSphere CLI&lt;/a&gt;. This was pretty quick and painless. I didn&amp;rsquo;t poke to much
+at it, but it feels like its nothing more than a set of Perl scripts and it
+adds a shortcut to a CMD session which I presume just tweaks the shell with
+some environment variables&lt;/p&gt;
+
+&lt;p&gt;Now I copied the file over the suggested directory per the docs (I had to enable
+ and start SSH access using the vSphere Client before this would work).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;   pscp OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip root@192.168.1.1:/var/log/vmware/
+   Using keyboard-interactive authentication.
+   Password:
+   OM-SrvAdmin-Dell-Web-7.3. | 6490 kB | 1622.6 kB/s | ETA: 00:00:00 | 100%
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So I&amp;rsquo;m not sure how the docs assume you to unzip this, but I did it over an SSH
+session, and the part that I messed up on first was that I unzipped the file
+directly in &lt;code&gt;/var/log/vmware/&lt;/code&gt;, when in reality all you have to do is run the
+install command against the ZIP directly. There is no need to actually unzip it.&lt;/p&gt;
+
+&lt;p&gt;I later learned about the &lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
+which I think is geared toward keeping SSH out of the mix. for now I ran the
+command using the CLI&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   esxcli --server 192.168.1.1 software vib install -d /var/log/vmware/OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip
+
+   Installation Result
+      Message: The update completed successfully, but the system needs to be rebooted for the changes to be effective.
+      Reboot Required: true
+      VIBs Installed: Dell_bootbank_OpenManage_7.3.0.2-0000
+      VIBs Removed:
+      VIBs Skipped:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And then comes a reboot. Following the reboot I expected I would be able
+to hit the OMSA HTTPS interface at &lt;a href=&#34;https://192.168.1.1:1311&#34;&gt;https://192.168.1.1:1311&lt;/a&gt;, however that didn&amp;rsquo;t
+work, and it turns out is more more involved, and covered in the &amp;laquo;Accessing Server Administrator on VMware ESXi&amp;raquo;
+section. Essentially it suggests that you have to a &lt;strong&gt;completely separate&lt;/strong&gt;,
+server running the web server. In my case, this is the only box on the network
+so this seems like a crappy solution, but I suppose the logic is possibly to
+keep the number of system daemons to an absolute minimum. In any event, I was
+a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
+
+&lt;h2 id=&#34;vsphere-management-assistant&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
+
+&lt;p&gt;At this point, I was a bit annoyed that I needed another system.
+While trolling for ways to potentially hack the Web server in directly, I came
+across a YouTube video on the subject at &lt;a href=&#34;http://www.youtube.com/watch?v=hywERi8bc1c&#34;&gt;http://www.youtube.com/watch?v=hywERi8bc1c&lt;/a&gt;.
+While watching this at about 1:31 they jump to a screen I was not familiar with,
+and after a little digging I discovered the
+&lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
+so I proceeded to download and &lt;em&gt;install&lt;/em&gt; the virtual appliance as it seems it
+will come in handy in the future as well.&lt;/p&gt;
+
+&lt;p&gt;So I downloaded the appliance, unzipped the file and and then followed the
+instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
+This all went really smooth.&lt;/p&gt;
+
+&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
+
+&lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
+the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
+the file from the dell website (they make it harder than is should be to get a
+direct download link that I could wget from inside the VM so instead I
+downloaded it on my workstation and uploaded it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;pscp OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz vi-admin@192.168.1.2:/tmp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then via an SSH into the VMA appliance:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   cd /tmp
+   tar -zxvf OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz
+   sudo ./setup.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Accept the license agreement, and hit option 1 to install the Server Administrator Web Server Interface.
+Followed by pressing &amp;laquo;i&amp;raquo;&lt;/p&gt;
+
+&lt;p&gt;And about 2 minutes later, we have our good old friend, the Open Manager web
+interface available at https//vmaappliance_ip:1311, and I was able to use
+it to connect to my ESXi host. A bit of a round about where to get there, but
+something is better than nothing..&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Chromecast Woes</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/chromecast-woes/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/chromecast-woes/</guid>
+      <description>&lt;p&gt;I finally got around to picking up a &lt;a href=&#34;http://en.wikipedia.org/wiki/Chromecast&#34;&gt;Chromecast&lt;/a&gt;. I had read some reviews
+so I didn&amp;rsquo;t have any high expectations, but I couldn&amp;rsquo;t resist the urge to
+tinker with it given its price point. Boy was I disappointed&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;The instructions it came with made it look like it was going to be the easiest thing
+I ever hooked up. The physical hookup was simple enough, but then it came time
+to get it hooked up to my wireless. I don&amp;rsquo;t have anything fancy, just a Linksys
+E3200 with &lt;code&gt;WPA2/WPA Mixed Mode&lt;/code&gt; security. I&amp;rsquo;ve hooked up a ton of devices
+and never had any issues.&lt;/p&gt;
+
+&lt;p&gt;The Chromecast App was useless. It could see my Chromecast, but I
+just kept getting a grey exclamation mark with a message saying it couldn&amp;rsquo;t
+connect. I went back and forth with the online help and the only useful thing
+I found was the link to the web based setup instructions located at
+&lt;a href=&#34;https://cast.google.com/chromecast/setup?np=manualsetup&#34;&gt;https://cast.google.com/chromecast/setup?np=manualsetup&lt;/a&gt;. With this I was able
+able to get a little further. I got as far as it displaying a 4 letter code
+for me to confirm. Once I did that, it failed to connect again. What!?!?!
+You can &lt;strong&gt;obviously&lt;/strong&gt; connect, since you just synced up that 4 letter code!!!
+A bunch of google searching and nothing useful. Finally for no good reason other than
+a lucky guess, I changed the network type on my Laptop &amp;ndash;&amp;gt; Chromecast wifi
+network from Public to Home.&lt;/p&gt;
+
+&lt;p&gt;Once I made that switch the Web based setup got a little bit further and it
+prompted me for my wireless password. Entered and it failed to connect&amp;hellip;
+For kicks I tried the application again, it was still useless, so back to the
+web based setup.&lt;/p&gt;
+
+&lt;p&gt;I ended up having to power off the Chromecast one more time and then running
+through the setup wizard again. Finally I had it hooked up the wireless. While
+I can appreciate the target audience probably needs the &amp;laquo;magic config&amp;raquo; I really
+wish they would have just given me the &amp;laquo;I know what the eff I&amp;rsquo;m doing&amp;raquo; option
+and just entered my wifi info directly.&lt;/p&gt;
+
+&lt;p&gt;Once I had it connected, the native casting support in YouTube worked really well
+I have a YouTube app native on my TV and the quality of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Chromecast&#34;&gt;Chromecast&lt;/a&gt; was
+better than the native app. Sadly, the &amp;laquo;cast my Chrome tab&amp;raquo; option didn&amp;rsquo;t have
+the same quality. I tried to play a recent episode of the
+&lt;a href=&#34;http://www.cbs.com/shows/big_bang_theory/&#34;&gt;The Big Bang Theory&lt;/a&gt;,
+but the quality was terrible and it kept freezing. It was not watchable.&lt;/p&gt;
+
+&lt;p&gt;The next test I did was to stream the Thursday Night Football game from nfl.com
+This was a little better but still pretty choppy. I was able to reduce the
+choppiness by dropping the quality down to 480p. Given that I cut the cord a
+while back, the fact that I was able to watch a game that was not broadcast
+on one of the national network channels was pretty cool. The game was watchable
+(its playing as I write this), but its certainly not a great experience.&lt;/p&gt;
+
+&lt;p&gt;So at the end of the day, the only thing I would consider a success was the YouTube
+integration, but given I have the YouTube native app on my TV, I really don&amp;rsquo;t feel like
+I gained anything. If your a techy/gadget person its worth the $35 as something fun
+to play with, but as of right now I struggle to see it being a valuable addition
+to my media consumption choices.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Django 1.2 to 1.5 Upgrade</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/django-12-to-15-upgrade/</guid>
+      <description>
+
+&lt;p&gt;Recently I kicked off an effort to perform a long over due upgrade of the
+version of Django I am using on a project. Without getting into all the gory
+details of why, I need to upgrade from Django 1.2 to 1.5. Technically I don&amp;rsquo;t
+really have to go to 1.5, but I figure since I&amp;rsquo;m going to be messing with it
+anyway I should probably just get current. This post will journal my adventure
+down this road for better or worse. Just to satisfy curiosity, I did test
+going from 1.2 to 1.5 directly and as expected things blew up horribly.&lt;/p&gt;
+
+&lt;p&gt;Since I knew a ton of stuff had changed my plan attack was going to be to step
+through each an upgrade to each major version between 1.2 and 1.5 rather than
+attempting to jump straight there. I intend to run my tests with the &lt;code&gt;-Wall&lt;/code&gt;
+flags so I can see all the deprecation warnings. Then I&amp;rsquo;ll tackle each
+deprecation warning one at a time. There is likely a more efficient means of
+doing this sort of thing, but its been so long since I&amp;rsquo;ve messed with this
+project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&#34;note&#34;&gt; &lt;strong&gt;NOTE&lt;/strong&gt;
+    To protect the innocent, any proprietary information include class names,
+    file names, paths etc have been stripped from the code snippets.
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+
+&lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
+anything immediately broken. There were a few deprecation warnings that I needed
+to address however.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+  PendingDeprecationWarning
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one was pretty cut and dry as the 1.3 release notes had alerted me to this
+one: &lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#caching-changes&lt;/a&gt;.
+Simply changing the structure of that configuration item and all was well.&lt;/p&gt;
+
+&lt;p&gt;Next up was&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+  class MyModelClass(models.Field):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A little google foo later and I ended up on &lt;a href=&#34;http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/&#34;&gt;http://www.djangopro.com/2011/03/deprecation-warning-with-get_db_prep_value-for-django-1-3/&lt;/a&gt;. The advise was to update to a newer version of &lt;code&gt;django-picklefield&lt;/code&gt;. I reviewed the
+dependencies I had defined in the my &lt;code&gt;requirements.txt&lt;/code&gt; and I was using
+&amp;lsquo;0.3.0&amp;rsquo;, which was newer than the &amp;lsquo;0.1.9&amp;rsquo; version recommended in the article,
+and also appears to be the most current version available on pypi.python.org.&lt;/p&gt;
+
+&lt;p&gt;With that dead end out of the way I then found &lt;a href=&#34;https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value&#34;&gt;https://docs.djangoproject.com/en/1.3/howto/custom-model-fields/#django.db.models.Field.get_db_prep_value&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
+Old:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
+
+&lt;p&gt;Next up:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+  RandomPool_DeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It wasn&amp;rsquo;t really clear to me what I was supposed to do with this information,
+so I figured I&amp;rsquo;d start simple and upgrade the version of pycrypto I&amp;rsquo;m using
+from 2.3 to the latest available 2.6. This did &lt;em&gt;not&lt;/em&gt; help.. I really have no
+clue what to do with this. Since its not coming out directly from a Django
+module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;Last up was&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+  PendingDeprecationWarning
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I recalled there was something about this in the release notes so I reviewed
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#djangotestrunner&lt;/a&gt;. Near as
+I can tell there is nothing I need to do here, and Django itself will handle
+this cleanup in coming versions.&lt;/p&gt;
+
+&lt;p&gt;That concludes my 1.2.7 to 1.3.7 upgrade. I ended up keeping the updated version
+of pycrypto just because, so all and all pretty easy so far and only about 2
+hours burned on that step.&lt;/p&gt;
+
+&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+
+&lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
+what gotchas I need to look out for. Based on the information in the release
+notes here are the items I expect will require some attention:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#django-conf-urls-defaults&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#django-contrib-admin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;An initial test run after upgrading, but before any changes, is showing that the
+media stuff is indeed an issue, and I have several deprecation warnings related
+to items addressed in the release notes. This isn&amp;rsquo;t going to be as easy as the
+jump to 1.3.7 was&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m opting to tackle the broken things first, and then I&amp;rsquo;ll address the
+deprecation warnings. So first up I&amp;rsquo;ve made a few customizations to my
+settings.py file.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I added &lt;code&gt;django.contrib.staticfiles&lt;/code&gt; to my &lt;code&gt;INSTALLED_APPS&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Next I renamed my &lt;em&gt;media&lt;/em&gt; folder to &lt;em&gt;static&lt;/em&gt;. I don&amp;rsquo;t have user uploaded media
+so this folder was for the purpose of static assets. And based on the
+documentation media is intended to be used for user generated content.&lt;/li&gt;
+&lt;li&gt;I added &lt;code&gt;STATIC_URL = &#39;/static/&#39;&lt;/code&gt; to my &lt;code&gt;settings.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Updated my templates to use the new static template tag as described in
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/howto/static-files/&#34;&gt;https://docs.djangoproject.com/en/dev/howto/static-files/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While a bit tedious, that wasn&amp;rsquo;t to bad. At this point all of my tests are still
+passing, but I do have some &lt;code&gt;PendingDeprecationWarning&lt;/code&gt; warnings to deal with.
+I suppose since the are Pending, I could procrastinate, but I&amp;rsquo;m in here now, so
+biting the bullet and going after them..&lt;/p&gt;
+
+&lt;p&gt;First up&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/core/management/__init__.py:455: PendingDeprecationWarning: The &#39;execute_manager&#39; function is deprecated, you likely need to update your &#39;manage.py&#39;; please see the Django 1.4 release notes (https://docs.djangoproject.com/en/dev/releases/1.4/).
+  PendingDeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;My imports worked out in such a way that I didn&amp;rsquo;t need to relocate the manage.py
+file so all I did was swap out the contents as outlined in &lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.4/#updated-default-project-layout-and-manage-py&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Alas, something busted though. After swapping out the contents of manage.py I
+ended up with errors when trying to kick off my tests. I&amp;rsquo;m using the
+django-jenkins app for my tests.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./virtualenv/bin/python -Wall my_project/manage.py jenkins
+   Unknown command: &#39;jenkins&#39;
+   Type &#39;manage.py help&#39; for usage.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I didn&amp;rsquo;t see anything immediately obvious jump out at me so I started by
+updating from django-jenkins 0.11.1 to 0.14.0. No improvment (but I&amp;rsquo;m gonna
+keep the newer version just the same).&lt;/p&gt;
+
+&lt;p&gt;Upon further inspection of &lt;code&gt;manage.py --help&lt;/code&gt; I noticed alot of the subcommands
+were missing. In fact all I saw were the &lt;code&gt;[django]&lt;/code&gt; ones. So I moved my
+&lt;code&gt;manage.py&lt;/code&gt; up one directory as discussed in the readme and all the subcommands
+reappeared, including jenkins. So that was good, but the crappy things is
+all my tests started failing&amp;hellip; So into the weeds of import cleanup I go..
+This turned out to be much easier than I thought. All I needed was to change
+ROOT_URLCONF = &amp;lsquo;urls&amp;rsquo;&lt;code&gt;to ROOT_URLCONF = &#39;my_project.urls&#39;&lt;/code&gt; and all of
+tests started passing again. Added bonus, my PendingDeprecationWarning was gone.&lt;/p&gt;
+
+&lt;p&gt;Next up&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/conf/__init__.py:75: DeprecationWarning: The ADMIN_MEDIA_PREFIX setting has been removed; use STATIC_URL instead.
+  &amp;quot;use STATIC_URL instead.&amp;quot;, DeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This one is easy enough, I had already added STATIC_URL when I fixed up things
+earlier, so I just removed ADMIN_MEDIA_PREFIX from my settings.py&lt;/p&gt;
+
+&lt;p&gt;It appears in the process of cleaning up some of the media stuff I also cleared
+up some of the other DeprecationWarning messages. So at this point all my tests
+are passing and no DeprecationWarning messages (aside from
+&lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
+the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
+
+&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+
+&lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
+as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
+otherwise (&lt;strong&gt;80% failure rate&lt;/strong&gt;). The common theme seemed to be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   from django.views.generic.simple import direct_to_template, redirect_to
+   ImportError: No module named simple
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm&amp;hellip;. obviously I missed the memo somewhere&amp;hellip;Turns out I didn&amp;rsquo;t put two and
+two together back in the my 1.3 steps as its called out there
+&lt;a href=&#34;https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views&#34;&gt;https://docs.djangoproject.com/en/dev/releases/1.3/#function-based-generic-views&lt;/a&gt;.
+Not to sure why I didn&amp;rsquo;t get any deprecation warnings along the way but oh well
+lets get that fixed up.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django&#34;&gt;http://stackoverflow.com/questions/11428427/no-module-named-simple-error-in-django&lt;/a&gt;
+was the only remotely useful link I came up with in the first couple minutes
+of searching. The common thread seems to stem from my urls.py file.&lt;/p&gt;
+
+&lt;p&gt;It seems I have a sprinkling of &lt;code&gt;direct_to_template&lt;/code&gt; and &lt;code&gt;redirect_to&lt;/code&gt; being
+used. Its fairly clear that I need to switch from &lt;em&gt;Function-based generic views&lt;/em&gt;
+to &lt;em&gt;Class-based generic views&lt;/em&gt;, and as luck would have it the documentation has
+an awesome mapping to pull that off at &lt;a href=&#34;https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/&#34;&gt;https://docs.djangoproject.com/en/1.3/topics/generic-views-migration/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So here is what I did to my urls.py.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Replaced &lt;code&gt;from django.views.generic.simple import direct_to_template, redirect_to&lt;/code&gt;
+with &lt;code&gt;from django.views.generic.base import TemplateView, RedirectView&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Replaced &lt;code&gt;redirect_to&lt;/code&gt; references with RedirectView as outlined in that
+migration page&lt;/li&gt;
+&lt;li&gt;Replace &lt;code&gt;direct_to_template&lt;/code&gt; references with TemplateView as outlined in
+that migration page&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;First I had something like this (some legacy stuff to handle when URLs changed)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   (r&#39;^base_prefix/(?P&amp;lt;new_url&amp;gt;.*)$&#39;, redirect_to, {&#39;url&#39;: &#39;/%(new_url)s&#39;}),
+   changed to
+   (r&#39;^base_prefix/(?P&amp;lt;new_url&amp;gt;.*)$&#39;, RedirectView.as_view(url={&#39;url&#39;: &#39;/%(new_url)s&#39;})),
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That one seemed easy enough, however the next one is nastier.. Making it worse
+was it was something I didn&amp;rsquo;t write so I had to figure out the previous
+functionality first, before I could move forward. So I had a line that looked
+like &lt;code&gt;(r&#39;^bar&#39;, direct_to_template, {&#39;template&#39;: &#39;foo/bar.html&#39;}, &#39;bar&#39;),&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;It took me a bit to figure out that the last &lt;em&gt;bar&lt;/em&gt; was actually just a
+&lt;code&gt;named url pattern &amp;lt;https://docs.djangoproject.com/en/1.2/topics/http/urls/#naming-url-patterns&amp;gt;&lt;/code&gt;_&lt;/p&gt;
+
+&lt;p&gt;So a simple switch of that call over to &lt;code&gt;(r&#39;^bar&#39;, TemplateView.as_view(template_name=&#39;foo/bar.html&#39;), &#39;bar&#39;),&lt;/code&gt;
+and we&amp;rsquo;re moving along.&lt;/p&gt;
+
+&lt;p&gt;Next up is more generic view good times&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   from django.views.generic import list_detail
+   ImportError: cannot import name list_detail
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In my case this actually turned out to be an unused import, so I simply
+removed it.&lt;/p&gt;
+
+&lt;p&gt;From there I had to a bunch of conversions of my url template tags as outlined
+in the release notes. So I had a lot of references like
+{% raw %}&lt;code&gt;{% url myproject.myapp.views.someview arg1%}&lt;/code&gt;{% endraw %} and I had to change those to
+{% raw %}&lt;code&gt;{% url &amp;quot;myproject.myapp.views.someview&amp;quot; arg1%}&lt;/code&gt;{% endraw %}.&lt;/p&gt;
+
+&lt;p&gt;At this point I&amp;rsquo;m back to 100% testing pass rate and a single (simple)
+deprecation message to handle:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   ./site-packages/django/conf/__init__.py:147: PendingDeprecationWarning: The TEMPLATE_DIRS setting must be a tuple. Please fix your settings, as auto-correction is now deprecated.
+     PendingDeprecationWarning)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I wish they were all this easy. I went from:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;   TEMPLATE_DIRS = os.path.join(PROJECT_DIR, &#39;templates&#39;)
+   to
+   TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
+By the time it was all said and done, it took me about 2 days (including
+randomizations and interruptions). As usual the Django documentation was
+invaluable in being to pull this off.&lt;/p&gt;
+
+&lt;p&gt;The app has been running for a few days now and so far no unexpected explosions,
+however I should note I have been getting some random reports of CSRF errors
+since the upgrade (1 or 2 reports a day). Overall most people are having no
+issues, and I haven&amp;rsquo;t gotten too deep into that investigation, but it is
+certainly new behavior.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sphinx With External Image Annoyance</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/sphinx-with-external-image-annoyance/</link>
+      <pubDate>Tue, 24 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/sphinx-with-external-image-annoyance/</guid>
+      <description>&lt;p&gt;So today I was trying to clean up some of my Sphinx build warnings when
+rendering this site. I got everything fixed so I had no errors or
+warnings except for this little guy right here (truncated for easier
+reading):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I know I&amp;rsquo;m linking to an external image. I don&amp;rsquo;t want to store my binary
+images in my Github repo .&lt;/p&gt;
+
+&lt;p&gt;I search google for a bit and couldn&amp;rsquo;t find anything. This was so
+annoying!! I don&amp;rsquo;t want these warnings every build to numb me to real
+warnings so I I wanted to suppress them.&lt;/p&gt;
+
+&lt;p&gt;Well, since this is just Python lets get to work&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ grep -Rn &amp;quot;nonlocal image URI found&amp;quot; ~/virtualenvs/tinkerer/lib/python2.7/site-packages/
+/home/dave/virtualenvs/tinkerer/lib/python2.7/site-packages/sphinx/environment.py:779:                self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
+        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+        candidates[&#39;?&#39;] = imguri
+        continue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;to end up with:
+{% highlight python %}
+    if imguri.find(&amp;rsquo;://&amp;lsquo;) != -1:
+        # self.warn_node(&amp;lsquo;nonlocal image URI found: %s&amp;rsquo; % imguri, node)
+        candidates[&amp;lsquo;?&amp;rsquo;] = imguri
+        continue
+{% endhighlight %}&lt;/p&gt;
+
+&lt;p&gt;Voila! No more warning for external images. If anyone knows the
+&lt;strong&gt;right&lt;/strong&gt; way to suppress these warnings (Yes I&amp;rsquo;ve read all the reasons
+why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

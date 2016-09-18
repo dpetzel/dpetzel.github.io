@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rdp on Dave&#39;s Site</title>
+    <link>http://replace-this-with-your-hugo-site.com/tags/rdp/</link>
+    <description>Recent content in Rdp on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Wed, 30 Apr 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://replace-this-with-your-hugo-site.com/tags/rdp/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Remotely Enabling RDP</title>
+      <link>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</link>
+      <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://replace-this-with-your-hugo-site.com/post/remotely-enabling-rdp/</guid>
+      <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
+had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
+
+&lt;p&gt;There are times when a domain attached PC has RDP disabled for some reason.
+The following snippet, which I adapted from
+&lt;a href=&#34;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&#34;&gt;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&lt;/a&gt; makes it a
+little quicker. Run this from a cmd prompt as a user with admin rights on the
+remote host.&lt;/p&gt;
+
+&lt;p&gt;{% highlight bat %}
+set node=remote_pc_name
+sc \%node% start RemoteRegistry
+reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server&amp;raquo; /v fDenyTSConnections /d 0 /f
+{% endhighlight %}&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
