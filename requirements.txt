@@ -1,3 +1,0 @@
-tinkerer
-fabric
-ghp-import
