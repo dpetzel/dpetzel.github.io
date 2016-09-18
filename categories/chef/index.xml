@@ -14,10 +14,10 @@
     
     <item>
       <title>Speeding Up Test Kitchen</title>
-      <link>http://www.dpetzel.info/post/speeding-up-test-kitchen/</link>
+      <link>http://www.dpetzel.info/post/chef/speeding-up-test-kitchen/</link>
       <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/speeding-up-test-kitchen/</guid>
+      <guid>http://www.dpetzel.info/post/chef/speeding-up-test-kitchen/</guid>
       <description>&lt;p&gt;This past week I was turned on to a tiny, but game changing (for me) gem named
 &lt;code&gt;kitchen-sync&lt;/code&gt;.&lt;/p&gt;
 
