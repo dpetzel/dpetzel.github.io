@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Installing Apache Traffic Server 3.0.1 on Centos 5.7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Installing Apache Traffic Server 3.0.1 on Centos 5.7</h1>
+      
+
+      
+      <span class="post-meta">Posted on March 5, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>A quick chronicle of my journey to install Apache Traffic Servers on
+Centos 5.7. In the end it ended up being a lot easier than I was expecting,
+given how sporadic and incomplete the documentation on their site is.</p>
+
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a
+<code>yum update</code> &amp; <code>reboot</code> after the initial installation of the OS, before
+starting with installing ATS</p>
+
+<p>Do the installation:</p>
+
+<pre><code class="language-shell">cd /tmp
+wget http://www.carfab.com/apachesoftware//trafficserver/trafficserver-3.0.1.tar.bz2
+yum -y install gcc gcc-c++ pcre pcre-devel tcl tcl-devel openssl-devel expat-devel
+tar -jxvf trafficserver-3.0.1.tar.bz2
+cd /tmp/trafficserver-3.0.1
+./configure --prefix=/opt/trafficserver
+make
+make install
+</code></pre>
+
+<p>At this point it was installed for me, however I ran into one <em>really</em>
+boneheaded mistake. Mostly my own fault, but the documentation in the getting
+started guide is misleading as well. From this page
+<a href="http://trafficserver.apache.org/docs/v2/admin/getstart.htm">http://trafficserver.apache.org/docs/v2/admin/getstart.htm</a> it says:</p>
+
+<blockquote>
+<p>#. Log on to the Traffic Server node as the Traffic Server administrator and navigate to the Traffic Server bin directory.</p>
+
+<p>#. Enter the following command:</p>
+
+<p>./start_traffic_server</p>
+
+<p>./trafficserver start</p>
+</blockquote>
+
+<p>The problem is that start_traffic_server does not exist. Since I’m brand new to
+traffic server, I can’t be sure, but I suspect this is a relic from 2.x. The
+next challenge was running “./trafficserver start”. This gives the illusion
+that the server has started, but I ran into issues with traffic_line and
+traffic_shell errors. You can see the details of those errors in my
+<a href="http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser">semi-embarrassing forum post</a>:</p>
+
+<p>For those that want to cut to the chase, start traffic server with
+<code>trafficserver start</code> notice the omission of the underscore. Running this
+command also starts traffic_cop and traffic_manager. I ended up finding this by
+reading the INSTALL file that was included in the source download. Yes, I did
+read the file before attempting to install, but as I already admitted, glossed
+right over the closely named file.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/sysadmin/installing_varnish_cache_3_0_2_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Varnish Cache 3.0.2 on Centos 5.7">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/" data-toggle="tooltip" data-placement="top" title="Cloud Zoom Is Blocking My Modal Dialog Box">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Adventures in Django Performance Analysis</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Adventures in Django Performance Analysis" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Adventures in Django Performance Analysis</h1>
+      
+
+      
+      <span class="post-meta">Posted on September 22, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#new-relic-integration">New Relic Integration</a></li>
+<li><a href="#memcached-vs-locmem">Memcached Vs Locmem</a></li>
+<li><a href="#celery-apply-vs-apply-async">Celery apply vs apply_async</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          
+
+<p>Nothing to eye opening here but I wanted to collect some thoughts and insights
+I had this week. While I&rsquo;m more of an operations guy, a while back I hacked
+up a <code>Django</code> based web application which uses <code>Celery</code> and <code>RabbitMQ</code>. I have
+recent set out to do some performance analysis on it.</p>
+
+<p>Its not an application that sees much traffic as it was created to serve a niche
+internal purpose, but it does handle web requests which result in potentially
+long running background tasks.</p>
+
+<p>There are a few pages and process that are painfully slow. So this week I set
+out to improve some of slower components of the application. I felt like I had
+a pretty good idea of what sucked and why but I wanted to gather some metrics
+first so I could understand if the changes I was going to make were the right
+changes to make. As of today, I&rsquo;ve not made any code changes to improve
+performance, but I wanted to collect my observations after having adding some
+instrumentation.</p>
+
+<h2 id="new-relic-integration">New Relic Integration</h2>
+
+<p>At work <code>New Relic</code> has been getting a lot of buzz for the magic it works on
+Java based applications. I was aware they had some <code>Python</code> integration, but
+up until this week I had not looked too closely at it. To be fair I still don&rsquo;t
+think I&rsquo;ve spent enough time reading all their documentation to fully appreciate
+all they have to offer, as I was pretty focused on integration with my <code>Django</code>
+application.</p>
+
+<p>The first thing I noticed was my &laquo;google-foo&raquo; was failing on producing anything
+useful.  I got as far as <a href="http://newrelic.com/python/django">http://newrelic.com/python/django</a> which is a great
+marketing page, but I needed the technical know-how on how to hook things up.
+(I&rsquo;m a <code>New Relic</code> noob all the way around). What I thought was interesting here is
+once I did find their documentation it was tremendous, so it was odd that my
+searches had been coming up so dry&hellip;</p>
+
+<p>I read through the bits and pieces on <a href="https://newrelic.com/docs/python/">https://newrelic.com/docs/python/</a>.
+I was starting to get pretty excited as this looked like it was going to be really
+easy. <a href="https://newrelic.com/docs/python/python-agent-integration">https://newrelic.com/docs/python/python-agent-integration</a> seemed to have
+all the key pieces I needed, so I got to work.</p>
+
+<p>I run my application under a <code>virtualenv</code> so I added <code>newrelic</code> to my
+requirements.txt and ran a quick <code>pip install -r requirements.txt</code>. The
+package was installed without any issues. No crazy dependencies and no compile
+errors (which are all to uncommon when installing packages with pip).</p>
+
+<p>Next up for me was getting the agent registered with my web server
+(Apache running mod_wsgi). They offer several ways of doing doing things, but I
+settled on the <em>Manual integration with code</em> approach. So I added the following
+to my wsgi script:</p>
+
+<pre><code class="language-python">try:
+    import newrelic.agent
+    try:
+        nr_conf = os.path.join(project_folder, &quot;conf&quot;, &quot;newrelic-django.conf&quot;)
+        newrelic.agent.initialize(nr_conf)
+    except newrelic.api.exceptions.ConfigurationError:
+        logger.warn(&quot;Failed loading New Relic config: {0}&quot;.format(nr_conf))
+except ImportError:
+    logger.error(&quot;Failed to import newrelic agent&quot;)
+</code></pre>
+
+<p>This deviates just a touch from their example so let me explain the key pieces
+here. <code>project_folder</code> is a variable that was already in my wsgi_script and
+is simply the path to where all my code lives. I&rsquo;m storing the <code>newrelic-django.conf</code>
+in a <code>conf</code> sub-folder. The examples on the <code>New Relic</code> site worked, but for
+me I wanted to be sure that if anything was wrong with the agent or the
+configuration file it wouldn&rsquo;t hinder my apps ability to start. As a result I
+wrapped their example with some try/except blocks and logging.</p>
+
+<p>About 2-3 minutes after restarting Apache on my local development VM where I
+was testing this, I started seeing very detailed statistics in <code>New Relic</code>.
+I was in awe for several minutes at the insane level of detail they were able
+to collect including database query times and mapping out my downstream
+dependencies. It was truly amazing!</p>
+
+<p>I did however notice that none of my <code>Celery</code> tasks were getting any information.
+I did recall I had read that had to be handle separately. So this lead me
+to <a href="https://newrelic.com/docs/python/python-agent-and-celery">https://newrelic.com/docs/python/python-agent-and-celery</a>. I&rsquo;m running
+<code>Celery</code> under <code>runit</code> so I had to update my run script. In the process I learned
+a little more about runit and environment variables (I&rsquo;m still pretty new to
+using <code>runit</code>). <a href="http://smarden.org/runit/chpst.8.html">http://smarden.org/runit/chpst.8.html</a> is where they discuss this
+but for me it was not immediately clear. Here is what I did:</p>
+
+<ol>
+<li>create a new directory in the <em>same directory</em> as my run script. I named it
+<code>env</code></li>
+<li>In my <code>env</code> directory I created a file called <code>NEW_RELIC_CONFIG_FILE</code>.</li>
+<li>I populated <code>env/NEW_RELIC_CONFIG_FILE</code> with the path to my configuration
+file.</li>
+</ol>
+
+<p>So now when <code>runit</code> kicks off my celeryd process it will have the proper
+environment variable set.</p>
+
+<p>So now it was time to update my run script. Here is what it looked like before:</p>
+
+<pre><code class="language-shell">exec /usr/bin/env chpst -u myapps_user \
+  path_to_virtualenv/bin/python \
+  path_to_my_code/manage.py \
+  celeryd
+</code></pre>
+
+<p>And here is what it looked like after. As you can see not all that different:</p>
+
+<pre><code class="language-shell">	exec /usr/bin/env chpst -e env -u myapps_user \
+	  path_to_virtualenv/bin/python \
+	  path_to_virtualenv/bin/newrelic-admin run-program \
+	  path_to_virtualenv/bin/python \
+	  path_to_my_code/manage.py \
+	  celeryd
+</code></pre>
+
+<p>Restarted my service and sure enough in just a minute or two I had stats showing
+up in <code>New Relic</code>. I will say it didn&rsquo;t have quite the awe inspiring level of
+detail that the web application had, but still pretty awesome for making 0 code
+changes, and simply starting up using their wrapper.</p>
+
+<p>That was it, up and running in about about 1.5 hours including time to read
+the documentation. Lets ship it!!.</p>
+
+<p>I rolled out my updated code to QA and started seeing <strong>nothing</strong>. WTF&hellip;.
+Trolling through the logs I found this:</p>
+
+<pre><code class="language-shell">newrelic.core.data_collector WARNING - Data collector is not contactable via the proxy host 'myproxyhost' on port 8080 with proxy user of None. This can be because of a network issue or because of the data collector being restarted. In the event that contact cannot be made after a period of time then please report this problem to New Relic support for further investigation. The error raised was SSLError(SSLError(SSLError('_ssl.c:489: The handshake operation timed out',),),).
+</code></pre>
+
+<p>Now I was prepared a bit for this as I knew I&rsquo;d be running behind a proxy server
+so I had planned for this and included proxy configuration in my configuration
+INI file. Assuming I had done something wrong I reviewed the proxy related
+information in <a href="https://newrelic.com/docs/python/python-agent-configuration">https://newrelic.com/docs/python/python-agent-configuration</a>.
+Everything looked correct. Typical debugging ensues without any luck. So I
+start hacking a ton of debugging output into their agent code and learned that
+the HTTP end point I&rsquo;m failing on is <code>https://collector.newrelic.com/agent_listener/invoke_raw_method</code>.
+Using curl from the command line I&rsquo;m able to confirm proxy connectivity is
+working. Several more WTF&rsquo;s follow.. While I don&rsquo;t pretend to fully understand
+all the moving pieces I was able to see their agent is using the requests library
+and the dictionary they were passing for proxies looked different than the
+<code>examples on the requests site &lt;http://www.python-requests.org/en/latest/user/advanced/#proxies&gt;</code>.</p>
+
+<p>The newrelic agent was using <code>{'https': 'myproxyhost:8080'}</code>,
+however requests shows it as <code>{'https': 'http://myproxyhost:8080'}</code></p>
+
+<p>Here is how I had my agent INI originally:</p>
+
+<pre><code class="language-ini"> proxy_host = myproxyhost
+ proxy_port = 8080
+</code></pre>
+
+<p>So I changed it to this:</p>
+
+<pre><code class="language-ini">proxy_host = http://myproxyhost
+proxy_port = 8080
+</code></pre>
+
+<p>After a restart everything was working fine and I was seeing stats from my
+nodes behind my proxy server. Success!!. While I think this is actually a bug
+in their agent code, I was happy to see I would work around it with a
+configuration change.</p>
+
+<h2 id="memcached-vs-locmem">Memcached Vs Locmem</h2>
+
+<p>I&rsquo;ve got a few instances of my application running and early on I had added some
+<strong>very</strong> basic caching. Early on there was only a single instance so I thought
+I was doing myself a favor by keeping things simple and using the <code>locmem</code>
+cache backend. When the time came to scale up to more instances I knew this was
+not the best approach as cache was not being shared across instances and if
+wanted to run with multiple Apache processes those processes, even though there
+under the same instance of Apache, were not actually sharing cache. I should note
+that the reason for adding more instances wasn&rsquo;t load related, but simply to
+avoid having a single point of failure. So at that time I didn&rsquo;t explore
+switching to Memcached as I didn&rsquo;t really want to change anything, I just
+wanted more instances to avoid the SPF.</p>
+
+<p>Fast-forward and I figured since I&rsquo;m focused on the subject let me eliminate
+what I know is an inefficiency and switch to Memcached so all my instances
+are now sharing cache. Since I had recently hooked up New Relic I had some
+really great statistics. I could see, on average, one of the more frequent
+pages of the application were taking about 2 seconds (horrible I know.. I knew it
+was slow, but was ashamed when I saw just how slow it really was).  So I updated
+my configuration to use a <strong>remote</strong> (not on the same box) Memcached cluster.
+I didn&rsquo;t make any other changes to code or configuration, yet as soon as I rolled
+out I saw an average of about 700ms reduction in response time. That warrants
+repeating&hellip;. <strong>Doing nothing except changing from locmem to Memcached resulted
+in around 700ms of reduced page load time</strong>.</p>
+
+<p>I am not suggesting that locmem is bad. In fact, when I first implemented it
+made a pretty large improvement, but it was very interesting see to how much
+of an improvement Memcached made, considering we were going from in process
+cache to an external (across the network) cache. My take away from this was
+that there are cases were a remote cache can actually be more beneficial than
+a local cache, if your sharing information across many instances.</p>
+
+<h2 id="celery-apply-vs-apply-async">Celery apply vs apply_async</h2>
+
+<p>The last thing I poked at this week was usage of <code>Celery</code>&rsquo;s <code>apply()</code> method
+vs <code>apply_aysync</code>. For those that don&rsquo;t know the difference, <code>apply_async</code>
+will drop a message onto the queue and wait for celeryd to process it
+asynchronously. Using <code>apply()</code> is defined as:</p>
+
+<blockquote>
+<p>Execute this task locally, by blocking until the task returns</p>
+</blockquote>
+
+<p>I was curious what sort of overhead was involved in the process of dropping the
+message onto the queue. I created a task that did no actual work:</p>
+
+<pre><code class="language-shell">from celery.task import task
+
+@task
+def test_task():
+    pass
+</code></pre>
+
+<p>After that I timed the calls to both <code>apply()</code> and <code>apply_aysync</code>. On my
+system, where <code>RabbitMQ</code> is running on the same box (so no network hops
+involved in this test), <code>apply()</code> would run the task in about 3-4ms while
+<code>apply_aysync</code> ranged between 13-16ms with occasional anomalies of 30-34ms.</p>
+
+<p>For my purposes this is plenty fast enough, but I was a little surprised to
+see that level of overhead.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In summary, it was an interesting set of exercises and for the most part
+confirmed many of my suspicions, but its nice to finally have some real
+metrics around this. Now that I&rsquo;m measuring all this great stuff its time to
+start improving it!</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/" data-toggle="tooltip" data-placement="top" title="Chef Minitest and Slow Starting Web Application">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/switched_to_tinkerer/" data-toggle="tooltip" data-placement="top" title="Switched To Tinkerer">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

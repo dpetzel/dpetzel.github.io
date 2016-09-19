@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Migrating from Windows 2003 SBS to Windows 2012 Standard Part I" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</h1>
+      
+
+      
+      <span class="post-meta">Posted on November 28, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#getting-prepared">Getting Prepared</a></li>
+<li><a href="#upgrading">Upgrading</a>
+<ul>
+<li><a href="#add-2012-server-as-new-domain-controller">Add 2012 Server As New Domain Controller</a></li>
+<li><a href="#update-dns-clients">Update DNS Clients</a></li>
+<li><a href="#transferring-fsmo-roles">Transferring FSMO Roles</a></li>
+<li><a href="#update-time-configurations">Update Time Configurations</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          
+
+<p>I&rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
+to Windows 2013 Standard.</p>
+
+<p>Without getting into too much of the back story, the client purchased Windows
+2003 SBS many moons ago, however they never leveraged anything except Active
+Directory and File Sharing. They use their hosting provider&rsquo;s web mail, and
+don&rsquo;t have an appetite to change that.</p>
+
+<p>Here are we many moons later and they are ready to upgrade. They&rsquo;ve purchased a
+new, fairly beefy, box running Windows 2012 Standard.</p>
+
+<p>After some discussions around the path they would prefer to take we&rsquo;ve decided
+we don&rsquo;t want to have to touch all of the PCs and move them to a new domain,
+and we&rsquo;d like the upgrade to be as seamless as possible. To that end the decision
+was made to attempt a <em>migration</em>. This document will hopefully capture my
+journey down this path. Its been at least 5 years since I&rsquo;ve touched a &laquo;real&raquo;
+domain controller, so a decent amount of reading is order, but from what I have
+gathered so far this is not a standard conversion path, but it appears there
+are some options.</p>
+
+<h2 id="getting-prepared">Getting Prepared</h2>
+
+<p>So I decided I&rsquo;d blow away the existing installation of 2012 on the box and
+lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
+performed a P2V on the existing Windows 2003 SBS host. The P2V process is
+outside the scope of this document, but was actually pretty easy. This will
+allow me to take snapshots, and even clone the VM for some trial runs
+(I don&rsquo;t have any lab hardware available for this).</p>
+
+<p>fter getting the SBS server virtualized, I proceed to configure the new 2013 box as a member server with a static IP. I ensured its primary DNS server was set to the SBS server. I did not configure any roles or features at all yet.</p>
+
+<p>Now that I&rsquo;m ready to proceed, I started by installing the support tools
+from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=15326">http://www.microsoft.com/en-us/download/details.aspx?id=15326</a>. With those
+tools in place I ran through series of tests as outlined in <a href="http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx">http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx</a></p>
+
+<p>{% highlight console %}<br />
+Dcdiag /v /c /d /e /s:<sbs_server> &gt; c:\temp\dcdiag.log
+{% endhighlight %}</p>
+
+<p>The first error logged was:
+{% highlight console %}
+    * Checking Service: IsmServ
+        IsmServ Service is stopped on [SERVER]
+    &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip; SERVER failed test Services
+ {% endhighlight %}</p>
+
+<p>Based <a href="http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html">http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html</a>,
+it appears this is expected on SBS and safe to ignore, so doing just that.</p>
+
+<p>The next error up was:</p>
+
+<p>{% highlight console %}
+      Starting test: systemlog
+         * The System Event log test
+         An Error Event occured.  EventID: 0xC0002719
+            Time Generated: 11/28/2013   18:05:14
+            (Event String could not be retrieved)
+         &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;. SERVER failed test systemlog
+{% endhighlight %}</p>
+
+<p>This seems to be related to a single event in my event log:</p>
+
+<pre><code class="language-console">    Event Type: Error
+    Event Source:   DCOM
+    Event Category: None
+    Event ID:   10009
+    Date:       11/28/2013
+    Time:       6:05:14 PM
+    User:       N/A
+    Computer:   SERVER
+    Description:
+    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+
+    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+</code></pre>
+
+<p>I don&rsquo;t see any other occurrences of this error. I&rsquo;m assuming I could clear the
+event logs to not see, but I&rsquo;d rather keep the event log history around, so I&rsquo;m
+going to ignore this for now.</p>
+
+<p>All the other tests passed, so I moved onto <code>Repadmin</code>:</p>
+
+<pre><code class="language-console">Repadmin /showrepl sbs_host /verbose /all /intersite &gt;c:\repl.log
+</code></pre>
+
+<p>Nothing jumped out at me in this output. Next up <code>dnslint</code></p>
+
+<pre><code class="language-console">  Dnslint /v /ad /s &quot;DCipaddress&quot;
+</code></pre>
+
+<p>This one caught something interesting:</p>
+
+<pre><code class="language-console">Notes:
+One or more DNS servers is not authoritative for the domain
+</code></pre>
+
+<p>After reviewing the output I found that at some point in time someone had
+created a local host file entry for localhost that was the IP of the server.
+Traditionally I believe localhost resolves to 127.0.0.1, rather than the actual
+box IP, so I simply commented out the file entry. After that <code>dnslint</code> came
+back clean.</p>
+
+<p>I skipped the <code>adreplstatus</code> checks since this is a single node, and the tool
+wanted me to install .net framework 4.0, which seemed heavy handed for a test
+I didn&rsquo;t care about.</p>
+
+<p>Next up I confirmed that both the <code>_msdcs.domain.local</code> and <code>domain.local</code> zones
+were set to the <code>Active Directory-Integrated</code> type.</p>
+
+<p>Next, I confirmed what level AD was currently at:</p>
+
+<pre><code class="language-batch">Dsquery * cn=schema,cn=configuration,dc=domain,dc=local -scope base -attr objectVersion
+</code></pre>
+
+<p>This returned a value of <code>30</code> for me, which based on the link above means I&rsquo;m
+at the <code>Windows Server 2003</code> which lines up with the version of SBS on the host.</p>
+
+<p>At this point I took a snapshot of the host as we are going to start making
+changes soon.</p>
+
+<h2 id="upgrading">Upgrading</h2>
+
+<h3 id="add-2012-server-as-new-domain-controller">Add 2012 Server As New Domain Controller</h3>
+
+<p>In my case the SBS server was at the <code>Windows 2000</code> level for <strong>both</strong> the
+Domain Functional Level, as well as the Forest Functional Level.
+Using <code>Active Directory Domains and Trusts</code> I increased both of these to the
+<code>Windows 2003</code> level. This was done on the SBS 2003 node. Since its a single
+SBS box, I figure replication time is essentially 0 so after trolling the Event
+Logs for a few minutes to ensure nothing weird popped up, I proceeded.</p>
+
+<p>I then stepped through the process of promoting the 2012 as a domain controller
+which is well illustrated at  <a href="http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx">http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx</a></p>
+
+<p>After the restart I noticed a few things that seemed off at first. The first
+one was that I didn&rsquo;t have a netlogon share on the new 2012 DC. Additionally
+there were some errors in the event log. I found that the
+<code>File Replication Service</code> was stopped. It was set to automatic, so I started
+it. After starting that service, I now had the netlogon share as well.</p>
+
+<h3 id="update-dns-clients">Update DNS Clients</h3>
+
+<p>At this point I updated the DNS settings on thew new 2012 server to reference
+itself first.</p>
+
+<p>Once that was completed, I then update my DHCP configuration on the SBS 2003
+box (I&rsquo;ll move DHCP later), I updated the options to pass the new box as the
+primary DNS server.</p>
+
+<h3 id="transferring-fsmo-roles">Transferring FSMO Roles</h3>
+
+<p>I then followed <a href="http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx">http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx</a>
+to transfer all the FSMO and related roles over to the new server.</p>
+
+<h3 id="update-time-configurations">Update Time Configurations</h3>
+
+<p>As touched on toward the end of the <a href="http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx">http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx</a> I updated time settings as follows</p>
+
+<p>2012 Server:</p>
+
+<pre><code class="language-batch">w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update
+</code></pre>
+
+<p>SBS 2003 Server:</p>
+
+<pre><code class="language-batch">w32tm /config /syncfromflags:domhier /reliable:no /update
+</code></pre>
+
+<p>At this point I&rsquo;m going to let things bake for a bit. I&rsquo;ve got all the &laquo;AD Stuff&raquo;
+moved over. At this point I&rsquo;m left with all the file shares and applications
+(IE Virus Console) that are configured to point at this host.  As I get to
+moving some of these items I&rsquo;ll add new parts.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012">http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012</a></li>
+<li><a href="http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx">http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx</a></li>
+<li><a href="http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx">http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx</a></li>
+<li><a href="http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx">http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx</a></li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/virtualization/building-a-dell-t420-with-esxi-5/" data-toggle="tooltip" data-placement="top" title="Building a Dell T420 with ESXi 5">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/windows/chocolatey-is-awesome/" data-toggle="tooltip" data-placement="top" title="Chocolatey is Awesome">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

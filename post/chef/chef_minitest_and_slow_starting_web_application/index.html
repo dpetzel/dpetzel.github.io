@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Chef Minitest and Slow Starting Web Application</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Chef Minitest and Slow Starting Web Application" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Chef Minitest and Slow Starting Web Application</h1>
+      
+
+      
+      <span class="post-meta">Posted on September 22, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>As I have started to become proficient with <code>Chef</code> I&rsquo;ve also gotten used to
+using the <code>minitest-chef-handler</code> for writing integration tests for my
+cookbooks. This quick post is to capture an approach I&rsquo;ve grown to like for
+doing HTTP tests of slow starting web applications. I&rsquo;ve noticed that many
+services will return from an <code>/sbin/service mysapp start</code> well before
+the application has fully started and is accepting HTTP connections.</p>
+
+<p>Originally I taken a very naive approach of timing how long the app took
+to startup, adding some arbitrary number of seconds and then just sleeping that
+long before testing. This is of course a stupid approach and now that I&rsquo;ve
+gotten my feet wet with both <code>Chef</code> and Ruby I&rsquo;ve learned of a really simply
+approach to poll the service frequently and eventually giving up or succeeding.</p>
+
+<p>Here is an example of the approach I am using these days:</p>
+
+<pre><code class="language-ruby">require 'minitest/spec'
+require &quot;net/http&quot;
+
+describe_recipe 'mycookbook::myrecipe' do
+  include MiniTest::Chef::Assertions
+  include MiniTest::Chef::Context
+  include MiniTest::Chef::Resources
+  it &quot;listens on the desired HTTP Port&quot; do
+    begin
+      tries ||= 12
+      http_port = node[:myapp][:http_port]
+      response = Net::HTTP.get_response(node[:ipaddress], &quot;/&quot;, http_port)
+    rescue
+      Chef::Log.info(&quot;HTTP listner is not available yet&quot;)
+      sleep(5)
+      retry unless (tries -= 1).zero?
+    end
+    response.must_be_kind_of(Net::HTTPOK)
+  end
+end
+</code></pre>
+
+<p>So lets break this down a bit:
+* The first couple of lines are boiler plate imports. We will be leveraging
+  some spec tests and using the net/http library in our tests.
+* Line 4 starts a describe_recipe block (which ends on 20).
+* Lines 5-7 include some bits from <code>Minitest::Chef</code>. In general you should
+  move these out to a helper module, but thats out of the scope of this post.
+  For the purposes of this post just know you need to have them in order for
+  this to work properly (I actually think the only one that is really required
+  is <code>MiniTest::Chef::Context</code>, but all the examples you find tend to include
+  all 3, so I&rsquo;m leaving them as I don&rsquo;t believe there is much harm in including
+  and not using them.
+* Line 8 starts another block (which ends on line 19) which is essentially a
+  description of what we will be testing.</p>
+
+<p>All of the items I just described are pretty generic for tests. They are
+not directly related to the purpose of this post, but I include them for the
+purpose of a complete example. Now lets look a little closer at the bits that
+do the test:</p>
+
+<pre><code class="language-ruby">begin
+  tries ||= 12
+  http_port = node[:myapp][:http_port]
+  response = Net::HTTP.get_response(node[:ipaddress], &quot;/&quot;, http_port)
+rescue
+  Chef::Log.debug(&quot;HTTP listner is not available yet&quot;)
+  sleep(5)
+  retry unless (tries -= 1).zero?
+end
+response.must_be_kind_of(Net::HTTPOK)
+</code></pre>
+
+<p>By wrapping everything in a begin/rescue block we can leverage Ruby&rsquo;s built-in
+<code>retry</code> statement which I also just recently learned about and has allowed
+me to cleanup a good bit of self-rolled retry logic I&rsquo;ve written.</p>
+
+<p>I&rsquo;m certainly no Ruby expert so the following explanation is how I understand
+these pieces to work:</p>
+
+<ul>
+<li>Line 2 reads &laquo;Use the current value of the variable <code>tries</code>. If the variable
+is not currently set, start with a value of <strong>12</strong>&raquo;.</li>
+<li>Next we are going to fetch the HTTP port from a node attribute. I&rsquo;ve seen examples
+were folks bake the HTTP port into the test, but I prefer using a node attribute
+so that my recipe can configure the application on that port and my test will
+use that same port. In the future if I ever change the port, I don&rsquo;t need
+to update the test.</li>
+<li>Line 4 is going to invoke an HTTP request to the path of &laquo;/&raquo; on the local node
+using its IP address (rather than localhost or 127.0.0.1).</li>
+</ul>
+
+<p>Now comes the real magic. When something goes wrong (IE the application is not
+accepting HTTP connections yet) we hit the rescue block. When that happens the
+following occurs:</p>
+
+<ul>
+<li>Log a debug level message that we haven&rsquo;t finished starting yet</li>
+<li>Wait for 5 seconds</li>
+<li>And finally the magic wand in the equation&hellip; Line 8 reads &laquo;decrement the
+value of the tries variable by one (12 - 1 = 11). After decrementing the
+variable check if the variable is equal to 0. If it is not, retry the code
+that was in the begin section (lines 2-4).</li>
+</ul>
+
+<p>So this block will check if the application is accepting HTTP connections once
+every 5 seconds for a maximum of 12 tries (one minute). If at
+any point we get an HTTP response, it stops trying. Additionally if we have
+not gotten a response in 12 attempts we also stop trying.</p>
+
+<p>This allows us to not wait for 60 seconds when the app usually takes 10 seconds
+to start, but may sometimes take 25-30 seconds.</p>
+
+<p>Finally, line 10 registers the assertion with minitest. We are asserting
+that the response is going to be instance of <a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTPOK.html">Net::OK</a>.
+Had we hit our maximum number of retries this would have been nil and failed.
+Additionally if for some reason we got some sort of HTTP error this would
+also fail.</p>
+
+<p>So as I mentioned earlier there are other ways to accomplish this but I like
+this approach as its pretty easy to understand for someone that doesn&rsquo;t know
+Ruby all that well (ME!), and has the benefit of not waiting too much longer
+than necessary when waiting for a service to start.</p>
+
+<p>References:
+* <a href="http://www.opscode.com/chef/">Chef</a>
+* <a href="https://github.com/calavera/minitest-chef-handler">minitest-chef-handler</a></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/hello_pelican/" data-toggle="tooltip" data-placement="top" title="Hello Pelican">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/" data-toggle="tooltip" data-placement="top" title="Adventures in Django Performance Analysis">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

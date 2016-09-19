@@ -14,10 +14,10 @@
     
     <item>
       <title>Migrating from Windows 2003 SBS to Windows 2012 Standard Part I</title>
-      <link>http://www.dpetzel.info/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
+      <link>http://www.dpetzel.info/post/windows/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</link>
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
+      <guid>http://www.dpetzel.info/post/windows/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
       <description>
 
 &lt;p&gt;I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
@@ -206,10 +206,10 @@ moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
     
     <item>
       <title>Building a Dell T420 with ESXi 5</title>
-      <link>http://www.dpetzel.info/post/building-a-dell-t420-with-esxi-5/</link>
+      <link>http://www.dpetzel.info/post/virtualization/building-a-dell-t420-with-esxi-5/</link>
       <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/building-a-dell-t420-with-esxi-5/</guid>
+      <guid>http://www.dpetzel.info/post/virtualization/building-a-dell-t420-with-esxi-5/</guid>
       <description>
 
 &lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I

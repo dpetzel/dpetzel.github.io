@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Running Uptime on Heroku</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Running Uptime on Heroku" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Running Uptime on Heroku</h1>
+      
+
+      
+      <span class="post-meta">Posted on September 8, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#long-version">Long Version</a></li>
+<li><a href="#condensed-version">Condensed Version</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          
+
+<p>For today&rsquo;s adventure I&rsquo;ve decided to finally get my hands dirty with
+<a href="http://heroku.com">Heroku</a>. I&rsquo;ve know about it for a while now, and have gone
+so far as reading some of the documentation, however I&rsquo;ve never actually
+tried using it. So today, I decided to change that.</p>
+
+<p><strong>NOTE</strong>: If you don&rsquo;t really care how I got there, skip to the &laquo;Condensed&raquo;
+section for the bare bones info.</p>
+
+<h2 id="long-version">Long Version</h2>
+
+<p>So my first question was what should I run. I&rsquo;m not really in a coding
+mood today so I figured I would pick something someone else has already
+written. Earlier this week a colleague of mine turned me onto <code>Uptime</code>_
+so I figured, what the heck its as good as any.</p>
+
+<p>After a little more digging, I found that there were enough free pieces
+to Heroku that I should be able to run this experiment at no charge.
+Bonus!!</p>
+
+<p>So the reading started with:</p>
+
+<ul>
+<li><a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">https://devcenter.heroku.com/articles/getting-started-with-nodejs</a></li>
+<li><a href="https://gist.github.com/amree/5884081">https://gist.github.com/amree/5884081</a></li>
+</ul>
+
+<p>That link the gist was superhelpful, however I didn&rsquo;t really care for
+the fact that the credentials would be stored in the configuration
+file. After a little more digging I ended up on <a href="http://lorenwest.github.io/node-config/latest/">http://lorenwest.github.io/node-config/latest/</a>.
+The key piece of information on this page was:</p>
+
+<blockquote>
+<p>Environment variables can be used to override file configurations. Any environment variable that starts with $CONFIG_ is set into the CONFIG object.</p>
+</blockquote>
+
+<p>I recalled reading in the Heroku docs that I could set environment
+variables for my application. So at this point I feel like I&rsquo;ve got
+enough information to get started. Here we go&hellip;</p>
+
+<p>The first thing I did was sign up for a Heroku account from their
+front page. I must say this was one of the easiest signup processes
+I have ever seen. I also thought it was interesting (only because it was
+different) that during the sign up process you don&rsquo;t create your password
+until AFTER you get your verification email.</p>
+
+<p>Next I installed the Heroku toolbelt (I&rsquo;m doing this testing on a
+Linux Mint workstation):</p>
+
+<pre><code class="language-shell">wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+</code></pre>
+
+<p>That couldn&rsquo;t have been any No more errors!! I think we are in business finally.easier.. So now I cloned the Uptime github repo:</p>
+
+<pre><code class="language-shell">git clone https://github.com/fzaninotto/uptime.git
+cd uptime
+</code></pre>
+
+<p>Next I logged into Heroku:</p>
+
+<pre><code class="language-shell">heroku login
+</code></pre>
+
+<p>This is a brand new test workstation I&rsquo;m using so I didn&rsquo;t have any
+ssh keys configured yet. Heroku appears to take care of that as well:</p>
+
+<pre><code class="language-shell">Could not find an existing public key.
+Would you like to generate one? [Yn] Y
+Generating new SSH public key.
+Uploading SSH public key /home/dave/.ssh/id_rsa.pub... done
+Authentication successful.
+</code></pre>
+
+<p>I&rsquo;m assuming had I already had keys, this would have been skipped..
+From there I setup the application in Heroku:</p>
+
+<pre><code class="language-shell">heroku create my-uptime
+Creating my-uptime... done, stack is cedar
+http://my-uptime.herokuapp.com/ | git@heroku.com:my-uptime.git
+Git remote heroku added
+</code></pre>
+
+<p>So things interesting at this step happened:</p>
+
+<ol>
+<li>The name I originally chose came back with <code>!    Name is already taken</code>.
+This seems to indicate that two people can&rsquo;t have the same application.
+Interesting, but no big deal as some simple name prefixing would easy
+solve this</li>
+<li>It automatically created a new git remote for me. This was pretty cool
+In some of the reading I did I kept seeing references to
+<code>git push heroku master</code>, and I was wondering why none of them
+references creating the remote. Now I know.</li>
+</ol>
+
+<p>Now we need to add in support for MongoDB (which uptime uses). This was
+the first actual issue I ran into. I&rsquo;m sure it was in the docs somewhere
+but I must have missed it:</p>
+
+<pre><code class="language-shell">heroku addons:add mongolab
+Adding mongolab on my-uptime... failed
+ !    Please verify your account to install this add-on
+ !    For more information, see http://devcenter.heroku.com/categories/billing
+ !    Verify now at https://heroku.com/verify
+</code></pre>
+
+<p>Hitting that verify page I was prompted for my credit card info. Wait
+a minute&hellip; I could have sworn I read that the <code>Mongo HQ</code> addon said
+I could use the <strong>MongoHQ Sandbox</strong> for <em>free</em>&hellip;. And then I found this:
+<a href="https://devcenter.heroku.com/articles/account-verification">https://devcenter.heroku.com/articles/account-verification</a></p>
+
+<blockquote>
+<p>It becomes a requirement once you wish to use add-ons other than
+  postgresql:dev or pgbackups:plus–even if the add-ons are free. This is because
+  some features (most notably outgoing email and  custom domains) carry a
+  potential for abuse.</p>
+</blockquote>
+
+<p>OK, that seems fair. I accommodated and gave them my CC info. Now lets
+try adding Mongo support again:</p>
+
+<pre><code class="language-shell">heroku addons:add mongolab
+Adding mongolab on my-uptime... done, v3 (free)
+Welcome to MongoLab.  Your new subscription is being created and will be available shortly.  Please consult the MongoLab Add-on Admin UI to check on its progress.
+Use `heroku addons:docs mongolab` to view documentation.
+</code></pre>
+
+<p>Much better!! Next I created the <strong>Procfile</strong>. Which seems to instruct
+Heroku <em>how</em> to run the application:</p>
+
+<pre><code class="language-shell">echo &quot;web: node web.js&quot; &gt; Procfile
+git add Procfile
+git commit -m &quot;adding Procfile&quot;
+</code></pre>
+
+<p>So this is where my path and that of the gist I was following started
+to diverge a little bit. The gist talks about hacking up the config
+file, while I want to use environment variables. So the first thing
+I did was fetch my mongo connection info:</p>
+
+<pre><code class="language-shell">heroku config
+=== my-uptime Config Vars
+MONGOLAB_URI: mongodb://heroku_app########:randomchars@host.mongolab.com:12345/heroku_app########
+</code></pre>
+
+<p>From that I&rsquo;m able to figure out the following connection information</p>
+
+<ul>
+<li>Database Host = host.mongolab.com</li>
+<li>Database Port = 12345</li>
+<li>Database User = heroku_app########</li>
+<li>Database Password = randomchars</li>
+<li>Database Name = heroku_app######## (Seems to match my username, not
+sure if that is always the case or not)</li>
+</ul>
+
+<p>OK, so from here I know I can see my username will be <code>heroku_app########</code><code>
+and my password will be</code><code>randomchars</code>`. Now lets set those in environment
+variables so I can safely commit my stuff to github without giving
+away the keys to the kingdom:</p>
+
+<pre><code class="language-shell">heroku config:set NODE_ENV=production
+heroku config:set $CONFIG_mongodb.server=host.mongolab.com:12345
+heroku config:set $CONFIG_mongodb.database=heroku_app########
+heroku config:set $CONFIG_mongodb.user=heroku_app########
+heroku config:set $CONFIG_mongodb.password=randomchars
+</code></pre>
+
+<p>OK, In theory that should handle our configuration. I think I&rsquo;m ready
+to push the app:</p>
+
+<pre><code class="language-shell">git push heroku master
+... a bunch of output ending in..
+
+-----&gt; Compiled slug size: 24.3MB
+-----&gt; Launching... done, v9
+       http://my-uptime.herokuapp.com deployed to Heroku
+
+To git@heroku.com:my-uptime.git
+ * [new branch]      master -&gt; master
+</code></pre>
+
+<p>OK that seems to have gone smoothly, I guess its time to start it:</p>
+
+<pre><code class="language-shell">heroku ps:scale web=1
+Scaling web dynos... done, now running 1
+```No more errors!! I think we are in business finallyNo more errors!! I think we are in business finally.
+
+OK, seems like it should be running...:
+```shell
+heroku ps
+=== web (1X): `node web.js`
+web.1: crashed 2013/09/08 16:20:03 (~ 5m ago)
+</code></pre>
+
+<p>Also confirmed, I couldn&rsquo;t hit the application on the default port of
+8082&hellip; So now we dive into what went wrong&hellip;. Running <code>heroku --help</code>
+yields there is a logs subcommand. Amongst the chaos of that output I
+find this line:</p>
+
+<pre><code class="language-shell">Error: Cannot find module '/app/web.js'
+</code></pre>
+
+<p>Turns out there is a comment on that gist which indicates we&rsquo;ve used
+the wrong js module. Lets fix that up and re-push:</p>
+
+<pre><code class="language-shell">echo web: node app.js &gt; Procfile
+git add Procfile
+git commit -m &quot;fixing module name&quot;
+git push heroku master
+..the same lots of output as last time we pushed
+</code></pre>
+
+<p>Is it working now?:</p>
+
+<pre><code class="language-shell">heroku ps
+=== web (1X): `node app.js`
+web.1: crashed 2013/09/08 16:32:11 (~ 1m ago)
+</code></pre>
+
+<p>doh!. what now&hellip;Using <code>heroku logs</code>. I find this line now:</p>
+
+<pre><code class="language-shell">MongoDB error: failed to connect to [localhost:27017]
+</code></pre>
+
+<p>Hmmm.. Localhost and 27017 (the default mongodb port). Neither of those
+are the values I set in my environment variables&hellip;. Lets look into
+that. Running <code>heroku config</code> shows that my named spaced ENV vars
+didn&rsquo;t actually take, and instead they were all applied at the root
+level:</p>
+
+<pre><code class="language-shell">heroku config
+=== my-uptime Config Vars
+.database:    heroku_app########
+.password:    randomchars
+.server:      host.mongolab.com:12345
+.user:        heroku_app########
+</code></pre>
+
+<p>So back to the drawing board on assigning those config values&hellip;
+A re-read of <a href="http://lorenwest.github.io/node-config/latest/">http://lorenwest.github.io/node-config/latest/</a> yields
+I&rsquo;m dumb and can&rsquo;t read&hellip;. I should use underscores not dots to
+delimit my vars&hellip; Lets try this again:</p>
+
+<pre><code class="language-shell">heroku config:set $CONFIG_mongodb_password=randomchars
+Setting config vars and restarting my-uptime... failed
+ !    Config var key must not be empty.
+</code></pre>
+
+<p>OK, doesn&rsquo;t like that&hellip; I&rsquo;m guessing the leading dollar sign in the
+docs shouldn&rsquo;t be used when setting this, trying it a different way:</p>
+
+<pre><code class="language-shell">heroku config:set CONFIG_mongodb_password=randomchars
+Setting config vars and restarting mp-uptime... done, v13
+CONFIG_mongodb_password: randomchars
+</code></pre>
+
+<p>Looks better&hellip;:</p>
+
+<pre><code class="language-shell">heroku config
+=== mp-uptime Config Vars
+.database:               heroku_app########
+.password:               randomchars
+.server:                 host.mongolab.com:12345
+.user:                   heroku_app########
+CONFIG_mongodb_password: randomchars
+</code></pre>
+
+<p>Before we go any further, lets clean up my previous mess before I forget
+about it:</p>
+
+<pre><code class="language-shell">heroku config:unset .database .password .server .user
+Unsetting .database and restarting my-uptime... done, v14
+Unsetting .password and restarting my-uptime... done, v15
+Unsetting .server and restarting my-uptime... done, v16
+Unsetting .user and restarting my-uptime... done, v17
+</code></pre>
+
+<p>Perfect, mess removed, now lets set up the new ones&hellip;:</p>
+
+<pre><code class="language-shell">heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app########
+Setting config vars and restarting my-uptime... done, v18
+CONFIG_mongodb_database: heroku_app########
+CONFIG_mongodb_server:   host.mongolab.com:12345
+CONFIG_mongodb_user:     heroku_app########
+</code></pre>
+
+<p>Running <code>heroku logs</code> yields the same issue:</p>
+
+<pre><code class="language-shell">MongoDB error: failed to connect to [localhost:27017]
+</code></pre>
+
+<p>Clearly I&rsquo;m not doing something right with these environment variables
+Some trial and error that isn&rsquo;t all that beneficial ensues&hellip;
+After a couple hours of back tracking and seconding guessing, I finally
+figured this out&hellip;. It turns out that the vFrom the terminal::ersion of the
+config module that supports the environment variable stuff is newer than what
+is declared in uptime&rsquo;s package.json so it was being ignored!!.
+So edit package.json and replaced:</p>
+
+<pre><code class="language-shell">&quot;config&quot;:    &quot;0.4.15&quot;,
+with
+&quot;config&quot;:    &quot;0.4.27&quot;,
+</code></pre>
+
+<p>And I also figured out by looking through the node-config code that the
+env var prefix should be <strong>CONFIG</strong> not <strong>$CONFIG</strong>.</p>
+
+<p>So lets get things rolling again&hellip;. First ensure are ENV vars are set:</p>
+
+<pre><code class="language-shell">heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars
+</code></pre>
+
+<p>And now we have to push our application update using our new package.json:</p>
+
+<pre><code class="language-shell">git add package.json
+git commit -m &quot;bump config dependency&quot;
+git push heroku master
+..the same lots of output as last time we pushed
+</code></pre>
+
+<p>And what do you know, I can hit the web interface via <a href="http://my-uptime.herokuapp.com">http://my-uptime.herokuapp.com</a>.
+Progress!! But all is not perfect yet..<code>heroku logs</code> yields:</p>
+
+<pre><code class="language-shell">[Error: http://localhost:8082/api/checks/needingPoll resource not available: connect ECONNREFUSED]
+</code></pre>
+
+<p>Lets see about fixing that up:</p>
+
+<pre><code>heroku config:set CONFIG_monitor_apiUrl='http://my-uptime.herokuapp.com/api'
+</code></pre>
+
+<p>No more errors!! I think we are in business finally.</p>
+
+<h2 id="condensed-version">Condensed Version</h2>
+
+<p>Clone the Repo::</p>
+
+<pre><code class="language-shell">git clone https://github.com/fzaninotto/uptime.git
+cd uptime
+</code></pre>
+
+<p>Log into Heroku::</p>
+
+<pre><code class="language-shell">heroku login
+</code></pre>
+
+<p>Create the app::</p>
+
+<pre><code class="language-shell">heroku create my-uptime
+</code></pre>
+
+<p>Add Mongo support::</p>
+
+<pre><code class="language-shell">heroku addons:add mongolab
+</code></pre>
+
+<p>Show Mongo Connection Info::</p>
+
+<pre><code class="language-shell">heroku config
+</code></pre>
+
+<p>Set connection info into environment variables (to keep them out of
+configuration files) as well as other config options::</p>
+
+<pre><code class="language-shell">heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars CONFIG_monitor_apiUrl='http://yourapp.herokuapp.com/api'
+</code></pre>
+
+<p>Edit package.json and replace::</p>
+
+<pre><code class="language-shell">&quot;config&quot;:    &quot;0.4.15&quot;,
+with
+&quot;config&quot;:    &quot;0.4.27&quot;,
+</code></pre>
+
+<p>Create the Procfile::</p>
+
+<pre><code class="language-shell">echo web: node app.js &gt; Procfile
+</code></pre>
+
+<p>Deploy it::</p>
+
+<pre><code class="language-shell">git add .
+git commit -m &quot;adjustments&quot;
+git push heroku master
+</code></pre>
+
+<p>Start it up with one dyno (the free tier)::</p>
+
+<pre><code class="language-shell">heroku ps:scale web=1
+Scaling web dynos... done, now running 1
+</code></pre>
+
+<p>Verify::</p>
+
+<pre><code class="language-shell">heroku logs --tail
+</code></pre>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/zenoss/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci/" data-toggle="tooltip" data-placement="top" title="Publishing A Zenoss ZenPack to PyPi Using Travis-CI">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/hello_pelican/" data-toggle="tooltip" data-placement="top" title="Hello Pelican">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

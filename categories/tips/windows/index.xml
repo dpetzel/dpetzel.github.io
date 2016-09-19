@@ -14,10 +14,10 @@
     
     <item>
       <title>Modifying your PoshGit Prompt</title>
-      <link>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</link>
+      <link>http://www.dpetzel.info/post/windows/modifying-your-poshgit-prompt/</link>
       <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</guid>
+      <guid>http://www.dpetzel.info/post/windows/modifying-your-poshgit-prompt/</guid>
       <description>&lt;p&gt;If your using &lt;a href=&#34;https://windows.github.com/&#34;&gt;Github for Windows&lt;/a&gt;, there is a
 good chance you might be using the Powershell Git Shell. If your like me you
 may want to customize how that prompt looks. Turns out this is not nearly as
@@ -99,10 +99,10 @@ consuming process.&lt;/p&gt;
     
     <item>
       <title>Remotely Enabling RDP</title>
-      <link>http://www.dpetzel.info/post/remotely-enabling-rdp/</link>
+      <link>http://www.dpetzel.info/post/windows/remotely-enabling-rdp/</link>
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/remotely-enabling-rdp/</guid>
+      <guid>http://www.dpetzel.info/post/windows/remotely-enabling-rdp/</guid>
       <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
 had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
 
@@ -122,10 +122,10 @@ reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server
     
     <item>
       <title>Chocolatey is Awesome</title>
-      <link>http://www.dpetzel.info/post/chocolatey-is-awesome/</link>
+      <link>http://www.dpetzel.info/post/windows/chocolatey-is-awesome/</link>
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/chocolatey-is-awesome/</guid>
+      <guid>http://www.dpetzel.info/post/windows/chocolatey-is-awesome/</guid>
       <description>&lt;p&gt;A while back a co-worker told me about Chocolately. I had taken a quick
 look and it seemed interesting, but I kind of forgot about it after
 that.&lt;/p&gt;

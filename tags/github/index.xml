@@ -14,10 +14,10 @@
     
     <item>
       <title>Modifying your PoshGit Prompt</title>
-      <link>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</link>
+      <link>http://www.dpetzel.info/post/windows/modifying-your-poshgit-prompt/</link>
       <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/modifying-your-poshgit-prompt/</guid>
+      <guid>http://www.dpetzel.info/post/windows/modifying-your-poshgit-prompt/</guid>
       <description>&lt;p&gt;If your using &lt;a href=&#34;https://windows.github.com/&#34;&gt;Github for Windows&lt;/a&gt;, there is a
 good chance you might be using the Powershell Git Shell. If your like me you
 may want to customize how that prompt looks. Turns out this is not nearly as

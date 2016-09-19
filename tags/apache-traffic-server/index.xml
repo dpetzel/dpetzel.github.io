@@ -14,10 +14,10 @@
     
     <item>
       <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7</title>
-      <link>http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/</link>
+      <link>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</link>
       <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/</guid>
+      <guid>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</guid>
       <description>&lt;p&gt;A quick chronicle of my journey to install Apache Traffic Servers on
 Centos 5.7. In the end it ended up being a lot easier than I was expecting,
 given how sporadic and incomplete the documentation on their site is.&lt;/p&gt;
