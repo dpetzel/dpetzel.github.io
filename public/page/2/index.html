@@ -102,7 +102,179 @@
             
             
             <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/">
+              <a href="http://www.dpetzel.info/post/switched_to_tinkerer/">
+          	  <h2 class="post-title">Switched To Tinkerer</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 23, 2013
+              </p>
+            
+              <div class="post-entry">
+                For anyone that might have been following along I&rsquo;ve been trying out different solutions for static site generation of this site. I&rsquo;d been running Pelican for a bit, but I was getting annoyed a bit with the limited directives. I&rsquo;ve gotten used to Sphinx at work for some project documentation and I wanted to see if I could leverage some of that. A little googling later and I found Tinkerer which is based on Sphinx but adds some workflow around the process to make blogging with Sphinx easier.
+          	  <a href="http://www.dpetzel.info/post/switched_to_tinkerer/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/">
+          	  <h2 class="post-title">Adventures in Django Performance Analysis</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 22, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p>Nothing to eye opening here but I wanted to collect some thoughts and insights
+I had this week. While I&rsquo;m more of an operations guy, a while back I hacked
+up a <code>Django</code> based web application which uses <code>Celery</code> and <code>RabbitMQ</code>. I have
+recent set out to do some performance analysis on it.</p>
+
+          	  <a href="http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/">
+          	  <h2 class="post-title">Chef Minitest and Slow Starting Web Application</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 22, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p>As I have started to become proficient with <code>Chef</code> I&rsquo;ve also gotten used to
+using the <code>minitest-chef-handler</code> for writing integration tests for my
+cookbooks. This quick post is to capture an approach I&rsquo;ve grown to like for
+doing HTTP tests of slow starting web applications. I&rsquo;ve noticed that many
+services will return from an <code>/sbin/service mysapp start</code> well before
+the application has fully started and is accepting HTTP connections.</p>
+
+          	  <a href="http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/hello_pelican/">
+          	  <h2 class="post-title">Hello Pelican</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 8, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p>So I&rsquo;ve gone live with a static site using <a href="http://docs.getpelican.com">Pelican</a>.
+Originally I had kicked off my attempts at a static site using Mynt, which I
+detailed <a href="http://www.dpetzel.info/post/live_with_mynt/">here</a>. There really wasn&rsquo;t anything
+wrong with Mynt, it just didn&rsquo;t feel right to me after having trying to use it.</p>
+
+          	  <a href="http://www.dpetzel.info/post/hello_pelican/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/">
+          	  <h2 class="post-title">Running Uptime on Heroku</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 8, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p>For today&rsquo;s adventure I&rsquo;ve decided to finally get my hands dirty with
+<a href="http://heroku.com">Heroku</a>. I&rsquo;ve know about it for a while now, and have gone
+so far as reading some of the documentation, however I&rsquo;ve never actually
+tried using it. So today, I decided to change that.</p>
+
+          	  <a href="http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/zenoss/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci/">
+          	  <h2 class="post-title">Publishing A Zenoss ZenPack to PyPi Using Travis-CI</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 7, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p><strong>NOTE</strong>: It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don&rsquo;t see more ZenPacks on PyPi.</p>
+
+<p>So read on if you are curious about how it <em>might</em> work, but please don&rsquo;t
+make this part of your standard ZenPack release process.</p>
+
+          	  <a href="http://www.dpetzel.info/post/zenoss/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/live_with_mynt/">
+          	  <h2 class="post-title">Live With Mynt</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 3, 2013
+              </p>
+            
+              <div class="post-entry">
+                <p>So I&rsquo;ve been hearing a bit lately about static site generators. So the last
+couple of nights I decided to finally do a little homework and better
+understand it.</p>
+
+          	  <a href="http://www.dpetzel.info/post/live_with_mynt/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/windows/debugging_winrm/">
+          	  <h2 class="post-title">Debugging WinRM</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on June 11, 2012
+              </p>
+            
+              <div class="post-entry">
+                <p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM</p>
+
+          	  <a href="http://www.dpetzel.info/post/windows/debugging_winrm/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/">
           	  <h2 class="post-title">BIG IP LTM VE on VirtualBox</h2>
           	
           	    
@@ -117,7 +289,7 @@
 I didn&rsquo;t have the access to a test box that I had when I initially wrote it.
 So I decided I&rsquo;d give the BIG-IP LTM VE a whirl.</p>
 
-          	  <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" class="post-read-more">[Read&nbsp;More]</a>
+          	  <a href="http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
@@ -146,111 +318,6 @@ I became suspicious of cloud zoom.</p>
             
              </article>
             
-            <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/">
-          	  <h2 class="post-title">Installing Apache Traffic Server 3.0.1 on Centos 5.7</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on March 5, 2012
-              </p>
-            
-              <div class="post-entry">
-                <p>A quick chronicle of my journey to install Apache Traffic Servers on
-Centos 5.7. In the end it ended up being a lot easier than I was expecting,
-given how sporadic and incomplete the documentation on their site is.</p>
-
-          	  <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/">
-          	  <h2 class="post-title">Installing Varnish Cache 3.0.2 on Centos 5.7</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on March 5, 2012
-              </p>
-            
-              <div class="post-entry">
-                <p>If you are here, you probably already know what Varnish is, but in case you don’t….<a href="https://www.varnish-cache.org/">https://www.varnish-cache.org/</a></p>
-
-<blockquote>
-<p>Varnish Cache is an open source, state of the art web application accelerator.
-  It is installed in front of your webserver where it will cache the content,
-  resulting in a huge performance boost.</p>
-</blockquote>
-
-          	  <a href="http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/">
-          	  <h2 class="post-title">Sending an SMTP email in Python 3</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on March 5, 2012
-              </p>
-            
-              <div class="post-entry">
-                <p>This took me far longer than it should have, and while I&rsquo;d like to blame
-shotty documentation and sparse examples it was probably my own stupidity
-causing the issue. Whatever the case maybe I wanted to jot down my results
-as I&rsquo;m sure I&rsquo;ll need to do this again.</p>
-
-          	  <a href="http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/">
-          	  <h2 class="post-title">Converting Zenoss VMWare Virtual Appliance to VirtualBox</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on February 10, 2012
-              </p>
-            
-              <div class="post-entry">
-                <p>So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox</p>
-
-          	  <a href="http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/">
-          	  <h2 class="post-title">Developing a Command Parser Based ZenPack</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on December 16, 2011
-              </p>
-            
-              <div class="post-entry">
-                Inspiration I still consider myself a relative newb with Zenoss as well as Python development. A while back I set out to write a custom ZenPack for use with F5 LTMs_. I never would have been able to figure this out without the assistance of a great guide written by Jane Curry. Her outstanding document can be found on the Zenoss community site: http://community.zenoss.org/docs/DOC-10268 I recently had a need for a ZenPack to interact with a couple of Varnish 3.x servers.
-          	  <a href="http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
           </div>
 
           
@@ -260,6 +327,10 @@ as I&rsquo;m sure I&rsquo;ll need to do this again.</p>
               <a href="/page/1">&larr; Newer Posts</a>
             </li>
             
+            
+            <li class="next">
+              <a href="/page/3">Older Posts &rarr;</a>
+            </li>
             
           </ul>
           

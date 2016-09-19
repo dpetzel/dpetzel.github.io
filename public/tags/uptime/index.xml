@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uptime on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/uptime/</link>
+    <description>Recent content in Uptime on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sun, 08 Sep 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/tags/uptime/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Running Uptime on Heroku</title>
+      <link>http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/</guid>
+      <description>
+
+&lt;p&gt;For today&amp;rsquo;s adventure I&amp;rsquo;ve decided to finally get my hands dirty with
+&lt;a href=&#34;http://heroku.com&#34;&gt;Heroku&lt;/a&gt;. I&amp;rsquo;ve know about it for a while now, and have gone
+so far as reading some of the documentation, however I&amp;rsquo;ve never actually
+tried using it. So today, I decided to change that.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you don&amp;rsquo;t really care how I got there, skip to the &amp;laquo;Condensed&amp;raquo;
+section for the bare bones info.&lt;/p&gt;
+
+&lt;h2 id=&#34;long-version&#34;&gt;Long Version&lt;/h2&gt;
+
+&lt;p&gt;So my first question was what should I run. I&amp;rsquo;m not really in a coding
+mood today so I figured I would pick something someone else has already
+written. Earlier this week a colleague of mine turned me onto &lt;code&gt;Uptime&lt;/code&gt;_
+so I figured, what the heck its as good as any.&lt;/p&gt;
+
+&lt;p&gt;After a little more digging, I found that there were enough free pieces
+to Heroku that I should be able to run this experiment at no charge.
+Bonus!!&lt;/p&gt;
+
+&lt;p&gt;So the reading started with:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://devcenter.heroku.com/articles/getting-started-with-nodejs&#34;&gt;https://devcenter.heroku.com/articles/getting-started-with-nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/amree/5884081&#34;&gt;https://gist.github.com/amree/5884081&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That link the gist was superhelpful, however I didn&amp;rsquo;t really care for
+the fact that the credentials would be stored in the configuration
+file. After a little more digging I ended up on &lt;a href=&#34;http://lorenwest.github.io/node-config/latest/&#34;&gt;http://lorenwest.github.io/node-config/latest/&lt;/a&gt;.
+The key piece of information on this page was:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Environment variables can be used to override file configurations. Any environment variable that starts with $CONFIG_ is set into the CONFIG object.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I recalled reading in the Heroku docs that I could set environment
+variables for my application. So at this point I feel like I&amp;rsquo;ve got
+enough information to get started. Here we go&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;The first thing I did was sign up for a Heroku account from their
+front page. I must say this was one of the easiest signup processes
+I have ever seen. I also thought it was interesting (only because it was
+different) that during the sign up process you don&amp;rsquo;t create your password
+until AFTER you get your verification email.&lt;/p&gt;
+
+&lt;p&gt;Next I installed the Heroku toolbelt (I&amp;rsquo;m doing this testing on a
+Linux Mint workstation):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That couldn&amp;rsquo;t have been any No more errors!! I think we are in business finally.easier.. So now I cloned the Uptime github repo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git clone https://github.com/fzaninotto/uptime.git
+cd uptime
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next I logged into Heroku:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku login
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a brand new test workstation I&amp;rsquo;m using so I didn&amp;rsquo;t have any
+ssh keys configured yet. Heroku appears to take care of that as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Could not find an existing public key.
+Would you like to generate one? [Yn] Y
+Generating new SSH public key.
+Uploading SSH public key /home/dave/.ssh/id_rsa.pub... done
+Authentication successful.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I&amp;rsquo;m assuming had I already had keys, this would have been skipped..
+From there I setup the application in Heroku:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku create my-uptime
+Creating my-uptime... done, stack is cedar
+http://my-uptime.herokuapp.com/ | git@heroku.com:my-uptime.git
+Git remote heroku added
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So things interesting at this step happened:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The name I originally chose came back with &lt;code&gt;!    Name is already taken&lt;/code&gt;.
+This seems to indicate that two people can&amp;rsquo;t have the same application.
+Interesting, but no big deal as some simple name prefixing would easy
+solve this&lt;/li&gt;
+&lt;li&gt;It automatically created a new git remote for me. This was pretty cool
+In some of the reading I did I kept seeing references to
+&lt;code&gt;git push heroku master&lt;/code&gt;, and I was wondering why none of them
+references creating the remote. Now I know.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now we need to add in support for MongoDB (which uptime uses). This was
+the first actual issue I ran into. I&amp;rsquo;m sure it was in the docs somewhere
+but I must have missed it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku addons:add mongolab
+Adding mongolab on my-uptime... failed
+ !    Please verify your account to install this add-on
+ !    For more information, see http://devcenter.heroku.com/categories/billing
+ !    Verify now at https://heroku.com/verify
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hitting that verify page I was prompted for my credit card info. Wait
+a minute&amp;hellip; I could have sworn I read that the &lt;code&gt;Mongo HQ&lt;/code&gt; addon said
+I could use the &lt;strong&gt;MongoHQ Sandbox&lt;/strong&gt; for &lt;em&gt;free&lt;/em&gt;&amp;hellip;. And then I found this:
+&lt;a href=&#34;https://devcenter.heroku.com/articles/account-verification&#34;&gt;https://devcenter.heroku.com/articles/account-verification&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;It becomes a requirement once you wish to use add-ons other than
+  postgresql:dev or pgbackups:plus–even if the add-ons are free. This is because
+  some features (most notably outgoing email and  custom domains) carry a
+  potential for abuse.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;OK, that seems fair. I accommodated and gave them my CC info. Now lets
+try adding Mongo support again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku addons:add mongolab
+Adding mongolab on my-uptime... done, v3 (free)
+Welcome to MongoLab.  Your new subscription is being created and will be available shortly.  Please consult the MongoLab Add-on Admin UI to check on its progress.
+Use `heroku addons:docs mongolab` to view documentation.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Much better!! Next I created the &lt;strong&gt;Procfile&lt;/strong&gt;. Which seems to instruct
+Heroku &lt;em&gt;how&lt;/em&gt; to run the application:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;echo &amp;quot;web: node web.js&amp;quot; &amp;gt; Procfile
+git add Procfile
+git commit -m &amp;quot;adding Procfile&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So this is where my path and that of the gist I was following started
+to diverge a little bit. The gist talks about hacking up the config
+file, while I want to use environment variables. So the first thing
+I did was fetch my mongo connection info:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config
+=== my-uptime Config Vars
+MONGOLAB_URI: mongodb://heroku_app########:randomchars@host.mongolab.com:12345/heroku_app########
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;From that I&amp;rsquo;m able to figure out the following connection information&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Database Host = host.mongolab.com&lt;/li&gt;
+&lt;li&gt;Database Port = 12345&lt;/li&gt;
+&lt;li&gt;Database User = heroku_app########&lt;/li&gt;
+&lt;li&gt;Database Password = randomchars&lt;/li&gt;
+&lt;li&gt;Database Name = heroku_app######## (Seems to match my username, not
+sure if that is always the case or not)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;OK, so from here I know I can see my username will be &lt;code&gt;heroku_app########&lt;/code&gt;&lt;code&gt;
+and my password will be&lt;/code&gt;&lt;code&gt;randomchars&lt;/code&gt;`. Now lets set those in environment
+variables so I can safely commit my stuff to github without giving
+away the keys to the kingdom:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set NODE_ENV=production
+heroku config:set $CONFIG_mongodb.server=host.mongolab.com:12345
+heroku config:set $CONFIG_mongodb.database=heroku_app########
+heroku config:set $CONFIG_mongodb.user=heroku_app########
+heroku config:set $CONFIG_mongodb.password=randomchars
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK, In theory that should handle our configuration. I think I&amp;rsquo;m ready
+to push the app:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git push heroku master
+... a bunch of output ending in..
+
+-----&amp;gt; Compiled slug size: 24.3MB
+-----&amp;gt; Launching... done, v9
+       http://my-uptime.herokuapp.com deployed to Heroku
+
+To git@heroku.com:my-uptime.git
+ * [new branch]      master -&amp;gt; master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK that seems to have gone smoothly, I guess its time to start it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku ps:scale web=1
+Scaling web dynos... done, now running 1
+```No more errors!! I think we are in business finallyNo more errors!! I think we are in business finally.
+
+OK, seems like it should be running...:
+```shell
+heroku ps
+=== web (1X): `node web.js`
+web.1: crashed 2013/09/08 16:20:03 (~ 5m ago)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Also confirmed, I couldn&amp;rsquo;t hit the application on the default port of
+8082&amp;hellip; So now we dive into what went wrong&amp;hellip;. Running &lt;code&gt;heroku --help&lt;/code&gt;
+yields there is a logs subcommand. Amongst the chaos of that output I
+find this line:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;Error: Cannot find module &#39;/app/web.js&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Turns out there is a comment on that gist which indicates we&amp;rsquo;ve used
+the wrong js module. Lets fix that up and re-push:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;echo web: node app.js &amp;gt; Procfile
+git add Procfile
+git commit -m &amp;quot;fixing module name&amp;quot;
+git push heroku master
+..the same lots of output as last time we pushed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Is it working now?:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku ps
+=== web (1X): `node app.js`
+web.1: crashed 2013/09/08 16:32:11 (~ 1m ago)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;doh!. what now&amp;hellip;Using &lt;code&gt;heroku logs&lt;/code&gt;. I find this line now:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;MongoDB error: failed to connect to [localhost:27017]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmmm.. Localhost and 27017 (the default mongodb port). Neither of those
+are the values I set in my environment variables&amp;hellip;. Lets look into
+that. Running &lt;code&gt;heroku config&lt;/code&gt; shows that my named spaced ENV vars
+didn&amp;rsquo;t actually take, and instead they were all applied at the root
+level:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config
+=== my-uptime Config Vars
+.database:    heroku_app########
+.password:    randomchars
+.server:      host.mongolab.com:12345
+.user:        heroku_app########
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So back to the drawing board on assigning those config values&amp;hellip;
+A re-read of &lt;a href=&#34;http://lorenwest.github.io/node-config/latest/&#34;&gt;http://lorenwest.github.io/node-config/latest/&lt;/a&gt; yields
+I&amp;rsquo;m dumb and can&amp;rsquo;t read&amp;hellip;. I should use underscores not dots to
+delimit my vars&amp;hellip; Lets try this again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set $CONFIG_mongodb_password=randomchars
+Setting config vars and restarting my-uptime... failed
+ !    Config var key must not be empty.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK, doesn&amp;rsquo;t like that&amp;hellip; I&amp;rsquo;m guessing the leading dollar sign in the
+docs shouldn&amp;rsquo;t be used when setting this, trying it a different way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set CONFIG_mongodb_password=randomchars
+Setting config vars and restarting mp-uptime... done, v13
+CONFIG_mongodb_password: randomchars
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Looks better&amp;hellip;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config
+=== mp-uptime Config Vars
+.database:               heroku_app########
+.password:               randomchars
+.server:                 host.mongolab.com:12345
+.user:                   heroku_app########
+CONFIG_mongodb_password: randomchars
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before we go any further, lets clean up my previous mess before I forget
+about it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:unset .database .password .server .user
+Unsetting .database and restarting my-uptime... done, v14
+Unsetting .password and restarting my-uptime... done, v15
+Unsetting .server and restarting my-uptime... done, v16
+Unsetting .user and restarting my-uptime... done, v17
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Perfect, mess removed, now lets set up the new ones&amp;hellip;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app########
+Setting config vars and restarting my-uptime... done, v18
+CONFIG_mongodb_database: heroku_app########
+CONFIG_mongodb_server:   host.mongolab.com:12345
+CONFIG_mongodb_user:     heroku_app########
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Running &lt;code&gt;heroku logs&lt;/code&gt; yields the same issue:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;MongoDB error: failed to connect to [localhost:27017]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Clearly I&amp;rsquo;m not doing something right with these environment variables
+Some trial and error that isn&amp;rsquo;t all that beneficial ensues&amp;hellip;
+After a couple hours of back tracking and seconding guessing, I finally
+figured this out&amp;hellip;. It turns out that the vFrom the terminal::ersion of the
+config module that supports the environment variable stuff is newer than what
+is declared in uptime&amp;rsquo;s package.json so it was being ignored!!.
+So edit package.json and replaced:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&amp;quot;config&amp;quot;:    &amp;quot;0.4.15&amp;quot;,
+with
+&amp;quot;config&amp;quot;:    &amp;quot;0.4.27&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And I also figured out by looking through the node-config code that the
+env var prefix should be &lt;strong&gt;CONFIG&lt;/strong&gt; not &lt;strong&gt;$CONFIG&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;So lets get things rolling again&amp;hellip;. First ensure are ENV vars are set:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And now we have to push our application update using our new package.json:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git add package.json
+git commit -m &amp;quot;bump config dependency&amp;quot;
+git push heroku master
+..the same lots of output as last time we pushed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And what do you know, I can hit the web interface via &lt;a href=&#34;http://my-uptime.herokuapp.com&#34;&gt;http://my-uptime.herokuapp.com&lt;/a&gt;.
+Progress!! But all is not perfect yet..&lt;code&gt;heroku logs&lt;/code&gt; yields:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;[Error: http://localhost:8082/api/checks/needingPoll resource not available: connect ECONNREFUSED]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Lets see about fixing that up:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;heroku config:set CONFIG_monitor_apiUrl=&#39;http://my-uptime.herokuapp.com/api&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;No more errors!! I think we are in business finally.&lt;/p&gt;
+
+&lt;h2 id=&#34;condensed-version&#34;&gt;Condensed Version&lt;/h2&gt;
+
+&lt;p&gt;Clone the Repo::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git clone https://github.com/fzaninotto/uptime.git
+cd uptime
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Log into Heroku::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku login
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create the app::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku create my-uptime
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add Mongo support::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku addons:add mongolab
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Show Mongo Connection Info::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Set connection info into environment variables (to keep them out of
+configuration files) as well as other config options::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku config:set CONFIG_mongodb_server=host.mongolab.com:12345 CONFIG_mongodb_datbase=heroku_app######## CONFIG_mongodb_user=heroku_app######## CONFIG_mongodb_password=randomchars CONFIG_monitor_apiUrl=&#39;http://yourapp.herokuapp.com/api&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Edit package.json and replace::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;&amp;quot;config&amp;quot;:    &amp;quot;0.4.15&amp;quot;,
+with
+&amp;quot;config&amp;quot;:    &amp;quot;0.4.27&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create the Procfile::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;echo web: node app.js &amp;gt; Procfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Deploy it::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git add .
+git commit -m &amp;quot;adjustments&amp;quot;
+git push heroku master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Start it up with one dyno (the free tier)::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku ps:scale web=1
+Scaling web dynos... done, now running 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Verify::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku logs --tail
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Template Generated Array in Velocity</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Template Generated Array in Velocity" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Template Generated Array in Velocity</h1>
+      
+
+      
+      <span class="post-meta">Posted on March 5, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>Today I was trying to do something in a velocity template that I found to be a little
+harder than I would have guessed. I was trying to manually generate an array from within my template.
+I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
+ip addresses which are allowed to see the template code, but everyone else should get the boot.</p>
+
+<p>Now, I don&rsquo;t write a lot of code, let alone Velocity code, so I figured I&rsquo;d hit up the
+user documentation for Velocity: <a href="http://velocity.apache.org/engine/devel/user-guide.htm">http://velocity.apache.org/engine/devel/user-guide.htm</a>.
+Would you believe I found nothing of the sorts? I found how to loop through an existing array,
+but nothing on creating a new one from within the template.</p>
+
+<p>Well, after some Googling I found a few newsgroup posts. I wanted to capture the syntax here,
+as it was incredibly easy. And just as if you had been provided the array from underlying Java code
+you can loop through your template generated array.</p>
+
+<pre><code class="language-java">#set($AllowedIPs= [&quot;1.1.1.1&quot;,&quot;2.2.2.2&quot;])
+</code></pre>
+
+<p>Thats it. I couldn&rsquo;t believe it took me more than 30 seconds to find this :(. In any event
+if anyone is curious the code looks a bit like the following.</p>
+
+<p><em>Note:</em> The system on which the code is running, provides access to a variable (<code>$remoteIPAddress</code>)
+which is the client IP. Without that provided variable this will of course not work:</p>
+
+<pre><code class="language-java">#set($AllowedIPs= [&quot;1.1.1.1&quot;,&quot;2.2.2.2&quot;])
+#foreach($IpAddress in $AllowedIPs)
+   #if($remoteIPAddress eq $IpAddress)
+      ## Do Whatever you need in here, and it will only happen
+      ## For authorized IP addresses
+   #end
+#end
+</code></pre>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="Converting Zenoss VMWare Virtual Appliance to VirtualBox">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/" data-toggle="tooltip" data-placement="top" title="Sending an SMTP email in Python 3">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

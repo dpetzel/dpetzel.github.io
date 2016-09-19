@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Publishing A Zenoss ZenPack to PyPi Using Travis-CI</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Publishing A Zenoss ZenPack to PyPi Using Travis-CI" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Publishing A Zenoss ZenPack to PyPi Using Travis-CI</h1>
+      
+
+      
+      <span class="post-meta">Posted on September 7, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p><strong>NOTE</strong>: It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don&rsquo;t see more ZenPacks on PyPi.</p>
+
+<p>So read on if you are curious about how it <em>might</em> work, but please don&rsquo;t
+make this part of your standard ZenPack release process.</p>
+
+<p>I recently had the need to update the <code>F5 ZenPack</code>. It had been a while since
+I had updated a Pack so I was hopeful that the process for releasing a new
+pack (<a href="http://wiki.zenoss.org/Releasing_your_ZenPack">http://wiki.zenoss.org/Releasing_your_ZenPack</a>) had been updated to be
+a little less manual. Don&rsquo;t get me wrong the system that is in place is a vast
+improvement of what used to exist, but I&rsquo;m just not excited about how manual
+the process is. Maybe I&rsquo;ll write up a separate page about what I dislike about
+the process, but the focus on this page is not to complain about that process,
+but rather show what I think is a better (more automated) solution.</p>
+
+<p>So the goal I set out was with:</p>
+
+<ul>
+<li>I didn&rsquo;t want to continue to maintain two different versions of documentation
+(I keep a README.rst with the pack, but the Wiki requires wiki markup)</li>
+<li>I didn&rsquo;t want to manually upload any build artifacts</li>
+<li>I want to lay the ground work for some testing (I&rsquo;ve historically done a poor
+job at adding tests to my ZenPacks, but I&rsquo;m hoping to change that)</li>
+</ul>
+
+<p>So I set out on the road of using <code>Travis CI</code> uploading <code>PyPi</code>. So the first
+step I took was getting integration with <code>PyPi</code> outside of Travis. After reading
+up on the documentation at <a href="http://docs.python.org/3/distutils/packageindex.html">http://docs.python.org/3/distutils/packageindex.html</a></p>
+
+<p>I added the following release.sh script to my ZenPacks repo:</p>
+
+<pre><code class="language-bash">#! /bin/bash
+
+# Create a .pypirc file in the home directory
+echo &quot;[distutils]
+index-servers =
+  pypi
+
+[pypi]&quot; &gt; ~/.pypirc
+
+echo &quot;username: &quot; &quot;$PYPI_USER&quot; &gt;&gt; ~/.pypirc
+echo &quot;password: &quot; &quot;$PYPI_PWD&quot; &gt;&gt; ~/.pypirc
+
+python setup.py sdist bdist_egg upload
+rm -f ~/.pypirc
+</code></pre>
+
+<p>So what this does is read in my PyPi username and password from an environment
+variable so I don&rsquo;t need to keep them in the repo. Additionally if someone else
+ever wants to become a contributor it should allow them to use the same script</p>
+
+<p>I did a one time registration of the ZenPack outside of this script, and from
+there on out, I&rsquo;m able to just run <code>sh release.sh</code> from the root of the repo
+and it will upload the compile compile egg (which contains the version) to PyPi.</p>
+
+<p>So right out of the gate, I&rsquo;ve hit two of my three targets. But I wanted to take
+it a little further. While running <code>sh release.sh</code> is pretty easy, I wanted
+to see about automatically testing and upload the egg. This is where things
+got a little trickier, but still not to bad&hellip;</p>
+
+<p>The <code>Travis CI</code> getting started documentation is pretty indepth, so I don&rsquo;t want
+to recreate that here, but I do want to call out you&rsquo;ll want to read up
+how to do the encrypted environment stuff.</p>
+
+<p>So after some trial and error (I&rsquo;m not sure why, but it took me a while to krok
+the encrypted environment variable stuff), I ended up with this <code>.travis.yml</code>.</p>
+
+<p>So now everytime I push a change up to the github repo, a service hook fires
+and <code>Travis CI</code> starts building my ZenPack immediatly. You can see those build
+resuts here: <a href="https://travis-ci.org/ZCA/ZenPacks.community.f5">https://travis-ci.org/ZCA/ZenPacks.community.f5</a></p>
+
+<p>As part of the build process it will produce two egg files, one for Python2.6
+(Zenoss 3.x) and one for Python 2.7 (Zenoss 4.x), and upload them automatically
+to <code>PyPi</code>.</p>
+
+<p>I do have to say, I was not 100% comfortable with the idea of handing over some
+much private information to Travis (allowing them access to my GitHub account,
+as well as trusting that their encryption keys are secure). In the end, I just
+ensured I was using information I don&rsquo;t use on any other sites. I still
+can&rsquo;t say I&rsquo;m entirely comfortable with it, but sometimes you just have to be
+a little trusting. We&rsquo;ll see&hellip;.</p>
+
+<p>The process did go smooth enough, that I intend to convert some of the other
+ZenPacks I maintain and see how it goes longer term.</p>
+
+<p>References:
+* <a href="https://github.com/ZCA/ZenPacks.community.f5">F5 ZenPack</a>
+* <a href="https://travis-ci.org">Travis CI</a>
+* <a href="http://pypi.python.org">PyPi</a>
+* <a href="https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml">.travis.yml</a></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/live_with_mynt/" data-toggle="tooltip" data-placement="top" title="Live With Mynt">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/" data-toggle="tooltip" data-placement="top" title="Running Uptime on Heroku">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>BIG IP LTM VE on VirtualBox</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="BIG IP LTM VE on VirtualBox" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>BIG IP LTM VE on VirtualBox</h1>
+      
+
+      
+      <span class="post-meta">Posted on March 5, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
+I didn&rsquo;t have the access to a test box that I had when I initially wrote it.
+So I decided I&rsquo;d give the BIG-IP LTM VE a whirl.</p>
+
+<p>I&rsquo;m on a VirtualBox kick right now, but the appliance choices there don&rsquo;t list
+VirtualBox. Inspired by this post, I figured I&rsquo;d give it a shot since it looked
+simple enough. I&rsquo;m re-documenting the process here, so I can just add a little
+more detail around this.</p>
+
+<p>Start by registering (or signing in if you already have an account) via
+<a href="https://www.f5.com/trial/big-ip-ltm-virtual-edition.php">https://www.f5.com/trial/big-ip-ltm-virtual-edition.php</a>.</p>
+
+<p>Navigate the screens to get your trial key, and subsequent download. You&rsquo;ll
+want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I
+thought I would be cool and download the 10.2 file. Turns out you can’t
+activate the 10.2 trial… How dumb… anyway save yourself some time and just
+download 10.1</p>
+
+<p>From within the VirtualBox UI, select File &ndash;&gt; Import Appliance</p>
+
+<p>Select Choose and locate the .ova file you just downloaded. Click Next</p>
+
+<p>There are just a couple of settings you&rsquo;ll want to tweak on Import Settings page:</p>
+
+<ul>
+<li>Give your appliance a name (or just accept the default)</li>
+<li>Change to 2 CPUs</li>
+<li>Changes to 2048MB of RAM</li>
+<li>Change the file extension on the virtual disk image to be a .vdi</li>
+</ul>
+
+<p>You should see a license agreement, agree to it of course.</p>
+
+<p>One the import is complete, I’d suggest setting each network adaptor to
+host-only networking, unless you really need it to talk externally. Regardless
+of if you change that or not, power on the VM now.</p>
+
+<p>The first thing you’ll need to do is assign a management IP. Start by
+logging into the vm through the VirtualBox console. credentials are
+root/default. At the CLI type config. I opted let DHCP do its thing by
+answering Yes “use automatic configuration of ip address”</p>
+
+<p>type <code>ifconfig</code> and you should see any entry like eth0:mgmt. This will give
+you the IP address of your management interface. Using https navigate to that
+IP addresses in a browser on your workstation. <a href="https://192.168.1.100">https://192.168.1.100</a>
+(or whatever IP you got). <strong>NOTE</strong> the username and password for the UI is
+different than the cli. Use admin/admin for logging into the webui</p>
+
+<p>You’ll be prompted to run through a setup wizard. Its self explanatory enough
+that I don’t think I need to cover it here. From here you are on your own.</p>
+
+<p>Proceed as you see fit.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/" data-toggle="tooltip" data-placement="top" title="Cloud Zoom Is Blocking My Modal Dialog Box">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/windows/debugging_winrm/" data-toggle="tooltip" data-placement="top" title="Debugging WinRM">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

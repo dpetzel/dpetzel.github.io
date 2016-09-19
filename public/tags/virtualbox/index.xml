@@ -14,10 +14,10 @@
     
     <item>
       <title>BIG IP LTM VE on VirtualBox</title>
-      <link>http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/</link>
+      <link>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</link>
       <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/</guid>
+      <guid>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</guid>
       <description>&lt;p&gt;I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
 I didn&amp;rsquo;t have the access to a test box that I had when I initially wrote it.
 So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.&lt;/p&gt;

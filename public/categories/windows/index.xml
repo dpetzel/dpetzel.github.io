@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/windows/</link>
+    <description>Recent content in Windows on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 11 Jun 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/categories/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Debugging WinRM</title>
+      <link>http://www.dpetzel.info/post/windows/debugging_winrm/</link>
+      <pubDate>Mon, 11 Jun 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/windows/debugging_winrm/</guid>
+      <description>&lt;p&gt;Some notes on my first attempts at doing details debugging and troubleshooting of WinRM&lt;/p&gt;
+
+&lt;p&gt;Useful Articles&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458&#34;&gt;http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/troubleshooting-winrm-and-powershell-remoting-part-1-137458&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463&#34;&gt;http://www.windowsitpro.com/blog/powershell-with-a-purpose-blog-36/scripting-languages/tools-for-troubleshooting-powershell-remoting-and-winrm-part-2-137463&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx&#34;&gt;http://msdn.microsoft.com/en-us/library/windows/desktop/aa384372(v=vs.85).aspx&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Enable Tracing:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;Set-ExecutionPolicy Unrestricted
+Import-Module PSDiagnostics
+Enable-PsWsmanCombinedTrace
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now run what command is giving grief
+Once that command produces your error, disable the trace:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;Disable-PsWsmanCombinedTrace
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output the Log entries to a text file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;get-winevent -logname Microsoft-Windows-WinRM/Operational | fl &amp;gt;&amp;gt; C:\winrm_log.txt
+get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &amp;gt;&amp;gt; C:\winrm2_log.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Review the log and hopefully find some answers&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

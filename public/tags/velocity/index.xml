@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Velocity on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/velocity/</link>
+    <description>Recent content in Velocity on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/tags/velocity/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Template Generated Array in Velocity</title>
+      <link>http://www.dpetzel.info/post/programming/template_generated_array_in_velocity/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/template_generated_array_in_velocity/</guid>
+      <description>&lt;p&gt;Today I was trying to do something in a velocity template that I found to be a little
+harder than I would have guessed. I was trying to manually generate an array from within my template.
+I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
+ip addresses which are allowed to see the template code, but everyone else should get the boot.&lt;/p&gt;
+
+&lt;p&gt;Now, I don&amp;rsquo;t write a lot of code, let alone Velocity code, so I figured I&amp;rsquo;d hit up the
+user documentation for Velocity: &lt;a href=&#34;http://velocity.apache.org/engine/devel/user-guide.htm&#34;&gt;http://velocity.apache.org/engine/devel/user-guide.htm&lt;/a&gt;.
+Would you believe I found nothing of the sorts? I found how to loop through an existing array,
+but nothing on creating a new one from within the template.&lt;/p&gt;
+
+&lt;p&gt;Well, after some Googling I found a few newsgroup posts. I wanted to capture the syntax here,
+as it was incredibly easy. And just as if you had been provided the array from underlying Java code
+you can loop through your template generated array.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;#set($AllowedIPs= [&amp;quot;1.1.1.1&amp;quot;,&amp;quot;2.2.2.2&amp;quot;])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Thats it. I couldn&amp;rsquo;t believe it took me more than 30 seconds to find this :(. In any event
+if anyone is curious the code looks a bit like the following.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; The system on which the code is running, provides access to a variable (&lt;code&gt;$remoteIPAddress&lt;/code&gt;)
+which is the client IP. Without that provided variable this will of course not work:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;#set($AllowedIPs= [&amp;quot;1.1.1.1&amp;quot;,&amp;quot;2.2.2.2&amp;quot;])
+#foreach($IpAddress in $AllowedIPs)
+   #if($remoteIPAddress eq $IpAddress)
+      ## Do Whatever you need in here, and it will only happen
+      ## For authorized IP addresses
+   #end
+#end
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

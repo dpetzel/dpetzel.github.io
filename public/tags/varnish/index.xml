@@ -14,10 +14,10 @@
     
     <item>
       <title>Installing Varnish Cache 3.0.2 on Centos 5.7</title>
-      <link>http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/</link>
+      <link>http://www.dpetzel.info/post/sysadmin/installing_varnish_cache_3_0_2_on_centos_5_7/</link>
       <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/</guid>
+      <guid>http://www.dpetzel.info/post/sysadmin/installing_varnish_cache_3_0_2_on_centos_5_7/</guid>
       <description>&lt;p&gt;If you are here, you probably already know what Varnish is, but in case you don’t….&lt;a href=&#34;https://www.varnish-cache.org/&#34;&gt;https://www.varnish-cache.org/&lt;/a&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
