@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Welcome Hugo</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Welcome Hugo" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Welcome Hugo</h1>
+      
+
+      
+      <span class="post-meta">Posted on September 19, 2016</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#themes">Themes</a></li>
+<li><a href="#content-conversion">Content Conversion</a></li>
+<li><a href="#syntax-highlighting">Syntax Highlighting</a></li>
+<li><a href="#publishing-to-github-pages">Publishing To GitHub Pages</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          
+
+<p>Well&hellip; I&rsquo;ve gone and done it again. I&rsquo;ve decided to switch the platform I am
+using to generate this site. This time around I&rsquo;m going with <a href="https://gohugo.io">Hugo</a></p>
+
+<p>A long while back I had switched over to using Jekyll for generating the content
+for this site. After that I had taken an extended break from posting content
+to the site, however I&rsquo;ll soon be taking on a new role, which I expect will
+result in me learning a whole bunch of new things that I&rsquo;ll want to capture here.</p>
+
+<p>So&hellip; I brushed off the dust, and invoked my good old rake task I used to start
+a new post. And in typical Ruby fashion, I had gem related errors. While Ruby
+maybe a pretty popular language, I find dealing with Gems
+(specifically dependencies) to be a never ending losing battle. Once again,
+despite having a Gemfile.lock to start from, I was getting Gem version
+conflicts. I&rsquo;ve been down this road at least a 100 times before so I was sure I
+<em>could</em> resolve the issue, but I was simply to annoyed to deal with it. So like
+anyone in our industry, instead of just taking the 10 minutes to fix the problem
+at hand, I decided to spend the rest of my day learning and implementing something
+new.. That&rsquo;s where Hugo enters the picture.</p>
+
+<p>I&rsquo;m by no means a <code>golang</code> fanboy, but I do appreciate that it ships its binaries
+without any external dependencies. I&rsquo;ve written a small utility using it as well
+so while I&rsquo;m far from proficient, it is a language I have some experience with.</p>
+
+<p>The thought of never needing to deal with another <code>Gemfile</code>, or <code>requirements.txt</code>
+was enough to get me investigating. Here are some of the highlights on why I
+opted to start down this path:</p>
+
+<ul>
+<li>The documentation site is well organized and comprehensive. While its too
+early to know if it will answer all the questions I might have, it certainly
+has a lot of stuff to get you started.</li>
+<li>The getting started guide makes it look super easy to get started.</li>
+<li>No external package dependencies.</li>
+</ul>
+
+<p>What&rsquo;s listed below is not intended to be a <em>how-to</em> document, but rather just
+capturing some of the challenges I personally encountered.</p>
+
+<h2 id="themes">Themes</h2>
+
+<p>Hugo has done a good job with both the theme system, and the themes themselves.
+When it comes to creating aesthetic looking websites I have zero skills. I am
+completely dependent on others for this. As a result, a platform with good
+themes is important to me. Enter <a href="http://themes.gohugo.io/">http://themes.gohugo.io/</a>, which has a good
+collection to start with. I spent <em>way</em> to much time trying to decide which one
+I liked best.</p>
+
+<p>Once I had the theme I wanted, there were some things I wanted to change. In
+theory, the system is designed in such a way that you can add override templates
+to your <code>layouts</code> directory. I did do this in a few cases, but found myself
+falling back to just editing the actual theme. Since I had placed the theme into
+the same repo as the content for the site, and I was not directly pointing to an
+external copy, this was the fastest way (even if fastest is not always best). Since
+I wasn&rsquo;t sure yet if this platform was going to stick I took the low road here.</p>
+
+<p>The one place I did find lacking on the template system was the parameter
+documentation. Each template is free to use any number of parameters from your
+site&rsquo;s configuration file, however a large number of them don&rsquo;t document what
+the available parameters they support are.</p>
+
+<h2 id="content-conversion">Content Conversion</h2>
+
+<p>I don&rsquo;t have a lot content so this one is not critical to me, but I did explore
+it simply out of curiosity. There are two tools listed on <a href="https://gohugo.io/tools/">https://gohugo.io/tools/</a>
+for migrating data from Jekyll. I gave them both a shot, and while both did create
+<em>valid</em> output files, some of the Jekyll specific tags were still in the resulting
+markdown files so you&rsquo;d see the actual tags when viewing the rendered page.</p>
+
+<p>I ended up just manually doing this since I have such a small amount of content.
+I could see this be challenging for someone with a large volume of content though.</p>
+
+<h2 id="syntax-highlighting">Syntax Highlighting</h2>
+
+<p>There are a few approaches that Hugo takes to code syntax highlighting. They go
+into details about this at <a href="https://gohugo.io/extras/highlighting">https://gohugo.io/extras/highlighting</a>.</p>
+
+<p>I started off by using the server-side integration with Pygments. Since I have
+such little content I was not worried about the performance implications
+discussed.</p>
+
+<p>This was relatively simply to setup, however this statement was a little
+frustrating:</p>
+
+<blockquote>
+<p>You can explore the different color styles on pygments.org after inserting some example code.</p>
+</blockquote>
+
+<p>That link will bring you to the site, but good luck trying to find the available
+styles (<code>pygmentsstyle</code>) that you can choose from. After some exploring of
+their site I found myself on <a href="http://pygments.org/docs/styles/">http://pygments.org/docs/styles/</a>.
+There is a little snippet at the bottom of the page that you can run to get the
+list of styles. To the best of my knowledge, this is the only way to get that
+list, and even when you run it, you have no clue what they look like. Pygments
+could really benefit from some sort of gallery showing off the built-in styles.</p>
+
+<p>Here is the list of styles I saw after a fresh install of pygments:</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; from pygments.styles import get_all_styles
+&gt;&gt;&gt; list(get_all_styles())
+['manni', 'igor', 'lovelace', 'xcode', 'vim', 'autumn', 'vs', 'rrt', 'native', 'perldoc', 'borland', 'tango', 'emacs', 'friendly', 'monokai', 'paraiso-dark', 'colorful', 'murphy', 'bw', 'pastie', 'algol_nu', 'paraiso-light', 'trac', 'default', 'algol', 'fruity']
+</code></pre>
+
+<p>Overall I couldn&rsquo;t find a style I actually liked, so I moved onto the client
+side highlighting.</p>
+
+<p>I gave <a href="http://highlightjs.org/">Highlight.js</a> a run first. The provided
+instructions were simple enough to get it up and running, but once again I wasn&rsquo;t
+really sold on the look. My biggest annoyance (which I spent more time on then I
+care to admit) was that it would line wrap all the code. I found some others with
+the same issue and attempted a workaround, which resulted in a scroll bar on every
+single block, even those that didn&rsquo;t need it. Rather than keep messing around
+with this, I moved on to <a href="http://prismjs.com/">Prism</a>.</p>
+
+<p>Prism took a little more to get up and running. There isn&rsquo;t some CDN endpoint you
+can just point to. Instead you have to select all the languages and features you
+want to use. This results in a couple minified files for you to download. I had
+no clue what things I would want so I selected everything. This results in a
+file that is close to 280K so this isn&rsquo;t ideal long term, but should get me up
+and running quickly.</p>
+
+<p>After wiring this up my code blocks had a look and feel that I really liked, with
+one very small annoyance. After each line I could see a <em>very small</em> <code>lf</code>. As it
+turns out I had included the <code>Show Invisibles</code> plugin (since I had selected all).
+So I regenerated my download using everything <em>expect</em> invisibles, and that
+fixed that issue.</p>
+
+<p>So at this point I&rsquo;m sticking with Prism as my code highlighting solution.</p>
+
+<h2 id="publishing-to-github-pages">Publishing To GitHub Pages</h2>
+
+<p>The Hugo site has a good tutorial at <a href="https://gohugo.io/tutorials/github-pages-blog/">https://gohugo.io/tutorials/github-pages-blog/</a>
+but this didn&rsquo;t fit <em>exactly</em> how I wanted to do things.</p>
+
+<p>I am hosting this site as a <em>personal</em> site, rather than a <em>project</em> site
+which means github expects to see the rendered content on the <em>master</em> branch
+rather than the <em>gh-pages</em> branch. Since they have some native support for
+Jekyll, the source is kept on master and just automatically rendered.</p>
+
+<p>One of the side effects of switching to Hugo however is that you need to build
+your site yourself (using the <code>hugo</code> command) and then push the <strong>rendered</strong>
+content up to the master branch. I tackled this in the following way:</p>
+
+<ul>
+<li>I tagged my master branch as-is so I can come back to it later as needed</li>
+<li>I then created a new <strong>hugo</strong> branch (<code>git checkout -b hugo</code>)</li>
+<li>I removed all the non-hugo cruft that had accumulated over the years, leaving
+me with just the files needed for Hugo.</li>
+<li>I ensured my <code>CNAME</code> file is in Hugo&rsquo;s <code>static</code> directory. This is the magic
+that allows one to host their own domain name on Github.</li>
+<li>I then wiped out everything <strong>except</strong> my <code>.git</code> folder on my <code>master</code> branch</li>
+<li>At this point, on the <code>hugo</code> branch I run <code>hugo</code> to generate my site into the
+<em>public</em> subdirectory</li>
+<li>Now we can run <code>git subtree push --prefix public origin master</code>. This will take
+the contents of the <code>public</code> directory and push to the <strong>root</strong> of the <code>master</code>
+branch.</li>
+</ul>
+
+<p>Using this approach is a bit of hybrid of two methods listed on the Hugo site.
+I like this method best as I don&rsquo;t need to have the rendered content and source
+in two different repositories. In the GitHub UI, I changed the default branch to
+Hugo, so now I simply work all the time in my Hugo branch and never touch master,
+expect when pushing out updates.</p>
+
+<p>There is a great little <code>deploy.sh</code> example on their site that I adopted to me
+my work flow above, so now whenever I add new content I simply run <code>sh build.sh</code>
+and my changes are committed to the <code>hugo</code> branch, built, and pushed live</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/chef/speeding-up-test-kitchen/" data-toggle="tooltip" data-placement="top" title="Speeding Up Test Kitchen">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2016
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>
