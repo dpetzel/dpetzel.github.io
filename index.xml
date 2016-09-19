@@ -9,8 +9,185 @@
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Sun, 18 Sep 2016 10:58:07 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 19 Sep 2016 10:47:07 -0400</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Welcome Hugo</title>
+      <link>http://www.dpetzel.info/post/draft/welcome_hugo/</link>
+      <pubDate>Mon, 19 Sep 2016 10:47:07 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/draft/welcome_hugo/</guid>
+      <description>
+
+&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
+using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;A long while back I had switched over to using Jekyll for generating the content
+for this site. After that I had taken an extended break from posting content
+to the site, however I&amp;rsquo;ll soon be taking on a new role, which I expect will
+result in me learning a whole bunch of new things that I&amp;rsquo;ll want to capture here.&lt;/p&gt;
+
+&lt;p&gt;So&amp;hellip; I brushed off the dust, and invoked my good old rake task I used to start
+a new post. And in typical Ruby fashion, I had gem related errors. While Ruby
+maybe a pretty popular language, I find dealing with Gems
+(specifically dependencies) to be a never ending losing battle. Once again,
+despite having a Gemfile.lock to start from, I was getting Gem version
+conflicts. I&amp;rsquo;ve been down this road at least a 100 times before so I was sure I
+&lt;em&gt;could&lt;/em&gt; resolve the issue, but I was simply to annoyed to deal with it. So like
+anyone in our industry, instead of just taking the 10 minutes to fix the problem
+at hand, I decided to spend the rest of my day learning and implementing something
+new.. That&amp;rsquo;s where Hugo enters the picture.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m by no means a &lt;code&gt;golang&lt;/code&gt; fanboy, but I do appreciate that it ships its binaries
+without any external dependencies. I&amp;rsquo;ve written a small utility using it as well
+so while I&amp;rsquo;m far from proficient, it is a language I have some experience with.&lt;/p&gt;
+
+&lt;p&gt;The thought of never needing to deal with another &lt;code&gt;Gemfile&lt;/code&gt;, or &lt;code&gt;requirements.txt&lt;/code&gt;
+was enough to get me investigating. Here are some of the highlights on why I
+opted to start down this path:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The documentation site is well organized and comprehensive. While its too
+early to know if it will answer all the questions I might have, it certainly
+has a lot of stuff to get you started.&lt;/li&gt;
+&lt;li&gt;The getting started guide makes it look super easy to get started.&lt;/li&gt;
+&lt;li&gt;No external package dependencies.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
+capturing some of the challenges I personally encountered.&lt;/p&gt;
+
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+
+&lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
+When it comes to creating aesthetic looking websites I have zero skills. I am
+completely dependent on others for this. As a result, a platform with good
+themes is important to me. Enter &lt;a href=&#34;http://themes.gohugo.io/&#34;&gt;http://themes.gohugo.io/&lt;/a&gt;, which has a good
+collection to start with. I spent &lt;em&gt;way&lt;/em&gt; to much time trying to decide which one
+I liked best.&lt;/p&gt;
+
+&lt;p&gt;Once I had the theme I wanted, there were some things I wanted to change. In
+theory, the system is designed in such a way that you can add override templates
+to your &lt;code&gt;layouts&lt;/code&gt; directory. I did do this in a few cases, but found myself
+falling back to just editing the actual theme. Since I had placed the theme into
+the same repo as the content for the site, and I was not directly pointing to an
+external copy, this was the fastest way (even if fastest is not always best). Since
+I wasn&amp;rsquo;t sure yet if this platform was going to stick I took the low road here.&lt;/p&gt;
+
+&lt;p&gt;The one place I did find lacking on the template system was the parameter
+documentation. Each template is free to use any number of parameters from your
+site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
+the available parameters they support are.&lt;/p&gt;
+
+&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
+
+&lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
+it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
+for migrating data from Jekyll. I gave them both a shot, and while both did create
+&lt;em&gt;valid&lt;/em&gt; output files, some of the Jekyll specific tags were still in the resulting
+markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered page.&lt;/p&gt;
+
+&lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
+I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
+
+&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+
+&lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
+into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I started off by using the server-side integration with Pygments. Since I have
+such little content I was not worried about the performance implications
+discussed.&lt;/p&gt;
+
+&lt;p&gt;This was relatively simply to setup, however this statement was a little
+frustrating:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You can explore the different color styles on pygments.org after inserting some example code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;That link will bring you to the site, but good luck trying to find the available
+styles (&lt;code&gt;pygmentsstyle&lt;/code&gt;) that you can choose from. After some exploring of
+their site I found myself on &lt;a href=&#34;http://pygments.org/docs/styles/&#34;&gt;http://pygments.org/docs/styles/&lt;/a&gt;.
+There is a little snippet at the bottom of the page that you can run to get the
+list of styles. To the best of my knowledge, this is the only way to get that
+list, and even when you run it, you have no clue what they look like. Pygments
+could really benefit from some sort of gallery showing off the built-in styles.&lt;/p&gt;
+
+&lt;p&gt;Here is the list of styles I saw after a fresh install of pygments:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
+&amp;gt;&amp;gt;&amp;gt; list(get_all_styles())
+[&#39;manni&#39;, &#39;igor&#39;, &#39;lovelace&#39;, &#39;xcode&#39;, &#39;vim&#39;, &#39;autumn&#39;, &#39;vs&#39;, &#39;rrt&#39;, &#39;native&#39;, &#39;perldoc&#39;, &#39;borland&#39;, &#39;tango&#39;, &#39;emacs&#39;, &#39;friendly&#39;, &#39;monokai&#39;, &#39;paraiso-dark&#39;, &#39;colorful&#39;, &#39;murphy&#39;, &#39;bw&#39;, &#39;pastie&#39;, &#39;algol_nu&#39;, &#39;paraiso-light&#39;, &#39;trac&#39;, &#39;default&#39;, &#39;algol&#39;, &#39;fruity&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Overall I couldn&amp;rsquo;t find a style I actually liked, so I moved onto the client
+side highlighting.&lt;/p&gt;
+
+&lt;p&gt;I gave &lt;a href=&#34;http://highlightjs.org/&#34;&gt;Highlight.js&lt;/a&gt; a run first. The provided
+instructions were simple enough to get it up and running, but once again I wasn&amp;rsquo;t
+really sold on the look. My biggest annoyance (which I spent more time on then I
+care to admit) was that it would line wrap all the code. I found some others with
+the same issue and attempted a workaround, which resulted in a scroll bar on every
+single block, even those that didn&amp;rsquo;t need it. Rather than keep messing around
+with this, I moved on to &lt;a href=&#34;http://prismjs.com/&#34;&gt;Prism&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Prism took a little more to get up and running. There isn&amp;rsquo;t some CDN endpoint you
+can just point to. Instead you have to select all the languages and features you
+want to use. This results in a couple minified files for you to download. I had
+no clue what things I would want so I selected everything. This results in a
+file that is close to 280K so this isn&amp;rsquo;t ideal long term, but should get me up
+and running quickly.&lt;/p&gt;
+
+&lt;p&gt;After wiring this up my code blocks had a look and feel that I really liked, with
+one very small annoyance. After each line I could see a &lt;em&gt;very small&lt;/em&gt; &lt;code&gt;lf&lt;/code&gt;. As it
+turns out I had included the &lt;code&gt;Show Invisibles&lt;/code&gt; plugin (since I had selected all).
+So I regenerated my download using everything &lt;em&gt;expect&lt;/em&gt; invisibles, and that
+fixed that issue.&lt;/p&gt;
+
+&lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
+
+&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
+
+&lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
+but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
+
+&lt;p&gt;I am hosting this site as a &lt;em&gt;personal&lt;/em&gt; site, rather than a &lt;em&gt;project&lt;/em&gt; site
+which means github expects to see the rendered content on the &lt;em&gt;master&lt;/em&gt; branch
+rather than the &lt;em&gt;gh-pages&lt;/em&gt; branch. Since they have some native support for
+Jekyll, the source is kept on master and just automatically rendered.&lt;/p&gt;
+
+&lt;p&gt;One of the side effects of switching to Hugo however is that you need to build
+your site yourself (using the &lt;code&gt;hugo&lt;/code&gt; command) and then push the &lt;strong&gt;rendered&lt;/strong&gt;
+content up to the master branch. I tackled this in the following way:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I tagged my master branch as-is so I can come back to it later as needed&lt;/li&gt;
+&lt;li&gt;I then created a new &lt;strong&gt;hugo&lt;/strong&gt; branch (&lt;code&gt;git checkout -b hugo&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;I removed all the non-hugo cruft that had accumulated over the years, leaving
+me with just the files needed for Hugo.&lt;/li&gt;
+&lt;li&gt;I ensured my &lt;code&gt;CNAME&lt;/code&gt; file is in Hugo&amp;rsquo;s &lt;code&gt;static&lt;/code&gt; directory. This is the magic
+that allows one to host their own domain name on Github.&lt;/li&gt;
+&lt;li&gt;I then wiped out everything &lt;strong&gt;except&lt;/strong&gt; my &lt;code&gt;.git&lt;/code&gt; folder on my &lt;code&gt;master&lt;/code&gt; branch&lt;/li&gt;
+&lt;li&gt;At this point, on the &lt;code&gt;hugo&lt;/code&gt; branch I run &lt;code&gt;hugo&lt;/code&gt; to generate my site into the
+&lt;em&gt;public&lt;/em&gt; subdirectory&lt;/li&gt;
+&lt;li&gt;Now we can run &lt;code&gt;git subtree push --prefix public origin master&lt;/code&gt;. This will take
+the contents of the &lt;code&gt;public&lt;/code&gt; directory and push to the &lt;strong&gt;root&lt;/strong&gt; of the &lt;code&gt;master&lt;/code&gt;
+branch.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Using this approach is a bit of hybrid of two methods listed on the Hugo site.
+I like this method best as I don&amp;rsquo;t need to have the rendered content and source
+in two different repositories. In the GitHub UI, I changed the default branch to
+Hugo, so now I simply work all the time in my Hugo branch and never touch master,
+expect when pushing out updates.&lt;/p&gt;
+
+&lt;p&gt;There is a great little &lt;code&gt;deploy.sh&lt;/code&gt; example on their site that I adopted to me
+my work flow above, so now whenever I add new content I simply run &lt;code&gt;sh build.sh&lt;/code&gt;
+and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Resume</title>
@@ -1562,137 +1739,6 @@ see that level of overhead.&lt;/p&gt;
 confirmed many of my suspicions, but its nice to finally have some real
 metrics around this. Now that I&amp;rsquo;m measuring all this great stuff its time to
 start improving it!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Chef Minitest and Slow Starting Web Application</title>
-      <link>http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/</link>
-      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
-      <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/</guid>
-      <description>&lt;p&gt;As I have started to become proficient with &lt;code&gt;Chef&lt;/code&gt; I&amp;rsquo;ve also gotten used to
-using the &lt;code&gt;minitest-chef-handler&lt;/code&gt; for writing integration tests for my
-cookbooks. This quick post is to capture an approach I&amp;rsquo;ve grown to like for
-doing HTTP tests of slow starting web applications. I&amp;rsquo;ve noticed that many
-services will return from an &lt;code&gt;/sbin/service mysapp start&lt;/code&gt; well before
-the application has fully started and is accepting HTTP connections.&lt;/p&gt;
-
-&lt;p&gt;Originally I taken a very naive approach of timing how long the app took
-to startup, adding some arbitrary number of seconds and then just sleeping that
-long before testing. This is of course a stupid approach and now that I&amp;rsquo;ve
-gotten my feet wet with both &lt;code&gt;Chef&lt;/code&gt; and Ruby I&amp;rsquo;ve learned of a really simply
-approach to poll the service frequently and eventually giving up or succeeding.&lt;/p&gt;
-
-&lt;p&gt;Here is an example of the approach I am using these days:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;require &#39;minitest/spec&#39;
-require &amp;quot;net/http&amp;quot;
-
-describe_recipe &#39;mycookbook::myrecipe&#39; do
-  include MiniTest::Chef::Assertions
-  include MiniTest::Chef::Context
-  include MiniTest::Chef::Resources
-  it &amp;quot;listens on the desired HTTP Port&amp;quot; do
-    begin
-      tries ||= 12
-      http_port = node[:myapp][:http_port]
-      response = Net::HTTP.get_response(node[:ipaddress], &amp;quot;/&amp;quot;, http_port)
-    rescue
-      Chef::Log.info(&amp;quot;HTTP listner is not available yet&amp;quot;)
-      sleep(5)
-      retry unless (tries -= 1).zero?
-    end
-    response.must_be_kind_of(Net::HTTPOK)
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So lets break this down a bit:
-* The first couple of lines are boiler plate imports. We will be leveraging
-  some spec tests and using the net/http library in our tests.
-* Line 4 starts a describe_recipe block (which ends on 20).
-* Lines 5-7 include some bits from &lt;code&gt;Minitest::Chef&lt;/code&gt;. In general you should
-  move these out to a helper module, but thats out of the scope of this post.
-  For the purposes of this post just know you need to have them in order for
-  this to work properly (I actually think the only one that is really required
-  is &lt;code&gt;MiniTest::Chef::Context&lt;/code&gt;, but all the examples you find tend to include
-  all 3, so I&amp;rsquo;m leaving them as I don&amp;rsquo;t believe there is much harm in including
-  and not using them.
-* Line 8 starts another block (which ends on line 19) which is essentially a
-  description of what we will be testing.&lt;/p&gt;
-
-&lt;p&gt;All of the items I just described are pretty generic for tests. They are
-not directly related to the purpose of this post, but I include them for the
-purpose of a complete example. Now lets look a little closer at the bits that
-do the test:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;begin
-  tries ||= 12
-  http_port = node[:myapp][:http_port]
-  response = Net::HTTP.get_response(node[:ipaddress], &amp;quot;/&amp;quot;, http_port)
-rescue
-  Chef::Log.debug(&amp;quot;HTTP listner is not available yet&amp;quot;)
-  sleep(5)
-  retry unless (tries -= 1).zero?
-end
-response.must_be_kind_of(Net::HTTPOK)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;By wrapping everything in a begin/rescue block we can leverage Ruby&amp;rsquo;s built-in
-&lt;code&gt;retry&lt;/code&gt; statement which I also just recently learned about and has allowed
-me to cleanup a good bit of self-rolled retry logic I&amp;rsquo;ve written.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m certainly no Ruby expert so the following explanation is how I understand
-these pieces to work:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Line 2 reads &amp;laquo;Use the current value of the variable &lt;code&gt;tries&lt;/code&gt;. If the variable
-is not currently set, start with a value of &lt;strong&gt;12&lt;/strong&gt;&amp;raquo;.&lt;/li&gt;
-&lt;li&gt;Next we are going to fetch the HTTP port from a node attribute. I&amp;rsquo;ve seen examples
-were folks bake the HTTP port into the test, but I prefer using a node attribute
-so that my recipe can configure the application on that port and my test will
-use that same port. In the future if I ever change the port, I don&amp;rsquo;t need
-to update the test.&lt;/li&gt;
-&lt;li&gt;Line 4 is going to invoke an HTTP request to the path of &amp;laquo;/&amp;raquo; on the local node
-using its IP address (rather than localhost or 127.0.0.1).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Now comes the real magic. When something goes wrong (IE the application is not
-accepting HTTP connections yet) we hit the rescue block. When that happens the
-following occurs:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Log a debug level message that we haven&amp;rsquo;t finished starting yet&lt;/li&gt;
-&lt;li&gt;Wait for 5 seconds&lt;/li&gt;
-&lt;li&gt;And finally the magic wand in the equation&amp;hellip; Line 8 reads &amp;laquo;decrement the
-value of the tries variable by one (12 - 1 = 11). After decrementing the
-variable check if the variable is equal to 0. If it is not, retry the code
-that was in the begin section (lines 2-4).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So this block will check if the application is accepting HTTP connections once
-every 5 seconds for a maximum of 12 tries (one minute). If at
-any point we get an HTTP response, it stops trying. Additionally if we have
-not gotten a response in 12 attempts we also stop trying.&lt;/p&gt;
-
-&lt;p&gt;This allows us to not wait for 60 seconds when the app usually takes 10 seconds
-to start, but may sometimes take 25-30 seconds.&lt;/p&gt;
-
-&lt;p&gt;Finally, line 10 registers the assertion with minitest. We are asserting
-that the response is going to be instance of &lt;a href=&#34;http://www.ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net/HTTPOK.html&#34;&gt;Net::OK&lt;/a&gt;.
-Had we hit our maximum number of retries this would have been nil and failed.
-Additionally if for some reason we got some sort of HTTP error this would
-also fail.&lt;/p&gt;
-
-&lt;p&gt;So as I mentioned earlier there are other ways to accomplish this but I like
-this approach as its pretty easy to understand for someone that doesn&amp;rsquo;t know
-Ruby all that well (ME!), and has the benefit of not waiting too much longer
-than necessary when waiting for a service to start.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;http://www.opscode.com/chef/&#34;&gt;Chef&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/calavera/minitest-chef-handler&#34;&gt;minitest-chef-handler&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
