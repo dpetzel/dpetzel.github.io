@@ -22,7 +22,7 @@
       <h2 class="{{ .Type }}-subheading">{{ .Params.subtitle }}</h2>
       {{ end }}
       {{ end }}
-      
+
       {{ if eq .Type "post" }}
       <span class="post-meta">Posted on {{ .Date.Format "January 2, 2006" }}</span>
       {{ end }}
@@ -38,6 +38,9 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="{{ .Type }}-heading">
+          {{ if eq .Type "post" }}
+            {{ partial "adsense" . }}
+          {{ end }}
           <h1>{{ if .Title }}{{ .Title }}{{ else }}<br/>{{ end }}</h1>
       {{ if .Params.subtitle }}
         {{ if eq .Type "page" }}
@@ -47,7 +50,7 @@
       <h2 class="{{ .Type }}-subheading">{{ .Params.subtitle }}</h2>
       {{ end }}
       {{ end }}
-      
+
       {{ if eq .Type "post" }}
       <span class="post-meta">Posted on {{ .Date.Format "January 2, 2006" }}</span>
       {{ end }}
