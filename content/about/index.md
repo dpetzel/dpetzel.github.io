@@ -2,7 +2,7 @@
 date: 2016-09-18T09:48:29-04:00
 draft: false
 title: About Me
-type: landing
+type: page
 menu: main
 disable_date: true
 ---

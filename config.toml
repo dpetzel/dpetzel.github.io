@@ -1,11 +1,11 @@
-baseurl = "http://www.dpetzel.info/"
+baseurl = "http://www.dpetzel.info"
 languageCode = "en-us"
 title = "Dave's Site"
 disqusShortname = "dpetzel"
 copyright = "© 2016 David Petzel"
 
 
-theme = "twentyfourteen"
+theme = "beautifulhugo" # http://themes.gohugo.io/beautifulhugo/
 metaDataFormat = "yaml"
 
 [taxonomies]
