@@ -77,6 +77,21 @@
   </url>
   
   <url>
+    <loc>http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</loc>
     <lastmod>2012-02-10T00:00:00+00:00</lastmod>
   </url>

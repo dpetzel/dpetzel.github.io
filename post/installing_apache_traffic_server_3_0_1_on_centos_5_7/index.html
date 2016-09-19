@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+  <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7</title>
 
   <meta name="author" content="David Petzel" />
 
@@ -29,7 +29,7 @@
   <script src="/js/prism.js"></script>
 
   
-  <meta property="og:title" content="Cloud Zoom Is Blocking My Modal Dialog Box" />
+  <meta property="og:title" content="Installing Apache Traffic Server 3.0.1 on Centos 5.7" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="" />
@@ -109,7 +109,7 @@
 </div>
 
           
-          <h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
+          <h1>Installing Apache Traffic Server 3.0.1 on Centos 5.7</h1>
       
 
       
@@ -131,58 +131,66 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>The issue I was having is that the Cloud Zoom enhanced image was being
-displayed in front of my drop down menu as well as my modal dialog box. At
-first I had only noticed the issue on the drop menu, and was having a hard time
-figuring out what was going on, and thought perhaps I had done something wrong
-on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.</p>
+          <p>A quick chronicle of my journey to install Apache Traffic Servers on
+Centos 5.7. In the end it ended up being a lot easier than I was expecting,
+given how sporadic and incomplete the documentation on their site is.</p>
 
-<ul>
-<li>I&rsquo;ve got a page that is using a few different jQuery dependent features/functions.</li>
-<li>I&rsquo;m using the superfish drop down menu</li>
-<li>I&rsquo;m also using the jQuery UI Dialog for a modal dialog box</li>
-<li>And finally, I&rsquo;m using Cloud Zoom for some image excitement</li>
-</ul>
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a
+<code>yum update</code> &amp; <code>reboot</code> after the initial installation of the OS, before
+starting with installing ATS</p>
 
-<p>I went through and tried a few different things, and finally just disabled
-cloud zoom. At that point my drop down menu was now correctly displayed over
-top of the image. I spent some time looking through the cloud-zoom site with no
-luck. I spent quite a bit of time googling with no luck.</p>
+<p>Do the installation:</p>
 
-<p>I turned my attention to the jQuery UI documentation for anything that might be
-a clue. I was reading through the various options and came upon the zIndex
-option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
-I finally got to this article: <a href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
-So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
-So the question of the day is WHY? and what is the value of zIndex I need to
-use? Well on a hunch I started digging through the cloud zoom javascript and
-found line 350::</p>
-
-<pre><code class="language-javascript">  $(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');
+<pre><code class="language-shell">cd /tmp
+wget http://www.carfab.com/apachesoftware//trafficserver/trafficserver-3.0.1.tar.bz2
+yum -y install gcc gcc-c++ pcre pcre-devel tcl tcl-devel openssl-devel expat-devel
+tar -jxvf trafficserver-3.0.1.tar.bz2
+cd /tmp/trafficserver-3.0.1
+./configure --prefix=/opt/trafficserver
+make
+make install
 </code></pre>
 
-<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower
-than that will be displayed behind my images. So of course, I put this to the
-test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
+<p>At this point it was installed for me, however I ran into one <em>really</em>
+boneheaded mistake. Mostly my own fault, but the documentation in the getting
+started guide is misleading as well. From this page
+<a href="http://trafficserver.apache.org/docs/v2/admin/getstart.htm">http://trafficserver.apache.org/docs/v2/admin/getstart.htm</a> it says:</p>
 
-<p>A quick refresh and everything is working perfect!. zIndex&hellip; who knew&hellip;</p>
+<blockquote>
+<p>#. Log on to the Traffic Server node as the Traffic Server administrator and navigate to the Traffic Server bin directory.</p>
 
-<p>In case you are wondering, yes I did test an iteration with the index of the
-menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.</p>
+<p>#. Enter the following command:</p>
+
+<p>./start_traffic_server</p>
+
+<p>./trafficserver start</p>
+</blockquote>
+
+<p>The problem is that start_traffic_server does not exist. Since I’m brand new to
+traffic server, I can’t be sure, but I suspect this is a relic from 2.x. The
+next challenge was running “./trafficserver start”. This gives the illusion
+that the server has started, but I ran into issues with traffic_line and
+traffic_shell errors. You can see the details of those errors in my
+<a href="http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser">semi-embarrassing forum post</a>:</p>
+
+<p>For those that want to cut to the chase, start traffic server with
+<code>trafficserver start</code> notice the omission of the underscore. Running this
+command also starts traffic_cop and traffic_manager. I ended up finding this by
+reading the INSTALL file that was included in the source download. Yes, I did
+read the file before attempting to install, but as I already admitted, glossed
+right over the closely named file.</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Apache Traffic Server 3.0.1 on Centos 5.7">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Varnish Cache 3.0.2 on Centos 5.7">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">Next Post &rarr;</a>
+          <a href="http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/" data-toggle="tooltip" data-placement="top" title="Cloud Zoom Is Blocking My Modal Dialog Box">Next Post &rarr;</a>
         </li>
         
       </ul>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+  <title>Sending an SMTP email in Python 3</title>
 
   <meta name="author" content="David Petzel" />
 
@@ -29,7 +29,7 @@
   <script src="/js/prism.js"></script>
 
   
-  <meta property="og:title" content="Cloud Zoom Is Blocking My Modal Dialog Box" />
+  <meta property="og:title" content="Sending an SMTP email in Python 3" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="" />
@@ -109,7 +109,7 @@
 </div>
 
           
-          <h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
+          <h1>Sending an SMTP email in Python 3</h1>
       
 
       
@@ -131,58 +131,96 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>The issue I was having is that the Cloud Zoom enhanced image was being
-displayed in front of my drop down menu as well as my modal dialog box. At
-first I had only noticed the issue on the drop menu, and was having a hard time
-figuring out what was going on, and thought perhaps I had done something wrong
-on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.</p>
+          <p>This took me far longer than it should have, and while I&rsquo;d like to blame
+shotty documentation and sparse examples it was probably my own stupidity
+causing the issue. Whatever the case maybe I wanted to jot down my results
+as I&rsquo;m sure I&rsquo;ll need to do this again.</p>
 
-<ul>
-<li>I&rsquo;ve got a page that is using a few different jQuery dependent features/functions.</li>
-<li>I&rsquo;m using the superfish drop down menu</li>
-<li>I&rsquo;m also using the jQuery UI Dialog for a modal dialog box</li>
-<li>And finally, I&rsquo;m using Cloud Zoom for some image excitement</li>
-</ul>
+<p>I&rsquo;d like go on a rant about how much harder this was than it should be and how
+an easier module should exist. However, the fact that I can&rsquo;t write an easier
+module lends itself to the &laquo;Don&rsquo;t Complain, Contribute&raquo; motto, so I&rsquo;ll settle
+on the belief that its not easier for a good reason, and maybe one day if I
+ever get really good at Python I can make it easier.</p>
 
-<p>I went through and tried a few different things, and finally just disabled
-cloud zoom. At that point my drop down menu was now correctly displayed over
-top of the image. I spent some time looking through the cloud-zoom site with no
-luck. I spent quite a bit of time googling with no luck.</p>
+<p>For the time challenged people who don&rsquo;t want to read, here is the condensed
+version with no explanation:</p>
 
-<p>I turned my attention to the jQuery UI documentation for anything that might be
-a clue. I was reading through the various options and came upon the zIndex
-option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
-I finally got to this article: <a href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
-So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
-So the question of the day is WHY? and what is the value of zIndex I need to
-use? Well on a hunch I started digging through the cloud zoom javascript and
-found line 350::</p>
+<pre><code class="language-python">import smtplib
+import string
 
-<pre><code class="language-javascript">  $(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');
+subject = &quot;My Wicked Cool Subject Line&quot;
+to = &quot;rec1@domain1.com,rec2@domain.com&quot;.split(&quot;,&quot;)
+from = &quot;sender@domain.com&quot;
+body_text = &quot;Enter the contents of your body here&quot;
+body = &quot;From: {0} \r\n \
+        To: {1} \r\n \
+        Subject: {2} \r\n \
+        {3} \r\n&quot;.format(FROM, &quot;, &quot;.join(TO), SUBJECT, text)
+server = smtplib.SMTP(&quot;YourSMTPServerName&quot;,YourSMTPServerPort)
+server.login(&quot;you@yourdomain.com&quot;,&quot;yourpassword&quot;)
+server.set_debuglevel(1)
+server.sendmail(from, to, body)
+server.quit()
 </code></pre>
 
-<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower
-than that will be displayed behind my images. So of course, I put this to the
-test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
+<p>For those that want a little more explanation, aside from reading the python
+docs, I&rsquo;ve added some quick notes around some of the stuff that is not uber
+obvious. So the first thing we need is the SMTP module:</p>
 
-<p>A quick refresh and everything is working perfect!. zIndex&hellip; who knew&hellip;</p>
+<pre><code class="language-python">import smtplib
+</code></pre>
 
-<p>In case you are wondering, yes I did test an iteration with the index of the
-menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.</p>
+<p>Then we&rsquo;ll need the string module. Quite likely there are other ways to
+accomplish this, but this is the method I took:</p>
+
+<pre><code class="language-python">import string
+</code></pre>
+
+<p>The following is using some variables to over-simplify the whole mess,
+but you should get the idea:</p>
+
+<pre><code class="language-python">subject = &quot;My Wicked Cool Subject Line&quot;
+#add as many as you need separated by commas
+to = &quot;rec1@domain1.com,rec2@domain.com&quot;.split(&quot;,&quot;)
+from = &quot;sender@domain.com&quot;
+#obviously you can dynamically generate this variable.
+body_text = &quot;Enter the contents of your body here&quot;
+#didn't bother to read all the gory details, but from what I gather
+# This approach is used to set some SMTP headers, and munch everything
+# into a single body entity.
+body = &quot;From: {0} \r\n \
+        To: {1} \r\n \
+        Subject: {2} \r\n \
+        {3} \r\n&quot;.format(FROM, &quot;, &quot;.join(TO), SUBJECT, text)
+#This part is pretty cool. It uses the new format method in lieu of the
+# older %s approach. Honestly I find it simpler than the %s approach.
+
+server = smtplib.SMTP(&quot;YourSMTPServerName&quot;,YourSMTPServerPort)
+#You only need if your not connecting to the defacto standard 25.
+
+#This line is needed because my SMTP server requires Auth. If yours doesnt
+# Omit this.
+server.login(&quot;you@yourdomain.com&quot;,&quot;yourpassword&quot;)
+
+#I'm curious and wanted to see what was happening. So I flipped on debugging.
+server.set_debuglevel(1)
+# Fire Away!
+server.sendmail(from, to, body)
+#End you session.
+server.quit()
+</code></pre>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Apache Traffic Server 3.0.1 on Centos 5.7">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="Converting Zenoss VMWare Virtual Appliance to VirtualBox">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">Next Post &rarr;</a>
+          <a href="http://www.dpetzel.info/post/installing_varnish_cache_3_0_2_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Varnish Cache 3.0.2 on Centos 5.7">Next Post &rarr;</a>
         </li>
         
       </ul>
