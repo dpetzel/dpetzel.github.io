@@ -935,6 +935,116 @@ why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
     </item>
     
     <item>
+      <title>BIG IP LTM VE on VirtualBox</title>
+      <link>http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/</guid>
+      <description>&lt;p&gt;I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
+I didn&amp;rsquo;t have the access to a test box that I had when I initially wrote it.
+So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m on a VirtualBox kick right now, but the appliance choices there don&amp;rsquo;t list
+VirtualBox. Inspired by this post, I figured I&amp;rsquo;d give it a shot since it looked
+simple enough. I&amp;rsquo;m re-documenting the process here, so I can just add a little
+more detail around this.&lt;/p&gt;
+
+&lt;p&gt;Start by registering (or signing in if you already have an account) via
+&lt;a href=&#34;https://www.f5.com/trial/big-ip-ltm-virtual-edition.php&#34;&gt;https://www.f5.com/trial/big-ip-ltm-virtual-edition.php&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Navigate the screens to get your trial key, and subsequent download. You&amp;rsquo;ll
+want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I
+thought I would be cool and download the 10.2 file. Turns out you can’t
+activate the 10.2 trial… How dumb… anyway save yourself some time and just
+download 10.1&lt;/p&gt;
+
+&lt;p&gt;From within the VirtualBox UI, select File &amp;ndash;&amp;gt; Import Appliance&lt;/p&gt;
+
+&lt;p&gt;Select Choose and locate the .ova file you just downloaded. Click Next&lt;/p&gt;
+
+&lt;p&gt;There are just a couple of settings you&amp;rsquo;ll want to tweak on Import Settings page:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Give your appliance a name (or just accept the default)&lt;/li&gt;
+&lt;li&gt;Change to 2 CPUs&lt;/li&gt;
+&lt;li&gt;Changes to 2048MB of RAM&lt;/li&gt;
+&lt;li&gt;Change the file extension on the virtual disk image to be a .vdi&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You should see a license agreement, agree to it of course.&lt;/p&gt;
+
+&lt;p&gt;One the import is complete, I’d suggest setting each network adaptor to
+host-only networking, unless you really need it to talk externally. Regardless
+of if you change that or not, power on the VM now.&lt;/p&gt;
+
+&lt;p&gt;The first thing you’ll need to do is assign a management IP. Start by
+logging into the vm through the VirtualBox console. credentials are
+root/default. At the CLI type config. I opted let DHCP do its thing by
+answering Yes “use automatic configuration of ip address”&lt;/p&gt;
+
+&lt;p&gt;type &lt;code&gt;ifconfig&lt;/code&gt; and you should see any entry like eth0:mgmt. This will give
+you the IP address of your management interface. Using https navigate to that
+IP addresses in a browser on your workstation. &lt;a href=&#34;https://192.168.1.100&#34;&gt;https://192.168.1.100&lt;/a&gt;
+(or whatever IP you got). &lt;strong&gt;NOTE&lt;/strong&gt; the username and password for the UI is
+different than the cli. Use admin/admin for logging into the webui&lt;/p&gt;
+
+&lt;p&gt;You’ll be prompted to run through a setup wizard. Its self explanatory enough
+that I don’t think I need to cover it here. From here you are on your own.&lt;/p&gt;
+
+&lt;p&gt;Proceed as you see fit.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+      <link>http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/</guid>
+      <description>&lt;p&gt;The issue I was having is that the Cloud Zoom enhanced image was being
+displayed in front of my drop down menu as well as my modal dialog box. At
+first I had only noticed the issue on the drop menu, and was having a hard time
+figuring out what was going on, and thought perhaps I had done something wrong
+on the superfish menu. Once I noticed it was also affecting my modal dialog,
+I became suspicious of cloud zoom.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ve got a page that is using a few different jQuery dependent features/functions.&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m using the superfish drop down menu&lt;/li&gt;
+&lt;li&gt;I&amp;rsquo;m also using the jQuery UI Dialog for a modal dialog box&lt;/li&gt;
+&lt;li&gt;And finally, I&amp;rsquo;m using Cloud Zoom for some image excitement&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I went through and tried a few different things, and finally just disabled
+cloud zoom. At that point my drop down menu was now correctly displayed over
+top of the image. I spent some time looking through the cloud-zoom site with no
+luck. I spent quite a bit of time googling with no luck.&lt;/p&gt;
+
+&lt;p&gt;I turned my attention to the jQuery UI documentation for anything that might be
+a clue. I was reading through the various options and came upon the zIndex
+option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
+I finally got to this article: &lt;a href=&#34;http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/&#34;&gt;http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/&lt;/a&gt;
+So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
+So the question of the day is WHY? and what is the value of zIndex I need to
+use? Well on a hunch I started digging through the cloud zoom javascript and
+found line 350::&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;  $(this).wrap(&#39;&amp;lt;div id=&amp;quot;wrap&amp;quot; style=&amp;quot;top:0px;z-index:9999;position:relative;&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So Cloud Zoom is using 9999. Any other components that has a z-index lower
+than that will be displayed behind my images. So of course, I put this to the
+test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.&lt;/p&gt;
+
+&lt;p&gt;A quick refresh and everything is working perfect!. zIndex&amp;hellip; who knew&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;In case you are wondering, yes I did test an iteration with the index of the
+menu and modal dialog set to be lower than 9999 and as expected they were
+hidden by the cloud zoom image.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Converting Zenoss VMWare Virtual Appliance to VirtualBox</title>
       <link>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</link>
       <pubDate>Fri, 10 Feb 2012 00:00:00 +0000</pubDate>

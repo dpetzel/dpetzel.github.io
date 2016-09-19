@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Sphinx With External Image Annoyance</title>
+  <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
 
   <meta name="author" content="David Petzel" />
 
@@ -29,7 +29,7 @@
   <script src="/js/prism.js"></script>
 
   
-  <meta property="og:title" content="Sphinx With External Image Annoyance" />
+  <meta property="og:title" content="Cloud Zoom Is Blocking My Modal Dialog Box" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="" />
@@ -109,11 +109,11 @@
 </div>
 
           
-          <h1>Sphinx With External Image Annoyance</h1>
+          <h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
       
 
       
-      <span class="post-meta">Posted on September 24, 2013</span>
+      <span class="post-meta">Posted on March 5, 2012</span>
       
         </div>
       </div>
@@ -131,58 +131,58 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>So today I was trying to clean up some of my Sphinx build warnings when
-rendering this site. I got everything fixed so I had no errors or
-warnings except for this little guy right here (truncated for easier
-reading):</p>
+          <p>The issue I was having is that the Cloud Zoom enhanced image was being
+displayed in front of my drop down menu as well as my modal dialog box. At
+first I had only noticed the issue on the drop menu, and was having a hard time
+figuring out what was going on, and thought perhaps I had done something wrong
+on the superfish menu. Once I noticed it was also affecting my modal dialog,
+I became suspicious of cloud zoom.</p>
 
-<pre><code>~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png
+<ul>
+<li>I&rsquo;ve got a page that is using a few different jQuery dependent features/functions.</li>
+<li>I&rsquo;m using the superfish drop down menu</li>
+<li>I&rsquo;m also using the jQuery UI Dialog for a modal dialog box</li>
+<li>And finally, I&rsquo;m using Cloud Zoom for some image excitement</li>
+</ul>
+
+<p>I went through and tried a few different things, and finally just disabled
+cloud zoom. At that point my drop down menu was now correctly displayed over
+top of the image. I spent some time looking through the cloud-zoom site with no
+luck. I spent quite a bit of time googling with no luck.</p>
+
+<p>I turned my attention to the jQuery UI documentation for anything that might be
+a clue. I was reading through the various options and came upon the zIndex
+option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
+I finally got to this article: <a href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
+So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
+So the question of the day is WHY? and what is the value of zIndex I need to
+use? Well on a hunch I started digging through the cloud zoom javascript and
+found line 350::</p>
+
+<pre><code class="language-javascript">  $(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');
 </code></pre>
 
-<p>I know I&rsquo;m linking to an external image. I don&rsquo;t want to store my binary
-images in my Github repo .</p>
+<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower
+than that will be displayed behind my images. So of course, I put this to the
+test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
 
-<p>I search google for a bit and couldn&rsquo;t find anything. This was so
-annoying!! I don&rsquo;t want these warnings every build to numb me to real
-warnings so I I wanted to suppress them.</p>
+<p>A quick refresh and everything is working perfect!. zIndex&hellip; who knew&hellip;</p>
 
-<p>Well, since this is just Python lets get to work</p>
-
-<pre><code class="language-shell">$ grep -Rn &quot;nonlocal image URI found&quot; ~/virtualenvs/tinkerer/lib/python2.7/site-packages/
-/home/dave/virtualenvs/tinkerer/lib/python2.7/site-packages/sphinx/environment.py:779:                self.warn_node('nonlocal image URI found: %s' % imguri, node)
-</code></pre>
-
-<p>So I edited line 779 in the file from:</p>
-
-<pre><code class="language-python">    if imguri.find('://') != -1:
-        self.warn_node('nonlocal image URI found: %s' % imguri, node)
-        candidates['?'] = imguri
-        continue
-</code></pre>
-
-<p>to end up with:
-{% highlight python %}
-    if imguri.find(&rsquo;://&lsquo;) != -1:
-        # self.warn_node(&lsquo;nonlocal image URI found: %s&rsquo; % imguri, node)
-        candidates[&lsquo;?&rsquo;] = imguri
-        continue
-{% endhighlight %}</p>
-
-<p>Voila! No more warning for external images. If anyone knows the
-<strong>right</strong> way to suppress these warnings (Yes I&rsquo;ve read all the reasons
-why you shouldn&rsquo;t) please let me know.</p>
+<p>In case you are wondering, yes I did test an iteration with the index of the
+menu and modal dialog set to be lower than 9999 and as expected they were
+hidden by the cloud zoom image.</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="Converting Zenoss VMWare Virtual Appliance to VirtualBox">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="http://www.dpetzel.info/post/django-12-to-15-upgrade/" data-toggle="tooltip" data-placement="top" title="Django 1.2 to 1.5 Upgrade">Next Post &rarr;</a>
+          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">Next Post &rarr;</a>
         </li>
         
       </ul>

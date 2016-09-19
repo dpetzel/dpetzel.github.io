@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Sphinx With External Image Annoyance</title>
+  <title>BIG IP LTM VE on VirtualBox</title>
 
   <meta name="author" content="David Petzel" />
 
@@ -29,7 +29,7 @@
   <script src="/js/prism.js"></script>
 
   
-  <meta property="og:title" content="Sphinx With External Image Annoyance" />
+  <meta property="og:title" content="BIG IP LTM VE on VirtualBox" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="" />
@@ -109,11 +109,11 @@
 </div>
 
           
-          <h1>Sphinx With External Image Annoyance</h1>
+          <h1>BIG IP LTM VE on VirtualBox</h1>
       
 
       
-      <span class="post-meta">Posted on September 24, 2013</span>
+      <span class="post-meta">Posted on March 5, 2012</span>
       
         </div>
       </div>
@@ -131,58 +131,70 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>So today I was trying to clean up some of my Sphinx build warnings when
-rendering this site. I got everything fixed so I had no errors or
-warnings except for this little guy right here (truncated for easier
-reading):</p>
+          <p>I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
+I didn&rsquo;t have the access to a test box that I had when I initially wrote it.
+So I decided I&rsquo;d give the BIG-IP LTM VE a whirl.</p>
 
-<pre><code>~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png
-</code></pre>
+<p>I&rsquo;m on a VirtualBox kick right now, but the appliance choices there don&rsquo;t list
+VirtualBox. Inspired by this post, I figured I&rsquo;d give it a shot since it looked
+simple enough. I&rsquo;m re-documenting the process here, so I can just add a little
+more detail around this.</p>
 
-<p>I know I&rsquo;m linking to an external image. I don&rsquo;t want to store my binary
-images in my Github repo .</p>
+<p>Start by registering (or signing in if you already have an account) via
+<a href="https://www.f5.com/trial/big-ip-ltm-virtual-edition.php">https://www.f5.com/trial/big-ip-ltm-virtual-edition.php</a>.</p>
 
-<p>I search google for a bit and couldn&rsquo;t find anything. This was so
-annoying!! I don&rsquo;t want these warnings every build to numb me to real
-warnings so I I wanted to suppress them.</p>
+<p>Navigate the screens to get your trial key, and subsequent download. You&rsquo;ll
+want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I
+thought I would be cool and download the 10.2 file. Turns out you can’t
+activate the 10.2 trial… How dumb… anyway save yourself some time and just
+download 10.1</p>
 
-<p>Well, since this is just Python lets get to work</p>
+<p>From within the VirtualBox UI, select File &ndash;&gt; Import Appliance</p>
 
-<pre><code class="language-shell">$ grep -Rn &quot;nonlocal image URI found&quot; ~/virtualenvs/tinkerer/lib/python2.7/site-packages/
-/home/dave/virtualenvs/tinkerer/lib/python2.7/site-packages/sphinx/environment.py:779:                self.warn_node('nonlocal image URI found: %s' % imguri, node)
-</code></pre>
+<p>Select Choose and locate the .ova file you just downloaded. Click Next</p>
 
-<p>So I edited line 779 in the file from:</p>
+<p>There are just a couple of settings you&rsquo;ll want to tweak on Import Settings page:</p>
 
-<pre><code class="language-python">    if imguri.find('://') != -1:
-        self.warn_node('nonlocal image URI found: %s' % imguri, node)
-        candidates['?'] = imguri
-        continue
-</code></pre>
+<ul>
+<li>Give your appliance a name (or just accept the default)</li>
+<li>Change to 2 CPUs</li>
+<li>Changes to 2048MB of RAM</li>
+<li>Change the file extension on the virtual disk image to be a .vdi</li>
+</ul>
 
-<p>to end up with:
-{% highlight python %}
-    if imguri.find(&rsquo;://&lsquo;) != -1:
-        # self.warn_node(&lsquo;nonlocal image URI found: %s&rsquo; % imguri, node)
-        candidates[&lsquo;?&rsquo;] = imguri
-        continue
-{% endhighlight %}</p>
+<p>You should see a license agreement, agree to it of course.</p>
 
-<p>Voila! No more warning for external images. If anyone knows the
-<strong>right</strong> way to suppress these warnings (Yes I&rsquo;ve read all the reasons
-why you shouldn&rsquo;t) please let me know.</p>
+<p>One the import is complete, I’d suggest setting each network adaptor to
+host-only networking, unless you really need it to talk externally. Regardless
+of if you change that or not, power on the VM now.</p>
+
+<p>The first thing you’ll need to do is assign a management IP. Start by
+logging into the vm through the VirtualBox console. credentials are
+root/default. At the CLI type config. I opted let DHCP do its thing by
+answering Yes “use automatic configuration of ip address”</p>
+
+<p>type <code>ifconfig</code> and you should see any entry like eth0:mgmt. This will give
+you the IP address of your management interface. Using https navigate to that
+IP addresses in a browser on your workstation. <a href="https://192.168.1.100">https://192.168.1.100</a>
+(or whatever IP you got). <strong>NOTE</strong> the username and password for the UI is
+different than the cli. Use admin/admin for logging into the webui</p>
+
+<p>You’ll be prompted to run through a setup wizard. Its self explanatory enough
+that I don’t think I need to cover it here. From here you are on your own.</p>
+
+<p>Proceed as you see fit.</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/" data-toggle="tooltip" data-placement="top" title="Cloud Zoom Is Blocking My Modal Dialog Box">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="http://www.dpetzel.info/post/django-12-to-15-upgrade/" data-toggle="tooltip" data-placement="top" title="Django 1.2 to 1.5 Upgrade">Next Post &rarr;</a>
+          <a href="http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/" data-toggle="tooltip" data-placement="top" title="Sphinx With External Image Annoyance">Next Post &rarr;</a>
         </li>
         
       </ul>
