@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+  <title>Installing Varnish Cache 3.0.2 on Centos 5.7</title>
 
   <meta name="author" content="David Petzel" />
 
@@ -29,7 +29,7 @@
   <script src="/js/prism.js"></script>
 
   
-  <meta property="og:title" content="Cloud Zoom Is Blocking My Modal Dialog Box" />
+  <meta property="og:title" content="Installing Varnish Cache 3.0.2 on Centos 5.7" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="" />
@@ -109,7 +109,7 @@
 </div>
 
           
-          <h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
+          <h1>Installing Varnish Cache 3.0.2 on Centos 5.7</h1>
       
 
       
@@ -131,58 +131,75 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>The issue I was having is that the Cloud Zoom enhanced image was being
-displayed in front of my drop down menu as well as my modal dialog box. At
-first I had only noticed the issue on the drop menu, and was having a hard time
-figuring out what was going on, and thought perhaps I had done something wrong
-on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.</p>
+          <p>If you are here, you probably already know what Varnish is, but in case you don’t….<a href="https://www.varnish-cache.org/">https://www.varnish-cache.org/</a></p>
 
-<ul>
-<li>I&rsquo;ve got a page that is using a few different jQuery dependent features/functions.</li>
-<li>I&rsquo;m using the superfish drop down menu</li>
-<li>I&rsquo;m also using the jQuery UI Dialog for a modal dialog box</li>
-<li>And finally, I&rsquo;m using Cloud Zoom for some image excitement</li>
-</ul>
+<blockquote>
+<p>Varnish Cache is an open source, state of the art web application accelerator.
+  It is installed in front of your webserver where it will cache the content,
+  resulting in a huge performance boost.</p>
+</blockquote>
 
-<p>I went through and tried a few different things, and finally just disabled
-cloud zoom. At that point my drop down menu was now correctly displayed over
-top of the image. I spent some time looking through the cloud-zoom site with no
-luck. I spent quite a bit of time googling with no luck.</p>
+<p>Now that we’ve gotten that out of way, lets get to it. As is the case with most
+things I post, this is not intended to be an official “how-to” document, but
+rather a journal of my adventures in doing it. As should always be the case
+I’m starting with the supplied installation documentation located here:
+<a href="https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat">https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat</a></p>
 
-<p>I turned my attention to the jQuery UI documentation for anything that might be
-a clue. I was reading through the various options and came upon the zIndex
-option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
-I finally got to this article: <a href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
-So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
-So the question of the day is WHY? and what is the value of zIndex I need to
-use? Well on a hunch I started digging through the cloud zoom javascript and
-found line 350::</p>
+<p>Start with a vanilla minimal install of Centos 5.7. I did perform a <code>yum update</code>
+&amp; <code>reboot</code> after the initial installation of the OS, before starting with
+installing Varnish.</p>
 
-<pre><code class="language-javascript">  $(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');
+<p>Lets create a repo file and leverage Varnish’s existing repo. We also need
+libedit out of EPEL, so enabling that repo as well. I suppose I could have just
+grabbed the single RPM just as easily…</p>
+
+<pre><code class="language-shell">cd /tmp
+wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+rpm -i epel-release-5-4.noarch.rpm
+rpm --nosignature -i http://repo.varnish-cache.org/redhat/varnish-3.0/el5/noarch/varnish-release-3.0-1.noarch.rpm
 </code></pre>
 
-<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower
-than that will be displayed behind my images. So of course, I put this to the
-test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
+<p>Install Varnish and its various dependencies</p>
 
-<p>A quick refresh and everything is working perfect!. zIndex&hellip; who knew&hellip;</p>
+<pre><code class="language-shell">yum -y install varnish
+</code></pre>
 
-<p>In case you are wondering, yes I did test an iteration with the index of the
-menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.</p>
+<p>Fire it up!</p>
+
+<pre><code class="language-shell">service varnish start
+</code></pre>
+
+<p>Check that its alive (The 503 response code is expected right now)</p>
+
+<pre><code class="language-shell"># curl -I http://localhost:6081
+HTTP/1.1 503 Service Unavailable
+Server: Varnish
+Content-Type: text/html; charset=utf-8
+Retry-After: 5
+Content-Length: 419
+Accept-Ranges: bytes
+Date: Thu, 01 Dec 2011 02:27:30 GMT
+X-Varnish: 1562514354
+Age: 0
+Via: 1.1 varnish
+Connection: close
+</code></pre>
+
+<p>That’s about it, doesn’t get much easier than that. Perhaps if I get more
+ambitious I’ll post some configuration tweaks and or cool tricks
+(if I learn any).</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Apache Traffic Server 3.0.1 on Centos 5.7">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/" data-toggle="tooltip" data-placement="top" title="Sending an SMTP email in Python 3">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="http://www.dpetzel.info/post/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">Next Post &rarr;</a>
+          <a href="http://www.dpetzel.info/post/installing_apache_traffic_server_3_0_1_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Apache Traffic Server 3.0.1 on Centos 5.7">Next Post &rarr;</a>
         </li>
         
       </ul>
