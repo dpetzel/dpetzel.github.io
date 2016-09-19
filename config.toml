@@ -1,4 +1,4 @@
-baseurl = "http://www.dpetzel.info"
+baseurl = "http://www.dpetzel.info/"
 languageCode = "en-us"
 title = "Dave's Site"
 disqusShortname = "dpetzel"
