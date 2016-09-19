@@ -9,8 +9,167 @@
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Fri, 16 Dec 2011 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 Feb 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/zenoss/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Converting Zenoss VMWare Virtual Appliance to VirtualBox</title>
+      <link>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</link>
+      <pubDate>Fri, 10 Feb 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</guid>
+      <description>
+
+&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox&lt;/p&gt;
+
+&lt;h2 id=&#34;instructions&#34;&gt;Instructions&lt;/h2&gt;
+
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+
+&lt;p&gt;Download the existing VMware Image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cd /tmp
+wget http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/4.1.70-1427/zenoss-4.1.70-1427-x86_64.vmware.zip
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unzip the downloaded zip file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;unzip zenoss-4.1.70-1427-x86_64.vmware.zip
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create a new VirtualBox VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;VM_NAME=&amp;quot;Zenoss_4.1_Appliance&amp;quot;
+VM_BASE_PATH=/VMs
+sudo mkdir $VM_BASE_PATH
+sudo chmod 777 $VM_BASE_PATH
+VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Move the VMDK file over to the VM&amp;rsquo;s directory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;mv zenoss-4.1.70-1427-x86_64.vmdk $VM_BASE_PATH/$VM_NAME/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Change Settings on the newly created VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Attach the VMDK file to the VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;VBoxManage storagectl $VM_NAME --name &amp;quot;SCSI Controller&amp;quot; --add scsi --controller LsiLogic
+VBoxManage storageattach $VM_NAME --storagectl &amp;quot;SCSI Controller&amp;quot; --type hdd --port 0 --medium $VM_BASE_PATH/$VM_NAME/zenoss-4.1.70-1427-x86_64.vmdk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add a DVD/CD Drive (At a minimum you&amp;rsquo;ll need this for installing Guest Additions):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;VBoxManage storagectl $VM_NAME --name &amp;quot;IDE Controller&amp;quot; --add ide --controller PIIX4
+VBoxManage storageattach $VM_NAME --storagectl &amp;quot;IDE Controller&amp;quot; --type dvddrive --port 1 --device 0 --medium emptydrive
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Power on the new Virtual Machine:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;VBoxManage startvm $VM_NAME
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once the VM has started up, log into the console and Remove VMWare Tools:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;vmware-uninstall-tools.pl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use the VirtualBox documentation to install VirtualBox Guest Additions&lt;/p&gt;
+
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+
+&lt;p&gt;Lets get our powershell on&amp;hellip;All commands are run in a power shell prompt&lt;/p&gt;
+
+&lt;p&gt;Setup some Variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;$buildNumber = &amp;quot;4.1.70-1434&amp;quot;
+$arch = &amp;quot;x86_64&amp;quot;  
+$baseFileName = &amp;quot;zenoss-$buildNumber-$arch&amp;quot;
+$zipFileName = &amp;quot;$baseFileName.vmware.zip&amp;quot;
+$zipFileDownloadUrl = &amp;quot;http://downloads.sourceforge.net/project/zenoss/zenoss-alpha/$buildNumber/$zipFileName&amp;quot;
+
+$VM_NAME=&amp;quot;Zenoss_Appliance_$buildNumber&amp;quot;
+$VM_BASE_PATH=&amp;quot;VMs&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Download the existing VMware Image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;cd temp
+$webclient = New-Object System.Net.WebClient
+echo &amp;quot;Going to Download File. This will take a long time without output. Be Patient&amp;quot;
+$webclient.DownloadFile($zipFileDownloadUrl,&amp;quot;$pwd$zipFileName&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unzip the downloaded zip file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;$shell_app=new-object -com shell.application
+$zip_file = $shell_app.namespace((Get-Location).Path + &amp;quot;$zipFileName&amp;quot;)
+$destination = $shell_app.namespace((Get-Location).Path)
+$destination.Copyhere($zip_file.items())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create a new VirtualBox VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;if ((Test-Path -path $VM_BASE_PATH) -ne $True){New-Item $VM_BASE_PATH -type directory}
+VBoxManage createvm --name $VM_NAME --basefolder $VM_BASE_PATH --register
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Move the VMDK file over to the VM&amp;rsquo;s directory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;mv $baseFileName$baseFileName.vmdk $VM_BASE_PATH$VM_NAME
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Change Settings on the newly created VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;VBoxManage modifyvm $VM_NAME --ostype RedHat_64 --memory 2048 --nic1 nat --nictype1 82545EM --ioapic on
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Attach the VMDK file to the VM:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;VBoxManage storagectl $VM_NAME --name &amp;quot;SCSI Controller&amp;quot; --add scsi --controller LsiLogic
+VBoxManage storageattach $VM_NAME --storagectl &amp;quot;SCSI Controller&amp;quot; --type hdd --port 0 --medium $VM_BASE_PATH$VM_NAME$baseFileName.vmdk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add a DVD/CD Drive (At a minimum you&amp;rsquo;ll need this for installing Guest Additions):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;VBoxManage storagectl $VM_NAME --name &amp;quot;IDE Controller&amp;quot; --add ide --controller PIIX4
+VBoxManage storageattach $VM_NAME --storagectl &amp;quot;IDE Controller&amp;quot; --type dvddrive --port 1 --device 0 --medium (get-command VBoxGuestAdditions.iso).Path
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Some Optional Port forwards I find useful:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;VBoxManage controlvm $VM_NAME natpf1 &amp;quot;SSH,tcp,,8022,,22&amp;quot;
+VBoxManage controlvm $VM_NAME natpf1 &amp;quot;ZOPE,tcp,,8080,,8080&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Power on the new Virtual Machine:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;VBoxManage startvm $VM_NAME
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once the VM has started up, log into the console (root/zenoss) and Remove VMWare Tools:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;vmware-uninstall-tools.pl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;While still logged into the console, install VirtualBox guest additions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;yum -y install bzip2 make gcc
+mkdir /media/ga
+mount /dev/cdrom /media/ga
+/media/ga/VBoxLinuxAdditions.run
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Reboot for good measure&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Developing a Command Parser Based ZenPack</title>
