@@ -170,7 +170,7 @@ project I&rsquo;m going to need some time to get reacquainted anyway.</p>
 anything immediately broken. There were a few deprecation warnings that I needed
 to address however.</p>
 
-<pre><code class="language-console">    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+<pre><code class="language-console">	./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
   PendingDeprecationWarning
 </code></pre>
 
@@ -180,7 +180,7 @@ Simply changing the structure of that configuration item and all was well.</p>
 
 <p>Next up was</p>
 
-<pre><code class="language-console">    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn't been updated to take `connection` and `prepared` arguments.
+<pre><code class="language-console">	/filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn't been updated to take `connection` and `prepared` arguments.
   class MyModelClass(models.Field):
 </code></pre>
 
@@ -194,19 +194,19 @@ and also appears to be the most current version available on pypi.python.org.</p
 <p>So I updated my <code>get_db_prep_value</code> as follows.
 Old:</p>
 
-<pre><code class="language-python">    def get_db_prep_value(self, value):
+<pre><code class="language-python">	def get_db_prep_value(self, value):
 </code></pre>
 
 <p>To:</p>
 
-<pre><code class="language-python">    def get_db_prep_value(self, value, connection, prepared=False):
+<pre><code class="language-python">	def get_db_prep_value(self, value, connection, prepared=False):
 </code></pre>
 
 <p>Kicked another test run. No more deprecation warning and tests are all passing!</p>
 
 <p>Next up:</p>
 
-<pre><code class="language-console">    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+<pre><code class="language-console">	./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
   RandomPool_DeprecationWarning)
 </code></pre>
 
@@ -218,7 +218,7 @@ module, I&rsquo;m going to ignore it for now&hellip;.</p>
 
 <p>Last up was</p>
 
-<pre><code class="language-console">    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it's functionality is indistinguishable from TextTestRunner
+<pre><code class="language-console">	./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it's functionality is indistinguishable from TextTestRunner
   PendingDeprecationWarning
 </code></pre>
 
@@ -490,7 +490,7 @@ certainly new behavior.</p>
         <p class="copyright text-muted">
     		  David Petzel
     		  &nbsp;&bull;&nbsp;
-    		  2016
+    		  2017
     		  
     		  
     		  &nbsp;&bull;&nbsp;

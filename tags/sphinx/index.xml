@@ -41,10 +41,10 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 
 &lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
-        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
-        candidates[&#39;?&#39;] = imguri
-        continue
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	if imguri.find(&#39;://&#39;) != -1:
+ 		self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+ 		candidates[&#39;?&#39;] = imguri
+ 		continue
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to end up with:
