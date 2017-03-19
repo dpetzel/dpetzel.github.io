@@ -1,8 +1,8 @@
 ---
-categories: []
+categories: [AWS,Cassandra]
 date: 2017-03-18T19:44:53-04:00
 draft: false
-tags: []
+tags: [Cassandra,Datastax,AWS]
 title: Rethinking Datastax Opscenter HA on AWS
 type: post
 ---
@@ -41,7 +41,8 @@ challenges I see.
 * There will be one, and only one, instance of Opscenter (please close your jaw if it just dropped, 
   I promise this isn't as insane as it sounds and I'll explain more in a bit).
 * This single instance will be under the control of an autoscale group (yep, and ASG with a min of 1, and max of 1)
-* There will be a dedicated EBS volume (separate from the instance's root volume) that will hold all the Opscenter "data" files.
+* There will be a dedicated EFS (NFS) filesystem where opscenter files will be stored. A mount target will be
+  exposed in each availability zone, and the instance will mount it using the zone independent DNS name
 * There will be a dedicated ENI (separate from the instance's auto-assigned one).
 * The Datastax agents will be configured to point at this ENI for their stomp address
 
@@ -77,12 +78,12 @@ When the time is right, you then terminate the running instance (close that jaw)
    file handles. At this point the following should be true:
    * Your ENI is now detached but still exists. This means the IP address that your agents were configured to
      communicate with can't be stolen by any other instances. Its the next best thing to having a static IP
-   * Your EBS volume with all your Opscenter "data" is intact and disconnected from the previous instance. 
+   * The EFS volume with all your Opscenter "data" remains intact and disconnected from the previous instane.
 1. At this point the ASG will launch a fresh instance, using the new AMI ID which has our updated version of
    Opscenter installed. For those of you who have used auto-scaling you know this won't be instant and might take
    a minute or two. Its this delay that causes this approach to be a little slower than the RPM upgrade
 1. As the new instance boots up it will claim the ENI and configure itself to use it. 
-1. Next the new instance will claim, attach, and mount the EBS volumes.
+1. Next the new instance will mount the EFS volume.
 1. Finally Opscenter will be started. At this point this new instance has all the data, and the secondary IP
    address that our first node had. Agents should reconnect and we should be off to the races.
 
@@ -103,11 +104,11 @@ Let's face it, we've all been there and done that. It gets the job but its error
 rsync will require that machine keys get exchanged. This is doable and not terribly hard with automation, but
 what happens when one of the nodes eventually dies. Either you, or some automation/orchestration you've written
 needs to reconfigure these jobs so the two new nodes are now talking. Doable, but in the proposed solution all
-this data was stored on the EBS and you never had to sync anything. When nodes fail and/or are replaced you don't
+this data was stored on the NFS volume and you never had to sync anything. When nodes fail and/or are replaced you don't
 need to reconfigure anything, the data is "just there". So this is one of those places where we can both simplify
 things as well as raise the level of self healing the system is able to perform.
 
-What about NFS you say? Sure, its an option, but look at those instructions and how specific some of those 
+What about sharing the NFS across the instances you say? Sure, its an option, but look at those instructions and how specific some of those 
 paths are. This one really made me winch a little:
 
 > Note: The failover_configuration_directory should not be mirrored across OpsCenter installs when configuring OpsCenter to support failover
@@ -124,7 +125,7 @@ make the sync configuration a little simpler, but now you've deviated away from 
 come with its own challenges down the road.
 
 So I'll wrap up this section by simply re-iterating that yes I'm confident we can make it work, but I also
-think we can just make it simpler by keeping all that stuff on an EBS volume and avoiding syncing/sharing.
+think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.
 
 ## Network Splits
 Let's face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
@@ -207,10 +208,6 @@ your agents will be crossing zones. That will be exactly the same in the propose
 
 The next source of cross zone traffic will be the heart beats between the primary and backup. In the proposed
 solution we do away with this charge since there is no backup to exchange information with.
-
-Next is the cost of syncing the data/configuration. Since we are using a dedicated EBS we don't incur cross zone
-charges for the sync process. That said, EBS is not free, and I suspect its cost compared to the sync costs
-probably makes this a wash.
 
 The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
 our compute charges in half by only running a single instance.
