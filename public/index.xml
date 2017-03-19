@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/</link>
+    <link>http://www.dpetzel.info/index.xml</link>
     <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -18,12 +18,12 @@
       <pubDate>Sat, 18 Mar 2017 19:44:53 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</guid>
-      <description>
-
-&lt;p&gt;This past week I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
+      <description>&lt;p&gt;This past week I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
 an automated fashion in AWS. I&amp;rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
 fail over and will propose an alternate solution which I believe still achieves high availability as well as
 much better self-healing.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;Before we get started lets define what &amp;laquo;High Availability&amp;raquo; or &amp;laquo;Highly Available&amp;raquo; means since this term is somewhat
 subjective to the individual. I think this quote from &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/what-is-high-availability&#34;&gt;https://www.digitalocean.com/community/tutorials/what-is-high-availability&lt;/a&gt; sums it up pretty well:&lt;/p&gt;
@@ -260,8 +260,7 @@ our compute charges in half by only running a single instance.&lt;/p&gt;
 center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
 where you&amp;rsquo;ve got access to infrastructure APIs there are other options.&lt;/p&gt;
 
-&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;
-</description>
+&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -270,10 +269,9 @@ where you&amp;rsquo;ve got access to infrastructure APIs there are other options
       <pubDate>Mon, 19 Sep 2016 10:47:07 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/welcome_hugo/</guid>
-      <description>
-
-&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
-using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
+using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;
+&lt;/p&gt;
 
 &lt;p&gt;A long while back I had switched over to using Jekyll for generating the content
 for this site. After that I had taken an extended break from posting content
@@ -437,8 +435,7 @@ expect when pushing out updates.&lt;/p&gt;
 
 &lt;p&gt;There is a great little &lt;code&gt;deploy.sh&lt;/code&gt; example on their site that I adopted to me
 my work flow above, so now whenever I add new content I simply run &lt;code&gt;sh build.sh&lt;/code&gt;
-and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;
-</description>
+and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -447,13 +444,12 @@ and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built,
       <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/my_new_UOKOO_camera/</guid>
-      <description>
-
-&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
+      <description>&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
 At only $40.00 I didn&amp;rsquo;t have very high expectations but I was pleasantly
 surprised at what I got&lt;/p&gt;
 
-&lt;p&gt;This was a bit of an impulse buy. I had a small project I was wanted to do and
+&lt;p&gt;
+This was a bit of an impulse buy. I had a small project I was wanted to do and
 I needed an IP based camera to do it. There is not shortage of these available
 on the Internet, and if you wanted to, you probably spend a full week
 researching them. I was &lt;em&gt;not&lt;/em&gt; in the mood for all the research on this project
@@ -556,8 +552,7 @@ surveillance system around, but for the price it is a fun little device. This
 is actually the first IP based camera I&amp;rsquo;ve purchased and being able to check out
 whats going on at my house when I&amp;rsquo;m not there is a mildly addicting. It&amp;rsquo;s
 got me thinking about getting a kit of higher end units to let me view more
-angles of my property.&lt;/p&gt;
-</description>
+angles of my property.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1206,18 +1201,18 @@ it appears this is expected on SBS and safe to ignore, so doing just that.&lt;/p
 
 &lt;p&gt;This seems to be related to a single event in my event log:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	Event Type:	Error
-	Event Source:	DCOM
-	Event Category:	None
-	Event ID:	10009
-	Date:		11/28/2013
-	Time:		6:05:14 PM
-	User:		N/A
-	Computer:	SERVER
-	Description:
-	DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    Event Type: Error
+    Event Source:   DCOM
+    Event Category: None
+    Event ID:   10009
+    Date:       11/28/2013
+    Time:       6:05:14 PM
+    User:       N/A
+    Computer:   SERVER
+    Description:
+    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
 
-	For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I don&amp;rsquo;t see any other occurrences of this error. I&amp;rsquo;m assuming I could clear the
@@ -1557,7 +1552,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
 anything immediately broken. There were a few deprecation warnings that I needed
 to address however.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1567,7 +1562,7 @@ Simply changing the structure of that configuration item and all was well.&lt;/p
 
 &lt;p&gt;Next up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	/filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
   class MyModelClass(models.Field):
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1581,19 +1576,19 @@ and also appears to be the most current version available on pypi.python.org.&lt
 &lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
 Old:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value, connection, prepared=False):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
 
 &lt;p&gt;Next up:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
   RandomPool_DeprecationWarning)
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1605,7 +1600,7 @@ module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
 
 &lt;p&gt;Last up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1826,10 +1821,10 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 
 &lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	if imguri.find(&#39;://&#39;) != -1:
- 		self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
- 		candidates[&#39;?&#39;] = imguri
- 		continue
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
+        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+        candidates[&#39;?&#39;] = imguri
+        continue
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to end up with:

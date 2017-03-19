@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sphinx on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/sphinx/</link>
-    <description>Recent content in Sphinx on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/sphinx/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Tue, 24 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/sphinx/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -41,10 +40,10 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 
 &lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	if imguri.find(&#39;://&#39;) != -1:
- 		self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
- 		candidates[&#39;?&#39;] = imguri
- 		continue
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
+        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+        candidates[&#39;?&#39;] = imguri
+        continue
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to end up with:

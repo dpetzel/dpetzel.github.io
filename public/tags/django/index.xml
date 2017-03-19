@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Django on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/django/</link>
-    <description>Recent content in Django on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/django/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/django/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -47,7 +46,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
 anything immediately broken. There were a few deprecation warnings that I needed
 to address however.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -57,7 +56,7 @@ Simply changing the structure of that configuration item and all was well.&lt;/p
 
 &lt;p&gt;Next up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	/filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
   class MyModelClass(models.Field):
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -71,19 +70,19 @@ and also appears to be the most current version available on pypi.python.org.&lt
 &lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
 Old:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value, connection, prepared=False):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
 
 &lt;p&gt;Next up:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
   RandomPool_DeprecationWarning)
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -95,7 +94,7 @@ module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
 
 &lt;p&gt;Last up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -293,14 +292,13 @@ certainly new behavior.&lt;/p&gt;
       <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</guid>
-      <description>
-
-&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
+      <description>&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
 I had this week. While I&amp;rsquo;m more of an operations guy, a while back I hacked
 up a &lt;code&gt;Django&lt;/code&gt; based web application which uses &lt;code&gt;Celery&lt;/code&gt; and &lt;code&gt;RabbitMQ&lt;/code&gt;. I have
 recent set out to do some performance analysis on it.&lt;/p&gt;
 
-&lt;p&gt;Its not an application that sees much traffic as it was created to serve a niche
+&lt;p&gt;
+Its not an application that sees much traffic as it was created to serve a niche
 internal purpose, but it does handle web requests which result in potentially
 long running background tasks.&lt;/p&gt;
 
@@ -519,8 +517,7 @@ see that level of overhead.&lt;/p&gt;
 &lt;p&gt;In summary, it was an interesting set of exercises and for the most part
 confirmed many of my suspicions, but its nice to finally have some real
 metrics around this. Now that I&amp;rsquo;m measuring all this great stuff its time to
-start improving it!&lt;/p&gt;
-</description>
+start improving it!&lt;/p&gt;</description>
     </item>
     
   </channel>

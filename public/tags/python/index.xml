@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/python/</link>
-    <description>Recent content in Python on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/python/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -47,7 +46,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
 anything immediately broken. There were a few deprecation warnings that I needed
 to address however.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -57,7 +56,7 @@ Simply changing the structure of that configuration item and all was well.&lt;/p
 
 &lt;p&gt;Next up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	/filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
   class MyModelClass(models.Field):
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -71,19 +70,19 @@ and also appears to be the most current version available on pypi.python.org.&lt
 &lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
 Old:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value, connection, prepared=False):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
 
 &lt;p&gt;Next up:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
   RandomPool_DeprecationWarning)
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -95,7 +94,7 @@ module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
 
 &lt;p&gt;Last up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -316,10 +315,10 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 
 &lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	if imguri.find(&#39;://&#39;) != -1:
- 		self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
- 		candidates[&#39;?&#39;] = imguri
- 		continue
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
+        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+        candidates[&#39;?&#39;] = imguri
+        continue
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to end up with:
@@ -373,14 +372,13 @@ with Tinkerer having full Sphinx support.&lt;/p&gt;
       <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</guid>
-      <description>
-
-&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
+      <description>&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
 I had this week. While I&amp;rsquo;m more of an operations guy, a while back I hacked
 up a &lt;code&gt;Django&lt;/code&gt; based web application which uses &lt;code&gt;Celery&lt;/code&gt; and &lt;code&gt;RabbitMQ&lt;/code&gt;. I have
 recent set out to do some performance analysis on it.&lt;/p&gt;
 
-&lt;p&gt;Its not an application that sees much traffic as it was created to serve a niche
+&lt;p&gt;
+Its not an application that sees much traffic as it was created to serve a niche
 internal purpose, but it does handle web requests which result in potentially
 long running background tasks.&lt;/p&gt;
 
@@ -599,8 +597,7 @@ see that level of overhead.&lt;/p&gt;
 &lt;p&gt;In summary, it was an interesting set of exercises and for the most part
 confirmed many of my suspicions, but its nice to finally have some real
 metrics around this. Now that I&amp;rsquo;m measuring all this great stuff its time to
-start improving it!&lt;/p&gt;
-</description>
+start improving it!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -612,7 +609,8 @@ start improving it!&lt;/p&gt;
       <description>&lt;p&gt;So I&amp;rsquo;ve gone live with a static site using &lt;a href=&#34;http://docs.getpelican.com&#34;&gt;Pelican&lt;/a&gt;.
 Originally I had kicked off my attempts at a static site using Mynt, which I
 detailed &lt;a href=&#34;http://www.dpetzel.info/post/live_with_mynt/&#34;&gt;here&lt;/a&gt;. There really wasn&amp;rsquo;t anything
-wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.&lt;/p&gt;
+wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.
+&lt;/p&gt;
 
 &lt;p&gt;One of the reasons I decided to make the switch was Pelicans themes. I don&amp;rsquo;t
 have a single artistic or stylish cell in my body, so I heavily rely on themes
@@ -626,8 +624,7 @@ dumb, but I&amp;rsquo;m a believer in picking tools that fit your style, assumin
 technical merits are all the same. This was most certainly a case of that.&lt;/p&gt;
 
 &lt;p&gt;Not much else to report, just wanted to get the traditional &amp;laquo;hello world&amp;raquo; post
-out there&amp;hellip;&lt;/p&gt;
-</description>
+out there&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -638,9 +635,9 @@ out there&amp;hellip;&lt;/p&gt;
       <guid>http://www.dpetzel.info/post/live_with_mynt/</guid>
       <description>&lt;p&gt;So I&amp;rsquo;ve been hearing a bit lately about static site generators. So the last
 couple of nights I decided to finally do a little homework and better
-understand it.&lt;/p&gt;
+understand it.
 
-&lt;p&gt;So after reading about the various options out there I ended up experimenting
+So after reading about the various options out there I ended up experimenting
 with several of the available Python options (Mynt, Pelican, Nikola, and Hyde).
 I went with Python, as I am primarily a Windows users and I&amp;rsquo;ve always had an
 easier time getting Python packages working on Windows than Ruby
@@ -674,8 +671,7 @@ digging was &lt;a href=&#34;https://github.com/davisp/ghp-import/&#34;&gt;https:
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;OK&amp;hellip;. thats enough for now, back to the interwebs to see what else I can
- learn.&lt;/p&gt;
-</description>
+ learn.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -687,7 +683,8 @@ digging was &lt;a href=&#34;https://github.com/davisp/ghp-import/&#34;&gt;https:
       <description>&lt;p&gt;This took me far longer than it should have, and while I&amp;rsquo;d like to blame
 shotty documentation and sparse examples it was probably my own stupidity
 causing the issue. Whatever the case maybe I wanted to jot down my results
-as I&amp;rsquo;m sure I&amp;rsquo;ll need to do this again.&lt;/p&gt;
+as I&amp;rsquo;m sure I&amp;rsquo;ll need to do this again.
+&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;d like go on a rant about how much harder this was than it should be and how
 an easier module should exist. However, the fact that I can&amp;rsquo;t write an easier
@@ -761,8 +758,7 @@ server.set_debuglevel(1)
 server.sendmail(from, to, body)
 #End you session.
 server.quit()
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>
