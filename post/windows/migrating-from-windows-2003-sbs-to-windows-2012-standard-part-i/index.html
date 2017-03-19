@@ -12,7 +12,7 @@
 
   
 
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.17" />
 
   <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
 
@@ -31,7 +31,7 @@
   
   <meta property="og:title" content="Migrating from Windows 2003 SBS to Windows 2012 Standard Part I" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="/post/windows/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i//" />
   <meta property="og:image" content="" />
 
 </head>
@@ -210,18 +210,18 @@ it appears this is expected on SBS and safe to ignore, so doing just that.</p>
 
 <p>This seems to be related to a single event in my event log:</p>
 
-<pre><code class="language-console">	Event Type:	Error
-	Event Source:	DCOM
-	Event Category:	None
-	Event ID:	10009
-	Date:		11/28/2013
-	Time:		6:05:14 PM
-	User:		N/A
-	Computer:	SERVER
-	Description:
-	DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+<pre><code class="language-console">    Event Type: Error
+    Event Source:   DCOM
+    Event Category: None
+    Event ID:   10009
+    Date:       11/28/2013
+    Time:       6:05:14 PM
+    User:       N/A
+    Computer:   SERVER
+    Description:
+    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
 
-	For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
 </code></pre>
 
 <p>I don&rsquo;t see any other occurrences of this error. I&rsquo;m assuming I could clear the

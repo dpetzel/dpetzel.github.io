@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Caching on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/categories/caching/</link>
-    <description>Recent content in Caching on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/caching/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/caching/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -20,7 +19,8 @@
       <guid>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</guid>
       <description>&lt;p&gt;A quick chronicle of my journey to install Apache Traffic Servers on
 Centos 5.7. In the end it ended up being a lot easier than I was expecting,
-given how sporadic and incomplete the documentation on their site is.&lt;/p&gt;
+given how sporadic and incomplete the documentation on their site is.
+&lt;/p&gt;
 
 &lt;p&gt;Start with a vanilla minimal install of Centos 5.7. I did perform a
 &lt;code&gt;yum update&lt;/code&gt; &amp;amp; &lt;code&gt;reboot&lt;/code&gt; after the initial installation of the OS, before
@@ -65,8 +65,7 @@ traffic_shell errors. You can see the details of those errors in my
 command also starts traffic_cop and traffic_manager. I ended up finding this by
 reading the INSTALL file that was included in the source download. Yes, I did
 read the file before attempting to install, but as I already admitted, glossed
-right over the closely named file.&lt;/p&gt;
-</description>
+right over the closely named file.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -80,7 +79,8 @@ right over the closely named file.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Varnish Cache is an open source, state of the art web application accelerator.
   It is installed in front of your webserver where it will cache the content,
-  resulting in a huge performance boost.&lt;/p&gt;
+  resulting in a huge performance boost.
+&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;Now that we’ve gotten that out of way, lets get to it. As is the case with most
@@ -131,8 +131,7 @@ Connection: close
 
 &lt;p&gt;That’s about it, doesn’t get much easier than that. Perhaps if I get more
 ambitious I’ll post some configuration tweaks and or cool tricks
-(if I learn any).&lt;/p&gt;
-</description>
+(if I learn any).&lt;/p&gt;</description>
     </item>
     
   </channel>

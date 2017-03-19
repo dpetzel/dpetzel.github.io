@@ -12,7 +12,7 @@
 
   
 
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.17" />
 
   <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
 
@@ -31,7 +31,7 @@
   
   <meta property="og:title" content="Adventures in Django Performance Analysis" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="/post/programming/adventures_in_django_performance_analysis//" />
   <meta property="og:image" content="" />
 
 </head>
@@ -141,14 +141,13 @@
 </ul>
 </nav>
       <article role="main" class="blog-post">
-          
-
-<p>Nothing to eye opening here but I wanted to collect some thoughts and insights
+          <p>Nothing to eye opening here but I wanted to collect some thoughts and insights
 I had this week. While I&rsquo;m more of an operations guy, a while back I hacked
 up a <code>Django</code> based web application which uses <code>Celery</code> and <code>RabbitMQ</code>. I have
 recent set out to do some performance analysis on it.</p>
 
-<p>Its not an application that sees much traffic as it was created to serve a niche
+<p>
+Its not an application that sees much traffic as it was created to serve a niche
 internal purpose, but it does handle web requests which result in potentially
 long running background tasks.</p>
 
@@ -368,7 +367,6 @@ see that level of overhead.</p>
 confirmed many of my suspicions, but its nice to finally have some real
 metrics around this. Now that I&rsquo;m measuring all this great stuff its time to
 start improving it!</p>
-
       </article>
 
       <ul class="pager blog-pager">

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Webcam on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/webcam/</link>
-    <description>Recent content in Webcam on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/webcam/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 19 Sep 2016 10:46:10 -0400</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/webcam/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -18,13 +17,12 @@
       <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/my_new_UOKOO_camera/</guid>
-      <description>
-
-&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
+      <description>&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
 At only $40.00 I didn&amp;rsquo;t have very high expectations but I was pleasantly
 surprised at what I got&lt;/p&gt;
 
-&lt;p&gt;This was a bit of an impulse buy. I had a small project I was wanted to do and
+&lt;p&gt;
+This was a bit of an impulse buy. I had a small project I was wanted to do and
 I needed an IP based camera to do it. There is not shortage of these available
 on the Internet, and if you wanted to, you probably spend a full week
 researching them. I was &lt;em&gt;not&lt;/em&gt; in the mood for all the research on this project
@@ -127,8 +125,7 @@ surveillance system around, but for the price it is a fun little device. This
 is actually the first IP based camera I&amp;rsquo;ve purchased and being able to check out
 whats going on at my house when I&amp;rsquo;m not there is a mildly addicting. It&amp;rsquo;s
 got me thinking about getting a kit of higher end units to let me view more
-angles of my property.&lt;/p&gt;
-</description>
+angles of my property.&lt;/p&gt;</description>
     </item>
     
   </channel>

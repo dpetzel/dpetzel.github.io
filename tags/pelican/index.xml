@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Pelican on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/pelican/</link>
-    <description>Recent content in Pelican on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/pelican/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Sun, 08 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/pelican/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -21,7 +20,8 @@
       <description>&lt;p&gt;So I&amp;rsquo;ve gone live with a static site using &lt;a href=&#34;http://docs.getpelican.com&#34;&gt;Pelican&lt;/a&gt;.
 Originally I had kicked off my attempts at a static site using Mynt, which I
 detailed &lt;a href=&#34;http://www.dpetzel.info/post/live_with_mynt/&#34;&gt;here&lt;/a&gt;. There really wasn&amp;rsquo;t anything
-wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.&lt;/p&gt;
+wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.
+&lt;/p&gt;
 
 &lt;p&gt;One of the reasons I decided to make the switch was Pelicans themes. I don&amp;rsquo;t
 have a single artistic or stylish cell in my body, so I heavily rely on themes
@@ -35,8 +35,7 @@ dumb, but I&amp;rsquo;m a believer in picking tools that fit your style, assumin
 technical merits are all the same. This was most certainly a case of that.&lt;/p&gt;
 
 &lt;p&gt;Not much else to report, just wanted to get the traditional &amp;laquo;hello world&amp;raquo; post
-out there&amp;hellip;&lt;/p&gt;
-</description>
+out there&amp;hellip;&lt;/p&gt;</description>
     </item>
     
   </channel>
