@@ -1,7 +1,7 @@
 ---
 categories: [AWS,Cassandra]
 date: 2017-03-18T19:44:53-04:00
-draft: false
+draft: true
 tags: [Cassandra,Datastax,AWS]
 title: Rethinking Datastax Opscenter HA on AWS
 type: post
