@@ -128,18 +128,18 @@ it appears this is expected on SBS and safe to ignore, so doing just that.&lt;/p
 
 &lt;p&gt;This seems to be related to a single event in my event log:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    Event Type: Error
-    Event Source:   DCOM
-    Event Category: None
-    Event ID:   10009
-    Date:       11/28/2013
-    Time:       6:05:14 PM
-    User:       N/A
-    Computer:   SERVER
-    Description:
-    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	Event Type:	Error
+	Event Source:	DCOM
+	Event Category:	None
+	Event ID:	10009
+	Date:		11/28/2013
+	Time:		6:05:14 PM
+	User:		N/A
+	Computer:	SERVER
+	Description:
+	DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
 
-    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
+	For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I don&amp;rsquo;t see any other occurrences of this error. I&amp;rsquo;m assuming I could clear the

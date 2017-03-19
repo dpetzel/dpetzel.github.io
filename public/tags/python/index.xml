@@ -47,7 +47,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
 anything immediately broken. There were a few deprecation warnings that I needed
 to address however.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./django/core/cache/__init__.py:83: PendingDeprecationWarning: settings.CACHE_* is deprecated; use settings.CACHES instead.
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -57,7 +57,7 @@ Simply changing the structure of that configuration item and all was well.&lt;/p
 
 &lt;p&gt;Next up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    /filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	/filename.py:14: DeprecationWarning: A Field class whose get_db_prep_value method hasn&#39;t been updated to take `connection` and `prepared` arguments.
   class MyModelClass(models.Field):
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -71,19 +71,19 @@ and also appears to be the most current version available on pypi.python.org.&lt
 &lt;p&gt;So I updated my &lt;code&gt;get_db_prep_value&lt;/code&gt; as follows.
 Old:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def get_db_prep_value(self, value, connection, prepared=False):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	def get_db_prep_value(self, value, connection, prepared=False):
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Kicked another test run. No more deprecation warning and tests are all passing!&lt;/p&gt;
 
 &lt;p&gt;Next up:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/Crypto/Util/randpool.py:40: RandomPool_DeprecationWarning: This application uses RandomPool, which is BROKEN in older releases.  See http://www.pycrypto.org/randpool-broken
   RandomPool_DeprecationWarning)
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -95,7 +95,7 @@ module, I&amp;rsquo;m going to ignore it for now&amp;hellip;.&lt;/p&gt;
 
 &lt;p&gt;Last up was&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    ./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
+&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;	./site-packages/django/test/simple.py:28: PendingDeprecationWarning: DjangoTestRunner is deprecated; it&#39;s functionality is indistinguishable from TextTestRunner
   PendingDeprecationWarning
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -316,10 +316,10 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 
 &lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
-        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
-        candidates[&#39;?&#39;] = imguri
-        continue
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	if imguri.find(&#39;://&#39;) != -1:
+ 		self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
+ 		candidates[&#39;?&#39;] = imguri
+ 		continue
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to end up with:
