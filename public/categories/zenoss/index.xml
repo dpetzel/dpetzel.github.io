@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Zenoss on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/categories/zenoss/</link>
-    <description>Recent content in Zenoss on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/zenoss/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Sat, 07 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/zenoss/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -23,7 +22,8 @@ it is not always safe to promote them as a standard Python module, which is
 why you don&amp;rsquo;t see more ZenPacks on PyPi.&lt;/p&gt;
 
 &lt;p&gt;So read on if you are curious about how it &lt;em&gt;might&lt;/em&gt; work, but please don&amp;rsquo;t
-make this part of your standard ZenPack release process.&lt;/p&gt;
+make this part of your standard ZenPack release process.
+&lt;/p&gt;
 
 &lt;p&gt;I recently had the need to update the &lt;code&gt;F5 ZenPack&lt;/code&gt;. It had been a while since
 I had updated a Pack so I was hopeful that the process for releasing a new
@@ -108,8 +108,7 @@ ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
 * &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5&#34;&gt;F5 ZenPack&lt;/a&gt;
 * &lt;a href=&#34;https://travis-ci.org&#34;&gt;Travis CI&lt;/a&gt;
 * &lt;a href=&#34;http://pypi.python.org&#34;&gt;PyPi&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml&#34;&gt;.travis.yml&lt;/a&gt;&lt;/p&gt;
-</description>
+* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml&#34;&gt;.travis.yml&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -118,9 +117,8 @@ ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
       <pubDate>Fri, 10 Feb 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</guid>
-      <description>
-
-&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox&lt;/p&gt;
+      <description>&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox
+&lt;/p&gt;
 
 &lt;h2 id=&#34;instructions&#34;&gt;Instructions&lt;/h2&gt;
 
@@ -267,8 +265,7 @@ mount /dev/cdrom /media/ga
 &lt;p&gt;Reboot for good measure&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;reboot
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>

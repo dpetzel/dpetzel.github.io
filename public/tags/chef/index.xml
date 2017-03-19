@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Chef on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/chef/</link>
-    <description>Recent content in Chef on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/chef/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Tue, 06 Jan 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/chef/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -56,7 +55,8 @@ using the &lt;code&gt;minitest-chef-handler&lt;/code&gt; for writing integration
 cookbooks. This quick post is to capture an approach I&amp;rsquo;ve grown to like for
 doing HTTP tests of slow starting web applications. I&amp;rsquo;ve noticed that many
 services will return from an &lt;code&gt;/sbin/service mysapp start&lt;/code&gt; well before
-the application has fully started and is accepting HTTP connections.&lt;/p&gt;
+the application has fully started and is accepting HTTP connections.
+&lt;/p&gt;
 
 &lt;p&gt;Originally I taken a very naive approach of timing how long the app took
 to startup, adding some arbitrary number of seconds and then just sleeping that
@@ -172,8 +172,7 @@ than necessary when waiting for a service to start.&lt;/p&gt;
 
 &lt;p&gt;References:
 * &lt;a href=&#34;http://www.opscode.com/chef/&#34;&gt;Chef&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/calavera/minitest-chef-handler&#34;&gt;minitest-chef-handler&lt;/a&gt;&lt;/p&gt;
-</description>
+* &lt;a href=&#34;https://github.com/calavera/minitest-chef-handler&#34;&gt;minitest-chef-handler&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

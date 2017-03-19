@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Varnish on Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/varnish/</link>
-    <description>Recent content in Varnish on Dave&#39;s Site</description>
+    <title>Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/varnish/index.xml</link>
+    <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/varnish/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -23,7 +22,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;Varnish Cache is an open source, state of the art web application accelerator.
   It is installed in front of your webserver where it will cache the content,
-  resulting in a huge performance boost.&lt;/p&gt;
+  resulting in a huge performance boost.
+&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;Now that we’ve gotten that out of way, lets get to it. As is the case with most
@@ -74,8 +74,7 @@ Connection: close
 
 &lt;p&gt;That’s about it, doesn’t get much easier than that. Perhaps if I get more
 ambitious I’ll post some configuration tweaks and or cool tricks
-(if I learn any).&lt;/p&gt;
-</description>
+(if I learn any).&lt;/p&gt;</description>
     </item>
     
   </channel>
