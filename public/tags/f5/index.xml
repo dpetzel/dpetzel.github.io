@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/f5/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>F5 on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/f5/</link>
+    <description>Recent content in F5 on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/f5/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -19,8 +20,7 @@
       <guid>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</guid>
       <description>&lt;p&gt;I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
 I didn&amp;rsquo;t have the access to a test box that I had when I initially wrote it.
-So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.
-&lt;/p&gt;
+So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m on a VirtualBox kick right now, but the appliance choices there don&amp;rsquo;t list
 VirtualBox. Inspired by this post, I figured I&amp;rsquo;d give it a shot since it looked
@@ -69,7 +69,8 @@ different than the cli. Use admin/admin for logging into the webui&lt;/p&gt;
 &lt;p&gt;You’ll be prompted to run through a setup wizard. Its self explanatory enough
 that I don’t think I need to cover it here. From here you are on your own.&lt;/p&gt;
 
-&lt;p&gt;Proceed as you see fit.&lt;/p&gt;</description>
+&lt;p&gt;Proceed as you see fit.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

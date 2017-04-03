@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/categories/general/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>General on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/general/</link>
+    <description>Recent content in General on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 23 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/general/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -51,8 +52,7 @@ with Tinkerer having full Sphinx support.&lt;/p&gt;
       <description>&lt;p&gt;So I&amp;rsquo;ve gone live with a static site using &lt;a href=&#34;http://docs.getpelican.com&#34;&gt;Pelican&lt;/a&gt;.
 Originally I had kicked off my attempts at a static site using Mynt, which I
 detailed &lt;a href=&#34;http://www.dpetzel.info/post/live_with_mynt/&#34;&gt;here&lt;/a&gt;. There really wasn&amp;rsquo;t anything
-wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.
-&lt;/p&gt;
+wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.&lt;/p&gt;
 
 &lt;p&gt;One of the reasons I decided to make the switch was Pelicans themes. I don&amp;rsquo;t
 have a single artistic or stylish cell in my body, so I heavily rely on themes
@@ -66,7 +66,8 @@ dumb, but I&amp;rsquo;m a believer in picking tools that fit your style, assumin
 technical merits are all the same. This was most certainly a case of that.&lt;/p&gt;
 
 &lt;p&gt;Not much else to report, just wanted to get the traditional &amp;laquo;hello world&amp;raquo; post
-out there&amp;hellip;&lt;/p&gt;</description>
+out there&amp;hellip;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -77,9 +78,9 @@ out there&amp;hellip;&lt;/p&gt;</description>
       <guid>http://www.dpetzel.info/post/live_with_mynt/</guid>
       <description>&lt;p&gt;So I&amp;rsquo;ve been hearing a bit lately about static site generators. So the last
 couple of nights I decided to finally do a little homework and better
-understand it.
+understand it.&lt;/p&gt;
 
-So after reading about the various options out there I ended up experimenting
+&lt;p&gt;So after reading about the various options out there I ended up experimenting
 with several of the available Python options (Mynt, Pelican, Nikola, and Hyde).
 I went with Python, as I am primarily a Windows users and I&amp;rsquo;ve always had an
 easier time getting Python packages working on Windows than Ruby
@@ -113,7 +114,8 @@ digging was &lt;a href=&#34;https://github.com/davisp/ghp-import/&#34;&gt;https:
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;OK&amp;hellip;. thats enough for now, back to the interwebs to see what else I can
- learn.&lt;/p&gt;</description>
+ learn.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

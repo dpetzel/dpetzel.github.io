@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Flashing DD-WRT On A Linksys WRT1200AC V2</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.16-DEV" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Flashing DD-WRT On A Linksys WRT1200AC V2" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Flashing DD-WRT On A Linksys WRT1200AC V2</h1>
+      
+
+      
+      <span class="post-meta">Posted on April 2, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#the-journey:697a1993b899bbeb4e1dcb47f27cbd26">The Journey</a></li>
+</ul></li>
+<li><a href="#the-process:697a1993b899bbeb4e1dcb47f27cbd26">The Process</a></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          
+
+<p>This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
+I&rsquo;ve had the unit for a while now and it&rsquo;s been working well but I had a little time
+on my hands so I opted to give it a go.
+The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&hellip;</p>
+
+<h2 id="the-journey:697a1993b899bbeb4e1dcb47f27cbd26">The Journey</h2>
+
+<p>If you aren&rsquo;t interested in the narrative, jump down the <code>The Process</code> for the actual steps
+I used to flash.</p>
+
+<p>I&rsquo;ve been using Advanced Tomato on the last couple of routers I&rsquo;ve had so that is where I started, however I couldn&rsquo;t find any indication this was supported. The 1200 is not on <a href="http://tomato.groov.pl/?page_id=69">Shibby&rsquo;s list</a>. There is also a decent size thread on <a href="http://www.linksysinfo.org/index.php?threads/porting-tomato-firmware-to-other-platforms.69976/page-2">linksysinfo</a> which didn&rsquo;t leave me with the warm and fuzzies. I finally gave up hope after failing to find it on <a href="https://www.flashrouters.com/routers/router-types/tomato?limit=36">flashrouters.com</a></p>
+
+<p>I also checked support for OpenWRT, however only the <a href="https://wiki.openwrt.org/toh/linksys/wrt_ac_series">V1 is listed</a> was listed so I moved to DD-WRT.</p>
+
+<p>I finally started to have some hope when I found <code>Linksys WRT1200AC v2</code> listed in the <a href="https://www.dd-wrt.com/site/support/router-database">router database</a>. However the page simply presents you two files to download with no explanation of what you should do with them.
+On top of that these files are marked Beta. That never instills high levels of confidence.
+After several minutes of googling around all things pointed to the <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486">Peacock Thread</a>. This is one of the most confusing set of instructions I&rsquo;ve ever read and it left me wondering if I should really be proceeding here. I won&rsquo;t go into all the confusion points but lets highlight a couple:</p>
+
+<blockquote>
+<p>DON&rsquo;T USE THE ROUTER DATABASE! The router database has recommended some less stable builds</p>
+</blockquote>
+
+<p>uhh&hellip; OK&hellip;.. Then why does it even exist?</p>
+
+<blockquote>
+<p>FOLLOW THE PROCESS FOR FLASHING YOUR ROUTER THAT IS IN THE WIKI.
+<a href="http://www.dd-wrt.com/wiki/index.php/Installation">http://www.dd-wrt.com/wiki/index.php/Installation</a>
+Once you have dd-wrt installed on your route</p>
+</blockquote>
+
+<p>OK, fair enough, except there is one problem. The 1200 isn&rsquo;t on that page&hellip;</p>
+
+<blockquote>
+<p>Read the WIKI and follow the wiki for INITIAL flashing of your router. There has been a lot of work recently to improve the wiki for broadcom devices and the wiki is now mostly up to date and using good files. Don&rsquo;t flash firmware based on youtube or instructions on another non dd-wrt website. Often youtube or other internet instructions are out of date/incorrect! Read and follow the instructions here in the dd-wrt wiki.
+One thing you REALLY need to look at is the procedure for installing to your router. This is extremely important as there are a lot of subtle variation</p>
+</blockquote>
+
+<p>Uh&hellip; They keep hammering home to use the WIKI but its not there&hellip;</p>
+
+<p>So at this point I&rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.</p>
+
+<h1 id="the-process:697a1993b899bbeb4e1dcb47f27cbd26">The Process</h1>
+
+<p>First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.</p>
+
+<p>I can&rsquo;t recall exactly where I found it, but I found some mentions that the version in the database might not be the latest so I started browsing the <a href="ftp://ftp.dd-wrt.com">DD-WRT FTP Server</a>. I finally landed in <a href="ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/">ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/</a> which had the files I needed.
+There were two files in the directory so I grabbed them both not knowing which I needed. Turns out the only file needed was the <code>factory-to-ddwrt.bin</code>. While I&rsquo;m not positive, I believe the other file (<code>ddwrt-linksys-wrt1200acv2-webflash.bin</code>) would be used I was already running DD-WRT and was looking to upgrade.</p>
+
+<p>At this point I was ready to begin:</p>
+
+<ol>
+<li>I disconnected all ethernet cables, except for the PC I&rsquo;m using to do the flashing</li>
+<li>Perform the 30-30-30 reset. After this is complete you&rsquo;re left with a factory reset device. Login to <a href="http://192.168.1.1">http://192.168.1.1</a> with the default password (<code>admin</code>).</li>
+<li>Navigate to Connectivity &ndash;&gt; Basic. Click the <code>Choose</code> button and select <code>factory-to-ddwrt.bin</code>. This will take a couple minutes. Once complete this the web UI again on <a href="http://192.168.1.1">http://192.168.1.1</a>.</li>
+<li>At this point DD-WRT was in fact installed and forcing me to set a password. This felt like a pointless step since I was about to 30-30-30 it again, but I played it safe and it anyway.</li>
+<li>Perform another 30-30-30 reset. I&rsquo;m honestly skeptical that this is really needed at this point, but I figured 90 seconds of wasted time was better than a bricked 1200 so I complied.</li>
+<li>Once it came back up I needed to do the password dance again</li>
+</ol>
+
+<p>That&rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.</p>
+
+<p>I want to be very clear that I don&rsquo;t believe what I did is &laquo;supported&raquo; so tread carefully, but it&rsquo;s been 9 hours since I did the upgrade, I&rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/welcome_hugo/" data-toggle="tooltip" data-placement="top" title="Welcome Hugo">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2017
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+
+  </body>
+</html>

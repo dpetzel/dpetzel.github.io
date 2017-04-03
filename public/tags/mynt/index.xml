@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/mynt/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Mynt on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/mynt/</link>
+    <description>Recent content in Mynt on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Tue, 03 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/mynt/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -19,9 +20,9 @@
       <guid>http://www.dpetzel.info/post/live_with_mynt/</guid>
       <description>&lt;p&gt;So I&amp;rsquo;ve been hearing a bit lately about static site generators. So the last
 couple of nights I decided to finally do a little homework and better
-understand it.
+understand it.&lt;/p&gt;
 
-So after reading about the various options out there I ended up experimenting
+&lt;p&gt;So after reading about the various options out there I ended up experimenting
 with several of the available Python options (Mynt, Pelican, Nikola, and Hyde).
 I went with Python, as I am primarily a Windows users and I&amp;rsquo;ve always had an
 easier time getting Python packages working on Windows than Ruby
@@ -55,7 +56,8 @@ digging was &lt;a href=&#34;https://github.com/davisp/ghp-import/&#34;&gt;https:
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;OK&amp;hellip;. thats enough for now, back to the interwebs to see what else I can
- learn.&lt;/p&gt;</description>
+ learn.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/jquery/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Jquery on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/jquery/</link>
+    <description>Recent content in Jquery on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/jquery/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -22,8 +23,7 @@ displayed in front of my drop down menu as well as my modal dialog box. At
 first I had only noticed the issue on the drop menu, and was having a hard time
 figuring out what was going on, and thought perhaps I had done something wrong
 on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.
-&lt;/p&gt;
+I became suspicious of cloud zoom.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;I&amp;rsquo;ve got a page that is using a few different jQuery dependent features/functions.&lt;/li&gt;
@@ -57,7 +57,8 @@ test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.&lt;/p
 
 &lt;p&gt;In case you are wondering, yes I did test an iteration with the index of the
 menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.&lt;/p&gt;</description>
+hidden by the cloud zoom image.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

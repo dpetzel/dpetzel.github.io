@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/test-kitchen/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Test Kitchen on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/test-kitchen/</link>
+    <description>Recent content in Test Kitchen on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Tue, 06 Jan 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/test-kitchen/index.xml" rel="self" type="application/rss+xml" />
     
     <item>

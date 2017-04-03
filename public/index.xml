@@ -2,15 +2,88 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/index.xml</link>
+    <link>http://www.dpetzel.info/</link>
     <description>Recent content on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 19 Sep 2016 10:47:07 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 02 Apr 2017 20:00:52 -0400</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Flashing DD-WRT On A Linksys WRT1200AC V2</title>
+      <link>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</guid>
+      <description>
+
+&lt;p&gt;This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
+I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well but I had a little time
+on my hands so I opted to give it a go.
+The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
+
+&lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
+I used to flash.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been using Advanced Tomato on the last couple of routers I&amp;rsquo;ve had so that is where I started, however I couldn&amp;rsquo;t find any indication this was supported. The 1200 is not on &lt;a href=&#34;http://tomato.groov.pl/?page_id=69&#34;&gt;Shibby&amp;rsquo;s list&lt;/a&gt;. There is also a decent size thread on &lt;a href=&#34;http://www.linksysinfo.org/index.php?threads/porting-tomato-firmware-to-other-platforms.69976/page-2&#34;&gt;linksysinfo&lt;/a&gt; which didn&amp;rsquo;t leave me with the warm and fuzzies. I finally gave up hope after failing to find it on &lt;a href=&#34;https://www.flashrouters.com/routers/router-types/tomato?limit=36&#34;&gt;flashrouters.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I also checked support for OpenWRT, however only the &lt;a href=&#34;https://wiki.openwrt.org/toh/linksys/wrt_ac_series&#34;&gt;V1 is listed&lt;/a&gt; was listed so I moved to DD-WRT.&lt;/p&gt;
+
+&lt;p&gt;I finally started to have some hope when I found &lt;code&gt;Linksys WRT1200AC v2&lt;/code&gt; listed in the &lt;a href=&#34;https://www.dd-wrt.com/site/support/router-database&#34;&gt;router database&lt;/a&gt;. However the page simply presents you two files to download with no explanation of what you should do with them.
+On top of that these files are marked Beta. That never instills high levels of confidence.
+After several minutes of googling around all things pointed to the &lt;a href=&#34;http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486&#34;&gt;Peacock Thread&lt;/a&gt;. This is one of the most confusing set of instructions I&amp;rsquo;ve ever read and it left me wondering if I should really be proceeding here. I won&amp;rsquo;t go into all the confusion points but lets highlight a couple:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;DON&amp;rsquo;T USE THE ROUTER DATABASE! The router database has recommended some less stable builds&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;uhh&amp;hellip; OK&amp;hellip;.. Then why does it even exist?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;FOLLOW THE PROCESS FOR FLASHING YOUR ROUTER THAT IS IN THE WIKI.
+&lt;a href=&#34;http://www.dd-wrt.com/wiki/index.php/Installation&#34;&gt;http://www.dd-wrt.com/wiki/index.php/Installation&lt;/a&gt;
+Once you have dd-wrt installed on your route&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;OK, fair enough, except there is one problem. The 1200 isn&amp;rsquo;t on that page&amp;hellip;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Read the WIKI and follow the wiki for INITIAL flashing of your router. There has been a lot of work recently to improve the wiki for broadcom devices and the wiki is now mostly up to date and using good files. Don&amp;rsquo;t flash firmware based on youtube or instructions on another non dd-wrt website. Often youtube or other internet instructions are out of date/incorrect! Read and follow the instructions here in the dd-wrt wiki.
+One thing you REALLY need to look at is the procedure for installing to your router. This is extremely important as there are a lot of subtle variation&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Uh&amp;hellip; They keep hammering home to use the WIKI but its not there&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
+
+&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
+
+&lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
+
+&lt;p&gt;I can&amp;rsquo;t recall exactly where I found it, but I found some mentions that the version in the database might not be the latest so I started browsing the &lt;a href=&#34;ftp://ftp.dd-wrt.com&#34;&gt;DD-WRT FTP Server&lt;/a&gt;. I finally landed in &lt;a href=&#34;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&#34;&gt;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&lt;/a&gt; which had the files I needed.
+There were two files in the directory so I grabbed them both not knowing which I needed. Turns out the only file needed was the &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. While I&amp;rsquo;m not positive, I believe the other file (&lt;code&gt;ddwrt-linksys-wrt1200acv2-webflash.bin&lt;/code&gt;) would be used I was already running DD-WRT and was looking to upgrade.&lt;/p&gt;
+
+&lt;p&gt;At this point I was ready to begin:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;I disconnected all ethernet cables, except for the PC I&amp;rsquo;m using to do the flashing&lt;/li&gt;
+&lt;li&gt;Perform the 30-30-30 reset. After this is complete you&amp;rsquo;re left with a factory reset device. Login to &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt; with the default password (&lt;code&gt;admin&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Navigate to Connectivity &amp;ndash;&amp;gt; Basic. Click the &lt;code&gt;Choose&lt;/code&gt; button and select &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. This will take a couple minutes. Once complete this the web UI again on &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;At this point DD-WRT was in fact installed and forcing me to set a password. This felt like a pointless step since I was about to 30-30-30 it again, but I played it safe and it anyway.&lt;/li&gt;
+&lt;li&gt;Perform another 30-30-30 reset. I&amp;rsquo;m honestly skeptical that this is really needed at this point, but I figured 90 seconds of wasted time was better than a bricked 1200 so I complied.&lt;/li&gt;
+&lt;li&gt;Once it came back up I needed to do the password dance again&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That&amp;rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.&lt;/p&gt;
+
+&lt;p&gt;I want to be very clear that I don&amp;rsquo;t believe what I did is &amp;laquo;supported&amp;raquo; so tread carefully, but it&amp;rsquo;s been 9 hours since I did the upgrade, I&amp;rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Welcome Hugo</title>
@@ -18,9 +91,10 @@
       <pubDate>Mon, 19 Sep 2016 10:47:07 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/welcome_hugo/</guid>
-      <description>&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
-using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;
-&lt;/p&gt;
+      <description>
+
+&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
+using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;A long while back I had switched over to using Jekyll for generating the content
 for this site. After that I had taken an extended break from posting content
@@ -57,7 +131,7 @@ has a lot of stuff to get you started.&lt;/li&gt;
 &lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
 capturing some of the challenges I personally encountered.&lt;/p&gt;
 
-&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+&lt;h2 id=&#34;themes:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Themes&lt;/h2&gt;
 
 &lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
 When it comes to creating aesthetic looking websites I have zero skills. I am
@@ -79,7 +153,7 @@ documentation. Each template is free to use any number of parameters from your
 site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
 the available parameters they support are.&lt;/p&gt;
 
-&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
+&lt;h2 id=&#34;content-conversion:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Content Conversion&lt;/h2&gt;
 
 &lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
 it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
@@ -90,7 +164,7 @@ markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered 
 &lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
 I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
 
-&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+&lt;h2 id=&#34;syntax-highlighting:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Syntax Highlighting&lt;/h2&gt;
 
 &lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
 into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
@@ -147,7 +221,7 @@ fixed that issue.&lt;/p&gt;
 
 &lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
 
-&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
+&lt;h2 id=&#34;publishing-to-github-pages:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
 
 &lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
 but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
@@ -184,7 +258,8 @@ expect when pushing out updates.&lt;/p&gt;
 
 &lt;p&gt;There is a great little &lt;code&gt;deploy.sh&lt;/code&gt; example on their site that I adopted to me
 my work flow above, so now whenever I add new content I simply run &lt;code&gt;sh build.sh&lt;/code&gt;
-and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;</description>
+and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -193,12 +268,13 @@ and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built,
       <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/my_new_UOKOO_camera/</guid>
-      <description>&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
+      <description>
+
+&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
 At only $40.00 I didn&amp;rsquo;t have very high expectations but I was pleasantly
 surprised at what I got&lt;/p&gt;
 
-&lt;p&gt;
-This was a bit of an impulse buy. I had a small project I was wanted to do and
+&lt;p&gt;This was a bit of an impulse buy. I had a small project I was wanted to do and
 I needed an IP based camera to do it. There is not shortage of these available
 on the Internet, and if you wanted to, you probably spend a full week
 researching them. I was &lt;em&gt;not&lt;/em&gt; in the mood for all the research on this project
@@ -301,7 +377,8 @@ surveillance system around, but for the price it is a fun little device. This
 is actually the first IP based camera I&amp;rsquo;ve purchased and being able to check out
 whats going on at my house when I&amp;rsquo;m not there is a mildly addicting. It&amp;rsquo;s
 got me thinking about getting a kit of higher end units to let me view more
-angles of my property.&lt;/p&gt;</description>
+angles of my property.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -312,7 +389,7 @@ angles of my property.&lt;/p&gt;</description>
       <guid>http://www.dpetzel.info/resume/</guid>
       <description>
 
-&lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
+&lt;h1 id=&#34;david-petzel-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
 
 &lt;p&gt;website: &lt;a href=&#34;http://www.dpetzel.info&#34;&gt;http://www.dpetzel.info&lt;/a&gt;
 &lt;br /&gt;
@@ -320,7 +397,7 @@ email: &lt;a href=&#34;dave@petzel.emai&#34;&gt;dave@petzel.email&lt;/a&gt;&lt;/
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;summary-of-qualifications&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
+&lt;h2 id=&#34;summary-of-qualifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
 
 &lt;p&gt;Extensive operational experience in organizations of all sizes. Driven
 self-starter who likes to learn new things and make existing things
@@ -329,11 +406,11 @@ large scale and very complex environment. I have a strong desire to
 automate as much as possible, and take pride in ensuring things I do
 automate are well documented.&lt;/p&gt;
 
-&lt;h2 id=&#34;professional-experience&#34;&gt;Professional Experience&lt;/h2&gt;
+&lt;h2 id=&#34;professional-experience:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Professional Experience&lt;/h2&gt;
 
-&lt;h3 id=&#34;the-walt-disney-company-bristol-ct&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
+&lt;h3 id=&#34;the-walt-disney-company-bristol-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;staff-systems-engineer-espn-com&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;staff-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
 
 &lt;p&gt;February - Present&lt;/p&gt;
 
@@ -359,7 +436,7 @@ promotion pipeline to ensure all cookbooks were tested before
 reaching the Chef server.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer-espn-com&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
 
 &lt;p&gt;August 2008 - February 2013&lt;/p&gt;
 
@@ -390,9 +467,9 @@ Load testing of new applications as well as capacity planning
 around major sporting events.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;part-time-instructor&#34;&gt;Part Time Instructor&lt;/h4&gt;
+&lt;h4 id=&#34;part-time-instructor:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Part Time Instructor&lt;/h4&gt;
 
 &lt;p&gt;January 2002 – Summer 2010&lt;/p&gt;
 
@@ -401,9 +478,9 @@ around major sporting events.&lt;/li&gt;
 Networks&lt;/em&gt;. Class forums started as primarily a classroom environment
 but eventually shifted to a completely on-line based structure.&lt;/p&gt;
 
-&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
+&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-engineer&#34;&gt;Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;August 2006 - August 2008&lt;/p&gt;
 
@@ -445,9 +522,9 @@ V6 Environment.&lt;/li&gt;
 Windows Batch Scripting and VBScripting.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
+&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;March 2005 – September 2006&lt;/p&gt;
 
@@ -482,7 +559,7 @@ the intranet using ASP.&lt;/li&gt;
 provide a true “0-touch” thin client computing environment.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-desktop-engineer&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-desktop-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
 
 &lt;p&gt;June 2004 – March 2005&lt;/p&gt;
 
@@ -508,16 +585,16 @@ approximately 400 PCs to 1100+&lt;/li&gt;
 on the network and automatically fix any problems that were found.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;contractor-temp&#34;&gt;Contractor/Temp&lt;/h4&gt;
+&lt;h4 id=&#34;contractor-temp:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Contractor/Temp&lt;/h4&gt;
 
 &lt;p&gt;February 2004 – June 2004&lt;/p&gt;
 
 &lt;p&gt;Contract assignment to migrate domain user accounts to a new Active
 Directory domain, utilizing scripting techniques.&lt;/p&gt;
 
-&lt;h3 id=&#34;rkl-associates-llc-torrington-ct&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
+&lt;h3 id=&#34;rkl-associates-llc-torrington-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;lead-sr-technician&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
+&lt;h4 id=&#34;lead-sr-technician:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
 
 &lt;p&gt;November 2001 – December 2003&lt;/p&gt;
 
@@ -543,9 +620,9 @@ across clients.&lt;/li&gt;
 &lt;li&gt;Performed numerous NT 4 to Windows 2000 Active directory upgrades.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;wentworth-labs-brookfield-ct&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
+&lt;h3 id=&#34;wentworth-labs-brookfield-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-it-support-specialist&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;sr-it-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;Oct 2000 – Oct 2001&lt;/p&gt;
 
@@ -576,9 +653,9 @@ utilizing Veritas Backup Exec 8.6.&lt;/li&gt;
 &lt;li&gt;Developed an automated PC deployment process including OS images.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;priceline-webhouse-greenwich-ct&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
+&lt;h3 id=&#34;priceline-webhouse-greenwich-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-analyst&#34;&gt;Systems Analyst&lt;/h4&gt;
+&lt;h4 id=&#34;systems-analyst:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Analyst&lt;/h4&gt;
 
 &lt;p&gt;Apr 2000 - Oct 2000&lt;/p&gt;
 
@@ -592,9 +669,9 @@ components), COM+, and network infrastructure. Development of
 customized utilities to aid in the troubleshooting and maintenance
 of servers.&lt;/p&gt;
 
-&lt;h3 id=&#34;howmet-corporation-winsted-ct&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;howmet-corporation-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-support-specialist&#34;&gt;Systems Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;systems-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;July 1998 - Apr 2000&lt;/p&gt;
 
@@ -608,12 +685,12 @@ backups, user account management and security. Created Access
 databases for use by various departments. Created VB applications
 for departmental use.&lt;/p&gt;
 
-&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
+&lt;h2 id=&#34;education:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Education&lt;/h2&gt;
 
 &lt;p&gt;Northwestern Connecticut Community College Winsted, CT Computer System
 Technology, Associates Degree&lt;/p&gt;
 
-&lt;h2 id=&#34;certifications&#34;&gt;Certifications&lt;/h2&gt;
+&lt;h2 id=&#34;certifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Certifications&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;MCSE - Microsoft Certified Systems Engineer (NT 4, 2000 &amp;amp; Windows 2003)&lt;/li&gt;
@@ -1587,37 +1664,6 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 &lt;p&gt;Voila! No more warning for external images. If anyone knows the
 &lt;strong&gt;right&lt;/strong&gt; way to suppress these warnings (Yes I&amp;rsquo;ve read all the reasons
 why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Switched To Tinkerer</title>
-      <link>http://www.dpetzel.info/post/switched_to_tinkerer/</link>
-      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
-      <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/switched_to_tinkerer/</guid>
-      <description>&lt;p&gt;For anyone that might have been following along I&amp;rsquo;ve been trying out different
-solutions for static site generation of this site. I&amp;rsquo;d been running &lt;code&gt;Pelican&lt;/code&gt;
-for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve
-gotten used to &lt;code&gt;Sphinx&lt;/code&gt; at work for some project documentation and I wanted
-to see if I could leverage some of that. A little googling later and I found
-&lt;code&gt;Tinkerer&lt;/code&gt; which is based on Sphinx but adds some workflow around the process
-to make blogging with &lt;code&gt;Sphinx&lt;/code&gt; easier.&lt;/p&gt;
-
-&lt;p&gt;So I&amp;rsquo;ve made the switch and what you are reading now was generated with Tinkerer.
-I didn&amp;rsquo;t have very much content yet so I just manually moved everything over,
-although from what I saw if you had a lot of content it would be pretty easy
-to whip up a script to do the transfer. The big difference for me was that
-Pelican had you organize your posts by category, while Tinkerer has you organize
-them by date. Aside form that they seemed to have roughly the same features
-with Tinkerer having full Sphinx support.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see if I continue to like it as time goes on. Thats all for now.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;http://docs.getpelican.com/en/3.2/&#34;&gt;Pelican&lt;/a&gt;
-* &lt;a href=&#34;http://sphinx-doc.org/&#34;&gt;Sphinx&lt;/a&gt;
-* &lt;a href=&#34;http://tinkerer.me/&#34;&gt;Tinkerer&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
