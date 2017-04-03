@@ -3,7 +3,13 @@
   
   <url>
     <loc>http://www.dpetzel.info/</loc>
-    <lastmod>2016-09-19T10:47:07-04:00</lastmod>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
   </url>
   
   <url>

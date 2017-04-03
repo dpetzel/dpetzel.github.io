@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/categories/windows/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Windows on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/windows/</link>
+    <description>Recent content in Windows on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 11 Jun 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/windows/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -17,8 +18,7 @@
       <pubDate>Mon, 11 Jun 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/debugging_winrm/</guid>
-      <description>&lt;p&gt;Some notes on my first attempts at doing details debugging and troubleshooting of WinRM
-&lt;/p&gt;
+      <description>&lt;p&gt;Some notes on my first attempts at doing details debugging and troubleshooting of WinRM&lt;/p&gt;
 
 &lt;p&gt;Useful Articles&lt;/p&gt;
 
@@ -47,7 +47,8 @@ Once that command produces your error, disable the trace:&lt;/p&gt;
 get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &amp;gt;&amp;gt; C:\winrm2_log.txt
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Review the log and hopefully find some answers&lt;/p&gt;</description>
+&lt;p&gt;Review the log and hopefully find some answers&lt;/p&gt;
+</description>
     </item>
     
   </channel>

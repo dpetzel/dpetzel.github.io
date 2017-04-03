@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/zenoss/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Zenoss on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/zenoss/</link>
+    <description>Recent content in Zenoss on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sat, 07 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/zenoss/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -22,8 +23,7 @@ it is not always safe to promote them as a standard Python module, which is
 why you don&amp;rsquo;t see more ZenPacks on PyPi.&lt;/p&gt;
 
 &lt;p&gt;So read on if you are curious about how it &lt;em&gt;might&lt;/em&gt; work, but please don&amp;rsquo;t
-make this part of your standard ZenPack release process.
-&lt;/p&gt;
+make this part of your standard ZenPack release process.&lt;/p&gt;
 
 &lt;p&gt;I recently had the need to update the &lt;code&gt;F5 ZenPack&lt;/code&gt;. It had been a while since
 I had updated a Pack so I was hopeful that the process for releasing a new
@@ -108,7 +108,8 @@ ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
 * &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5&#34;&gt;F5 ZenPack&lt;/a&gt;
 * &lt;a href=&#34;https://travis-ci.org&#34;&gt;Travis CI&lt;/a&gt;
 * &lt;a href=&#34;http://pypi.python.org&#34;&gt;PyPi&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml&#34;&gt;.travis.yml&lt;/a&gt;&lt;/p&gt;</description>
+* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml&#34;&gt;.travis.yml&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -117,8 +118,9 @@ ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
       <pubDate>Fri, 10 Feb 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</guid>
-      <description>&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox
-&lt;/p&gt;
+      <description>
+
+&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox&lt;/p&gt;
 
 &lt;h2 id=&#34;instructions&#34;&gt;Instructions&lt;/h2&gt;
 
@@ -265,7 +267,8 @@ mount /dev/cdrom /media/ga
 &lt;p&gt;Reboot for good measure&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;reboot
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
@@ -276,7 +279,7 @@ mount /dev/cdrom /media/ga
       <guid>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</guid>
       <description>
 
-&lt;h1 id=&#34;inspiration&#34;&gt;Inspiration&lt;/h1&gt;
+&lt;h1 id=&#34;inspiration:263b6d05593fd612500fb8040bfed34d&#34;&gt;Inspiration&lt;/h1&gt;
 
 &lt;p&gt;I still consider myself a relative newb with Zenoss as well as Python development.
 A while back I set out to write a custom &lt;code&gt;ZenPack for use with F5 LTMs&lt;/code&gt;_. I never
@@ -308,7 +311,7 @@ step-by-step guide like Jane&amp;rsquo;s document.&lt;/p&gt;
 at what others had already done. So I figured I should probably document the process
 and make it available to others in case they find themselves in a similar situation.&lt;/p&gt;
 
-&lt;h1 id=&#34;conventions-and-assumptions&#34;&gt;Conventions and Assumptions&lt;/h1&gt;
+&lt;h1 id=&#34;conventions-and-assumptions:263b6d05593fd612500fb8040bfed34d&#34;&gt;Conventions and Assumptions&lt;/h1&gt;
 
 &lt;p&gt;Throughout this document I hope to link to existing documentation where it exists
 so for things that are already covered elsewhere I will try and link to them, rather
@@ -333,9 +336,9 @@ and use it to graph data. Since all the files we talk about are open source
 and part of the ZenPack, it would be redundant to fully copy the contents of files
 into this guide.&lt;/p&gt;
 
-&lt;h1 id=&#34;lets-get-to-it&#34;&gt;Lets Get To It&lt;/h1&gt;
+&lt;h1 id=&#34;lets-get-to-it:263b6d05593fd612500fb8040bfed34d&#34;&gt;Lets Get To It&lt;/h1&gt;
 
-&lt;h2 id=&#34;create-your-empty-zenpack-shell&#34;&gt;Create Your Empty ZenPack Shell&lt;/h2&gt;
+&lt;h2 id=&#34;create-your-empty-zenpack-shell:263b6d05593fd612500fb8040bfed34d&#34;&gt;Create Your Empty ZenPack Shell&lt;/h2&gt;
 
 &lt;p&gt;Creating an empty ZenPack is covered in numerous locations so I won&amp;rsquo;t dive into the
 details here. If you don&amp;rsquo;t know how to create an empty shell, refer to section
@@ -361,7 +364,7 @@ zenoss restart
 restarting which daemons to be inconsistent so while it takes longer, I usually just
 do a full restart rather than pick and choose which daemons to restart.&lt;/p&gt;
 
-&lt;h2 id=&#34;initialize-a-new-git-repo-in-your-zenpack-folder&#34;&gt;Initialize a new GIT Repo in your ZenPack Folder&lt;/h2&gt;
+&lt;h2 id=&#34;initialize-a-new-git-repo-in-your-zenpack-folder:263b6d05593fd612500fb8040bfed34d&#34;&gt;Initialize a new GIT Repo in your ZenPack Folder&lt;/h2&gt;
 
 &lt;p&gt;As Zenoss seems to be making the move to GitHub as outlined in &lt;code&gt;ZenPack Development Process&lt;/code&gt;_
 we are going to cooperate with that effort :) The &lt;code&gt;ZenPack Development Process&lt;/code&gt;_
@@ -418,7 +421,7 @@ Once again, run the following &lt;em&gt;as the zenoss user&lt;/em&gt;:&lt;/p&gt;
 
 &lt;p&gt;Now comes the fun part&amp;hellip; figuring out how to actually write this crazy thing:)&lt;/p&gt;
 
-&lt;h2 id=&#34;identifying-the-pieces&#34;&gt;Identifying The Pieces&lt;/h2&gt;
+&lt;h2 id=&#34;identifying-the-pieces:263b6d05593fd612500fb8040bfed34d&#34;&gt;Identifying The Pieces&lt;/h2&gt;
 
 &lt;p&gt;Before we get to far, its important to understand what items we want to include
 in this ZenPack. This is where it starts to get dicey if you don&amp;rsquo;t know some of the
@@ -438,7 +441,7 @@ command over SSH and parsing the output to get all the data to graph. The
 &lt;code&gt;Zenoss Developer&#39;s Guide&lt;/code&gt;_ talks about this in section 12.5.2. Its not very
 newb friendly so thats where I hope to bridge the gap.&lt;/p&gt;
 
-&lt;h2 id=&#34;building-the-pieces&#34;&gt;Building The Pieces&lt;/h2&gt;
+&lt;h2 id=&#34;building-the-pieces:263b6d05593fd612500fb8040bfed34d&#34;&gt;Building The Pieces&lt;/h2&gt;
 
 &lt;p&gt;The Command Parser
 ++++++++++++++++++
@@ -569,7 +572,9 @@ would look like:&lt;/p&gt;&lt;/li&gt;
 &lt;p&gt;So the simpliest, working version of the parser could look like this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;
+
   from Products.ZenRRD.CommandParser import CommandParser
+
 
   class VarnishStat(CommandParser):
       def processResults(self, cmd, result):
@@ -669,7 +674,7 @@ In my case that is &lt;em&gt;ZenPacks.community.Varnish3&lt;/em&gt;.&lt;/li&gt;
 
 &lt;p&gt;.. image:: &lt;a href=&#34;https://b9m4pw.bay.livefilestore.com/y2p-mk2JpG3fTJWeWxQTOri2SXZ9zSe3ZJYaZi6IF3xYVANQwc0bv9IgsMXJ5qA4SEVTfHyNahKa-qPSBpVAqzJeEx6gtw03N6TRyp0zNEOj14/AddToZenPack.png?psid=1&#34;&gt;https://b9m4pw.bay.livefilestore.com/y2p-mk2JpG3fTJWeWxQTOri2SXZ9zSe3ZJYaZi6IF3xYVANQwc0bv9IgsMXJ5qA4SEVTfHyNahKa-qPSBpVAqzJeEx6gtw03N6TRyp0zNEOj14/AddToZenPack.png?psid=1&lt;/a&gt;&lt;/p&gt;
 
-&lt;h1 id=&#34;pulling-it-all-together&#34;&gt;Pulling It All Together&lt;/h1&gt;
+&lt;h1 id=&#34;pulling-it-all-together:263b6d05593fd612500fb8040bfed34d&#34;&gt;Pulling It All Together&lt;/h1&gt;
 
 &lt;p&gt;So at this point you have a working command parser. This command parser is
 referenced by your new super-cool monitoring template and life is good. At this point

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/heroku/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Heroku on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/heroku/</link>
+    <description>Recent content in Heroku on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sun, 08 Sep 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/heroku/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -17,16 +18,17 @@
       <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/</guid>
-      <description>&lt;p&gt;For today&amp;rsquo;s adventure I&amp;rsquo;ve decided to finally get my hands dirty with
+      <description>
+
+&lt;p&gt;For today&amp;rsquo;s adventure I&amp;rsquo;ve decided to finally get my hands dirty with
 &lt;a href=&#34;http://heroku.com&#34;&gt;Heroku&lt;/a&gt;. I&amp;rsquo;ve know about it for a while now, and have gone
 so far as reading some of the documentation, however I&amp;rsquo;ve never actually
-tried using it. So today, I decided to change that.
-&lt;/p&gt;
+tried using it. So today, I decided to change that.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you don&amp;rsquo;t really care how I got there, skip to the &amp;laquo;Condensed&amp;raquo;
 section for the bare bones info.&lt;/p&gt;
 
-&lt;h2 id=&#34;long-version&#34;&gt;Long Version&lt;/h2&gt;
+&lt;h2 id=&#34;long-version:cc1f8db69b60ab62cff15cbff33f73fd&#34;&gt;Long Version&lt;/h2&gt;
 
 &lt;p&gt;So my first question was what should I run. I&amp;rsquo;m not really in a coding
 mood today so I figured I would pick something someone else has already
@@ -351,7 +353,7 @@ Progress!! But all is not perfect yet..&lt;code&gt;heroku logs&lt;/code&gt; yiel
 
 &lt;p&gt;No more errors!! I think we are in business finally.&lt;/p&gt;
 
-&lt;h2 id=&#34;condensed-version&#34;&gt;Condensed Version&lt;/h2&gt;
+&lt;h2 id=&#34;condensed-version:cc1f8db69b60ab62cff15cbff33f73fd&#34;&gt;Condensed Version&lt;/h2&gt;
 
 &lt;p&gt;Clone the Repo::&lt;/p&gt;
 
@@ -413,7 +415,8 @@ Scaling web dynos... done, now running 1
 &lt;p&gt;Verify::&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;heroku logs --tail
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>

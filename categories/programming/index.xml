@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/categories/programming/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Programming on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/programming/</link>
+    <description>Recent content in Programming on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Thu, 10 Oct 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/categories/programming/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -292,13 +293,14 @@ certainly new behavior.&lt;/p&gt;
       <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</guid>
-      <description>&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
+      <description>
+
+&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
 I had this week. While I&amp;rsquo;m more of an operations guy, a while back I hacked
 up a &lt;code&gt;Django&lt;/code&gt; based web application which uses &lt;code&gt;Celery&lt;/code&gt; and &lt;code&gt;RabbitMQ&lt;/code&gt;. I have
 recent set out to do some performance analysis on it.&lt;/p&gt;
 
-&lt;p&gt;
-Its not an application that sees much traffic as it was created to serve a niche
+&lt;p&gt;Its not an application that sees much traffic as it was created to serve a niche
 internal purpose, but it does handle web requests which result in potentially
 long running background tasks.&lt;/p&gt;
 
@@ -310,7 +312,7 @@ changes to make. As of today, I&amp;rsquo;ve not made any code changes to improv
 performance, but I wanted to collect my observations after having adding some
 instrumentation.&lt;/p&gt;
 
-&lt;h2 id=&#34;new-relic-integration&#34;&gt;New Relic Integration&lt;/h2&gt;
+&lt;h2 id=&#34;new-relic-integration:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;New Relic Integration&lt;/h2&gt;
 
 &lt;p&gt;At work &lt;code&gt;New Relic&lt;/code&gt; has been getting a lot of buzz for the magic it works on
 Java based applications. I was aware they had some &lt;code&gt;Python&lt;/code&gt; integration, but
@@ -450,7 +452,7 @@ nodes behind my proxy server. Success!!. While I think this is actually a bug
 in their agent code, I was happy to see I would work around it with a
 configuration change.&lt;/p&gt;
 
-&lt;h2 id=&#34;memcached-vs-locmem&#34;&gt;Memcached Vs Locmem&lt;/h2&gt;
+&lt;h2 id=&#34;memcached-vs-locmem:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Memcached Vs Locmem&lt;/h2&gt;
 
 &lt;p&gt;I&amp;rsquo;ve got a few instances of my application running and early on I had added some
 &lt;strong&gt;very&lt;/strong&gt; basic caching. Early on there was only a single instance so I thought
@@ -483,7 +485,7 @@ cache to an external (across the network) cache. My take away from this was
 that there are cases were a remote cache can actually be more beneficial than
 a local cache, if your sharing information across many instances.&lt;/p&gt;
 
-&lt;h2 id=&#34;celery-apply-vs-apply-async&#34;&gt;Celery apply vs apply_async&lt;/h2&gt;
+&lt;h2 id=&#34;celery-apply-vs-apply-async:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Celery apply vs apply_async&lt;/h2&gt;
 
 &lt;p&gt;The last thing I poked at this week was usage of &lt;code&gt;Celery&lt;/code&gt;&amp;rsquo;s &lt;code&gt;apply()&lt;/code&gt; method
 vs &lt;code&gt;apply_aysync&lt;/code&gt;. For those that don&amp;rsquo;t know the difference, &lt;code&gt;apply_async&lt;/code&gt;
@@ -512,12 +514,13 @@ involved in this test), &lt;code&gt;apply()&lt;/code&gt; would run the task in a
 &lt;p&gt;For my purposes this is plenty fast enough, but I was a little surprised to
 see that level of overhead.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;In summary, it was an interesting set of exercises and for the most part
 confirmed many of my suspicions, but its nice to finally have some real
 metrics around this. Now that I&amp;rsquo;m measuring all this great stuff its time to
-start improving it!&lt;/p&gt;</description>
+start improving it!&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -531,8 +534,7 @@ displayed in front of my drop down menu as well as my modal dialog box. At
 first I had only noticed the issue on the drop menu, and was having a hard time
 figuring out what was going on, and thought perhaps I had done something wrong
 on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.
-&lt;/p&gt;
+I became suspicious of cloud zoom.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;I&amp;rsquo;ve got a page that is using a few different jQuery dependent features/functions.&lt;/li&gt;
@@ -566,7 +568,8 @@ test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.&lt;/p
 
 &lt;p&gt;In case you are wondering, yes I did test an iteration with the index of the
 menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.&lt;/p&gt;</description>
+hidden by the cloud zoom image.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -578,8 +581,7 @@ hidden by the cloud zoom image.&lt;/p&gt;</description>
       <description>&lt;p&gt;This took me far longer than it should have, and while I&amp;rsquo;d like to blame
 shotty documentation and sparse examples it was probably my own stupidity
 causing the issue. Whatever the case maybe I wanted to jot down my results
-as I&amp;rsquo;m sure I&amp;rsquo;ll need to do this again.
-&lt;/p&gt;
+as I&amp;rsquo;m sure I&amp;rsquo;ll need to do this again.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;d like go on a rant about how much harder this was than it should be and how
 an easier module should exist. However, the fact that I can&amp;rsquo;t write an easier
@@ -653,7 +655,8 @@ server.set_debuglevel(1)
 server.sendmail(from, to, body)
 #End you session.
 server.quit()
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
     <item>
@@ -665,8 +668,7 @@ server.quit()
       <description>&lt;p&gt;Today I was trying to do something in a velocity template that I found to be a little
 harder than I would have guessed. I was trying to manually generate an array from within my template.
 I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
-ip addresses which are allowed to see the template code, but everyone else should get the boot.
-&lt;/p&gt;
+ip addresses which are allowed to see the template code, but everyone else should get the boot.&lt;/p&gt;
 
 &lt;p&gt;Now, I don&amp;rsquo;t write a lot of code, let alone Velocity code, so I figured I&amp;rsquo;d hit up the
 user documentation for Velocity: &lt;a href=&#34;http://velocity.apache.org/engine/devel/user-guide.htm&#34;&gt;http://velocity.apache.org/engine/devel/user-guide.htm&lt;/a&gt;.
@@ -693,7 +695,8 @@ which is the client IP. Without that provided variable this will of course not w
       ## For authorized IP addresses
    #end
 #end
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>
