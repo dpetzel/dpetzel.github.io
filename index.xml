@@ -13,7 +13,7 @@
     <atom:link href="http://www.dpetzel.info/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>New Podcat: Code Monkey Talks</title>
+      <title>New Podcast: Code Monkey Talks</title>
       <link>http://www.dpetzel.info/post/misc/codemonkeyfm/</link>
       <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
@@ -68,7 +68,7 @@ design against theirs.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
 challenges I see.&lt;/p&gt;
 
-&lt;h2 id=&#34;the-alternate-design:978538482d16b5c35f77f7397ff6dea4&#34;&gt;The Alternate Design&lt;/h2&gt;
+&lt;h2 id=&#34;the-alternate-design&#34;&gt;The Alternate Design&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Opscenter will be pre-installed on a &amp;laquo;Baked AMI&amp;raquo;.&lt;/li&gt;
@@ -87,7 +87,7 @@ Whenver a new instance is launched, it will detect its current AZ and mount the 
 There are certainly other &amp;laquo;frills&amp;raquo; you can add, but I don&amp;rsquo;t consider them core to the design so I&amp;rsquo;m omitting them.
 Now lets get into the meat of how things will work.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrades:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Upgrades&lt;/h2&gt;
+&lt;h2 id=&#34;upgrades&#34;&gt;Upgrades&lt;/h2&gt;
 
 &lt;p&gt;Based on the steps outlined in &lt;a href=&#34;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&#34;&gt;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&lt;/a&gt;
 you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
@@ -136,7 +136,7 @@ steps outlined above would be executed and you&amp;rsquo;d get an older version 
 
 &lt;p&gt;Let&amp;rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.&lt;/p&gt;
 
-&lt;h2 id=&#34;data-configuration-synchronization:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
+&lt;h2 id=&#34;data-configuration-synchronization&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
 
 &lt;p&gt;This section will focus on much of the material discussed in &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&lt;/a&gt;. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.&lt;/p&gt;
 
@@ -170,7 +170,7 @@ come with its own challenges down the road.&lt;/p&gt;
 &lt;p&gt;So I&amp;rsquo;ll wrap up this section by simply re-iterating that yes I&amp;rsquo;m confident we can make it work, but I also
 think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.&lt;/p&gt;
 
-&lt;h2 id=&#34;network-splits:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Network Splits&lt;/h2&gt;
+&lt;h2 id=&#34;network-splits&#34;&gt;Network Splits&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
 practices for AWS you&amp;rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
@@ -198,7 +198,7 @@ assuming the zone is &amp;laquo;gone&amp;raquo;, then the ASG (which is configur
 instance into a functional zone. I fully admit, I&amp;rsquo;ve never seen a zone &amp;laquo;go way&amp;raquo; so this is more theory than
 practice.&lt;/p&gt;
 
-&lt;h2 id=&#34;agent-reconfiguration:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
+&lt;h2 id=&#34;agent-reconfiguration&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
 
 &lt;p&gt;This section has some overlap with the previous section but is more general in nature. Datastax says the
 following about fail over events:&lt;/p&gt;
@@ -222,7 +222,7 @@ agents, since it will simply &amp;laquo;move&amp;raquo; to the appropriate insta
 manage &lt;em&gt;all&lt;/em&gt; your configuration files with your configuration management solution you can do that now
 without the fear of the situation quoted above.&lt;/p&gt;
 
-&lt;h2 id=&#34;lock-in:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Lock In&lt;/h2&gt;
+&lt;h2 id=&#34;lock-in&#34;&gt;Lock In&lt;/h2&gt;
 
 &lt;p&gt;There are two quotes from &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&lt;/a&gt; I want to
 address in this section.&lt;/p&gt;
@@ -240,7 +240,7 @@ for some of our less critical applications/workloads.&lt;/p&gt;
 &lt;p&gt;They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
 the alternate solution of a single node keeps our options open.&lt;/p&gt;
 
-&lt;h2 id=&#34;costs:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Costs&lt;/h2&gt;
+&lt;h2 id=&#34;costs&#34;&gt;Costs&lt;/h2&gt;
 
 &lt;p&gt;I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
 running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.&lt;/p&gt;
@@ -271,7 +271,7 @@ is so small, the charge will probably be extremely low.&lt;/p&gt;
 &lt;p&gt;The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
 our compute charges in half by only running a single instance.&lt;/p&gt;
 
-&lt;h2 id=&#34;conclusion:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
 center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
@@ -553,7 +553,7 @@ and it was my wife who actually found this guy.&lt;/p&gt;
 &lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
 at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
 
-&lt;h2 id=&#34;installation-and-setup:9a194814cbceb31772e761ab331db7bd&#34;&gt;Installation And Setup&lt;/h2&gt;
+&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
 
 &lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
 unassuming packaging.&lt;/p&gt;
@@ -578,7 +578,7 @@ but once it did take, the device was on my WiFi network.&lt;/p&gt;
 
 &lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartview-pro-pc-application:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
+&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
 
 &lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
 available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
@@ -589,7 +589,7 @@ software also allows you to configure a recording from the camera. You have the
 ability to set the time(s) of day that you want record. It will record to the
 local hardware of the machine running the software.&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartviewpro-android-app:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
+&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
 
 &lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
 geared for mobile devices. This application is also free to use with the
@@ -602,14 +602,14 @@ of the screen.&lt;/p&gt;
 the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
 functionality very much&lt;/p&gt;
 
-&lt;h2 id=&#34;accessing-from-the-internet:9a194814cbceb31772e761ab331db7bd&#34;&gt;Accessing From The Internet&lt;/h2&gt;
+&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
 
 &lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
 installed. Its all done over TCP port 80 (as best I could tell). So I configured
 a port forward on my router to send 80 to the camera. The following day, from
 work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
 
-&lt;h2 id=&#34;nightvision:9a194814cbceb31772e761ab331db7bd&#34;&gt;Nightvision&lt;/h2&gt;
+&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
 
 &lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
 engagne the nightvision 3 red lights on the face of the camera light up. They
@@ -619,7 +619,7 @@ are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyo
 during the day, however at night, once the night vision LEDs kick in they
 product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
 
-&lt;h2 id=&#34;alarms:9a194814cbceb31772e761ab331db7bd&#34;&gt;Alarms&lt;/h2&gt;
+&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
 
 &lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
 or save off to an FTP server when motion is detected. I did experiment with this
@@ -628,7 +628,7 @@ tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It
 as if the delay is so high, the person or thing walking by has already cleared
 the field of vision before the picture is taken&lt;/p&gt;
 
-&lt;h2 id=&#34;two-way-audio:9a194814cbceb31772e761ab331db7bd&#34;&gt;Two Way Audio&lt;/h2&gt;
+&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
 
 &lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
 sound from the camera. I say sound, because its barely understandable. The
@@ -640,7 +640,7 @@ voice of the person speaking into it.&lt;/p&gt;
 place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
 disabled.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary:9a194814cbceb31772e761ab331db7bd&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
 surveillance system around, but for the price it is a fun little device. This
