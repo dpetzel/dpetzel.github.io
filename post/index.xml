@@ -18,7 +18,7 @@
       <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
-      <description>&lt;p&gt;A few former colleagues of mine have recently started podcast they call &amp;laquo;Code Monkey Talks&amp;raquo;. In their first few
+      <description>&lt;p&gt;A few former colleagues of mine have recently started podcast they call &lt;code&gt;Code Monkey Talks&lt;/code&gt;. In their first few
 episodes they&amp;rsquo;ve already managed to line up some really guests, so if your looking for a new podcast to add to
 your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm/&#34;&gt;http://www.codemonkey.fm/&lt;/a&gt; as I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
 </description>
@@ -68,7 +68,7 @@ design against theirs.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
 challenges I see.&lt;/p&gt;
 
-&lt;h2 id=&#34;the-alternate-design&#34;&gt;The Alternate Design&lt;/h2&gt;
+&lt;h2 id=&#34;the-alternate-design:978538482d16b5c35f77f7397ff6dea4&#34;&gt;The Alternate Design&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Opscenter will be pre-installed on a &amp;laquo;Baked AMI&amp;raquo;.&lt;/li&gt;
@@ -87,7 +87,7 @@ Whenver a new instance is launched, it will detect its current AZ and mount the 
 There are certainly other &amp;laquo;frills&amp;raquo; you can add, but I don&amp;rsquo;t consider them core to the design so I&amp;rsquo;m omitting them.
 Now lets get into the meat of how things will work.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrades&#34;&gt;Upgrades&lt;/h2&gt;
+&lt;h2 id=&#34;upgrades:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Upgrades&lt;/h2&gt;
 
 &lt;p&gt;Based on the steps outlined in &lt;a href=&#34;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&#34;&gt;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&lt;/a&gt;
 you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
@@ -136,7 +136,7 @@ steps outlined above would be executed and you&amp;rsquo;d get an older version 
 
 &lt;p&gt;Let&amp;rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.&lt;/p&gt;
 
-&lt;h2 id=&#34;data-configuration-synchronization&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
+&lt;h2 id=&#34;data-configuration-synchronization:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
 
 &lt;p&gt;This section will focus on much of the material discussed in &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&lt;/a&gt;. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.&lt;/p&gt;
 
@@ -170,7 +170,7 @@ come with its own challenges down the road.&lt;/p&gt;
 &lt;p&gt;So I&amp;rsquo;ll wrap up this section by simply re-iterating that yes I&amp;rsquo;m confident we can make it work, but I also
 think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.&lt;/p&gt;
 
-&lt;h2 id=&#34;network-splits&#34;&gt;Network Splits&lt;/h2&gt;
+&lt;h2 id=&#34;network-splits:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Network Splits&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
 practices for AWS you&amp;rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
@@ -198,7 +198,7 @@ assuming the zone is &amp;laquo;gone&amp;raquo;, then the ASG (which is configur
 instance into a functional zone. I fully admit, I&amp;rsquo;ve never seen a zone &amp;laquo;go way&amp;raquo; so this is more theory than
 practice.&lt;/p&gt;
 
-&lt;h2 id=&#34;agent-reconfiguration&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
+&lt;h2 id=&#34;agent-reconfiguration:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
 
 &lt;p&gt;This section has some overlap with the previous section but is more general in nature. Datastax says the
 following about fail over events:&lt;/p&gt;
@@ -222,7 +222,7 @@ agents, since it will simply &amp;laquo;move&amp;raquo; to the appropriate insta
 manage &lt;em&gt;all&lt;/em&gt; your configuration files with your configuration management solution you can do that now
 without the fear of the situation quoted above.&lt;/p&gt;
 
-&lt;h2 id=&#34;lock-in&#34;&gt;Lock In&lt;/h2&gt;
+&lt;h2 id=&#34;lock-in:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Lock In&lt;/h2&gt;
 
 &lt;p&gt;There are two quotes from &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&lt;/a&gt; I want to
 address in this section.&lt;/p&gt;
@@ -240,7 +240,7 @@ for some of our less critical applications/workloads.&lt;/p&gt;
 &lt;p&gt;They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
 the alternate solution of a single node keeps our options open.&lt;/p&gt;
 
-&lt;h2 id=&#34;costs&#34;&gt;Costs&lt;/h2&gt;
+&lt;h2 id=&#34;costs:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Costs&lt;/h2&gt;
 
 &lt;p&gt;I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
 running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.&lt;/p&gt;
@@ -271,7 +271,7 @@ is so small, the charge will probably be extremely low.&lt;/p&gt;
 &lt;p&gt;The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
 our compute charges in half by only running a single instance.&lt;/p&gt;
 
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:978538482d16b5c35f77f7397ff6dea4&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
 center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
@@ -401,7 +401,7 @@ has a lot of stuff to get you started.&lt;/li&gt;
 &lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
 capturing some of the challenges I personally encountered.&lt;/p&gt;
 
-&lt;h2 id=&#34;themes:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Themes&lt;/h2&gt;
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
 
 &lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
 When it comes to creating aesthetic looking websites I have zero skills. I am
@@ -423,7 +423,7 @@ documentation. Each template is free to use any number of parameters from your
 site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
 the available parameters they support are.&lt;/p&gt;
 
-&lt;h2 id=&#34;content-conversion:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Content Conversion&lt;/h2&gt;
+&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
 
 &lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
 it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
@@ -434,7 +434,7 @@ markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered 
 &lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
 I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
 
-&lt;h2 id=&#34;syntax-highlighting:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
 
 &lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
 into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
@@ -491,7 +491,7 @@ fixed that issue.&lt;/p&gt;
 
 &lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
 
-&lt;h2 id=&#34;publishing-to-github-pages:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
+&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
 
 &lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
 but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
@@ -1066,7 +1066,7 @@ moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 &lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
 would run ESXi 5 on it.&lt;/p&gt;
 
-&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;My day job does not really allow me much hands on access to hardware any more
 so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
@@ -1086,7 +1086,7 @@ installation and have it running on the newly rebuilt box. It worked well,
 and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
 about getting the box built.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
+&lt;h2 id=&#34;installing-open-manage-server-administrator&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
 
 &lt;p&gt;So step one was to grab the installation bits from
 &lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
@@ -1145,7 +1145,7 @@ so this seems like a crappy solution, but I suppose the logic is possibly to
 keep the number of system daemons to an absolute minimum. In any event, I was
 a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
 
-&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;vsphere-management-assistant&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;At this point, I was a bit annoyed that I needed another system.
 While trolling for ways to potentially hack the Web server in directly, I came
@@ -1160,7 +1160,7 @@ will come in handy in the future as well.&lt;/p&gt;
 instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
 This all went really smooth.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
 the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
@@ -1278,7 +1278,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
     file names, paths etc have been stripped from the code snippets.
 &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+&lt;h2 id=&#34;1-2-7-to-1-3-7:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
 
 &lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
 anything immediately broken. There were a few deprecation warnings that I needed
@@ -1345,7 +1345,7 @@ this cleanup in coming versions.&lt;/p&gt;
 of pycrypto just because, so all and all pretty easy so far and only about 2
 hours burned on that step.&lt;/p&gt;
 
-&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+&lt;h2 id=&#34;1-3-7-to-1-4-8:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
 
 &lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
 what gotchas I need to look out for. Based on the information in the release
@@ -1427,7 +1427,7 @@ are passing and no DeprecationWarning messages (aside from
 &lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
 the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
 
-&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+&lt;h2 id=&#34;1-4-8-to-1-5-4:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
 
 &lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
 as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
@@ -1509,7 +1509,7 @@ deprecation message to handle:&lt;/p&gt;
    TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
 By the time it was all said and done, it took me about 2 days (including
