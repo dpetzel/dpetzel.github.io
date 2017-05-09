@@ -41,7 +41,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
     file names, paths etc have been stripped from the code snippets.
 &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+&lt;h2 id=&#34;1-2-7-to-1-3-7:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
 
 &lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
 anything immediately broken. There were a few deprecation warnings that I needed
@@ -108,7 +108,7 @@ this cleanup in coming versions.&lt;/p&gt;
 of pycrypto just because, so all and all pretty easy so far and only about 2
 hours burned on that step.&lt;/p&gt;
 
-&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+&lt;h2 id=&#34;1-3-7-to-1-4-8:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
 
 &lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
 what gotchas I need to look out for. Based on the information in the release
@@ -190,7 +190,7 @@ are passing and no DeprecationWarning messages (aside from
 &lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
 the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
 
-&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+&lt;h2 id=&#34;1-4-8-to-1-5-4:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
 
 &lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
 as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
@@ -272,7 +272,7 @@ deprecation message to handle:&lt;/p&gt;
    TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
 By the time it was all said and done, it took me about 2 days (including
