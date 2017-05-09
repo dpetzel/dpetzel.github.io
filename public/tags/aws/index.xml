@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dave&#39;s Site</title>
-    <link>http://www.dpetzel.info/tags/aws/index.xml</link>
-    <description>Recent content on Dave&#39;s Site</description>
+    <title>Aws on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/aws/</link>
+    <description>Recent content in Aws on Dave&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Sat, 18 Mar 2017 19:44:53 -0400</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -17,12 +18,14 @@
       <pubDate>Sat, 18 Mar 2017 19:44:53 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</guid>
-      <description>&lt;p&gt;This past week I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
-an automated fashion in AWS. I&amp;rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
+      <description>
+
+&lt;p&gt;Recently I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
+an automated fashion on AWS. I&amp;rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
 fail over and will propose an alternate solution which I believe still achieves high availability as well as
 much better self-healing.&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt; This is not a proven solution, while I believe it should work, understand this is a proposal.&lt;/p&gt;
 
 &lt;p&gt;Before we get started lets define what &amp;laquo;High Availability&amp;raquo; or &amp;laquo;Highly Available&amp;raquo; means since this term is somewhat
 subjective to the individual. I think this quote from &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/what-is-high-availability&#34;&gt;https://www.digitalocean.com/community/tutorials/what-is-high-availability&lt;/a&gt; sums it up pretty well:&lt;/p&gt;
@@ -43,7 +46,12 @@ makes sense for our use cases.&lt;/p&gt;
 &lt;p&gt;Datastax has their own HA solution which they refer to as &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;Automatic Failover&lt;/a&gt;. Naturally I started down the path of implementing their solution as outlined, however along that path I ran into a number of rough patches which has left me believing a different approach will be better. Since my system will be deployed into AWS and not a traditional data center I have a very powerful infrastructure API at my disposal. If I were building this solution in a more traditional managed data center
 it is very likely I&amp;rsquo;d adhere much closer to the Datastax provided solution.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; The work I have done so far involved a decent amount of research and reviewing Datastax documentation. I&amp;rsquo;ve setup Opscenter a few times, however I have not fully deployed an automated fail over cluster (because of some of the issue I&amp;rsquo;ll describe below). As a result of this I can&amp;rsquo;t speak with any authority on how well their solution actually works, but I&amp;rsquo;m going to give them benefit of the doubt and assume it works. I&amp;rsquo;ll keep this assumption in mind as I compare the merits of my proposed design against theirs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; The work I have done so far involved a decent amount of research and reviewing Datastax documentation.
+I&amp;rsquo;ve setup Opscenter a few times, however I have not fully deployed an automated fail over cluster (because of some
+of the issues I&amp;rsquo;ll describe below).
+As a result of this I can&amp;rsquo;t speak with any authority on how well their solution actually works, but I&amp;rsquo;m going to give
+them benefit of the doubt and assume it works. I&amp;rsquo;ll keep this assumption in mind as I compare the merits of my proposed
+design against theirs.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
 challenges I see.&lt;/p&gt;
@@ -57,8 +65,10 @@ I promise this isn&amp;rsquo;t as insane as it sounds and I&amp;rsquo;ll explain
 &lt;li&gt;This single instance will be under the control of an autoscale group (yep, and ASG with a min of 1, and max of 1)&lt;/li&gt;
 &lt;li&gt;There will be a dedicated EFS (NFS) filesystem where opscenter files will be stored. A mount target will be
 exposed in each availability zone, and the instance will mount it using the zone independent DNS name&lt;/li&gt;
-&lt;li&gt;There will be a dedicated ENI (separate from the instance&amp;rsquo;s auto-assigned one).&lt;/li&gt;
-&lt;li&gt;The Datastax agents will be configured to point at this ENI for their stomp address&lt;/li&gt;
+&lt;li&gt;There will be three dedicated ENIs, one in each availability zone, separate from the instance&amp;rsquo;s auto-assigned one.
+Whenver a new instance is launched, it will detect its current AZ and mount the ENI that resides in the same AZ.&lt;/li&gt;
+&lt;li&gt;There will be a Route53 DNS entries that is mapped to the active ENI&lt;/li&gt;
+&lt;li&gt;The Datastax agents will be configured to point at this Route53 DNS entry.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;This represents the minimum components required to replace Datastax&amp;rsquo;s solution.
@@ -77,7 +87,7 @@ it probably won&amp;rsquo;t take very long.&lt;/p&gt;
 that would require us to implement some sort of multiple machine orchestration/configuration management tool
 that would need to be programmed with a method to identify who the master is, and then down the secondary.
 Don&amp;rsquo;t get me wrong I fully agree that all this &lt;em&gt;can&lt;/em&gt; be automated, but it comes with a number of moving parts
- (all of which can fail).&lt;/p&gt;
+ (any of which can fail).&lt;/p&gt;
 
 &lt;p&gt;I believe there is a simpler upgrade path we can take. I want to be clear here that what I am about to outline
 results in the overall upgrade time taking a little longer, but I believe its both safer and easier.&lt;/p&gt;
@@ -88,24 +98,21 @@ results in the overall upgrade time taking a little longer, but I believe its bo
 AMI ID. Ideally you&amp;rsquo;re automating this with something like cloudformation or Terraform. At this point no changes
 have been made on your running Opscenter instance.&lt;/p&gt;
 
-&lt;p&gt;When the time is right, you then terminate the running instance (close that jaw). This is where the real magic of the process starts to come through. Lets step through the sequent of events:&lt;/p&gt;
+&lt;p&gt;When the time is right, you then terminate the running instance (close that jaw). This is where the real magic
+of the process starts to come through. Lets step through the sequence of events:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;The termination signal is going to gracefully shutdown our instance, ensuring Opscenter gracefully closes
-file handles. At this point the following should be true:
-
-&lt;ul&gt;
-&lt;li&gt;Your ENI is now detached but still exists. This means the IP address that your agents were configured to
-communicate with can&amp;rsquo;t be stolen by any other instances. Its the next best thing to having a static IP&lt;/li&gt;
-&lt;li&gt;The EFS volume with all your Opscenter &amp;laquo;data&amp;raquo; remains intact and disconnected from the previous instane.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+file handles. At this point the EFS volume with all your Opscenter &amp;laquo;data&amp;raquo; remains intact and disconnected
+from the previous instance.&lt;/li&gt;
 &lt;li&gt;At this point the ASG will launch a fresh instance, using the new AMI ID which has our updated version of
 Opscenter installed. For those of you who have used auto-scaling you know this won&amp;rsquo;t be instant and might take
 a minute or two. Its this delay that causes this approach to be a little slower than the RPM upgrade&lt;/li&gt;
-&lt;li&gt;As the new instance boots up it will claim the ENI and configure itself to use it.&lt;/li&gt;
+&lt;li&gt;As the new instance boots up it will claim the appropriate ENI and configure itself to use it.&lt;/li&gt;
+&lt;li&gt;After claiming the ENI, and determining the private IP of that ENI, the instance will update the Route53 entry.&lt;/li&gt;
 &lt;li&gt;Next the new instance will mount the EFS volume.&lt;/li&gt;
 &lt;li&gt;Finally Opscenter will be started. At this point this new instance has all the data, and the secondary IP
-address that our first node had. Agents should reconnect and we should be off to the races.&lt;/li&gt;
+associated with the ENI. Since the agents were configured with DNS entries, they should reconnect.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;So what happens if an upgrade goes bad? I&amp;rsquo;ll skip the troubleshooting process as that&amp;rsquo;ll be similar in both
@@ -155,7 +162,7 @@ think we can just make it simpler by keeping all that stuff on the EFS volume, w
 
 &lt;p&gt;Let&amp;rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
 practices for AWS you&amp;rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
-Its not a matter of if, its a matter of when,  a partition will happen.
+Its not a matter of if, its a matter of when, a partition will happen.
 Lets look at what DataStax has to say on the matter:&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -198,7 +205,7 @@ what happens if some number of nodes can&amp;rsquo;t be reached?&lt;/p&gt;
 for a period of time. It just feels like there are lot of moving parts happening here, any of which could
 go wrong in unexpected ways.&lt;/p&gt;
 
-&lt;p&gt;Remember that ENI we talked about before? That eliminates the need for ever changing the configuration on the
+&lt;p&gt;Remember that Route53 entry we talked about before? That eliminates the need for ever changing the configuration on the
 agents, since it will simply &amp;laquo;move&amp;raquo; to the appropriate instance. If your one of those shops who like to
 manage &lt;em&gt;all&lt;/em&gt; your configuration files with your configuration management solution you can do that now
 without the fear of the situation quoted above.&lt;/p&gt;
@@ -223,10 +230,10 @@ the alternate solution of a single node keeps our options open.&lt;/p&gt;
 
 &lt;h2 id=&#34;costs&#34;&gt;Costs&lt;/h2&gt;
 
-&lt;p&gt;I should note that the cost of running opscenter will likely be a drop in the bucket compared to the costs of
+&lt;p&gt;I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
 running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.&lt;/p&gt;
 
-&lt;p&gt;There are a few  cost considerations, and I fully admit all of them are probably pocket change compared to
+&lt;p&gt;There are a few cost considerations, and I fully admit all of them are probably pocket change compared to
 your monthly AWS spend but I think its important to understand them.&lt;/p&gt;
 
 &lt;p&gt;The first cost we need to consider is the cross zone traffic charges. A lot of people don&amp;rsquo;t know this but AWS
@@ -245,18 +252,22 @@ This cost will actually be the same in both configurations. Since OpsCenter is a
 your agents will be crossing zones. That will be exactly the same in the proposed solution.&lt;/p&gt;
 
 &lt;p&gt;The next source of cross zone traffic will be the heart beats between the primary and backup. In the proposed
-solution we do away with this charge since there is no backup to exchange information with.&lt;/p&gt;
+solution we do away with this charge since there is no backup to exchange information with. In additions to the
+heartbeats, if we were using the rsync solution, we&amp;rsquo;d be paying for that well. To be clear, this data volume
+is so small, the charge will probably be extremely low.&lt;/p&gt;
 
 &lt;p&gt;The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
 our compute charges in half by only running a single instance.&lt;/p&gt;
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
-&lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you!. As I stated earlier if your still in a traditional data
+&lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
 center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
 where you&amp;rsquo;ve got access to infrastructure APIs there are other options.&lt;/p&gt;
 
-&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;</description>
+&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros
+have the potential to outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

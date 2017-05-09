@@ -25,7 +25,7 @@ I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well
 on my hands so I opted to give it a go.
 The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
 
-&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
+&lt;h2 id=&#34;the-journey&#34;&gt;The Journey&lt;/h2&gt;
 
 &lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
 I used to flash.&lt;/p&gt;
@@ -61,7 +61,7 @@ One thing you REALLY need to look at is the procedure for installing to your rou
 
 &lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
 
-&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
+&lt;h1 id=&#34;the-process&#34;&gt;The Process&lt;/h1&gt;
 
 &lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
 
@@ -82,6 +82,264 @@ There were two files in the directory so I grabbed them both not knowing which I
 &lt;p&gt;That&amp;rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.&lt;/p&gt;
 
 &lt;p&gt;I want to be very clear that I don&amp;rsquo;t believe what I did is &amp;laquo;supported&amp;raquo; so tread carefully, but it&amp;rsquo;s been 9 hours since I did the upgrade, I&amp;rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rethinking Datastax Opscenter HA on AWS</title>
+      <link>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</link>
+      <pubDate>Sat, 18 Mar 2017 19:44:53 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</guid>
+      <description>
+
+&lt;p&gt;Recently I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
+an automated fashion on AWS. I&amp;rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
+fail over and will propose an alternate solution which I believe still achieves high availability as well as
+much better self-healing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt; This is not a proven solution, while I believe it should work, understand this is a proposal.&lt;/p&gt;
+
+&lt;p&gt;Before we get started lets define what &amp;laquo;High Availability&amp;raquo; or &amp;laquo;Highly Available&amp;raquo; means since this term is somewhat
+subjective to the individual. I think this quote from &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/what-is-high-availability&#34;&gt;https://www.digitalocean.com/community/tutorials/what-is-high-availability&lt;/a&gt; sums it up pretty well:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;High availability is a quality of a system or component that assures a high level of operational performance for a given period of time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For our purposes we won&amp;rsquo;t squabble over how many &lt;a href=&#34;https://en.wikipedia.org/wiki/High_availability#.22Nines.22&#34;&gt;Nines&lt;/a&gt; we need in order to be considered HA. We&amp;rsquo;ll simply agree it means &amp;laquo;keep downtime a minimum&amp;raquo;.&lt;/p&gt;
+
+&lt;p&gt;With that out of the way let me set the stage for how I got to this point. Over the last several weeks I&amp;rsquo;ve been
+getting up to speed with the Cassandra ecosystem. The company I work for already has an established relationship
+with Datastax, however we are looking to migrate a new application to Cassandra and I&amp;rsquo;ll be heavily involved
+in both building and maintaining some new Cassandra clusters. Up until this project I&amp;rsquo;ve had virtually zero
+exposure to Cassandra. As a result of this I&amp;rsquo;ve defaulted to trying to do things &amp;laquo;The Datastax Way&amp;raquo;, when that
+makes sense for our use cases.&lt;/p&gt;
+
+&lt;p&gt;Datastax has their own HA solution which they refer to as &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;Automatic Failover&lt;/a&gt;. Naturally I started down the path of implementing their solution as outlined, however along that path I ran into a number of rough patches which has left me believing a different approach will be better. Since my system will be deployed into AWS and not a traditional data center I have a very powerful infrastructure API at my disposal. If I were building this solution in a more traditional managed data center
+it is very likely I&amp;rsquo;d adhere much closer to the Datastax provided solution.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; The work I have done so far involved a decent amount of research and reviewing Datastax documentation.
+I&amp;rsquo;ve setup Opscenter a few times, however I have not fully deployed an automated fail over cluster (because of some
+of the issues I&amp;rsquo;ll describe below).
+As a result of this I can&amp;rsquo;t speak with any authority on how well their solution actually works, but I&amp;rsquo;m going to give
+them benefit of the doubt and assume it works. I&amp;rsquo;ll keep this assumption in mind as I compare the merits of my proposed
+design against theirs.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
+challenges I see.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-alternate-design&#34;&gt;The Alternate Design&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Opscenter will be pre-installed on a &amp;laquo;Baked AMI&amp;raquo;.&lt;/li&gt;
+&lt;li&gt;There will be one, and only one, instance of Opscenter (please close your jaw if it just dropped,
+I promise this isn&amp;rsquo;t as insane as it sounds and I&amp;rsquo;ll explain more in a bit).&lt;/li&gt;
+&lt;li&gt;This single instance will be under the control of an autoscale group (yep, and ASG with a min of 1, and max of 1)&lt;/li&gt;
+&lt;li&gt;There will be a dedicated EFS (NFS) filesystem where opscenter files will be stored. A mount target will be
+exposed in each availability zone, and the instance will mount it using the zone independent DNS name&lt;/li&gt;
+&lt;li&gt;There will be three dedicated ENIs, one in each availability zone, separate from the instance&amp;rsquo;s auto-assigned one.
+Whenver a new instance is launched, it will detect its current AZ and mount the ENI that resides in the same AZ.&lt;/li&gt;
+&lt;li&gt;There will be a Route53 DNS entries that is mapped to the active ENI&lt;/li&gt;
+&lt;li&gt;The Datastax agents will be configured to point at this Route53 DNS entry.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This represents the minimum components required to replace Datastax&amp;rsquo;s solution.
+There are certainly other &amp;laquo;frills&amp;raquo; you can add, but I don&amp;rsquo;t consider them core to the design so I&amp;rsquo;m omitting them.
+Now lets get into the meat of how things will work.&lt;/p&gt;
+
+&lt;h2 id=&#34;upgrades&#34;&gt;Upgrades&lt;/h2&gt;
+
+&lt;p&gt;Based on the steps outlined in &lt;a href=&#34;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&#34;&gt;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&lt;/a&gt;
+you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
+secondary before upgrading the primary. In this situation you&amp;rsquo;ve basically turned off automatic failover and
+you&amp;rsquo;re down for the duration of the upgrade. To be fair, this appears to basically just be an RPM upgrade so
+it probably won&amp;rsquo;t take very long.&lt;/p&gt;
+
+&lt;p&gt;The take away here is that the steps are manual. We can of course automate ourselves out of that situation, but
+that would require us to implement some sort of multiple machine orchestration/configuration management tool
+that would need to be programmed with a method to identify who the master is, and then down the secondary.
+Don&amp;rsquo;t get me wrong I fully agree that all this &lt;em&gt;can&lt;/em&gt; be automated, but it comes with a number of moving parts
+ (any of which can fail).&lt;/p&gt;
+
+&lt;p&gt;I believe there is a simpler upgrade path we can take. I want to be clear here that what I am about to outline
+results in the overall upgrade time taking a little longer, but I believe its both safer and easier.&lt;/p&gt;
+
+&lt;p&gt;In this proposed design we&amp;rsquo;d have a fresh AMI already baked with the new version of Opscenter.&lt;/p&gt;
+
+&lt;p&gt;The next thing we do is upgrade the ASG launch configuration to tell it launch any new instances using the new
+AMI ID. Ideally you&amp;rsquo;re automating this with something like cloudformation or Terraform. At this point no changes
+have been made on your running Opscenter instance.&lt;/p&gt;
+
+&lt;p&gt;When the time is right, you then terminate the running instance (close that jaw). This is where the real magic
+of the process starts to come through. Lets step through the sequence of events:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The termination signal is going to gracefully shutdown our instance, ensuring Opscenter gracefully closes
+file handles. At this point the EFS volume with all your Opscenter &amp;laquo;data&amp;raquo; remains intact and disconnected
+from the previous instance.&lt;/li&gt;
+&lt;li&gt;At this point the ASG will launch a fresh instance, using the new AMI ID which has our updated version of
+Opscenter installed. For those of you who have used auto-scaling you know this won&amp;rsquo;t be instant and might take
+a minute or two. Its this delay that causes this approach to be a little slower than the RPM upgrade&lt;/li&gt;
+&lt;li&gt;As the new instance boots up it will claim the appropriate ENI and configure itself to use it.&lt;/li&gt;
+&lt;li&gt;After claiming the ENI, and determining the private IP of that ENI, the instance will update the Route53 entry.&lt;/li&gt;
+&lt;li&gt;Next the new instance will mount the EFS volume.&lt;/li&gt;
+&lt;li&gt;Finally Opscenter will be started. At this point this new instance has all the data, and the secondary IP
+associated with the ENI. Since the agents were configured with DNS entries, they should reconnect.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So what happens if an upgrade goes bad? I&amp;rsquo;ll skip the troubleshooting process as that&amp;rsquo;ll be similar in both
+approaches. Lets assume we&amp;rsquo;ve gotten ourselves to a point where we need to rollback. In the traditional approach
+you&amp;rsquo;d likely attempt an RPM downgrade, which will probably work, however experience tells me that RPM downgrades
+are not always successful, leaving the system in odd states. In the proposed solution you would simply revert
+the launch configuration back to the previous AMI and terminate the currently running instance. At that point the
+steps outlined above would be executed and you&amp;rsquo;d get an older version up and running.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.&lt;/p&gt;
+
+&lt;h2 id=&#34;data-configuration-synchronization&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
+
+&lt;p&gt;This section will focus on much of the material discussed in &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&lt;/a&gt;. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s face it, we&amp;rsquo;ve all been there and done that. It gets the job but its error prone. I don&amp;rsquo;t want to spend a bunch of time chasing the &amp;laquo;what ifs&amp;raquo; but a few need to be discussed.&lt;/p&gt;
+
+&lt;p&gt;rsync will require that machine keys get exchanged. This is doable and not terribly hard with automation, but
+what happens when one of the nodes eventually dies. Either you, or some automation/orchestration you&amp;rsquo;ve written
+needs to reconfigure these jobs so the two new nodes are now talking. Doable, but in the proposed solution all
+this data was stored on the NFS volume and you never had to sync anything. When nodes fail and/or are replaced you don&amp;rsquo;t
+need to reconfigure anything, the data is &amp;laquo;just there&amp;raquo;. So this is one of those places where we can both simplify
+things as well as raise the level of self healing the system is able to perform.&lt;/p&gt;
+
+&lt;p&gt;What about sharing the NFS across the instances you say? Sure, its an option, but look at those instructions and how specific some of those
+paths are. This one really made me winch a little:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note: The failover_configuration_directory should not be mirrored across OpsCenter installs when configuring OpsCenter to support failover&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Well as it turns out &lt;code&gt;failover_configuration_directory&lt;/code&gt; by default is &lt;code&gt;/var/lib/opscenter/failover/&lt;/code&gt;.
+The docs having you syncing multiple things in &lt;code&gt;/var/lib/opscenter&lt;/code&gt;, so at this point you can&amp;rsquo;t simply
+mount/symlink that entire directory, and instead have to start cherry picking.&lt;/p&gt;
+
+&lt;p&gt;What happens if a future update adds another file to that directory that you need and you missed it in the
+release/upgrade notes. Don&amp;rsquo;t get me wrong, you can make this work, its just unnecessarily error prone.&lt;/p&gt;
+
+&lt;p&gt;I can already here someone saying &amp;laquo;just relocate &lt;code&gt;failover_configuration_directory&lt;/code&gt;&amp;raquo;. That would certainly
+make the sync configuration a little simpler, but now you&amp;rsquo;ve deviated away from &amp;laquo;factory defaults&amp;raquo; which can
+come with its own challenges down the road.&lt;/p&gt;
+
+&lt;p&gt;So I&amp;rsquo;ll wrap up this section by simply re-iterating that yes I&amp;rsquo;m confident we can make it work, but I also
+think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.&lt;/p&gt;
+
+&lt;h2 id=&#34;network-splits&#34;&gt;Network Splits&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
+practices for AWS you&amp;rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
+Its not a matter of if, its a matter of when, a partition will happen.
+Lets look at what DataStax has to say on the matter:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Note: If a failover occurred due to a network split, the formerly primary OpsCenter must be manually shut down, and another backup configured when network connectivity has been restored. Upon startup, each OpsCenter instance generates a unique id (uuid), which is stored in the failover_id file. In the event of a network split, a failover_id uniquely identifies each OpsCenter to agents and prevents both OpsCenter machines from running operations post-failover, which could corrupt data. The location of failover_id file depends on the type of install and is configurable.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This part is especially troubling to me:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;must be manually shut down, and another backup configured when network connectivity has been restored&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This whole process feels brittle and error prone to recover from. If we only run a single instance we avoid this
+whole situation. There can&amp;rsquo;t be any split brain when there is only one brain :)&lt;/p&gt;
+
+&lt;p&gt;This does however warrant some thought on the impact of availability in the event that one or more zones are lost.
+Since OpsCenter clusters can only be 2 nodes, a failure of 2 zones (assuming its the two that Opscenter instances are in) will be just as impactful, so the real difference comes down to a single zone failure.&lt;/p&gt;
+
+&lt;p&gt;The specifics of how this play out could vary wildly depending on the nature of the failure, but if we are
+assuming the zone is &amp;laquo;gone&amp;raquo;, then the ASG (which is configured to span multiple zones) should launch a new
+instance into a functional zone. I fully admit, I&amp;rsquo;ve never seen a zone &amp;laquo;go way&amp;raquo; so this is more theory than
+practice.&lt;/p&gt;
+
+&lt;h2 id=&#34;agent-reconfiguration&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
+
+&lt;p&gt;This section has some overlap with the previous section but is more general in nature. Datastax says the
+following about fail over events:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The backup OpsCenter automatically reconfigures the agents by automatically changing stomp_interface in address.yaml to connect to the backup instance instead of the failing primary instance.&lt;/p&gt;
+
+&lt;p&gt;Ensure that address.yaml is not being managed by third-party Configuration Management. During failover, OpsCenter automatically changes stomp_interface in address.yaml to point to the backup opscenterd instance. If a separate Configuration Management system is managing address.yaml, that change might be undone when the Configuration Management system pushes its next update.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To me this feels brittle. When everything is firing perfectly this might work well, but what happens in the
+case of the network split above? Its a little unclear to me how this works. If it fires that change only once
+what happens if some number of nodes can&amp;rsquo;t be reached?&lt;/p&gt;
+
+&lt;p&gt;Thinking about the network split situation above, it would seem some number of nodes wouldn&amp;rsquo;t be managed
+for a period of time. It just feels like there are lot of moving parts happening here, any of which could
+go wrong in unexpected ways.&lt;/p&gt;
+
+&lt;p&gt;Remember that Route53 entry we talked about before? That eliminates the need for ever changing the configuration on the
+agents, since it will simply &amp;laquo;move&amp;raquo; to the appropriate instance. If your one of those shops who like to
+manage &lt;em&gt;all&lt;/em&gt; your configuration files with your configuration management solution you can do that now
+without the fear of the situation quoted above.&lt;/p&gt;
+
+&lt;h2 id=&#34;lock-in&#34;&gt;Lock In&lt;/h2&gt;
+
+&lt;p&gt;There are two quotes from &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&lt;/a&gt; I want to
+address in this section.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;If the newly configured backup OpsCenter detects any DataStax Community or open source Cassandra clusters, it logs an entry and shuts itself down.&lt;/p&gt;
+
+&lt;p&gt;Note: If a non-DataStax Enterprise cluster is added after enabling automatic failover, OpsCenter fires an alert that automatic failover will not work and the backup OpsCenter instance shuts down.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;While I don&amp;rsquo;t currently have any plans to run community edition or open source Cassandra, having that option
+taken out of my hands is unsettling. Its not unreasonable to think we might leverage one of those other solutions
+for some of our less critical applications/workloads.&lt;/p&gt;
+
+&lt;p&gt;They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
+the alternate solution of a single node keeps our options open.&lt;/p&gt;
+
+&lt;h2 id=&#34;costs&#34;&gt;Costs&lt;/h2&gt;
+
+&lt;p&gt;I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
+running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.&lt;/p&gt;
+
+&lt;p&gt;There are a few cost considerations, and I fully admit all of them are probably pocket change compared to
+your monthly AWS spend but I think its important to understand them.&lt;/p&gt;
+
+&lt;p&gt;The first cost we need to consider is the cross zone traffic charges. A lot of people don&amp;rsquo;t know this but AWS
+does charge you for network traffic that crosses availability zones: &lt;a href=&#34;https://aws.amazon.com/ec2/pricing/on-demand/&#34;&gt;https://aws.amazon.com/ec2/pricing/on-demand/&lt;/a&gt;
+Look at the section titled &amp;laquo;Data Transfer OUT From Amazon EC2 To&amp;raquo; and you&amp;rsquo;ll see this entry&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Amazon EC2, Amazon RDS, Amazon Redshift or Amazon ElastiCache instances, Amazon Elastic Load Balancing, or Elastic Network Interfaces in another Availability Zone or peered VPC in the same AWS Region&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I&amp;rsquo;ve omitted the actual cost as it may change by the time you read this, but the take away is that cross zone
+traffic isn&amp;rsquo;t free, and there are a couple sources of cross zone traffic.&lt;/p&gt;
+
+&lt;p&gt;The largest source (I suspect) will be the agents on each Cassandra node communicating with Opscenter (and vice versa).
+This cost will actually be the same in both configurations. Since OpsCenter is active passive two thirds of
+your agents will be crossing zones. That will be exactly the same in the proposed solution.&lt;/p&gt;
+
+&lt;p&gt;The next source of cross zone traffic will be the heart beats between the primary and backup. In the proposed
+solution we do away with this charge since there is no backup to exchange information with. In additions to the
+heartbeats, if we were using the rsync solution, we&amp;rsquo;d be paying for that well. To be clear, this data volume
+is so small, the charge will probably be extremely low.&lt;/p&gt;
+
+&lt;p&gt;The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
+our compute charges in half by only running a single instance.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
+center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
+where you&amp;rsquo;ve got access to infrastructure APIs there are other options.&lt;/p&gt;
+
+&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros
+have the potential to outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;
 </description>
     </item>
     
@@ -621,7 +879,7 @@ domain controller, so a decent amount of reading is order, but from what I have
 gathered so far this is not a standard conversion path, but it appears there
 are some options.&lt;/p&gt;
 
-&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
+&lt;h2 id=&#34;getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Getting Prepared&lt;/h2&gt;
 
 &lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
 lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
@@ -721,9 +979,9 @@ at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the vers
 &lt;p&gt;At this point I took a snapshot of the host as we are going to start making
 changes soon.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
+&lt;h2 id=&#34;upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Upgrading&lt;/h2&gt;
 
-&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
 
 &lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
 Domain Functional Level, as well as the Forest Functional Level.
@@ -741,7 +999,7 @@ there were some errors in the event log. I found that the
 &lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
 it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
+&lt;h3 id=&#34;update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update DNS Clients&lt;/h3&gt;
 
 &lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
 itself first.&lt;/p&gt;
@@ -750,12 +1008,12 @@ itself first.&lt;/p&gt;
 box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
 primary DNS server.&lt;/p&gt;
 
-&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+&lt;h3 id=&#34;transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
 
 &lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
 to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
+&lt;h3 id=&#34;update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update Time Configurations&lt;/h3&gt;
 
 &lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
 
@@ -774,7 +1032,7 @@ moved over. At this point I&amp;rsquo;m left with all the file shares and applic
 (IE Virus Console) that are configured to point at this host.  As I get to
 moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 
-&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;h2 id=&#34;references:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
@@ -796,7 +1054,7 @@ moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 &lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
 would run ESXi 5 on it.&lt;/p&gt;
 
-&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;My day job does not really allow me much hands on access to hardware any more
 so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
@@ -816,7 +1074,7 @@ installation and have it running on the newly rebuilt box. It worked well,
 and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
 about getting the box built.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-open-manage-server-administrator&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
+&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
 
 &lt;p&gt;So step one was to grab the installation bits from
 &lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
@@ -875,7 +1133,7 @@ so this seems like a crappy solution, but I suppose the logic is possibly to
 keep the number of system daemons to an absolute minimum. In any event, I was
 a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
 
-&lt;h2 id=&#34;vsphere-management-assistant&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;At this point, I was a bit annoyed that I needed another system.
 While trolling for ways to potentially hack the Web server in directly, I came
@@ -890,7 +1148,7 @@ will come in handy in the future as well.&lt;/p&gt;
 instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
 This all went really smooth.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
 the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
@@ -1008,7 +1266,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
     file names, paths etc have been stripped from the code snippets.
 &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+&lt;h2 id=&#34;1-2-7-to-1-3-7:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
 
 &lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
 anything immediately broken. There were a few deprecation warnings that I needed
@@ -1075,7 +1333,7 @@ this cleanup in coming versions.&lt;/p&gt;
 of pycrypto just because, so all and all pretty easy so far and only about 2
 hours burned on that step.&lt;/p&gt;
 
-&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+&lt;h2 id=&#34;1-3-7-to-1-4-8:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
 
 &lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
 what gotchas I need to look out for. Based on the information in the release
@@ -1157,7 +1415,7 @@ are passing and no DeprecationWarning messages (aside from
 &lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
 the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
 
-&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+&lt;h2 id=&#34;1-4-8-to-1-5-4:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
 
 &lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
 as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
@@ -1239,7 +1497,7 @@ deprecation message to handle:&lt;/p&gt;
    TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
 By the time it was all said and done, it took me about 2 days (including
@@ -1331,242 +1589,6 @@ with Tinkerer having full Sphinx support.&lt;/p&gt;
 * &lt;a href=&#34;http://docs.getpelican.com/en/3.2/&#34;&gt;Pelican&lt;/a&gt;
 * &lt;a href=&#34;http://sphinx-doc.org/&#34;&gt;Sphinx&lt;/a&gt;
 * &lt;a href=&#34;http://tinkerer.me/&#34;&gt;Tinkerer&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Adventures in Django Performance Analysis</title>
-      <link>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</link>
-      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
-      <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</guid>
-      <description>
-
-&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
-I had this week. While I&amp;rsquo;m more of an operations guy, a while back I hacked
-up a &lt;code&gt;Django&lt;/code&gt; based web application which uses &lt;code&gt;Celery&lt;/code&gt; and &lt;code&gt;RabbitMQ&lt;/code&gt;. I have
-recent set out to do some performance analysis on it.&lt;/p&gt;
-
-&lt;p&gt;Its not an application that sees much traffic as it was created to serve a niche
-internal purpose, but it does handle web requests which result in potentially
-long running background tasks.&lt;/p&gt;
-
-&lt;p&gt;There are a few pages and process that are painfully slow. So this week I set
-out to improve some of slower components of the application. I felt like I had
-a pretty good idea of what sucked and why but I wanted to gather some metrics
-first so I could understand if the changes I was going to make were the right
-changes to make. As of today, I&amp;rsquo;ve not made any code changes to improve
-performance, but I wanted to collect my observations after having adding some
-instrumentation.&lt;/p&gt;
-
-&lt;h2 id=&#34;new-relic-integration:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;New Relic Integration&lt;/h2&gt;
-
-&lt;p&gt;At work &lt;code&gt;New Relic&lt;/code&gt; has been getting a lot of buzz for the magic it works on
-Java based applications. I was aware they had some &lt;code&gt;Python&lt;/code&gt; integration, but
-up until this week I had not looked too closely at it. To be fair I still don&amp;rsquo;t
-think I&amp;rsquo;ve spent enough time reading all their documentation to fully appreciate
-all they have to offer, as I was pretty focused on integration with my &lt;code&gt;Django&lt;/code&gt;
-application.&lt;/p&gt;
-
-&lt;p&gt;The first thing I noticed was my &amp;laquo;google-foo&amp;raquo; was failing on producing anything
-useful.  I got as far as &lt;a href=&#34;http://newrelic.com/python/django&#34;&gt;http://newrelic.com/python/django&lt;/a&gt; which is a great
-marketing page, but I needed the technical know-how on how to hook things up.
-(I&amp;rsquo;m a &lt;code&gt;New Relic&lt;/code&gt; noob all the way around). What I thought was interesting here is
-once I did find their documentation it was tremendous, so it was odd that my
-searches had been coming up so dry&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;I read through the bits and pieces on &lt;a href=&#34;https://newrelic.com/docs/python/&#34;&gt;https://newrelic.com/docs/python/&lt;/a&gt;.
-I was starting to get pretty excited as this looked like it was going to be really
-easy. &lt;a href=&#34;https://newrelic.com/docs/python/python-agent-integration&#34;&gt;https://newrelic.com/docs/python/python-agent-integration&lt;/a&gt; seemed to have
-all the key pieces I needed, so I got to work.&lt;/p&gt;
-
-&lt;p&gt;I run my application under a &lt;code&gt;virtualenv&lt;/code&gt; so I added &lt;code&gt;newrelic&lt;/code&gt; to my
-requirements.txt and ran a quick &lt;code&gt;pip install -r requirements.txt&lt;/code&gt;. The
-package was installed without any issues. No crazy dependencies and no compile
-errors (which are all to uncommon when installing packages with pip).&lt;/p&gt;
-
-&lt;p&gt;Next up for me was getting the agent registered with my web server
-(Apache running mod_wsgi). They offer several ways of doing doing things, but I
-settled on the &lt;em&gt;Manual integration with code&lt;/em&gt; approach. So I added the following
-to my wsgi script:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;try:
-    import newrelic.agent
-    try:
-        nr_conf = os.path.join(project_folder, &amp;quot;conf&amp;quot;, &amp;quot;newrelic-django.conf&amp;quot;)
-        newrelic.agent.initialize(nr_conf)
-    except newrelic.api.exceptions.ConfigurationError:
-        logger.warn(&amp;quot;Failed loading New Relic config: {0}&amp;quot;.format(nr_conf))
-except ImportError:
-    logger.error(&amp;quot;Failed to import newrelic agent&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This deviates just a touch from their example so let me explain the key pieces
-here. &lt;code&gt;project_folder&lt;/code&gt; is a variable that was already in my wsgi_script and
-is simply the path to where all my code lives. I&amp;rsquo;m storing the &lt;code&gt;newrelic-django.conf&lt;/code&gt;
-in a &lt;code&gt;conf&lt;/code&gt; sub-folder. The examples on the &lt;code&gt;New Relic&lt;/code&gt; site worked, but for
-me I wanted to be sure that if anything was wrong with the agent or the
-configuration file it wouldn&amp;rsquo;t hinder my apps ability to start. As a result I
-wrapped their example with some try/except blocks and logging.&lt;/p&gt;
-
-&lt;p&gt;About 2-3 minutes after restarting Apache on my local development VM where I
-was testing this, I started seeing very detailed statistics in &lt;code&gt;New Relic&lt;/code&gt;.
-I was in awe for several minutes at the insane level of detail they were able
-to collect including database query times and mapping out my downstream
-dependencies. It was truly amazing!&lt;/p&gt;
-
-&lt;p&gt;I did however notice that none of my &lt;code&gt;Celery&lt;/code&gt; tasks were getting any information.
-I did recall I had read that had to be handle separately. So this lead me
-to &lt;a href=&#34;https://newrelic.com/docs/python/python-agent-and-celery&#34;&gt;https://newrelic.com/docs/python/python-agent-and-celery&lt;/a&gt;. I&amp;rsquo;m running
-&lt;code&gt;Celery&lt;/code&gt; under &lt;code&gt;runit&lt;/code&gt; so I had to update my run script. In the process I learned
-a little more about runit and environment variables (I&amp;rsquo;m still pretty new to
-using &lt;code&gt;runit&lt;/code&gt;). &lt;a href=&#34;http://smarden.org/runit/chpst.8.html&#34;&gt;http://smarden.org/runit/chpst.8.html&lt;/a&gt; is where they discuss this
-but for me it was not immediately clear. Here is what I did:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;create a new directory in the &lt;em&gt;same directory&lt;/em&gt; as my run script. I named it
-&lt;code&gt;env&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;In my &lt;code&gt;env&lt;/code&gt; directory I created a file called &lt;code&gt;NEW_RELIC_CONFIG_FILE&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;I populated &lt;code&gt;env/NEW_RELIC_CONFIG_FILE&lt;/code&gt; with the path to my configuration
-file.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So now when &lt;code&gt;runit&lt;/code&gt; kicks off my celeryd process it will have the proper
-environment variable set.&lt;/p&gt;
-
-&lt;p&gt;So now it was time to update my run script. Here is what it looked like before:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;exec /usr/bin/env chpst -u myapps_user \
-  path_to_virtualenv/bin/python \
-  path_to_my_code/manage.py \
-  celeryd
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And here is what it looked like after. As you can see not all that different:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;	exec /usr/bin/env chpst -e env -u myapps_user \
-	  path_to_virtualenv/bin/python \
-	  path_to_virtualenv/bin/newrelic-admin run-program \
-	  path_to_virtualenv/bin/python \
-	  path_to_my_code/manage.py \
-	  celeryd
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Restarted my service and sure enough in just a minute or two I had stats showing
-up in &lt;code&gt;New Relic&lt;/code&gt;. I will say it didn&amp;rsquo;t have quite the awe inspiring level of
-detail that the web application had, but still pretty awesome for making 0 code
-changes, and simply starting up using their wrapper.&lt;/p&gt;
-
-&lt;p&gt;That was it, up and running in about about 1.5 hours including time to read
-the documentation. Lets ship it!!.&lt;/p&gt;
-
-&lt;p&gt;I rolled out my updated code to QA and started seeing &lt;strong&gt;nothing&lt;/strong&gt;. WTF&amp;hellip;.
-Trolling through the logs I found this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;newrelic.core.data_collector WARNING - Data collector is not contactable via the proxy host &#39;myproxyhost&#39; on port 8080 with proxy user of None. This can be because of a network issue or because of the data collector being restarted. In the event that contact cannot be made after a period of time then please report this problem to New Relic support for further investigation. The error raised was SSLError(SSLError(SSLError(&#39;_ssl.c:489: The handshake operation timed out&#39;,),),).
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now I was prepared a bit for this as I knew I&amp;rsquo;d be running behind a proxy server
-so I had planned for this and included proxy configuration in my configuration
-INI file. Assuming I had done something wrong I reviewed the proxy related
-information in &lt;a href=&#34;https://newrelic.com/docs/python/python-agent-configuration&#34;&gt;https://newrelic.com/docs/python/python-agent-configuration&lt;/a&gt;.
-Everything looked correct. Typical debugging ensues without any luck. So I
-start hacking a ton of debugging output into their agent code and learned that
-the HTTP end point I&amp;rsquo;m failing on is &lt;code&gt;https://collector.newrelic.com/agent_listener/invoke_raw_method&lt;/code&gt;.
-Using curl from the command line I&amp;rsquo;m able to confirm proxy connectivity is
-working. Several more WTF&amp;rsquo;s follow.. While I don&amp;rsquo;t pretend to fully understand
-all the moving pieces I was able to see their agent is using the requests library
-and the dictionary they were passing for proxies looked different than the
-&lt;code&gt;examples on the requests site &amp;lt;http://www.python-requests.org/en/latest/user/advanced/#proxies&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The newrelic agent was using &lt;code&gt;{&#39;https&#39;: &#39;myproxyhost:8080&#39;}&lt;/code&gt;,
-however requests shows it as &lt;code&gt;{&#39;https&#39;: &#39;http://myproxyhost:8080&#39;}&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is how I had my agent INI originally:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt; proxy_host = myproxyhost
- proxy_port = 8080
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So I changed it to this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ini&#34;&gt;proxy_host = http://myproxyhost
-proxy_port = 8080
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After a restart everything was working fine and I was seeing stats from my
-nodes behind my proxy server. Success!!. While I think this is actually a bug
-in their agent code, I was happy to see I would work around it with a
-configuration change.&lt;/p&gt;
-
-&lt;h2 id=&#34;memcached-vs-locmem:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Memcached Vs Locmem&lt;/h2&gt;
-
-&lt;p&gt;I&amp;rsquo;ve got a few instances of my application running and early on I had added some
-&lt;strong&gt;very&lt;/strong&gt; basic caching. Early on there was only a single instance so I thought
-I was doing myself a favor by keeping things simple and using the &lt;code&gt;locmem&lt;/code&gt;
-cache backend. When the time came to scale up to more instances I knew this was
-not the best approach as cache was not being shared across instances and if
-wanted to run with multiple Apache processes those processes, even though there
-under the same instance of Apache, were not actually sharing cache. I should note
-that the reason for adding more instances wasn&amp;rsquo;t load related, but simply to
-avoid having a single point of failure. So at that time I didn&amp;rsquo;t explore
-switching to Memcached as I didn&amp;rsquo;t really want to change anything, I just
-wanted more instances to avoid the SPF.&lt;/p&gt;
-
-&lt;p&gt;Fast-forward and I figured since I&amp;rsquo;m focused on the subject let me eliminate
-what I know is an inefficiency and switch to Memcached so all my instances
-are now sharing cache. Since I had recently hooked up New Relic I had some
-really great statistics. I could see, on average, one of the more frequent
-pages of the application were taking about 2 seconds (horrible I know.. I knew it
-was slow, but was ashamed when I saw just how slow it really was).  So I updated
-my configuration to use a &lt;strong&gt;remote&lt;/strong&gt; (not on the same box) Memcached cluster.
-I didn&amp;rsquo;t make any other changes to code or configuration, yet as soon as I rolled
-out I saw an average of about 700ms reduction in response time. That warrants
-repeating&amp;hellip;. &lt;strong&gt;Doing nothing except changing from locmem to Memcached resulted
-in around 700ms of reduced page load time&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;I am not suggesting that locmem is bad. In fact, when I first implemented it
-made a pretty large improvement, but it was very interesting see to how much
-of an improvement Memcached made, considering we were going from in process
-cache to an external (across the network) cache. My take away from this was
-that there are cases were a remote cache can actually be more beneficial than
-a local cache, if your sharing information across many instances.&lt;/p&gt;
-
-&lt;h2 id=&#34;celery-apply-vs-apply-async:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Celery apply vs apply_async&lt;/h2&gt;
-
-&lt;p&gt;The last thing I poked at this week was usage of &lt;code&gt;Celery&lt;/code&gt;&amp;rsquo;s &lt;code&gt;apply()&lt;/code&gt; method
-vs &lt;code&gt;apply_aysync&lt;/code&gt;. For those that don&amp;rsquo;t know the difference, &lt;code&gt;apply_async&lt;/code&gt;
-will drop a message onto the queue and wait for celeryd to process it
-asynchronously. Using &lt;code&gt;apply()&lt;/code&gt; is defined as:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Execute this task locally, by blocking until the task returns&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I was curious what sort of overhead was involved in the process of dropping the
-message onto the queue. I created a task that did no actual work:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;from celery.task import task
-
-@task
-def test_task():
-    pass
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After that I timed the calls to both &lt;code&gt;apply()&lt;/code&gt; and &lt;code&gt;apply_aysync&lt;/code&gt;. On my
-system, where &lt;code&gt;RabbitMQ&lt;/code&gt; is running on the same box (so no network hops
-involved in this test), &lt;code&gt;apply()&lt;/code&gt; would run the task in about 3-4ms while
-&lt;code&gt;apply_aysync&lt;/code&gt; ranged between 13-16ms with occasional anomalies of 30-34ms.&lt;/p&gt;
-
-&lt;p&gt;For my purposes this is plenty fast enough, but I was a little surprised to
-see that level of overhead.&lt;/p&gt;
-
-&lt;h2 id=&#34;summary:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;In summary, it was an interesting set of exercises and for the most part
-confirmed many of my suspicions, but its nice to finally have some real
-metrics around this. Now that I&amp;rsquo;m measuring all this great stuff its time to
-start improving it!&lt;/p&gt;
 </description>
     </item>
     

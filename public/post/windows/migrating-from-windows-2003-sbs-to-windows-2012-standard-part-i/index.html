@@ -133,15 +133,15 @@
 <ul>
 <li>
 <ul>
-<li><a href="#getting-prepared">Getting Prepared</a></li>
-<li><a href="#upgrading">Upgrading</a>
+<li><a href="#getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f">Getting Prepared</a></li>
+<li><a href="#upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f">Upgrading</a>
 <ul>
-<li><a href="#add-2012-server-as-new-domain-controller">Add 2012 Server As New Domain Controller</a></li>
-<li><a href="#update-dns-clients">Update DNS Clients</a></li>
-<li><a href="#transferring-fsmo-roles">Transferring FSMO Roles</a></li>
-<li><a href="#update-time-configurations">Update Time Configurations</a></li>
+<li><a href="#add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f">Add 2012 Server As New Domain Controller</a></li>
+<li><a href="#update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f">Update DNS Clients</a></li>
+<li><a href="#transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f">Transferring FSMO Roles</a></li>
+<li><a href="#update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f">Update Time Configurations</a></li>
 </ul></li>
-<li><a href="#references">References</a></li>
+<li><a href="#references:b0ac1ba548e204fba0f8b1dc4a6cb41f">References</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -168,7 +168,7 @@ domain controller, so a decent amount of reading is order, but from what I have
 gathered so far this is not a standard conversion path, but it appears there
 are some options.</p>
 
-<h2 id="getting-prepared">Getting Prepared</h2>
+<h2 id="getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f">Getting Prepared</h2>
 
 <p>So I decided I&rsquo;d blow away the existing installation of 2012 on the box and
 lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
@@ -268,9 +268,9 @@ at the <code>Windows Server 2003</code> which lines up with the version of SBS o
 <p>At this point I took a snapshot of the host as we are going to start making
 changes soon.</p>
 
-<h2 id="upgrading">Upgrading</h2>
+<h2 id="upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f">Upgrading</h2>
 
-<h3 id="add-2012-server-as-new-domain-controller">Add 2012 Server As New Domain Controller</h3>
+<h3 id="add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f">Add 2012 Server As New Domain Controller</h3>
 
 <p>In my case the SBS server was at the <code>Windows 2000</code> level for <strong>both</strong> the
 Domain Functional Level, as well as the Forest Functional Level.
@@ -288,7 +288,7 @@ there were some errors in the event log. I found that the
 <code>File Replication Service</code> was stopped. It was set to automatic, so I started
 it. After starting that service, I now had the netlogon share as well.</p>
 
-<h3 id="update-dns-clients">Update DNS Clients</h3>
+<h3 id="update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f">Update DNS Clients</h3>
 
 <p>At this point I updated the DNS settings on thew new 2012 server to reference
 itself first.</p>
@@ -297,12 +297,12 @@ itself first.</p>
 box (I&rsquo;ll move DHCP later), I updated the options to pass the new box as the
 primary DNS server.</p>
 
-<h3 id="transferring-fsmo-roles">Transferring FSMO Roles</h3>
+<h3 id="transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f">Transferring FSMO Roles</h3>
 
 <p>I then followed <a href="http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx">http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx</a>
 to transfer all the FSMO and related roles over to the new server.</p>
 
-<h3 id="update-time-configurations">Update Time Configurations</h3>
+<h3 id="update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f">Update Time Configurations</h3>
 
 <p>As touched on toward the end of the <a href="http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx">http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx</a> I updated time settings as follows</p>
 
@@ -321,7 +321,7 @@ moved over. At this point I&rsquo;m left with all the file shares and applicatio
 (IE Virus Console) that are configured to point at this host.  As I get to
 moving some of these items I&rsquo;ll add new parts.</p>
 
-<h2 id="references">References</h2>
+<h2 id="references:b0ac1ba548e204fba0f8b1dc4a6cb41f">References</h2>
 
 <ul>
 <li><a href="http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012">http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012</a></li>
