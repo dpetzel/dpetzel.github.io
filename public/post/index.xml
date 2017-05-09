@@ -18,11 +18,11 @@
       <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
-      <description>&lt;p&gt;A few former colleagues of mine have recently started podcast they call &lt;code&gt;Code Monkey Talks&lt;/code&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;A few former colleagues of mine have recently started a new podcast they call &lt;code&gt;Code Monkey Talks&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;In their first few
-episodes they&amp;rsquo;ve already managed to line up some really guests, so if your looking for a new podcast to add to
-your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm&#34;&gt;http://www.codemonkey.fm&lt;/a&gt; as I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
+&lt;p&gt;In their first few episodes they&amp;rsquo;ve already managed to line up some really great guests, so if you are
+looking for a new podcast to add to your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm&#34;&gt;http://www.codemonkey.fm&lt;/a&gt;.
+I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
 </description>
     </item>
     
@@ -403,7 +403,7 @@ has a lot of stuff to get you started.&lt;/li&gt;
 &lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
 capturing some of the challenges I personally encountered.&lt;/p&gt;
 
-&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+&lt;h2 id=&#34;themes:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Themes&lt;/h2&gt;
 
 &lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
 When it comes to creating aesthetic looking websites I have zero skills. I am
@@ -425,7 +425,7 @@ documentation. Each template is free to use any number of parameters from your
 site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
 the available parameters they support are.&lt;/p&gt;
 
-&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
+&lt;h2 id=&#34;content-conversion:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Content Conversion&lt;/h2&gt;
 
 &lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
 it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
@@ -436,7 +436,7 @@ markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered 
 &lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
 I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
 
-&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+&lt;h2 id=&#34;syntax-highlighting:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Syntax Highlighting&lt;/h2&gt;
 
 &lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
 into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
@@ -493,7 +493,7 @@ fixed that issue.&lt;/p&gt;
 
 &lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
 
-&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
+&lt;h2 id=&#34;publishing-to-github-pages:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
 
 &lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
 but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
@@ -893,7 +893,7 @@ domain controller, so a decent amount of reading is order, but from what I have
 gathered so far this is not a standard conversion path, but it appears there
 are some options.&lt;/p&gt;
 
-&lt;h2 id=&#34;getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Getting Prepared&lt;/h2&gt;
+&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
 
 &lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
 lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
@@ -993,9 +993,9 @@ at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the vers
 &lt;p&gt;At this point I took a snapshot of the host as we are going to start making
 changes soon.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Upgrading&lt;/h2&gt;
+&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
 
-&lt;h3 id=&#34;add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
 
 &lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
 Domain Functional Level, as well as the Forest Functional Level.
@@ -1013,7 +1013,7 @@ there were some errors in the event log. I found that the
 &lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
 it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update DNS Clients&lt;/h3&gt;
+&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
 
 &lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
 itself first.&lt;/p&gt;
@@ -1022,12 +1022,12 @@ itself first.&lt;/p&gt;
 box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
 primary DNS server.&lt;/p&gt;
 
-&lt;h3 id=&#34;transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
 
 &lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
 to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update Time Configurations&lt;/h3&gt;
+&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
 
 &lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
 
@@ -1046,7 +1046,7 @@ moved over. At this point I&amp;rsquo;m left with all the file shares and applic
 (IE Virus Console) that are configured to point at this host.  As I get to
 moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 
-&lt;h2 id=&#34;references:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;References&lt;/h2&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
@@ -1068,7 +1068,7 @@ moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 &lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
 would run ESXi 5 on it.&lt;/p&gt;
 
-&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;My day job does not really allow me much hands on access to hardware any more
 so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
@@ -1088,7 +1088,7 @@ installation and have it running on the newly rebuilt box. It worked well,
 and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
 about getting the box built.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-open-manage-server-administrator&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
+&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
 
 &lt;p&gt;So step one was to grab the installation bits from
 &lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
@@ -1147,7 +1147,7 @@ so this seems like a crappy solution, but I suppose the logic is possibly to
 keep the number of system daemons to an absolute minimum. In any event, I was
 a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
 
-&lt;h2 id=&#34;vsphere-management-assistant&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;At this point, I was a bit annoyed that I needed another system.
 While trolling for ways to potentially hack the Web server in directly, I came
@@ -1162,7 +1162,7 @@ will come in handy in the future as well.&lt;/p&gt;
 instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
 This all went really smooth.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
 the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
