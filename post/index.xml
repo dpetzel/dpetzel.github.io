@@ -9,8 +9,20 @@
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 08 May 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 May 2017 22:51:02 -0400</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>New Podcat: Code Monkey Talks</title>
+      <link>http://www.dpetzel.info/post/misc/codemonkeyfm/</link>
+      <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
+      <description>&lt;p&gt;A few former colleagues of mine have recently started podcast they call &amp;laquo;Code Monkey Talks&amp;raquo;. In their first few
+episodes they&amp;rsquo;ve already managed to line up some really guests, so if your looking for a new podcast to add to
+your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm/&#34;&gt;http://www.codemonkey.fm/&lt;/a&gt; as I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Rethinking Datastax Opscenter HA on AWS</title>
@@ -541,7 +553,7 @@ and it was my wife who actually found this guy.&lt;/p&gt;
 &lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
 at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
 
-&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
+&lt;h2 id=&#34;installation-and-setup:9a194814cbceb31772e761ab331db7bd&#34;&gt;Installation And Setup&lt;/h2&gt;
 
 &lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
 unassuming packaging.&lt;/p&gt;
@@ -566,7 +578,7 @@ but once it did take, the device was on my WiFi network.&lt;/p&gt;
 
 &lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
+&lt;h2 id=&#34;ismartview-pro-pc-application:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
 
 &lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
 available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
@@ -577,7 +589,7 @@ software also allows you to configure a recording from the camera. You have the
 ability to set the time(s) of day that you want record. It will record to the
 local hardware of the machine running the software.&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
+&lt;h2 id=&#34;ismartviewpro-android-app:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
 
 &lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
 geared for mobile devices. This application is also free to use with the
@@ -590,14 +602,14 @@ of the screen.&lt;/p&gt;
 the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
 functionality very much&lt;/p&gt;
 
-&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
+&lt;h2 id=&#34;accessing-from-the-internet:9a194814cbceb31772e761ab331db7bd&#34;&gt;Accessing From The Internet&lt;/h2&gt;
 
 &lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
 installed. Its all done over TCP port 80 (as best I could tell). So I configured
 a port forward on my router to send 80 to the camera. The following day, from
 work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
 
-&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
+&lt;h2 id=&#34;nightvision:9a194814cbceb31772e761ab331db7bd&#34;&gt;Nightvision&lt;/h2&gt;
 
 &lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
 engagne the nightvision 3 red lights on the face of the camera light up. They
@@ -607,7 +619,7 @@ are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyo
 during the day, however at night, once the night vision LEDs kick in they
 product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
 
-&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
+&lt;h2 id=&#34;alarms:9a194814cbceb31772e761ab331db7bd&#34;&gt;Alarms&lt;/h2&gt;
 
 &lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
 or save off to an FTP server when motion is detected. I did experiment with this
@@ -616,7 +628,7 @@ tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It
 as if the delay is so high, the person or thing walking by has already cleared
 the field of vision before the picture is taken&lt;/p&gt;
 
-&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
+&lt;h2 id=&#34;two-way-audio:9a194814cbceb31772e761ab331db7bd&#34;&gt;Two Way Audio&lt;/h2&gt;
 
 &lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
 sound from the camera. I say sound, because its barely understandable. The
@@ -628,7 +640,7 @@ voice of the person speaking into it.&lt;/p&gt;
 place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
 disabled.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary:9a194814cbceb31772e761ab331db7bd&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
 surveillance system around, but for the price it is a fun little device. This
@@ -1558,37 +1570,6 @@ warnings so I I wanted to suppress them.&lt;/p&gt;
 &lt;p&gt;Voila! No more warning for external images. If anyone knows the
 &lt;strong&gt;right&lt;/strong&gt; way to suppress these warnings (Yes I&amp;rsquo;ve read all the reasons
 why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Switched To Tinkerer</title>
-      <link>http://www.dpetzel.info/post/switched_to_tinkerer/</link>
-      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
-      <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/switched_to_tinkerer/</guid>
-      <description>&lt;p&gt;For anyone that might have been following along I&amp;rsquo;ve been trying out different
-solutions for static site generation of this site. I&amp;rsquo;d been running &lt;code&gt;Pelican&lt;/code&gt;
-for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve
-gotten used to &lt;code&gt;Sphinx&lt;/code&gt; at work for some project documentation and I wanted
-to see if I could leverage some of that. A little googling later and I found
-&lt;code&gt;Tinkerer&lt;/code&gt; which is based on Sphinx but adds some workflow around the process
-to make blogging with &lt;code&gt;Sphinx&lt;/code&gt; easier.&lt;/p&gt;
-
-&lt;p&gt;So I&amp;rsquo;ve made the switch and what you are reading now was generated with Tinkerer.
-I didn&amp;rsquo;t have very much content yet so I just manually moved everything over,
-although from what I saw if you had a lot of content it would be pretty easy
-to whip up a script to do the transfer. The big difference for me was that
-Pelican had you organize your posts by category, while Tinkerer has you organize
-them by date. Aside form that they seemed to have roughly the same features
-with Tinkerer having full Sphinx support.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see if I continue to like it as time goes on. Thats all for now.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;http://docs.getpelican.com/en/3.2/&#34;&gt;Pelican&lt;/a&gt;
-* &lt;a href=&#34;http://sphinx-doc.org/&#34;&gt;Sphinx&lt;/a&gt;
-* &lt;a href=&#34;http://tinkerer.me/&#34;&gt;Tinkerer&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
