@@ -122,9 +122,9 @@ ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
 
 &lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox&lt;/p&gt;
 
-&lt;h2 id=&#34;instructions:39eed28d924c5049455678d8ba5412e9&#34;&gt;Instructions&lt;/h2&gt;
+&lt;h2 id=&#34;instructions&#34;&gt;Instructions&lt;/h2&gt;
 
-&lt;h3 id=&#34;linux:39eed28d924c5049455678d8ba5412e9&#34;&gt;Linux&lt;/h3&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
 
 &lt;p&gt;Download the existing VMware Image:&lt;/p&gt;
 
@@ -180,7 +180,7 @@ VBoxManage storageattach $VM_NAME --storagectl &amp;quot;IDE Controller&amp;quot
 
 &lt;p&gt;Use the VirtualBox documentation to install VirtualBox Guest Additions&lt;/p&gt;
 
-&lt;h3 id=&#34;windows:39eed28d924c5049455678d8ba5412e9&#34;&gt;Windows&lt;/h3&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
 
 &lt;p&gt;Lets get our powershell on&amp;hellip;All commands are run in a power shell prompt&lt;/p&gt;
 

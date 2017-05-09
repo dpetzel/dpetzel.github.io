@@ -29,5 +29,5 @@ be that place.
 
 I'm a fan of Opensource, but I don't generally find the time to contribute
 back as much as I would like to. If you are curious what I've been up to
-latetly [Github](https://github.com/dpetzel) is a pretty good way to keep
+lately [Github](https://github.com/dpetzel) is a pretty good way to keep
 tabs on me.
