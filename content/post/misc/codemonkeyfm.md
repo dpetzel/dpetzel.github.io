@@ -2,7 +2,7 @@
 categories: []
 date: 2017-05-08T22:51:02-04:00
 tags: [podcast,programming]
-title: "New Podcat: Code Monkey Talks"
+title: "New Podcast: Code Monkey Talks"
 type: post
 ---
 
