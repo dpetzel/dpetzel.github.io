@@ -9,86 +9,13 @@
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Sun, 02 Apr 2017 20:00:52 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 08 May 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://www.dpetzel.info/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Flashing DD-WRT On A Linksys WRT1200AC V2</title>
-      <link>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</link>
-      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
-      <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</guid>
-      <description>
-
-&lt;p&gt;This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
-I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well but I had a little time
-on my hands so I opted to give it a go.
-The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
-
-&lt;h2 id=&#34;the-journey&#34;&gt;The Journey&lt;/h2&gt;
-
-&lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
-I used to flash.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve been using Advanced Tomato on the last couple of routers I&amp;rsquo;ve had so that is where I started, however I couldn&amp;rsquo;t find any indication this was supported. The 1200 is not on &lt;a href=&#34;http://tomato.groov.pl/?page_id=69&#34;&gt;Shibby&amp;rsquo;s list&lt;/a&gt;. There is also a decent size thread on &lt;a href=&#34;http://www.linksysinfo.org/index.php?threads/porting-tomato-firmware-to-other-platforms.69976/page-2&#34;&gt;linksysinfo&lt;/a&gt; which didn&amp;rsquo;t leave me with the warm and fuzzies. I finally gave up hope after failing to find it on &lt;a href=&#34;https://www.flashrouters.com/routers/router-types/tomato?limit=36&#34;&gt;flashrouters.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I also checked support for OpenWRT, however only the &lt;a href=&#34;https://wiki.openwrt.org/toh/linksys/wrt_ac_series&#34;&gt;V1 is listed&lt;/a&gt; was listed so I moved to DD-WRT.&lt;/p&gt;
-
-&lt;p&gt;I finally started to have some hope when I found &lt;code&gt;Linksys WRT1200AC v2&lt;/code&gt; listed in the &lt;a href=&#34;https://www.dd-wrt.com/site/support/router-database&#34;&gt;router database&lt;/a&gt;. However the page simply presents you two files to download with no explanation of what you should do with them.
-On top of that these files are marked Beta. That never instills high levels of confidence.
-After several minutes of googling around all things pointed to the &lt;a href=&#34;http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486&#34;&gt;Peacock Thread&lt;/a&gt;. This is one of the most confusing set of instructions I&amp;rsquo;ve ever read and it left me wondering if I should really be proceeding here. I won&amp;rsquo;t go into all the confusion points but lets highlight a couple:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;DON&amp;rsquo;T USE THE ROUTER DATABASE! The router database has recommended some less stable builds&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;uhh&amp;hellip; OK&amp;hellip;.. Then why does it even exist?&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;FOLLOW THE PROCESS FOR FLASHING YOUR ROUTER THAT IS IN THE WIKI.
-&lt;a href=&#34;http://www.dd-wrt.com/wiki/index.php/Installation&#34;&gt;http://www.dd-wrt.com/wiki/index.php/Installation&lt;/a&gt;
-Once you have dd-wrt installed on your route&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;OK, fair enough, except there is one problem. The 1200 isn&amp;rsquo;t on that page&amp;hellip;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Read the WIKI and follow the wiki for INITIAL flashing of your router. There has been a lot of work recently to improve the wiki for broadcom devices and the wiki is now mostly up to date and using good files. Don&amp;rsquo;t flash firmware based on youtube or instructions on another non dd-wrt website. Often youtube or other internet instructions are out of date/incorrect! Read and follow the instructions here in the dd-wrt wiki.
-One thing you REALLY need to look at is the procedure for installing to your router. This is extremely important as there are a lot of subtle variation&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Uh&amp;hellip; They keep hammering home to use the WIKI but its not there&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
-
-&lt;h1 id=&#34;the-process&#34;&gt;The Process&lt;/h1&gt;
-
-&lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
-
-&lt;p&gt;I can&amp;rsquo;t recall exactly where I found it, but I found some mentions that the version in the database might not be the latest so I started browsing the &lt;a href=&#34;ftp://ftp.dd-wrt.com&#34;&gt;DD-WRT FTP Server&lt;/a&gt;. I finally landed in &lt;a href=&#34;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&#34;&gt;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&lt;/a&gt; which had the files I needed.
-There were two files in the directory so I grabbed them both not knowing which I needed. Turns out the only file needed was the &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. While I&amp;rsquo;m not positive, I believe the other file (&lt;code&gt;ddwrt-linksys-wrt1200acv2-webflash.bin&lt;/code&gt;) would be used I was already running DD-WRT and was looking to upgrade.&lt;/p&gt;
-
-&lt;p&gt;At this point I was ready to begin:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;I disconnected all ethernet cables, except for the PC I&amp;rsquo;m using to do the flashing&lt;/li&gt;
-&lt;li&gt;Perform the 30-30-30 reset. After this is complete you&amp;rsquo;re left with a factory reset device. Login to &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt; with the default password (&lt;code&gt;admin&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Navigate to Connectivity &amp;ndash;&amp;gt; Basic. Click the &lt;code&gt;Choose&lt;/code&gt; button and select &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. This will take a couple minutes. Once complete this the web UI again on &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;At this point DD-WRT was in fact installed and forcing me to set a password. This felt like a pointless step since I was about to 30-30-30 it again, but I played it safe and it anyway.&lt;/li&gt;
-&lt;li&gt;Perform another 30-30-30 reset. I&amp;rsquo;m honestly skeptical that this is really needed at this point, but I figured 90 seconds of wasted time was better than a bricked 1200 so I complied.&lt;/li&gt;
-&lt;li&gt;Once it came back up I needed to do the password dance again&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;That&amp;rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.&lt;/p&gt;
-
-&lt;p&gt;I want to be very clear that I don&amp;rsquo;t believe what I did is &amp;laquo;supported&amp;raquo; so tread carefully, but it&amp;rsquo;s been 9 hours since I did the upgrade, I&amp;rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>Rethinking Datastax Opscenter HA on AWS</title>
       <link>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</link>
-      <pubDate>Sat, 18 Mar 2017 19:44:53 -0400</pubDate>
+      <pubDate>Mon, 08 May 2017 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</guid>
       <description>
@@ -340,6 +267,79 @@ where you&amp;rsquo;ve got access to infrastructure APIs there are other options
 
 &lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros
 have the potential to outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Flashing DD-WRT On A Linksys WRT1200AC V2</title>
+      <link>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</guid>
+      <description>
+
+&lt;p&gt;This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
+I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well but I had a little time
+on my hands so I opted to give it a go.
+The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
+
+&lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
+I used to flash.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been using Advanced Tomato on the last couple of routers I&amp;rsquo;ve had so that is where I started, however I couldn&amp;rsquo;t find any indication this was supported. The 1200 is not on &lt;a href=&#34;http://tomato.groov.pl/?page_id=69&#34;&gt;Shibby&amp;rsquo;s list&lt;/a&gt;. There is also a decent size thread on &lt;a href=&#34;http://www.linksysinfo.org/index.php?threads/porting-tomato-firmware-to-other-platforms.69976/page-2&#34;&gt;linksysinfo&lt;/a&gt; which didn&amp;rsquo;t leave me with the warm and fuzzies. I finally gave up hope after failing to find it on &lt;a href=&#34;https://www.flashrouters.com/routers/router-types/tomato?limit=36&#34;&gt;flashrouters.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I also checked support for OpenWRT, however only the &lt;a href=&#34;https://wiki.openwrt.org/toh/linksys/wrt_ac_series&#34;&gt;V1 is listed&lt;/a&gt; was listed so I moved to DD-WRT.&lt;/p&gt;
+
+&lt;p&gt;I finally started to have some hope when I found &lt;code&gt;Linksys WRT1200AC v2&lt;/code&gt; listed in the &lt;a href=&#34;https://www.dd-wrt.com/site/support/router-database&#34;&gt;router database&lt;/a&gt;. However the page simply presents you two files to download with no explanation of what you should do with them.
+On top of that these files are marked Beta. That never instills high levels of confidence.
+After several minutes of googling around all things pointed to the &lt;a href=&#34;http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486&#34;&gt;Peacock Thread&lt;/a&gt;. This is one of the most confusing set of instructions I&amp;rsquo;ve ever read and it left me wondering if I should really be proceeding here. I won&amp;rsquo;t go into all the confusion points but lets highlight a couple:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;DON&amp;rsquo;T USE THE ROUTER DATABASE! The router database has recommended some less stable builds&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;uhh&amp;hellip; OK&amp;hellip;.. Then why does it even exist?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;FOLLOW THE PROCESS FOR FLASHING YOUR ROUTER THAT IS IN THE WIKI.
+&lt;a href=&#34;http://www.dd-wrt.com/wiki/index.php/Installation&#34;&gt;http://www.dd-wrt.com/wiki/index.php/Installation&lt;/a&gt;
+Once you have dd-wrt installed on your route&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;OK, fair enough, except there is one problem. The 1200 isn&amp;rsquo;t on that page&amp;hellip;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Read the WIKI and follow the wiki for INITIAL flashing of your router. There has been a lot of work recently to improve the wiki for broadcom devices and the wiki is now mostly up to date and using good files. Don&amp;rsquo;t flash firmware based on youtube or instructions on another non dd-wrt website. Often youtube or other internet instructions are out of date/incorrect! Read and follow the instructions here in the dd-wrt wiki.
+One thing you REALLY need to look at is the procedure for installing to your router. This is extremely important as there are a lot of subtle variation&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Uh&amp;hellip; They keep hammering home to use the WIKI but its not there&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
+
+&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
+
+&lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
+
+&lt;p&gt;I can&amp;rsquo;t recall exactly where I found it, but I found some mentions that the version in the database might not be the latest so I started browsing the &lt;a href=&#34;ftp://ftp.dd-wrt.com&#34;&gt;DD-WRT FTP Server&lt;/a&gt;. I finally landed in &lt;a href=&#34;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&#34;&gt;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&lt;/a&gt; which had the files I needed.
+There were two files in the directory so I grabbed them both not knowing which I needed. Turns out the only file needed was the &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. While I&amp;rsquo;m not positive, I believe the other file (&lt;code&gt;ddwrt-linksys-wrt1200acv2-webflash.bin&lt;/code&gt;) would be used I was already running DD-WRT and was looking to upgrade.&lt;/p&gt;
+
+&lt;p&gt;At this point I was ready to begin:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;I disconnected all ethernet cables, except for the PC I&amp;rsquo;m using to do the flashing&lt;/li&gt;
+&lt;li&gt;Perform the 30-30-30 reset. After this is complete you&amp;rsquo;re left with a factory reset device. Login to &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt; with the default password (&lt;code&gt;admin&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Navigate to Connectivity &amp;ndash;&amp;gt; Basic. Click the &lt;code&gt;Choose&lt;/code&gt; button and select &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. This will take a couple minutes. Once complete this the web UI again on &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;At this point DD-WRT was in fact installed and forcing me to set a password. This felt like a pointless step since I was about to 30-30-30 it again, but I played it safe and it anyway.&lt;/li&gt;
+&lt;li&gt;Perform another 30-30-30 reset. I&amp;rsquo;m honestly skeptical that this is really needed at this point, but I figured 90 seconds of wasted time was better than a bricked 1200 so I complied.&lt;/li&gt;
+&lt;li&gt;Once it came back up I needed to do the password dance again&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That&amp;rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.&lt;/p&gt;
+
+&lt;p&gt;I want to be very clear that I don&amp;rsquo;t believe what I did is &amp;laquo;supported&amp;raquo; so tread carefully, but it&amp;rsquo;s been 9 hours since I did the upgrade, I&amp;rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!&lt;/p&gt;
 </description>
     </item>
     
@@ -879,7 +879,7 @@ domain controller, so a decent amount of reading is order, but from what I have
 gathered so far this is not a standard conversion path, but it appears there
 are some options.&lt;/p&gt;
 
-&lt;h2 id=&#34;getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Getting Prepared&lt;/h2&gt;
+&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
 
 &lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
 lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
@@ -979,9 +979,9 @@ at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the vers
 &lt;p&gt;At this point I took a snapshot of the host as we are going to start making
 changes soon.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Upgrading&lt;/h2&gt;
+&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
 
-&lt;h3 id=&#34;add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
 
 &lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
 Domain Functional Level, as well as the Forest Functional Level.
@@ -999,7 +999,7 @@ there were some errors in the event log. I found that the
 &lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
 it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update DNS Clients&lt;/h3&gt;
+&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
 
 &lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
 itself first.&lt;/p&gt;
@@ -1008,12 +1008,12 @@ itself first.&lt;/p&gt;
 box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
 primary DNS server.&lt;/p&gt;
 
-&lt;h3 id=&#34;transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
 
 &lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
 to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update Time Configurations&lt;/h3&gt;
+&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
 
 &lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
 
@@ -1032,7 +1032,7 @@ moved over. At this point I&amp;rsquo;m left with all the file shares and applic
 (IE Virus Console) that are configured to point at this host.  As I get to
 moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 
-&lt;h2 id=&#34;references:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;References&lt;/h2&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
@@ -1266,7 +1266,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
     file names, paths etc have been stripped from the code snippets.
 &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;1-2-7-to-1-3-7:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
 
 &lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
 anything immediately broken. There were a few deprecation warnings that I needed
@@ -1333,7 +1333,7 @@ this cleanup in coming versions.&lt;/p&gt;
 of pycrypto just because, so all and all pretty easy so far and only about 2
 hours burned on that step.&lt;/p&gt;
 
-&lt;h2 id=&#34;1-3-7-to-1-4-8:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
 
 &lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
 what gotchas I need to look out for. Based on the information in the release
@@ -1415,7 +1415,7 @@ are passing and no DeprecationWarning messages (aside from
 &lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
 the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
 
-&lt;h2 id=&#34;1-4-8-to-1-5-4:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
 
 &lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
 as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
@@ -1497,7 +1497,7 @@ deprecation message to handle:&lt;/p&gt;
    TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
 By the time it was all said and done, it took me about 2 days (including
