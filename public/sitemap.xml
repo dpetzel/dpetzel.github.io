@@ -3,18 +3,18 @@
   
   <url>
     <loc>http://www.dpetzel.info/</loc>
-    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</loc>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</loc>
     <lastmod>2017-04-02T20:00:52-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</loc>
-    <lastmod>2017-03-18T19:44:53-04:00</lastmod>
   </url>
   
   <url>
