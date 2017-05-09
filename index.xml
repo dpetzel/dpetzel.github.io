@@ -297,7 +297,7 @@ I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well
 on my hands so I opted to give it a go.
 The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
 
-&lt;h2 id=&#34;the-journey&#34;&gt;The Journey&lt;/h2&gt;
+&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
 
 &lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
 I used to flash.&lt;/p&gt;
@@ -333,7 +333,7 @@ One thing you REALLY need to look at is the procedure for installing to your rou
 
 &lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
 
-&lt;h1 id=&#34;the-process&#34;&gt;The Process&lt;/h1&gt;
+&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
 
 &lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
 
@@ -403,7 +403,7 @@ has a lot of stuff to get you started.&lt;/li&gt;
 &lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
 capturing some of the challenges I personally encountered.&lt;/p&gt;
 
-&lt;h2 id=&#34;themes:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Themes&lt;/h2&gt;
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
 
 &lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
 When it comes to creating aesthetic looking websites I have zero skills. I am
@@ -425,7 +425,7 @@ documentation. Each template is free to use any number of parameters from your
 site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
 the available parameters they support are.&lt;/p&gt;
 
-&lt;h2 id=&#34;content-conversion:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Content Conversion&lt;/h2&gt;
+&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
 
 &lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
 it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
@@ -436,7 +436,7 @@ markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered 
 &lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
 I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
 
-&lt;h2 id=&#34;syntax-highlighting:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
 
 &lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
 into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
@@ -493,7 +493,7 @@ fixed that issue.&lt;/p&gt;
 
 &lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
 
-&lt;h2 id=&#34;publishing-to-github-pages:8f45153f9985c541d1cd5b89522e3aa0&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
+&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
 
 &lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
 but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
@@ -555,7 +555,7 @@ and it was my wife who actually found this guy.&lt;/p&gt;
 &lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
 at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
 
-&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
+&lt;h2 id=&#34;installation-and-setup:9a194814cbceb31772e761ab331db7bd&#34;&gt;Installation And Setup&lt;/h2&gt;
 
 &lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
 unassuming packaging.&lt;/p&gt;
@@ -580,7 +580,7 @@ but once it did take, the device was on my WiFi network.&lt;/p&gt;
 
 &lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
+&lt;h2 id=&#34;ismartview-pro-pc-application:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
 
 &lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
 available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
@@ -591,7 +591,7 @@ software also allows you to configure a recording from the camera. You have the
 ability to set the time(s) of day that you want record. It will record to the
 local hardware of the machine running the software.&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
+&lt;h2 id=&#34;ismartviewpro-android-app:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
 
 &lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
 geared for mobile devices. This application is also free to use with the
@@ -604,14 +604,14 @@ of the screen.&lt;/p&gt;
 the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
 functionality very much&lt;/p&gt;
 
-&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
+&lt;h2 id=&#34;accessing-from-the-internet:9a194814cbceb31772e761ab331db7bd&#34;&gt;Accessing From The Internet&lt;/h2&gt;
 
 &lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
 installed. Its all done over TCP port 80 (as best I could tell). So I configured
 a port forward on my router to send 80 to the camera. The following day, from
 work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
 
-&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
+&lt;h2 id=&#34;nightvision:9a194814cbceb31772e761ab331db7bd&#34;&gt;Nightvision&lt;/h2&gt;
 
 &lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
 engagne the nightvision 3 red lights on the face of the camera light up. They
@@ -621,7 +621,7 @@ are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyo
 during the day, however at night, once the night vision LEDs kick in they
 product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
 
-&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
+&lt;h2 id=&#34;alarms:9a194814cbceb31772e761ab331db7bd&#34;&gt;Alarms&lt;/h2&gt;
 
 &lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
 or save off to an FTP server when motion is detected. I did experiment with this
@@ -630,7 +630,7 @@ tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It
 as if the delay is so high, the person or thing walking by has already cleared
 the field of vision before the picture is taken&lt;/p&gt;
 
-&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
+&lt;h2 id=&#34;two-way-audio:9a194814cbceb31772e761ab331db7bd&#34;&gt;Two Way Audio&lt;/h2&gt;
 
 &lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
 sound from the camera. I say sound, because its barely understandable. The
@@ -642,7 +642,7 @@ voice of the person speaking into it.&lt;/p&gt;
 place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
 disabled.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary:9a194814cbceb31772e761ab331db7bd&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
 surveillance system around, but for the price it is a fun little device. This
@@ -1002,7 +1002,7 @@ be that place.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m a fan of Opensource, but I don&amp;rsquo;t generally find the time to contribute
 back as much as I would like to. If you are curious what I&amp;rsquo;ve been up to
-latetly &lt;a href=&#34;https://github.com/dpetzel&#34;&gt;Github&lt;/a&gt; is a pretty good way to keep
+lately &lt;a href=&#34;https://github.com/dpetzel&#34;&gt;Github&lt;/a&gt; is a pretty good way to keep
 tabs on me.&lt;/p&gt;
 </description>
     </item>
