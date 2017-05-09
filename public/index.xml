@@ -297,7 +297,7 @@ I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well
 on my hands so I opted to give it a go.
 The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
 
-&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
+&lt;h2 id=&#34;the-journey&#34;&gt;The Journey&lt;/h2&gt;
 
 &lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
 I used to flash.&lt;/p&gt;
@@ -333,7 +333,7 @@ One thing you REALLY need to look at is the procedure for installing to your rou
 
 &lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
 
-&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
+&lt;h1 id=&#34;the-process&#34;&gt;The Process&lt;/h1&gt;
 
 &lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
 
@@ -555,7 +555,7 @@ and it was my wife who actually found this guy.&lt;/p&gt;
 &lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
 at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
 
-&lt;h2 id=&#34;installation-and-setup:9a194814cbceb31772e761ab331db7bd&#34;&gt;Installation And Setup&lt;/h2&gt;
+&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
 
 &lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
 unassuming packaging.&lt;/p&gt;
@@ -580,7 +580,7 @@ but once it did take, the device was on my WiFi network.&lt;/p&gt;
 
 &lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartview-pro-pc-application:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
+&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
 
 &lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
 available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
@@ -591,7 +591,7 @@ software also allows you to configure a recording from the camera. You have the
 ability to set the time(s) of day that you want record. It will record to the
 local hardware of the machine running the software.&lt;/p&gt;
 
-&lt;h2 id=&#34;ismartviewpro-android-app:9a194814cbceb31772e761ab331db7bd&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
+&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
 
 &lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
 geared for mobile devices. This application is also free to use with the
@@ -604,14 +604,14 @@ of the screen.&lt;/p&gt;
 the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
 functionality very much&lt;/p&gt;
 
-&lt;h2 id=&#34;accessing-from-the-internet:9a194814cbceb31772e761ab331db7bd&#34;&gt;Accessing From The Internet&lt;/h2&gt;
+&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
 
 &lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
 installed. Its all done over TCP port 80 (as best I could tell). So I configured
 a port forward on my router to send 80 to the camera. The following day, from
 work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
 
-&lt;h2 id=&#34;nightvision:9a194814cbceb31772e761ab331db7bd&#34;&gt;Nightvision&lt;/h2&gt;
+&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
 
 &lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
 engagne the nightvision 3 red lights on the face of the camera light up. They
@@ -621,7 +621,7 @@ are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyo
 during the day, however at night, once the night vision LEDs kick in they
 product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
 
-&lt;h2 id=&#34;alarms:9a194814cbceb31772e761ab331db7bd&#34;&gt;Alarms&lt;/h2&gt;
+&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
 
 &lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
 or save off to an FTP server when motion is detected. I did experiment with this
@@ -630,7 +630,7 @@ tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It
 as if the delay is so high, the person or thing walking by has already cleared
 the field of vision before the picture is taken&lt;/p&gt;
 
-&lt;h2 id=&#34;two-way-audio:9a194814cbceb31772e761ab331db7bd&#34;&gt;Two Way Audio&lt;/h2&gt;
+&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
 
 &lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
 sound from the camera. I say sound, because its barely understandable. The
@@ -642,7 +642,7 @@ voice of the person speaking into it.&lt;/p&gt;
 place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
 disabled.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary:9a194814cbceb31772e761ab331db7bd&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
 surveillance system around, but for the price it is a fun little device. This
@@ -661,7 +661,7 @@ angles of my property.&lt;/p&gt;
       <guid>http://www.dpetzel.info/resume/</guid>
       <description>
 
-&lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
+&lt;h1 id=&#34;david-petzel-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
 
 &lt;p&gt;website: &lt;a href=&#34;http://www.dpetzel.info&#34;&gt;http://www.dpetzel.info&lt;/a&gt;
 &lt;br /&gt;
@@ -669,7 +669,7 @@ email: &lt;a href=&#34;dave@petzel.emai&#34;&gt;dave@petzel.email&lt;/a&gt;&lt;/
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;summary-of-qualifications&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
+&lt;h2 id=&#34;summary-of-qualifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
 
 &lt;p&gt;Extensive operational experience in organizations of all sizes. Driven
 self-starter who likes to learn new things and make existing things
@@ -678,11 +678,11 @@ large scale and very complex environment. I have a strong desire to
 automate as much as possible, and take pride in ensuring things I do
 automate are well documented.&lt;/p&gt;
 
-&lt;h2 id=&#34;professional-experience&#34;&gt;Professional Experience&lt;/h2&gt;
+&lt;h2 id=&#34;professional-experience:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Professional Experience&lt;/h2&gt;
 
-&lt;h3 id=&#34;the-walt-disney-company-bristol-ct&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
+&lt;h3 id=&#34;the-walt-disney-company-bristol-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;staff-systems-engineer-espn-com&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;staff-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
 
 &lt;p&gt;February - Present&lt;/p&gt;
 
@@ -708,7 +708,7 @@ promotion pipeline to ensure all cookbooks were tested before
 reaching the Chef server.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer-espn-com&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
 
 &lt;p&gt;August 2008 - February 2013&lt;/p&gt;
 
@@ -739,9 +739,9 @@ Load testing of new applications as well as capacity planning
 around major sporting events.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;part-time-instructor&#34;&gt;Part Time Instructor&lt;/h4&gt;
+&lt;h4 id=&#34;part-time-instructor:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Part Time Instructor&lt;/h4&gt;
 
 &lt;p&gt;January 2002 – Summer 2010&lt;/p&gt;
 
@@ -750,9 +750,9 @@ around major sporting events.&lt;/li&gt;
 Networks&lt;/em&gt;. Class forums started as primarily a classroom environment
 but eventually shifted to a completely on-line based structure.&lt;/p&gt;
 
-&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
+&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-engineer&#34;&gt;Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;August 2006 - August 2008&lt;/p&gt;
 
@@ -794,9 +794,9 @@ V6 Environment.&lt;/li&gt;
 Windows Batch Scripting and VBScripting.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
+&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;March 2005 – September 2006&lt;/p&gt;
 
@@ -831,7 +831,7 @@ the intranet using ASP.&lt;/li&gt;
 provide a true “0-touch” thin client computing environment.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-desktop-engineer&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-desktop-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
 
 &lt;p&gt;June 2004 – March 2005&lt;/p&gt;
 
@@ -857,16 +857,16 @@ approximately 400 PCs to 1100+&lt;/li&gt;
 on the network and automatically fix any problems that were found.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;contractor-temp&#34;&gt;Contractor/Temp&lt;/h4&gt;
+&lt;h4 id=&#34;contractor-temp:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Contractor/Temp&lt;/h4&gt;
 
 &lt;p&gt;February 2004 – June 2004&lt;/p&gt;
 
 &lt;p&gt;Contract assignment to migrate domain user accounts to a new Active
 Directory domain, utilizing scripting techniques.&lt;/p&gt;
 
-&lt;h3 id=&#34;rkl-associates-llc-torrington-ct&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
+&lt;h3 id=&#34;rkl-associates-llc-torrington-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;lead-sr-technician&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
+&lt;h4 id=&#34;lead-sr-technician:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
 
 &lt;p&gt;November 2001 – December 2003&lt;/p&gt;
 
@@ -892,9 +892,9 @@ across clients.&lt;/li&gt;
 &lt;li&gt;Performed numerous NT 4 to Windows 2000 Active directory upgrades.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;wentworth-labs-brookfield-ct&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
+&lt;h3 id=&#34;wentworth-labs-brookfield-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-it-support-specialist&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;sr-it-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;Oct 2000 – Oct 2001&lt;/p&gt;
 
@@ -925,9 +925,9 @@ utilizing Veritas Backup Exec 8.6.&lt;/li&gt;
 &lt;li&gt;Developed an automated PC deployment process including OS images.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;priceline-webhouse-greenwich-ct&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
+&lt;h3 id=&#34;priceline-webhouse-greenwich-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-analyst&#34;&gt;Systems Analyst&lt;/h4&gt;
+&lt;h4 id=&#34;systems-analyst:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Analyst&lt;/h4&gt;
 
 &lt;p&gt;Apr 2000 - Oct 2000&lt;/p&gt;
 
@@ -941,9 +941,9 @@ components), COM+, and network infrastructure. Development of
 customized utilities to aid in the troubleshooting and maintenance
 of servers.&lt;/p&gt;
 
-&lt;h3 id=&#34;howmet-corporation-winsted-ct&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;howmet-corporation-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-support-specialist&#34;&gt;Systems Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;systems-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;July 1998 - Apr 2000&lt;/p&gt;
 
@@ -957,12 +957,12 @@ backups, user account management and security. Created Access
 databases for use by various departments. Created VB applications
 for departmental use.&lt;/p&gt;
 
-&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
+&lt;h2 id=&#34;education:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Education&lt;/h2&gt;
 
 &lt;p&gt;Northwestern Connecticut Community College Winsted, CT Computer System
 Technology, Associates Degree&lt;/p&gt;
 
-&lt;h2 id=&#34;certifications&#34;&gt;Certifications&lt;/h2&gt;
+&lt;h2 id=&#34;certifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Certifications&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;MCSE - Microsoft Certified Systems Engineer (NT 4, 2000 &amp;amp; Windows 2003)&lt;/li&gt;
@@ -1000,20 +1000,10 @@ try to keep some notes about these sorts of things, but I&amp;rsquo;ve never sto
 in a way that made them easy to find again later. So I decided this would
 be that place.&lt;/p&gt;
 
-&lt;p&gt;While I generally don&amp;rsquo;t have as much time as I would like to contribute to open
-source projects, here are a few I do my best to maintain when I can find the
-time:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:F5_BIG-IP_(Open_Source)&#34;&gt;F5 BIG-IP&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Rundeck&#34;&gt;Rundeck&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Zenoss ZenPack: &lt;a href=&#34;http://wiki.zenoss.org/ZenPack:Varnish_3&#34;&gt;Varnish3&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/zenoss_client&#34;&gt;zenoss&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_alerts&#34;&gt;consul_alerts&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Chef Cookbook: &lt;a href=&#34;https://supermarket.chef.io/cookbooks/consul_kv&#34;&gt;consul_kv&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/ccuapi/1.1.2&#34;&gt;Python Akamai CCUAPI Client&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;I&amp;rsquo;m a fan of Opensource, but I don&amp;rsquo;t generally find the time to contribute
+back as much as I would like to. If you are curious what I&amp;rsquo;ve been up to
+latetly &lt;a href=&#34;https://github.com/dpetzel&#34;&gt;Github&lt;/a&gt; is a pretty good way to keep
+tabs on me.&lt;/p&gt;
 </description>
     </item>
     

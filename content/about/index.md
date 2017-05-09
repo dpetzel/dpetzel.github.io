@@ -27,15 +27,7 @@ try to keep some notes about these sorts of things, but I've never stored them
 in a way that made them easy to find again later. So I decided this would
 be that place.
 
-While I generally don't have as much time as I would like to contribute to open
-source projects, here are a few I do my best to maintain when I can find the
-time:
-
-* Zenoss ZenPack: [F5 BIG-IP](http://wiki.zenoss.org/ZenPack:F5_BIG-IP_\(Open_Source\))
-* Zenoss ZenPack: [Rundeck](http://wiki.zenoss.org/ZenPack:Rundeck)
-* Zenoss ZenPack: [Varnish3](http://wiki.zenoss.org/ZenPack:Varnish_3)
-* Chef Cookbook: [zenoss](https://supermarket.chef.io/cookbooks/zenoss)
-* Chef Cookbook: [zenoss](https://supermarket.chef.io/cookbooks/zenoss_client)
-* Chef Cookbook: [consul_alerts](https://supermarket.chef.io/cookbooks/consul_alerts)
-* Chef Cookbook: [consul_kv](https://supermarket.chef.io/cookbooks/consul_kv)
-* [Python Akamai CCUAPI Client](https://pypi.python.org/pypi/ccuapi/1.1.2)
+I'm a fan of Opensource, but I don't generally find the time to contribute
+back as much as I would like to. If you are curious what I've been up to
+latetly [Github](https://github.com/dpetzel) is a pretty good way to keep
+tabs on me.
