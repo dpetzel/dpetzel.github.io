@@ -23,7 +23,7 @@
 &lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
 would run ESXi 5 on it.&lt;/p&gt;
 
-&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;My day job does not really allow me much hands on access to hardware any more
 so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
@@ -43,7 +43,7 @@ installation and have it running on the newly rebuilt box. It worked well,
 and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
 about getting the box built.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-open-manage-server-administrator&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
+&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
 
 &lt;p&gt;So step one was to grab the installation bits from
 &lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
@@ -102,7 +102,7 @@ so this seems like a crappy solution, but I suppose the logic is possibly to
 keep the number of system daemons to an absolute minimum. In any event, I was
 a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
 
-&lt;h2 id=&#34;vsphere-management-assistant&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;At this point, I was a bit annoyed that I needed another system.
 While trolling for ways to potentially hack the Web server in directly, I came
@@ -117,7 +117,7 @@ will come in handy in the future as well.&lt;/p&gt;
 instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
 This all went really smooth.&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
+&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
 
 &lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
 the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
