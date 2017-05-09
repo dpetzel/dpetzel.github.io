@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/programming/</link>
+    <description>Recent content in Programming on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 08 May 2017 22:51:02 -0400</lastBuildDate>
+    <atom:link href="http://www.dpetzel.info/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>New Podcat: Code Monkey Talks</title>
+      <link>http://www.dpetzel.info/post/misc/codemonkeyfm/</link>
+      <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
+      <description>&lt;p&gt;A few former colleagues of mine have recently started podcast they call &amp;laquo;Code Monkey Talks&amp;raquo;. In their first few
+episodes they&amp;rsquo;ve already managed to line up some really guests, so if your looking for a new podcast to add to
+your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm/&#34;&gt;http://www.codemonkey.fm/&lt;/a&gt; as I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
