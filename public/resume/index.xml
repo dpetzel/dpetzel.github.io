@@ -20,7 +20,7 @@
       <guid>http://www.dpetzel.info/resume/</guid>
       <description>
 
-&lt;h1 id=&#34;david-petzel-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
+&lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
 
 &lt;p&gt;website: &lt;a href=&#34;http://www.dpetzel.info&#34;&gt;http://www.dpetzel.info&lt;/a&gt;
 &lt;br /&gt;
@@ -28,7 +28,7 @@ email: &lt;a href=&#34;dave@petzel.emai&#34;&gt;dave@petzel.email&lt;/a&gt;&lt;/
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;summary-of-qualifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
+&lt;h2 id=&#34;summary-of-qualifications&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
 
 &lt;p&gt;Extensive operational experience in organizations of all sizes. Driven
 self-starter who likes to learn new things and make existing things
@@ -37,13 +37,30 @@ large scale and very complex environment. I have a strong desire to
 automate as much as possible, and take pride in ensuring things I do
 automate are well documented.&lt;/p&gt;
 
-&lt;h2 id=&#34;professional-experience:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Professional Experience&lt;/h2&gt;
+&lt;h2 id=&#34;professional-experience&#34;&gt;Professional Experience&lt;/h2&gt;
 
-&lt;h3 id=&#34;the-walt-disney-company-bristol-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
+&lt;h3 id=&#34;espn-bristol-ct&#34;&gt;ESPN - Bristol CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;staff-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;senior-software-engineer&#34;&gt;Senior Software Engineer&lt;/h4&gt;
 
-&lt;p&gt;February - Present&lt;/p&gt;
+&lt;p&gt;September 2016 - Present&lt;/p&gt;
+
+&lt;p&gt;Responsible for a variety of espn.com backend applications including
+Personalization, Content Management, and API services. Work with
+several programming languages including Python and Ruby with a focus
+on Java based applications and services.&lt;/p&gt;
+
+&lt;p&gt;Responsibilities include:
+* Rearchitecting, Planning, and coordinating migration of applications
+  out of a traditional hosted data center, into the cloud.
+* Implementation of automated testing and continuous delivery
+* Datastore migration from MongoDB to Cassandra&lt;/p&gt;
+
+&lt;h3 id=&#34;the-walt-disney-company-bristol-ct&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
+
+&lt;h4 id=&#34;staff-systems-engineer-espn-com&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
+
+&lt;p&gt;February 2013 - September 2016&lt;/p&gt;
 
 &lt;p&gt;Works closely with ESPN.com business Engineering and Production
 teams to gather requirements, troubleshoot issues, and provide
@@ -67,7 +84,7 @@ promotion pipeline to ensure all cookbooks were tested before
 reaching the Chef server.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer-espn-com:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer-espn-com&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
 
 &lt;p&gt;August 2008 - February 2013&lt;/p&gt;
 
@@ -98,9 +115,9 @@ Load testing of new applications as well as capacity planning
 around major sporting events.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;part-time-instructor:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Part Time Instructor&lt;/h4&gt;
+&lt;h4 id=&#34;part-time-instructor&#34;&gt;Part Time Instructor&lt;/h4&gt;
 
 &lt;p&gt;January 2002 – Summer 2010&lt;/p&gt;
 
@@ -109,9 +126,9 @@ around major sporting events.&lt;/li&gt;
 Networks&lt;/em&gt;. Class forums started as primarily a classroom environment
 but eventually shifted to a completely on-line based structure.&lt;/p&gt;
 
-&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
+&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;systems-engineer&#34;&gt;Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;August 2006 - August 2008&lt;/p&gt;
 
@@ -153,9 +170,9 @@ V6 Environment.&lt;/li&gt;
 Windows Batch Scripting and VBScripting.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
+&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-systems-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-systems-engineer&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
 
 &lt;p&gt;March 2005 – September 2006&lt;/p&gt;
 
@@ -190,7 +207,7 @@ the intranet using ASP.&lt;/li&gt;
 provide a true “0-touch” thin client computing environment.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;sr-desktop-engineer:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
+&lt;h4 id=&#34;sr-desktop-engineer&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
 
 &lt;p&gt;June 2004 – March 2005&lt;/p&gt;
 
@@ -216,16 +233,16 @@ approximately 400 PCs to 1100+&lt;/li&gt;
 on the network and automatically fix any problems that were found.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;contractor-temp:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Contractor/Temp&lt;/h4&gt;
+&lt;h4 id=&#34;contractor-temp&#34;&gt;Contractor/Temp&lt;/h4&gt;
 
 &lt;p&gt;February 2004 – June 2004&lt;/p&gt;
 
 &lt;p&gt;Contract assignment to migrate domain user accounts to a new Active
 Directory domain, utilizing scripting techniques.&lt;/p&gt;
 
-&lt;h3 id=&#34;rkl-associates-llc-torrington-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
+&lt;h3 id=&#34;rkl-associates-llc-torrington-ct&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;lead-sr-technician:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
+&lt;h4 id=&#34;lead-sr-technician&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
 
 &lt;p&gt;November 2001 – December 2003&lt;/p&gt;
 
@@ -251,9 +268,9 @@ across clients.&lt;/li&gt;
 &lt;li&gt;Performed numerous NT 4 to Windows 2000 Active directory upgrades.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;wentworth-labs-brookfield-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
+&lt;h3 id=&#34;wentworth-labs-brookfield-ct&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;sr-it-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;sr-it-support-specialist&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;Oct 2000 – Oct 2001&lt;/p&gt;
 
@@ -284,9 +301,9 @@ utilizing Veritas Backup Exec 8.6.&lt;/li&gt;
 &lt;li&gt;Developed an automated PC deployment process including OS images.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;priceline-webhouse-greenwich-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
+&lt;h3 id=&#34;priceline-webhouse-greenwich-ct&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-analyst:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Analyst&lt;/h4&gt;
+&lt;h4 id=&#34;systems-analyst&#34;&gt;Systems Analyst&lt;/h4&gt;
 
 &lt;p&gt;Apr 2000 - Oct 2000&lt;/p&gt;
 
@@ -300,9 +317,9 @@ components), COM+, and network infrastructure. Development of
 customized utilities to aid in the troubleshooting and maintenance
 of servers.&lt;/p&gt;
 
-&lt;h3 id=&#34;howmet-corporation-winsted-ct:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
+&lt;h3 id=&#34;howmet-corporation-winsted-ct&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
 
-&lt;h4 id=&#34;systems-support-specialist:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Systems Support Specialist&lt;/h4&gt;
+&lt;h4 id=&#34;systems-support-specialist&#34;&gt;Systems Support Specialist&lt;/h4&gt;
 
 &lt;p&gt;July 1998 - Apr 2000&lt;/p&gt;
 
@@ -316,12 +333,12 @@ backups, user account management and security. Created Access
 databases for use by various departments. Created VB applications
 for departmental use.&lt;/p&gt;
 
-&lt;h2 id=&#34;education:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Education&lt;/h2&gt;
+&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
 
 &lt;p&gt;Northwestern Connecticut Community College Winsted, CT Computer System
 Technology, Associates Degree&lt;/p&gt;
 
-&lt;h2 id=&#34;certifications:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Certifications&lt;/h2&gt;
+&lt;h2 id=&#34;certifications&#34;&gt;Certifications&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;MCSE - Microsoft Certified Systems Engineer (NT 4, 2000 &amp;amp; Windows 2003)&lt;/li&gt;

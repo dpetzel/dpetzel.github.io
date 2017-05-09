@@ -133,14 +133,14 @@
 <ul>
 <li>
 <ul>
-<li><a href="#the-alternate-design:978538482d16b5c35f77f7397ff6dea4">The Alternate Design</a></li>
-<li><a href="#upgrades:978538482d16b5c35f77f7397ff6dea4">Upgrades</a></li>
-<li><a href="#data-configuration-synchronization:978538482d16b5c35f77f7397ff6dea4">Data/Configuration Synchronization</a></li>
-<li><a href="#network-splits:978538482d16b5c35f77f7397ff6dea4">Network Splits</a></li>
-<li><a href="#agent-reconfiguration:978538482d16b5c35f77f7397ff6dea4">Agent Reconfiguration</a></li>
-<li><a href="#lock-in:978538482d16b5c35f77f7397ff6dea4">Lock In</a></li>
-<li><a href="#costs:978538482d16b5c35f77f7397ff6dea4">Costs</a></li>
-<li><a href="#conclusion:978538482d16b5c35f77f7397ff6dea4">Conclusion</a></li>
+<li><a href="#the-alternate-design">The Alternate Design</a></li>
+<li><a href="#upgrades">Upgrades</a></li>
+<li><a href="#data-configuration-synchronization">Data/Configuration Synchronization</a></li>
+<li><a href="#network-splits">Network Splits</a></li>
+<li><a href="#agent-reconfiguration">Agent Reconfiguration</a></li>
+<li><a href="#lock-in">Lock In</a></li>
+<li><a href="#costs">Costs</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -183,7 +183,7 @@ design against theirs.</p>
 <p>I&rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
 challenges I see.</p>
 
-<h2 id="the-alternate-design:978538482d16b5c35f77f7397ff6dea4">The Alternate Design</h2>
+<h2 id="the-alternate-design">The Alternate Design</h2>
 
 <ul>
 <li>Opscenter will be pre-installed on a &laquo;Baked AMI&raquo;.</li>
@@ -202,7 +202,7 @@ Whenver a new instance is launched, it will detect its current AZ and mount the 
 There are certainly other &laquo;frills&raquo; you can add, but I don&rsquo;t consider them core to the design so I&rsquo;m omitting them.
 Now lets get into the meat of how things will work.</p>
 
-<h2 id="upgrades:978538482d16b5c35f77f7397ff6dea4">Upgrades</h2>
+<h2 id="upgrades">Upgrades</h2>
 
 <p>Based on the steps outlined in <a href="https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html">https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html</a>
 you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
@@ -251,7 +251,7 @@ steps outlined above would be executed and you&rsquo;d get an older version up a
 
 <p>Let&rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.</p>
 
-<h2 id="data-configuration-synchronization:978538482d16b5c35f77f7397ff6dea4">Data/Configuration Synchronization</h2>
+<h2 id="data-configuration-synchronization">Data/Configuration Synchronization</h2>
 
 <p>This section will focus on much of the material discussed in <a href="https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html">https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html</a>. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.</p>
 
@@ -285,7 +285,7 @@ come with its own challenges down the road.</p>
 <p>So I&rsquo;ll wrap up this section by simply re-iterating that yes I&rsquo;m confident we can make it work, but I also
 think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.</p>
 
-<h2 id="network-splits:978538482d16b5c35f77f7397ff6dea4">Network Splits</h2>
+<h2 id="network-splits">Network Splits</h2>
 
 <p>Let&rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
 practices for AWS you&rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
@@ -313,7 +313,7 @@ assuming the zone is &laquo;gone&raquo;, then the ASG (which is configured to sp
 instance into a functional zone. I fully admit, I&rsquo;ve never seen a zone &laquo;go way&raquo; so this is more theory than
 practice.</p>
 
-<h2 id="agent-reconfiguration:978538482d16b5c35f77f7397ff6dea4">Agent Reconfiguration</h2>
+<h2 id="agent-reconfiguration">Agent Reconfiguration</h2>
 
 <p>This section has some overlap with the previous section but is more general in nature. Datastax says the
 following about fail over events:</p>
@@ -337,7 +337,7 @@ agents, since it will simply &laquo;move&raquo; to the appropriate instance. If 
 manage <em>all</em> your configuration files with your configuration management solution you can do that now
 without the fear of the situation quoted above.</p>
 
-<h2 id="lock-in:978538482d16b5c35f77f7397ff6dea4">Lock In</h2>
+<h2 id="lock-in">Lock In</h2>
 
 <p>There are two quotes from <a href="https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html">https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html</a> I want to
 address in this section.</p>
@@ -355,7 +355,7 @@ for some of our less critical applications/workloads.</p>
 <p>They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
 the alternate solution of a single node keeps our options open.</p>
 
-<h2 id="costs:978538482d16b5c35f77f7397ff6dea4">Costs</h2>
+<h2 id="costs">Costs</h2>
 
 <p>I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
 running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.</p>
@@ -386,7 +386,7 @@ is so small, the charge will probably be extremely low.</p>
 <p>The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
 our compute charges in half by only running a single instance.</p>
 
-<h2 id="conclusion:978538482d16b5c35f77f7397ff6dea4">Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>If you&rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
 center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud

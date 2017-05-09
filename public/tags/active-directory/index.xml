@@ -40,7 +40,7 @@ domain controller, so a decent amount of reading is order, but from what I have
 gathered so far this is not a standard conversion path, but it appears there
 are some options.&lt;/p&gt;
 
-&lt;h2 id=&#34;getting-prepared&#34;&gt;Getting Prepared&lt;/h2&gt;
+&lt;h2 id=&#34;getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Getting Prepared&lt;/h2&gt;
 
 &lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
 lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
@@ -140,9 +140,9 @@ at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the vers
 &lt;p&gt;At this point I took a snapshot of the host as we are going to start making
 changes soon.&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrading&#34;&gt;Upgrading&lt;/h2&gt;
+&lt;h2 id=&#34;upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Upgrading&lt;/h2&gt;
 
-&lt;h3 id=&#34;add-2012-server-as-new-domain-controller&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
+&lt;h3 id=&#34;add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
 
 &lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
 Domain Functional Level, as well as the Forest Functional Level.
@@ -160,7 +160,7 @@ there were some errors in the event log. I found that the
 &lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
 it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-dns-clients&#34;&gt;Update DNS Clients&lt;/h3&gt;
+&lt;h3 id=&#34;update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update DNS Clients&lt;/h3&gt;
 
 &lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
 itself first.&lt;/p&gt;
@@ -169,12 +169,12 @@ itself first.&lt;/p&gt;
 box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
 primary DNS server.&lt;/p&gt;
 
-&lt;h3 id=&#34;transferring-fsmo-roles&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
+&lt;h3 id=&#34;transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
 
 &lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
 to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
 
-&lt;h3 id=&#34;update-time-configurations&#34;&gt;Update Time Configurations&lt;/h3&gt;
+&lt;h3 id=&#34;update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update Time Configurations&lt;/h3&gt;
 
 &lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
 
@@ -193,7 +193,7 @@ moved over. At this point I&amp;rsquo;m left with all the file shares and applic
 (IE Virus Console) that are configured to point at this host.  As I get to
 moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
 
-&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;h2 id=&#34;references:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;

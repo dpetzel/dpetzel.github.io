@@ -24,9 +24,26 @@ automate as much as possible, and take pride in ensuring things I do
 automate are well documented.
 
 ## Professional Experience
+### ESPN - Bristol CT
+#### Senior Software Engineer
+September 2016 - Present
+
+Responsible for a variety of espn.com backend applications including
+Personalization, Content Management, and API services. Work with
+several programming languages including Python and Ruby with a focus
+on Java based applications and services.
+
+Responsibilities include:
+* Rearchitecting, Planning, and coordinating migration of applications
+  out of a traditional hosted data center, into the cloud.
+* Implementation of automated testing and continuous delivery
+* Datastore migration from MongoDB to Cassandra
+
+
+
 ### The Walt Disney Company - Bristol CT
 #### Staff Systems Engineer ESPN.com
-February - Present
+February 2013 - September 2016
 
 Works closely with ESPN.com business Engineering and Production
 teams to gather requirements, troubleshoot issues, and provide

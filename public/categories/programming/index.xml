@@ -41,7 +41,7 @@ project I&amp;rsquo;m going to need some time to get reacquainted anyway.&lt;/p&
     file names, paths etc have been stripped from the code snippets.
 &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;1-2-7-to-1-3-7:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
+&lt;h2 id=&#34;1-2-7-to-1-3-7&#34;&gt;1.2.7 to 1.3.7&lt;/h2&gt;
 
 &lt;p&gt;This wen&amp;rsquo;t really smooth for me. All my unit tests passed and I didn&amp;rsquo;t see
 anything immediately broken. There were a few deprecation warnings that I needed
@@ -108,7 +108,7 @@ this cleanup in coming versions.&lt;/p&gt;
 of pycrypto just because, so all and all pretty easy so far and only about 2
 hours burned on that step.&lt;/p&gt;
 
-&lt;h2 id=&#34;1-3-7-to-1-4-8:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
+&lt;h2 id=&#34;1-3-7-to-1-4-8&#34;&gt;1.3.7 to 1.4.8&lt;/h2&gt;
 
 &lt;p&gt;With that section out of the way onto reading the 1.4 release notes to see
 what gotchas I need to look out for. Based on the information in the release
@@ -190,7 +190,7 @@ are passing and no DeprecationWarning messages (aside from
 &lt;code&gt;RandomPool_DeprecationWarning&lt;/code&gt; from earlier that I opted to ignore). Onto
 the final leg! Total time in this leg minus distractions was about 2.5 hours&lt;/p&gt;
 
-&lt;h2 id=&#34;1-4-8-to-1-5-4:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
+&lt;h2 id=&#34;1-4-8-to-1-5-4&#34;&gt;1.4.8 to 1.5.4&lt;/h2&gt;
 
 &lt;p&gt;Upon an initial pass through the 1.5 release notes I was feeling pretty good
 as I didn&amp;rsquo;t see anything in there I though would affect me. My tests said
@@ -272,7 +272,7 @@ deprecation message to handle:&lt;/p&gt;
    TEMPLATE_DIRS = (os.path.join(PROJECT_DIR, &#39;templates&#39;),)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;conclusion:360fa4c8873dfc38b400dadd8b650a97&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;Overall the process wasn&amp;rsquo;t terrible, but it was certainly not a cake walk either.
 By the time it was all said and done, it took me about 2 days (including
@@ -312,7 +312,7 @@ changes to make. As of today, I&amp;rsquo;ve not made any code changes to improv
 performance, but I wanted to collect my observations after having adding some
 instrumentation.&lt;/p&gt;
 
-&lt;h2 id=&#34;new-relic-integration:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;New Relic Integration&lt;/h2&gt;
+&lt;h2 id=&#34;new-relic-integration&#34;&gt;New Relic Integration&lt;/h2&gt;
 
 &lt;p&gt;At work &lt;code&gt;New Relic&lt;/code&gt; has been getting a lot of buzz for the magic it works on
 Java based applications. I was aware they had some &lt;code&gt;Python&lt;/code&gt; integration, but
@@ -452,7 +452,7 @@ nodes behind my proxy server. Success!!. While I think this is actually a bug
 in their agent code, I was happy to see I would work around it with a
 configuration change.&lt;/p&gt;
 
-&lt;h2 id=&#34;memcached-vs-locmem:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Memcached Vs Locmem&lt;/h2&gt;
+&lt;h2 id=&#34;memcached-vs-locmem&#34;&gt;Memcached Vs Locmem&lt;/h2&gt;
 
 &lt;p&gt;I&amp;rsquo;ve got a few instances of my application running and early on I had added some
 &lt;strong&gt;very&lt;/strong&gt; basic caching. Early on there was only a single instance so I thought
@@ -485,7 +485,7 @@ cache to an external (across the network) cache. My take away from this was
 that there are cases were a remote cache can actually be more beneficial than
 a local cache, if your sharing information across many instances.&lt;/p&gt;
 
-&lt;h2 id=&#34;celery-apply-vs-apply-async:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Celery apply vs apply_async&lt;/h2&gt;
+&lt;h2 id=&#34;celery-apply-vs-apply-async&#34;&gt;Celery apply vs apply_async&lt;/h2&gt;
 
 &lt;p&gt;The last thing I poked at this week was usage of &lt;code&gt;Celery&lt;/code&gt;&amp;rsquo;s &lt;code&gt;apply()&lt;/code&gt; method
 vs &lt;code&gt;apply_aysync&lt;/code&gt;. For those that don&amp;rsquo;t know the difference, &lt;code&gt;apply_async&lt;/code&gt;
@@ -514,7 +514,7 @@ involved in this test), &lt;code&gt;apply()&lt;/code&gt; would run the task in a
 &lt;p&gt;For my purposes this is plenty fast enough, but I was a little surprised to
 see that level of overhead.&lt;/p&gt;
 
-&lt;h2 id=&#34;summary:a495706bbe6265e7b8fa13761542fd1a&#34;&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
 
 &lt;p&gt;In summary, it was an interesting set of exercises and for the most part
 confirmed many of my suspicions, but its nice to finally have some real
