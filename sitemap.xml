@@ -2,9 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.dpetzel.info/</loc>
-    <lastmod>2017-05-08T22:51:02-04:00</lastmod>
-    <priority>0</priority>
+    <loc>http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
   </url>
   
   <url>
@@ -13,7 +12,7 @@
   </url>
   
   <url>
-    <loc>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</loc>
+    <loc>http://www.dpetzel.info/post/rethinking-datastax-opscenter-ha-on-aws/</loc>
     <lastmod>2017-05-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -28,7 +27,7 @@
   </url>
   
   <url>
-    <loc>http://www.dpetzel.info/post/my_new_UOKOO_camera/</loc>
+    <loc>http://www.dpetzel.info/post/my_new_uokoo_camera/</loc>
     <lastmod>2016-09-19T10:46:10-04:00</lastmod>
   </url>
   
@@ -133,12 +132,12 @@
   </url>
   
   <url>
-    <loc>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</loc>
+    <loc>http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/</loc>
     <lastmod>2012-03-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/</loc>
+    <loc>http://www.dpetzel.info/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box/</loc>
     <lastmod>2012-03-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -163,13 +162,517 @@
   </url>
   
   <url>
-    <loc>http://www.dpetzel.info/post/zenoss/Converting%20Zenoss%20VMWare%20Virtual%20Appliance%20to%20VirtualBox/</loc>
+    <loc>http://www.dpetzel.info/post/zenoss/converting-zenoss-vmware-virtual-appliance-to-virtualbox/</loc>
     <lastmod>2012-02-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</loc>
     <lastmod>2011-12-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/about/</loc>
+    <lastmod>2016-09-18T09:48:29-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/active-directory/</loc>
+    <lastmod>2013-11-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/apache-traffic-server/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/aws/</loc>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/aws/</loc>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/bigip/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/caching/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/caching/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/cassandra/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/cassandra/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/</loc>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/celery/</loc>
+    <lastmod>2013-09-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/chef/</loc>
+    <lastmod>2015-01-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/chef/</loc>
+    <lastmod>2015-01-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/chocolately/</loc>
+    <lastmod>2013-11-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/chromecast/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/cloud-zoom/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/datastax/</loc>
+    <lastmod>2017-05-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/dd-wrt/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/dell/</loc>
+    <lastmod>2013-11-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/django/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/email/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/esx/</loc>
+    <lastmod>2013-11-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/f5/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/general/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/git/</loc>
+    <lastmod>2015-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/github/</loc>
+    <lastmod>2015-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/google/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/gossip/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/hardware/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/heroku/</loc>
+    <lastmod>2013-09-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/html/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/http/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/javascript/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/jekyll/</loc>
+    <lastmod>2015-01-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/jquery/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/linksys/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/markdown/</loc>
+    <lastmod>2015-01-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/minitest/</loc>
+    <lastmod>2013-09-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/mynt/</loc>
+    <lastmod>2013-09-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/newtworking/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/nodejs/</loc>
+    <lastmod>2013-09-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/omsa/</loc>
+    <lastmod>2013-11-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/open-manage/</loc>
+    <lastmod>2013-11-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/pelican/</loc>
+    <lastmod>2013-09-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/podcast/</loc>
+    <lastmod>2017-05-08T22:51:02-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/poshgit/</loc>
+    <lastmod>2015-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/post/</loc>
+    <lastmod>2017-05-15T20:02:38-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/powershell/</loc>
+    <lastmod>2015-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/programming/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/programming/</loc>
+    <lastmod>2017-05-08T22:51:02-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/pypi/</loc>
+    <lastmod>2013-09-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/python/</loc>
+    <lastmod>2013-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/rdp/</loc>
+    <lastmod>2014-04-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/redcarpet/</loc>
+    <lastmod>2015-01-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/resume/</loc>
+    <lastmod>2016-09-18T10:58:07-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/small-business-server/</loc>
+    <lastmod>2013-11-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/smtp/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/sphinx/</loc>
+    <lastmod>2013-09-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/system-administration/</loc>
+    <lastmod>2013-11-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/</loc>
+    <lastmod>2013-11-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/test-kitchen/</loc>
+    <lastmod>2015-01-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/testing/</loc>
+    <lastmod>2015-01-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/tinkerer/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/tips/jekyll/</loc>
+    <lastmod>2015-01-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/tips/python/</loc>
+    <lastmod>2013-09-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/tips/windows/</loc>
+    <lastmod>2015-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/travis-ci/</loc>
+    <lastmod>2013-09-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/uokoo/</loc>
+    <lastmod>2016-09-19T10:46:10-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/uptime/</loc>
+    <lastmod>2013-09-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/varnish/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/velocity/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/virtualbox/</loc>
+    <lastmod>2012-03-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/vmware/</loc>
+    <lastmod>2013-11-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/webcam/</loc>
+    <lastmod>2016-09-19T10:46:10-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/windows/</loc>
+    <lastmod>2012-06-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/windows/</loc>
+    <lastmod>2014-04-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/winrm/</loc>
+    <lastmod>2012-06-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/wrt/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/wrt1200ac/</loc>
+    <lastmod>2017-04-02T20:00:52-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/categories/zenoss/</loc>
+    <lastmod>2013-09-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/zenoss/</loc>
+    <lastmod>2013-09-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.dpetzel.info/tags/zenpack/</loc>
+    <lastmod>2013-09-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>

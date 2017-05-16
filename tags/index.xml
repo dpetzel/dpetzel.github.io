@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/</link>
+    <description>Recent content in Tags on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Thu, 28 Nov 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.dpetzel.info/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Active Directory</title>
+      <link>http://www.dpetzel.info/tags/active-directory/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/active-directory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Apache Traffic Server</title>
+      <link>http://www.dpetzel.info/tags/apache-traffic-server/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/apache-traffic-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Aws</title>
+      <link>http://www.dpetzel.info/tags/aws/</link>
+      <pubDate>Mon, 08 May 2017 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bigip</title>
+      <link>http://www.dpetzel.info/tags/bigip/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/bigip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Caching</title>
+      <link>http://www.dpetzel.info/tags/caching/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/caching/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cassandra</title>
+      <link>http://www.dpetzel.info/tags/cassandra/</link>
+      <pubDate>Mon, 15 May 2017 20:02:38 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/cassandra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Celery</title>
+      <link>http://www.dpetzel.info/tags/celery/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/celery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Chef</title>
+      <link>http://www.dpetzel.info/tags/chef/</link>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/chef/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Chocolately</title>
+      <link>http://www.dpetzel.info/tags/chocolately/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/chocolately/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Chromecast</title>
+      <link>http://www.dpetzel.info/tags/chromecast/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/chromecast/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud Zoom</title>
+      <link>http://www.dpetzel.info/tags/cloud-zoom/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/cloud-zoom/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Datastax</title>
+      <link>http://www.dpetzel.info/tags/datastax/</link>
+      <pubDate>Mon, 08 May 2017 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/datastax/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dd Wrt</title>
+      <link>http://www.dpetzel.info/tags/dd-wrt/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/dd-wrt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dell</title>
+      <link>http://www.dpetzel.info/tags/dell/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/dell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Django</title>
+      <link>http://www.dpetzel.info/tags/django/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Email</title>
+      <link>http://www.dpetzel.info/tags/email/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/email/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Esx</title>
+      <link>http://www.dpetzel.info/tags/esx/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/esx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>F5</title>
+      <link>http://www.dpetzel.info/tags/f5/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/f5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>http://www.dpetzel.info/tags/git/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Github</title>
+      <link>http://www.dpetzel.info/tags/github/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Google</title>
+      <link>http://www.dpetzel.info/tags/google/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/google/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gossip</title>
+      <link>http://www.dpetzel.info/tags/gossip/</link>
+      <pubDate>Mon, 15 May 2017 20:02:38 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/gossip/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Heroku</title>
+      <link>http://www.dpetzel.info/tags/heroku/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/heroku/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Html</title>
+      <link>http://www.dpetzel.info/tags/html/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/html/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Http</title>
+      <link>http://www.dpetzel.info/tags/http/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>http://www.dpetzel.info/tags/javascript/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jekyll</title>
+      <link>http://www.dpetzel.info/tags/jekyll/</link>
+      <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/jekyll/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jquery</title>
+      <link>http://www.dpetzel.info/tags/jquery/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/jquery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linksys</title>
+      <link>http://www.dpetzel.info/tags/linksys/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/linksys/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>http://www.dpetzel.info/tags/markdown/</link>
+      <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Minitest</title>
+      <link>http://www.dpetzel.info/tags/minitest/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/minitest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mynt</title>
+      <link>http://www.dpetzel.info/tags/mynt/</link>
+      <pubDate>Tue, 03 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/mynt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nodejs</title>
+      <link>http://www.dpetzel.info/tags/nodejs/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/nodejs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Omsa</title>
+      <link>http://www.dpetzel.info/tags/omsa/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/omsa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Open Manage</title>
+      <link>http://www.dpetzel.info/tags/open-manage/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/open-manage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pelican</title>
+      <link>http://www.dpetzel.info/tags/pelican/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/pelican/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Podcast</title>
+      <link>http://www.dpetzel.info/tags/podcast/</link>
+      <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/podcast/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Poshgit</title>
+      <link>http://www.dpetzel.info/tags/poshgit/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/poshgit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Powershell</title>
+      <link>http://www.dpetzel.info/tags/powershell/</link>
+      <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/powershell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming</title>
+      <link>http://www.dpetzel.info/tags/programming/</link>
+      <pubDate>Mon, 08 May 2017 22:51:02 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pypi</title>
+      <link>http://www.dpetzel.info/tags/pypi/</link>
+      <pubDate>Sat, 07 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/pypi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>http://www.dpetzel.info/tags/python/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rdp</title>
+      <link>http://www.dpetzel.info/tags/rdp/</link>
+      <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/rdp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Redcarpet</title>
+      <link>http://www.dpetzel.info/tags/redcarpet/</link>
+      <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/redcarpet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Small Business Server</title>
+      <link>http://www.dpetzel.info/tags/small-business-server/</link>
+      <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/small-business-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Smtp</title>
+      <link>http://www.dpetzel.info/tags/smtp/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/smtp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sphinx</title>
+      <link>http://www.dpetzel.info/tags/sphinx/</link>
+      <pubDate>Tue, 24 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/sphinx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Test Kitchen</title>
+      <link>http://www.dpetzel.info/tags/test-kitchen/</link>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/test-kitchen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Testing</title>
+      <link>http://www.dpetzel.info/tags/testing/</link>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tinkerer</title>
+      <link>http://www.dpetzel.info/tags/tinkerer/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/tinkerer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Travis Ci</title>
+      <link>http://www.dpetzel.info/tags/travis-ci/</link>
+      <pubDate>Sat, 07 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/travis-ci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uokoo</title>
+      <link>http://www.dpetzel.info/tags/uokoo/</link>
+      <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/uokoo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uptime</title>
+      <link>http://www.dpetzel.info/tags/uptime/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/uptime/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Varnish</title>
+      <link>http://www.dpetzel.info/tags/varnish/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/varnish/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Velocity</title>
+      <link>http://www.dpetzel.info/tags/velocity/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/velocity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Virtualbox</title>
+      <link>http://www.dpetzel.info/tags/virtualbox/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/virtualbox/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vmware</title>
+      <link>http://www.dpetzel.info/tags/vmware/</link>
+      <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/vmware/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Webcam</title>
+      <link>http://www.dpetzel.info/tags/webcam/</link>
+      <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/webcam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>http://www.dpetzel.info/tags/windows/</link>
+      <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/windows/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Winrm</title>
+      <link>http://www.dpetzel.info/tags/winrm/</link>
+      <pubDate>Mon, 11 Jun 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/winrm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wrt</title>
+      <link>http://www.dpetzel.info/tags/wrt/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/wrt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wrt1200ac</title>
+      <link>http://www.dpetzel.info/tags/wrt1200ac/</link>
+      <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/wrt1200ac/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Zenoss</title>
+      <link>http://www.dpetzel.info/tags/zenoss/</link>
+      <pubDate>Sat, 07 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/zenoss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Zenpack</title>
+      <link>http://www.dpetzel.info/tags/zenpack/</link>
+      <pubDate>Sat, 07 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/tags/zenpack/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

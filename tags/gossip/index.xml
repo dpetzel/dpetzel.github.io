@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gossip on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/tags/gossip/</link>
+    <description>Recent content in Gossip on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Mon, 15 May 2017 20:02:38 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.dpetzel.info/tags/gossip/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The Case Of The Missing Cassandra Gossip Packets</title>
+      <link>http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/</link>
+      <pubDate>Mon, 15 May 2017 20:02:38 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/</guid>
+      <description>&lt;p&gt;One of my recent tasks was to automate the creation of multi-region Cassandra
+clusters. I&amp;rsquo;m still pretty green with Cassandra but have been having some recent
+success with creating multi-dc (replication group) clusters inside of a single
+AWS region. The story that follows summarizes what was a painful few days
+of debugging&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

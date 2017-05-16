@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Sat, 07 Sep 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/pypi/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/pypi/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Publishing A Zenoss ZenPack to PyPi Using Travis-CI</title>
@@ -23,93 +25,8 @@ it is not always safe to promote them as a standard Python module, which is
 why you don&amp;rsquo;t see more ZenPacks on PyPi.&lt;/p&gt;
 
 &lt;p&gt;So read on if you are curious about how it &lt;em&gt;might&lt;/em&gt; work, but please don&amp;rsquo;t
-make this part of your standard ZenPack release process.&lt;/p&gt;
-
-&lt;p&gt;I recently had the need to update the &lt;code&gt;F5 ZenPack&lt;/code&gt;. It had been a while since
-I had updated a Pack so I was hopeful that the process for releasing a new
-pack (&lt;a href=&#34;http://wiki.zenoss.org/Releasing_your_ZenPack&#34;&gt;http://wiki.zenoss.org/Releasing_your_ZenPack&lt;/a&gt;) had been updated to be
-a little less manual. Don&amp;rsquo;t get me wrong the system that is in place is a vast
-improvement of what used to exist, but I&amp;rsquo;m just not excited about how manual
-the process is. Maybe I&amp;rsquo;ll write up a separate page about what I dislike about
-the process, but the focus on this page is not to complain about that process,
-but rather show what I think is a better (more automated) solution.&lt;/p&gt;
-
-&lt;p&gt;So the goal I set out was with:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I didn&amp;rsquo;t want to continue to maintain two different versions of documentation
-(I keep a README.rst with the pack, but the Wiki requires wiki markup)&lt;/li&gt;
-&lt;li&gt;I didn&amp;rsquo;t want to manually upload any build artifacts&lt;/li&gt;
-&lt;li&gt;I want to lay the ground work for some testing (I&amp;rsquo;ve historically done a poor
-job at adding tests to my ZenPacks, but I&amp;rsquo;m hoping to change that)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So I set out on the road of using &lt;code&gt;Travis CI&lt;/code&gt; uploading &lt;code&gt;PyPi&lt;/code&gt;. So the first
-step I took was getting integration with &lt;code&gt;PyPi&lt;/code&gt; outside of Travis. After reading
-up on the documentation at &lt;a href=&#34;http://docs.python.org/3/distutils/packageindex.html&#34;&gt;http://docs.python.org/3/distutils/packageindex.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I added the following release.sh script to my ZenPacks repo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#! /bin/bash
-
-# Create a .pypirc file in the home directory
-echo &amp;quot;[distutils]
-index-servers =
-  pypi
-
-[pypi]&amp;quot; &amp;gt; ~/.pypirc
-
-echo &amp;quot;username: &amp;quot; &amp;quot;$PYPI_USER&amp;quot; &amp;gt;&amp;gt; ~/.pypirc
-echo &amp;quot;password: &amp;quot; &amp;quot;$PYPI_PWD&amp;quot; &amp;gt;&amp;gt; ~/.pypirc
-
-python setup.py sdist bdist_egg upload
-rm -f ~/.pypirc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So what this does is read in my PyPi username and password from an environment
-variable so I don&amp;rsquo;t need to keep them in the repo. Additionally if someone else
-ever wants to become a contributor it should allow them to use the same script&lt;/p&gt;
-
-&lt;p&gt;I did a one time registration of the ZenPack outside of this script, and from
-there on out, I&amp;rsquo;m able to just run &lt;code&gt;sh release.sh&lt;/code&gt; from the root of the repo
-and it will upload the compile compile egg (which contains the version) to PyPi.&lt;/p&gt;
-
-&lt;p&gt;So right out of the gate, I&amp;rsquo;ve hit two of my three targets. But I wanted to take
-it a little further. While running &lt;code&gt;sh release.sh&lt;/code&gt; is pretty easy, I wanted
-to see about automatically testing and upload the egg. This is where things
-got a little trickier, but still not to bad&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;The &lt;code&gt;Travis CI&lt;/code&gt; getting started documentation is pretty indepth, so I don&amp;rsquo;t want
-to recreate that here, but I do want to call out you&amp;rsquo;ll want to read up
-how to do the encrypted environment stuff.&lt;/p&gt;
-
-&lt;p&gt;So after some trial and error (I&amp;rsquo;m not sure why, but it took me a while to krok
-the encrypted environment variable stuff), I ended up with this &lt;code&gt;.travis.yml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So now everytime I push a change up to the github repo, a service hook fires
-and &lt;code&gt;Travis CI&lt;/code&gt; starts building my ZenPack immediatly. You can see those build
-resuts here: &lt;a href=&#34;https://travis-ci.org/ZCA/ZenPacks.community.f5&#34;&gt;https://travis-ci.org/ZCA/ZenPacks.community.f5&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;As part of the build process it will produce two egg files, one for Python2.6
-(Zenoss 3.x) and one for Python 2.7 (Zenoss 4.x), and upload them automatically
-to &lt;code&gt;PyPi&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;I do have to say, I was not 100% comfortable with the idea of handing over some
-much private information to Travis (allowing them access to my GitHub account,
-as well as trusting that their encryption keys are secure). In the end, I just
-ensured I was using information I don&amp;rsquo;t use on any other sites. I still
-can&amp;rsquo;t say I&amp;rsquo;m entirely comfortable with it, but sometimes you just have to be
-a little trusting. We&amp;rsquo;ll see&amp;hellip;.&lt;/p&gt;
-
-&lt;p&gt;The process did go smooth enough, that I intend to convert some of the other
-ZenPacks I maintain and see how it goes longer term.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5&#34;&gt;F5 ZenPack&lt;/a&gt;
-* &lt;a href=&#34;https://travis-ci.org&#34;&gt;Travis CI&lt;/a&gt;
-* &lt;a href=&#34;http://pypi.python.org&#34;&gt;PyPi&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/ZCA/ZenPacks.community.f5/blob/master/.travis.yml&#34;&gt;.travis.yml&lt;/a&gt;&lt;/p&gt;
-</description>
+make this part of your standard ZenPack release process.
+&lt;/p&gt;</description>
     </item>
     
   </channel>

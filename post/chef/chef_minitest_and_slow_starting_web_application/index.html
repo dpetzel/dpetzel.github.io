@@ -12,7 +12,7 @@
 
   
 
-  <meta name="generator" content="Hugo 0.16-DEV" />
+  <meta name="generator" content="Hugo 0.20.7" />
 
   <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
 
@@ -31,7 +31,7 @@
   
   <meta property="og:title" content="Chef Minitest and Slow Starting Web Application" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="/post/chef/chef_minitest_and_slow_starting_web_application//" />
   <meta property="og:image" content="" />
 
 </head>
@@ -136,7 +136,8 @@ using the <code>minitest-chef-handler</code> for writing integration tests for m
 cookbooks. This quick post is to capture an approach I&rsquo;ve grown to like for
 doing HTTP tests of slow starting web applications. I&rsquo;ve noticed that many
 services will return from an <code>/sbin/service mysapp start</code> well before
-the application has fully started and is accepting HTTP connections.</p>
+the application has fully started and is accepting HTTP connections.
+</p>
 
 <p>Originally I taken a very naive approach of timing how long the app took
 to startup, adding some arbitrary number of seconds and then just sleeping that
@@ -253,7 +254,6 @@ than necessary when waiting for a service to start.</p>
 <p>References:
 * <a href="http://www.opscode.com/chef/">Chef</a>
 * <a href="https://github.com/calavera/minitest-chef-handler">minitest-chef-handler</a></p>
-
       </article>
 
       <ul class="pager blog-pager">
@@ -357,6 +357,16 @@ than necessary when waiting for a service to start.</p>
 <script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
 <script src="http://www.dpetzel.info/js/main.js"></script>
 
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
 
 
   </body>

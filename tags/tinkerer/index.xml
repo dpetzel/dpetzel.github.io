@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 23 Sep 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/tinkerer/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/tinkerer/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Switched To Tinkerer</title>
@@ -18,29 +20,7 @@
       <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/switched_to_tinkerer/</guid>
-      <description>&lt;p&gt;For anyone that might have been following along I&amp;rsquo;ve been trying out different
-solutions for static site generation of this site. I&amp;rsquo;d been running &lt;code&gt;Pelican&lt;/code&gt;
-for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve
-gotten used to &lt;code&gt;Sphinx&lt;/code&gt; at work for some project documentation and I wanted
-to see if I could leverage some of that. A little googling later and I found
-&lt;code&gt;Tinkerer&lt;/code&gt; which is based on Sphinx but adds some workflow around the process
-to make blogging with &lt;code&gt;Sphinx&lt;/code&gt; easier.&lt;/p&gt;
-
-&lt;p&gt;So I&amp;rsquo;ve made the switch and what you are reading now was generated with Tinkerer.
-I didn&amp;rsquo;t have very much content yet so I just manually moved everything over,
-although from what I saw if you had a lot of content it would be pretty easy
-to whip up a script to do the transfer. The big difference for me was that
-Pelican had you organize your posts by category, while Tinkerer has you organize
-them by date. Aside form that they seemed to have roughly the same features
-with Tinkerer having full Sphinx support.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see if I continue to like it as time goes on. Thats all for now.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;http://docs.getpelican.com/en/3.2/&#34;&gt;Pelican&lt;/a&gt;
-* &lt;a href=&#34;http://sphinx-doc.org/&#34;&gt;Sphinx&lt;/a&gt;
-* &lt;a href=&#34;http://tinkerer.me/&#34;&gt;Tinkerer&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>For anyone that might have been following along I&amp;rsquo;ve been trying out different solutions for static site generation of this site. I&amp;rsquo;d been running Pelican for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve gotten used to Sphinx at work for some project documentation and I wanted to see if I could leverage some of that. A little googling later and I found Tinkerer which is based on Sphinx but adds some workflow around the process to make blogging with Sphinx easier.</description>
     </item>
     
   </channel>

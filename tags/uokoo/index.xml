@@ -10,125 +10,19 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 19 Sep 2016 10:46:10 -0400</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/uokoo/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/uokoo/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>My New UOKOO IP Camera</title>
-      <link>http://www.dpetzel.info/post/my_new_UOKOO_camera/</link>
+      <link>http://www.dpetzel.info/post/my_new_uokoo_camera/</link>
       <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/my_new_UOKOO_camera/</guid>
-      <description>
-
-&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
+      <guid>http://www.dpetzel.info/post/my_new_uokoo_camera/</guid>
+      <description>&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
 At only $40.00 I didn&amp;rsquo;t have very high expectations but I was pleasantly
-surprised at what I got&lt;/p&gt;
-
-&lt;p&gt;This was a bit of an impulse buy. I had a small project I was wanted to do and
-I needed an IP based camera to do it. There is not shortage of these available
-on the Internet, and if you wanted to, you probably spend a full week
-researching them. I was &lt;em&gt;not&lt;/em&gt; in the mood for all the research on this project
-and it was my wife who actually found this guy.&lt;/p&gt;
-
-&lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
-at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
-
-&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
-
-&lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
-unassuming packaging.&lt;/p&gt;
-
-&lt;p&gt;The camera comes with a small instruction booklet and a micro USB power cord.
-Its worth noting the cord is a decent length, probably 4 or 5 feet.&lt;/p&gt;
-
-&lt;p&gt;I was a little worried I&amp;rsquo;d need an extension cord to place it where I wanted,
-but the cord was long enough to reach without one.&lt;/p&gt;
-
-&lt;p&gt;Getting the camera configured for my Wifi was a little sketchy. To be fair, I&amp;rsquo;ve
-had issues with many devices connecting to my WiFi since I don&amp;rsquo;t broadcast my
-SSID. You have to first download the mobile app (discussed below). Once that
-installed, you have to press a configuration button on the side of the unit,
-which allows it to be programmed for a minute or two. If you don&amp;rsquo;t succeed in
-that amount of time you&amp;rsquo;ll have to start over.&lt;/p&gt;
-
-&lt;p&gt;Once its in its programming mode, you scan a QR code with your phone and your
-phone will start beeping at the camera. This series of beeps is supposed to
-configure the camera. It took me about half a dozen attempts to get it to take,
-but once it did take, the device was on my WiFi network.&lt;/p&gt;
-
-&lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
-
-&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
-
-&lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
-available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
-be used at no cost.&lt;/p&gt;
-
-&lt;p&gt;It allows you to view a number of these devices all in one window. This
-software also allows you to configure a recording from the camera. You have the
-ability to set the time(s) of day that you want record. It will record to the
-local hardware of the machine running the software.&lt;/p&gt;
-
-&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
-
-&lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
-geared for mobile devices. This application is also free to use with the
-camera.&lt;/p&gt;
-
-&lt;p&gt;The app will let you put 4 cameras on to your screen, each taking up a quarter
-of the screen.&lt;/p&gt;
-
-&lt;p&gt;Outside of the browser interface, this app is the primary method of configuring
-the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
-functionality very much&lt;/p&gt;
-
-&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
-
-&lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
-installed. Its all done over TCP port 80 (as best I could tell). So I configured
-a port forward on my router to send 80 to the camera. The following day, from
-work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
-
-&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
-
-&lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
-engagne the nightvision 3 red lights on the face of the camera light up. They
-are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyone at night.&lt;/p&gt;
-
-&lt;p&gt;I had hoped to hook this up in a window, looking outward. This works great
-during the day, however at night, once the night vision LEDs kick in they
-product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
-
-&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
-
-&lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
-or save off to an FTP server when motion is detected. I did experiment with this
-for a little while, but it didn&amp;rsquo;t work very well. Every single time the alert
-tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It seems
-as if the delay is so high, the person or thing walking by has already cleared
-the field of vision before the picture is taken&lt;/p&gt;
-
-&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
-
-&lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
-sound from the camera. I say sound, because its barely understandable. The
-volume is extremely low, and I didn&amp;rsquo;t see an option to increase that. In
-addition to the low volume, the voices don&amp;rsquo;t sound anything like the actual
-voice of the person speaking into it.&lt;/p&gt;
-
-&lt;p&gt;I have yet to get around to testing how well it picks up audio. Where I have it
-place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
-disabled.&lt;/p&gt;
-
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
-surveillance system around, but for the price it is a fun little device. This
-is actually the first IP based camera I&amp;rsquo;ve purchased and being able to check out
-whats going on at my house when I&amp;rsquo;m not there is a mildly addicting. It&amp;rsquo;s
-got me thinking about getting a kit of higher end units to let me view more
-angles of my property.&lt;/p&gt;
-</description>
+surprised at what I got&lt;/p&gt;</description>
     </item>
     
   </channel>

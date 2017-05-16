@@ -12,7 +12,7 @@
 
   
 
-  <meta name="generator" content="Hugo 0.16-DEV" />
+  <meta name="generator" content="Hugo 0.20.7" />
 
   <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
 
@@ -31,7 +31,7 @@
   
   <meta property="og:title" content="Debugging WinRM" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/" />
+  <meta property="og:url" content="/post/windows/debugging_winrm//" />
   <meta property="og:image" content="" />
 
 </head>
@@ -131,7 +131,8 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       
       <article role="main" class="blog-post">
-          <p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM</p>
+          <p>Some notes on my first attempts at doing details debugging and troubleshooting of WinRM
+</p>
 
 <p>Useful Articles</p>
 
@@ -161,13 +162,12 @@ get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &gt;&gt; C:\winrm2_lo
 </code></pre>
 
 <p>Review the log and hopefully find some answers</p>
-
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">&larr; Previous Post</a>
+          <a href="http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">&larr; Previous Post</a>
         </li>
         
         
@@ -265,6 +265,16 @@ get-winevent -path $pshome\traces\pstrace.etl -oldest | fl &gt;&gt; C:\winrm2_lo
 <script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
 <script src="http://www.dpetzel.info/js/main.js"></script>
 
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
 
 
   </body>

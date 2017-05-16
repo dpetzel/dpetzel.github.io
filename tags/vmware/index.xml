@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Sun, 24 Nov 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Building a Dell T420 with ESXi 5</title>
@@ -18,131 +20,8 @@
       <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/virtualization/building-a-dell-t420-with-esxi-5/</guid>
-      <description>
-
-&lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
-would run ESXi 5 on it.&lt;/p&gt;
-
-&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
-
-&lt;p&gt;My day job does not really allow me much hands on access to hardware any more
-so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
-the chance to work on this as a side project. The server came
-pre-installed with Windows 2012 Standard. I have a need to run a couple of VM&amp;rsquo;s and I
-decided I wanted to run ESXi on the host, and run the 2013 standard box as
-a VM. For anyone that is curious, I didn&amp;rsquo;t pick ESXi because its &amp;laquo;better&amp;raquo; than
-Hyper-V (I have no clue how they stack up anymore). I simply chose it because
-its been a couple of years since I&amp;rsquo;ve built an ESX host and I wanted to see
-how things have evolved.&lt;/p&gt;
-
-&lt;p&gt;The first thing I did was use the VMWare converter utility to P2V the existing
-installation out to a VMWare workstation format. I didn&amp;rsquo;t &lt;em&gt;really&lt;/em&gt; need to do
-this since the OS was not customized yet, and I could reinstall, but this
-was a chance to play with the converter, and see if if I could PBV the existing
-installation and have it running on the newly rebuilt box. It worked well,
-and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
-about getting the box built.&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
-
-&lt;p&gt;So step one was to grab the installation bits from
-&lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
-I went with version 7.3.0.2 as it was the most recent available. It downloaded
-the file to my workstation, as opposed to directly on the ESX host.&lt;/p&gt;
-
-&lt;p&gt;Next I started following the ESXi specific instructions in the
-&lt;a href=&#34;ftp://ftp.dell.com/Manuals/all-products/esuprt_software/esuprt_ent_sys_mgmt/esuprt_ent_sys_mgmt_opnmng_sw/dell-opnmang-sw-v7.3_User%27s%20Guide2_en-us.pdf&#34;&gt;Open Manage User Guide&lt;/a&gt;.
-While I can appreciate the time it takes to work up instructions that cover such
-a wide array of platforms, I found these instructions a bit lacking. They had
-several typos (missing spaces in command line commands) as well as were unclear
-on a couple things, so I&amp;rsquo;ll spend a little more time to add some details here.&lt;/p&gt;
-
-&lt;p&gt;I chose to go with the &amp;laquo;Using The vSphere CLI&amp;raquo; portion of the instructions, as
-it seemed to be the most straight forward for folks without existing ESX
-infrastructures in place. So with that, I had to download and install the
-&lt;a href=&#34;http://www.vmware.com/support/developer/vcli/&#34;&gt;vSphere CLI&lt;/a&gt;. This was pretty quick and painless. I didn&amp;rsquo;t poke to much
-at it, but it feels like its nothing more than a set of Perl scripts and it
-adds a shortcut to a CMD session which I presume just tweaks the shell with
-some environment variables&lt;/p&gt;
-
-&lt;p&gt;Now I copied the file over the suggested directory per the docs (I had to enable
- and start SSH access using the vSphere Client before this would work).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;   pscp OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip root@192.168.1.1:/var/log/vmware/
-   Using keyboard-interactive authentication.
-   Password:
-   OM-SrvAdmin-Dell-Web-7.3. | 6490 kB | 1622.6 kB/s | ETA: 00:00:00 | 100%
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So I&amp;rsquo;m not sure how the docs assume you to unzip this, but I did it over an SSH
-session, and the part that I messed up on first was that I unzipped the file
-directly in &lt;code&gt;/var/log/vmware/&lt;/code&gt;, when in reality all you have to do is run the
-install command against the ZIP directly. There is no need to actually unzip it.&lt;/p&gt;
-
-&lt;p&gt;I later learned about the &lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
-which I think is geared toward keeping SSH out of the mix. for now I ran the
-command using the CLI&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   esxcli --server 192.168.1.1 software vib install -d /var/log/vmware/OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip
-
-   Installation Result
-      Message: The update completed successfully, but the system needs to be rebooted for the changes to be effective.
-      Reboot Required: true
-      VIBs Installed: Dell_bootbank_OpenManage_7.3.0.2-0000
-      VIBs Removed:
-      VIBs Skipped:
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And then comes a reboot. Following the reboot I expected I would be able
-to hit the OMSA HTTPS interface at &lt;a href=&#34;https://192.168.1.1:1311&#34;&gt;https://192.168.1.1:1311&lt;/a&gt;, however that didn&amp;rsquo;t
-work, and it turns out is more more involved, and covered in the &amp;laquo;Accessing Server Administrator on VMware ESXi&amp;raquo;
-section. Essentially it suggests that you have to a &lt;strong&gt;completely separate&lt;/strong&gt;,
-server running the web server. In my case, this is the only box on the network
-so this seems like a crappy solution, but I suppose the logic is possibly to
-keep the number of system daemons to an absolute minimum. In any event, I was
-a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
-
-&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
-
-&lt;p&gt;At this point, I was a bit annoyed that I needed another system.
-While trolling for ways to potentially hack the Web server in directly, I came
-across a YouTube video on the subject at &lt;a href=&#34;http://www.youtube.com/watch?v=hywERi8bc1c&#34;&gt;http://www.youtube.com/watch?v=hywERi8bc1c&lt;/a&gt;.
-While watching this at about 1:31 they jump to a screen I was not familiar with,
-and after a little digging I discovered the
-&lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
-so I proceeded to download and &lt;em&gt;install&lt;/em&gt; the virtual appliance as it seems it
-will come in handy in the future as well.&lt;/p&gt;
-
-&lt;p&gt;So I downloaded the appliance, unzipped the file and and then followed the
-instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
-This all went really smooth.&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
-
-&lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
-the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
-the file from the dell website (they make it harder than is should be to get a
-direct download link that I could wget from inside the VM so instead I
-downloaded it on my workstation and uploaded it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;pscp OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz vi-admin@192.168.1.2:/tmp
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then via an SSH into the VMA appliance:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   cd /tmp
-   tar -zxvf OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz
-   sudo ./setup.sh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Accept the license agreement, and hit option 1 to install the Server Administrator Web Server Interface.
-Followed by pressing &amp;laquo;i&amp;raquo;&lt;/p&gt;
-
-&lt;p&gt;And about 2 minutes later, we have our good old friend, the Open Manager web
-interface available at https//vmaappliance_ip:1311, and I was able to use
-it to connect to my ESXi host. A bit of a round about where to get there, but
-something is better than nothing..&lt;/p&gt;
-</description>
+      <description>I recently got the opportunity to play with a new Dell T420, and I decided I would run ESXi 5 on it.
+Background My day job does not really allow me much hands on access to hardware any more so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got the chance to work on this as a side project. The server came pre-installed with Windows 2012 Standard.</description>
     </item>
     
   </channel>

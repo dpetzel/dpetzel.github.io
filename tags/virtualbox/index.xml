@@ -10,67 +10,20 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/virtualbox/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/virtualbox/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>BIG IP LTM VE on VirtualBox</title>
-      <link>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</link>
+      <link>http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/</link>
       <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/virtualization/BIG-IP%20LTM%20VE%20on%20VirtualBox/</guid>
+      <guid>http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/</guid>
       <description>&lt;p&gt;I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
 I didn&amp;rsquo;t have the access to a test box that I had when I initially wrote it.
-So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m on a VirtualBox kick right now, but the appliance choices there don&amp;rsquo;t list
-VirtualBox. Inspired by this post, I figured I&amp;rsquo;d give it a shot since it looked
-simple enough. I&amp;rsquo;m re-documenting the process here, so I can just add a little
-more detail around this.&lt;/p&gt;
-
-&lt;p&gt;Start by registering (or signing in if you already have an account) via
-&lt;a href=&#34;https://www.f5.com/trial/big-ip-ltm-virtual-edition.php&#34;&gt;https://www.f5.com/trial/big-ip-ltm-virtual-edition.php&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Navigate the screens to get your trial key, and subsequent download. You&amp;rsquo;ll
-want to grab the ESXi based ova file MAKE SURE YOU DOWNLOAD THE 10.1 OVA. I
-thought I would be cool and download the 10.2 file. Turns out you can’t
-activate the 10.2 trial… How dumb… anyway save yourself some time and just
-download 10.1&lt;/p&gt;
-
-&lt;p&gt;From within the VirtualBox UI, select File &amp;ndash;&amp;gt; Import Appliance&lt;/p&gt;
-
-&lt;p&gt;Select Choose and locate the .ova file you just downloaded. Click Next&lt;/p&gt;
-
-&lt;p&gt;There are just a couple of settings you&amp;rsquo;ll want to tweak on Import Settings page:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Give your appliance a name (or just accept the default)&lt;/li&gt;
-&lt;li&gt;Change to 2 CPUs&lt;/li&gt;
-&lt;li&gt;Changes to 2048MB of RAM&lt;/li&gt;
-&lt;li&gt;Change the file extension on the virtual disk image to be a .vdi&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You should see a license agreement, agree to it of course.&lt;/p&gt;
-
-&lt;p&gt;One the import is complete, I’d suggest setting each network adaptor to
-host-only networking, unless you really need it to talk externally. Regardless
-of if you change that or not, power on the VM now.&lt;/p&gt;
-
-&lt;p&gt;The first thing you’ll need to do is assign a management IP. Start by
-logging into the vm through the VirtualBox console. credentials are
-root/default. At the CLI type config. I opted let DHCP do its thing by
-answering Yes “use automatic configuration of ip address”&lt;/p&gt;
-
-&lt;p&gt;type &lt;code&gt;ifconfig&lt;/code&gt; and you should see any entry like eth0:mgmt. This will give
-you the IP address of your management interface. Using https navigate to that
-IP addresses in a browser on your workstation. &lt;a href=&#34;https://192.168.1.100&#34;&gt;https://192.168.1.100&lt;/a&gt;
-(or whatever IP you got). &lt;strong&gt;NOTE&lt;/strong&gt; the username and password for the UI is
-different than the cli. Use admin/admin for logging into the webui&lt;/p&gt;
-
-&lt;p&gt;You’ll be prompted to run through a setup wizard. Its self explanatory enough
-that I don’t think I need to cover it here. From here you are on your own.&lt;/p&gt;
-
-&lt;p&gt;Proceed as you see fit.&lt;/p&gt;
-</description>
+So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.
+&lt;/p&gt;</description>
     </item>
     
   </channel>
