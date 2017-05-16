@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Rethinking Datastax Opscenter HA on AWS</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.20.7" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Rethinking Datastax Opscenter HA on AWS" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/rethinking-datastax-opscenter-ha-on-aws//" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Rethinking Datastax Opscenter HA on AWS</h1>
+      
+
+      
+      <span class="post-meta">Posted on May 8, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#the-alternate-design">The Alternate Design</a></li>
+<li><a href="#upgrades">Upgrades</a></li>
+<li><a href="#data-configuration-synchronization">Data/Configuration Synchronization</a></li>
+<li><a href="#network-splits">Network Splits</a></li>
+<li><a href="#agent-reconfiguration">Agent Reconfiguration</a></li>
+<li><a href="#lock-in">Lock In</a></li>
+<li><a href="#costs">Costs</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          <p>Recently I&rsquo;ve been working on building a highly available installation of Datastax Opscenter in
+an automated fashion on AWS. I&rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
+fail over and will propose an alternate solution which I believe still achieves high availability as well as
+much better self-healing.</p>
+
+<p></p>
+
+<p><strong>DISCLAIMER</strong> This is not a proven solution, while I believe it should work, understand this is a proposal.</p>
+
+<p>Before we get started lets define what &laquo;High Availability&raquo; or &laquo;Highly Available&raquo; means since this term is somewhat
+subjective to the individual. I think this quote from <a href="https://www.digitalocean.com/community/tutorials/what-is-high-availability">https://www.digitalocean.com/community/tutorials/what-is-high-availability</a> sums it up pretty well:</p>
+
+<blockquote>
+<p>High availability is a quality of a system or component that assures a high level of operational performance for a given period of time.</p>
+</blockquote>
+
+<p>For our purposes we won&rsquo;t squabble over how many <a href="https://en.wikipedia.org/wiki/High_availability#.22Nines.22">Nines</a> we need in order to be considered HA. We&rsquo;ll simply agree it means &laquo;keep downtime a minimum&raquo;.</p>
+
+<p>With that out of the way let me set the stage for how I got to this point. Over the last several weeks I&rsquo;ve been
+getting up to speed with the Cassandra ecosystem. The company I work for already has an established relationship
+with Datastax, however we are looking to migrate a new application to Cassandra and I&rsquo;ll be heavily involved
+in both building and maintaining some new Cassandra clusters. Up until this project I&rsquo;ve had virtually zero
+exposure to Cassandra. As a result of this I&rsquo;ve defaulted to trying to do things &laquo;The Datastax Way&raquo;, when that
+makes sense for our use cases.</p>
+
+<p>Datastax has their own HA solution which they refer to as <a href="https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html">Automatic Failover</a>. Naturally I started down the path of implementing their solution as outlined, however along that path I ran into a number of rough patches which has left me believing a different approach will be better. Since my system will be deployed into AWS and not a traditional data center I have a very powerful infrastructure API at my disposal. If I were building this solution in a more traditional managed data center
+it is very likely I&rsquo;d adhere much closer to the Datastax provided solution.</p>
+
+<p><strong>Disclaimer</strong> The work I have done so far involved a decent amount of research and reviewing Datastax documentation.
+I&rsquo;ve setup Opscenter a few times, however I have not fully deployed an automated fail over cluster (because of some
+of the issues I&rsquo;ll describe below).
+As a result of this I can&rsquo;t speak with any authority on how well their solution actually works, but I&rsquo;m going to give
+them benefit of the doubt and assume it works. I&rsquo;ll keep this assumption in mind as I compare the merits of my proposed
+design against theirs.</p>
+
+<p>I&rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
+challenges I see.</p>
+
+<h2 id="the-alternate-design">The Alternate Design</h2>
+
+<ul>
+<li>Opscenter will be pre-installed on a &laquo;Baked AMI&raquo;.</li>
+<li>There will be one, and only one, instance of Opscenter (please close your jaw if it just dropped,
+I promise this isn&rsquo;t as insane as it sounds and I&rsquo;ll explain more in a bit).</li>
+<li>This single instance will be under the control of an autoscale group (yep, and ASG with a min of 1, and max of 1)</li>
+<li>There will be a dedicated EFS (NFS) filesystem where opscenter files will be stored. A mount target will be
+exposed in each availability zone, and the instance will mount it using the zone independent DNS name</li>
+<li>There will be three dedicated ENIs, one in each availability zone, separate from the instance&rsquo;s auto-assigned one.
+Whenver a new instance is launched, it will detect its current AZ and mount the ENI that resides in the same AZ.</li>
+<li>There will be a Route53 DNS entries that is mapped to the active ENI</li>
+<li>The Datastax agents will be configured to point at this Route53 DNS entry.</li>
+</ul>
+
+<p>This represents the minimum components required to replace Datastax&rsquo;s solution.
+There are certainly other &laquo;frills&raquo; you can add, but I don&rsquo;t consider them core to the design so I&rsquo;m omitting them.
+Now lets get into the meat of how things will work.</p>
+
+<h2 id="upgrades">Upgrades</h2>
+
+<p>Based on the steps outlined in <a href="https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html">https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html</a>
+you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
+secondary before upgrading the primary. In this situation you&rsquo;ve basically turned off automatic failover and
+you&rsquo;re down for the duration of the upgrade. To be fair, this appears to basically just be an RPM upgrade so
+it probably won&rsquo;t take very long.</p>
+
+<p>The take away here is that the steps are manual. We can of course automate ourselves out of that situation, but
+that would require us to implement some sort of multiple machine orchestration/configuration management tool
+that would need to be programmed with a method to identify who the master is, and then down the secondary.
+Don&rsquo;t get me wrong I fully agree that all this <em>can</em> be automated, but it comes with a number of moving parts
+ (any of which can fail).</p>
+
+<p>I believe there is a simpler upgrade path we can take. I want to be clear here that what I am about to outline
+results in the overall upgrade time taking a little longer, but I believe its both safer and easier.</p>
+
+<p>In this proposed design we&rsquo;d have a fresh AMI already baked with the new version of Opscenter.</p>
+
+<p>The next thing we do is upgrade the ASG launch configuration to tell it launch any new instances using the new
+AMI ID. Ideally you&rsquo;re automating this with something like cloudformation or Terraform. At this point no changes
+have been made on your running Opscenter instance.</p>
+
+<p>When the time is right, you then terminate the running instance (close that jaw). This is where the real magic
+of the process starts to come through. Lets step through the sequence of events:</p>
+
+<ol>
+<li>The termination signal is going to gracefully shutdown our instance, ensuring Opscenter gracefully closes
+file handles. At this point the EFS volume with all your Opscenter &laquo;data&raquo; remains intact and disconnected
+from the previous instance.</li>
+<li>At this point the ASG will launch a fresh instance, using the new AMI ID which has our updated version of
+Opscenter installed. For those of you who have used auto-scaling you know this won&rsquo;t be instant and might take
+a minute or two. Its this delay that causes this approach to be a little slower than the RPM upgrade</li>
+<li>As the new instance boots up it will claim the appropriate ENI and configure itself to use it.</li>
+<li>After claiming the ENI, and determining the private IP of that ENI, the instance will update the Route53 entry.</li>
+<li>Next the new instance will mount the EFS volume.</li>
+<li>Finally Opscenter will be started. At this point this new instance has all the data, and the secondary IP
+associated with the ENI. Since the agents were configured with DNS entries, they should reconnect.</li>
+</ol>
+
+<p>So what happens if an upgrade goes bad? I&rsquo;ll skip the troubleshooting process as that&rsquo;ll be similar in both
+approaches. Lets assume we&rsquo;ve gotten ourselves to a point where we need to rollback. In the traditional approach
+you&rsquo;d likely attempt an RPM downgrade, which will probably work, however experience tells me that RPM downgrades
+are not always successful, leaving the system in odd states. In the proposed solution you would simply revert
+the launch configuration back to the previous AMI and terminate the currently running instance. At that point the
+steps outlined above would be executed and you&rsquo;d get an older version up and running.</p>
+
+<p>Let&rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.</p>
+
+<h2 id="data-configuration-synchronization">Data/Configuration Synchronization</h2>
+
+<p>This section will focus on much of the material discussed in <a href="https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html">https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html</a>. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.</p>
+
+<p>Let&rsquo;s face it, we&rsquo;ve all been there and done that. It gets the job but its error prone. I don&rsquo;t want to spend a bunch of time chasing the &laquo;what ifs&raquo; but a few need to be discussed.</p>
+
+<p>rsync will require that machine keys get exchanged. This is doable and not terribly hard with automation, but
+what happens when one of the nodes eventually dies. Either you, or some automation/orchestration you&rsquo;ve written
+needs to reconfigure these jobs so the two new nodes are now talking. Doable, but in the proposed solution all
+this data was stored on the NFS volume and you never had to sync anything. When nodes fail and/or are replaced you don&rsquo;t
+need to reconfigure anything, the data is &laquo;just there&raquo;. So this is one of those places where we can both simplify
+things as well as raise the level of self healing the system is able to perform.</p>
+
+<p>What about sharing the NFS across the instances you say? Sure, its an option, but look at those instructions and how specific some of those
+paths are. This one really made me winch a little:</p>
+
+<blockquote>
+<p>Note: The failover_configuration_directory should not be mirrored across OpsCenter installs when configuring OpsCenter to support failover</p>
+</blockquote>
+
+<p>Well as it turns out <code>failover_configuration_directory</code> by default is <code>/var/lib/opscenter/failover/</code>.
+The docs having you syncing multiple things in <code>/var/lib/opscenter</code>, so at this point you can&rsquo;t simply
+mount/symlink that entire directory, and instead have to start cherry picking.</p>
+
+<p>What happens if a future update adds another file to that directory that you need and you missed it in the
+release/upgrade notes. Don&rsquo;t get me wrong, you can make this work, its just unnecessarily error prone.</p>
+
+<p>I can already here someone saying &laquo;just relocate <code>failover_configuration_directory</code>&raquo;. That would certainly
+make the sync configuration a little simpler, but now you&rsquo;ve deviated away from &laquo;factory defaults&raquo; which can
+come with its own challenges down the road.</p>
+
+<p>So I&rsquo;ll wrap up this section by simply re-iterating that yes I&rsquo;m confident we can make it work, but I also
+think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.</p>
+
+<h2 id="network-splits">Network Splits</h2>
+
+<p>Let&rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
+practices for AWS you&rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
+Its not a matter of if, its a matter of when, a partition will happen.
+Lets look at what DataStax has to say on the matter:</p>
+
+<blockquote>
+<p>Note: If a failover occurred due to a network split, the formerly primary OpsCenter must be manually shut down, and another backup configured when network connectivity has been restored. Upon startup, each OpsCenter instance generates a unique id (uuid), which is stored in the failover_id file. In the event of a network split, a failover_id uniquely identifies each OpsCenter to agents and prevents both OpsCenter machines from running operations post-failover, which could corrupt data. The location of failover_id file depends on the type of install and is configurable.</p>
+</blockquote>
+
+<p>This part is especially troubling to me:</p>
+
+<blockquote>
+<p>must be manually shut down, and another backup configured when network connectivity has been restored</p>
+</blockquote>
+
+<p>This whole process feels brittle and error prone to recover from. If we only run a single instance we avoid this
+whole situation. There can&rsquo;t be any split brain when there is only one brain :)</p>
+
+<p>This does however warrant some thought on the impact of availability in the event that one or more zones are lost.
+Since OpsCenter clusters can only be 2 nodes, a failure of 2 zones (assuming its the two that Opscenter instances are in) will be just as impactful, so the real difference comes down to a single zone failure.</p>
+
+<p>The specifics of how this play out could vary wildly depending on the nature of the failure, but if we are
+assuming the zone is &laquo;gone&raquo;, then the ASG (which is configured to span multiple zones) should launch a new
+instance into a functional zone. I fully admit, I&rsquo;ve never seen a zone &laquo;go way&raquo; so this is more theory than
+practice.</p>
+
+<h2 id="agent-reconfiguration">Agent Reconfiguration</h2>
+
+<p>This section has some overlap with the previous section but is more general in nature. Datastax says the
+following about fail over events:</p>
+
+<blockquote>
+<p>The backup OpsCenter automatically reconfigures the agents by automatically changing stomp_interface in address.yaml to connect to the backup instance instead of the failing primary instance.</p>
+
+<p>Ensure that address.yaml is not being managed by third-party Configuration Management. During failover, OpsCenter automatically changes stomp_interface in address.yaml to point to the backup opscenterd instance. If a separate Configuration Management system is managing address.yaml, that change might be undone when the Configuration Management system pushes its next update.</p>
+</blockquote>
+
+<p>To me this feels brittle. When everything is firing perfectly this might work well, but what happens in the
+case of the network split above? Its a little unclear to me how this works. If it fires that change only once
+what happens if some number of nodes can&rsquo;t be reached?</p>
+
+<p>Thinking about the network split situation above, it would seem some number of nodes wouldn&rsquo;t be managed
+for a period of time. It just feels like there are lot of moving parts happening here, any of which could
+go wrong in unexpected ways.</p>
+
+<p>Remember that Route53 entry we talked about before? That eliminates the need for ever changing the configuration on the
+agents, since it will simply &laquo;move&raquo; to the appropriate instance. If your one of those shops who like to
+manage <em>all</em> your configuration files with your configuration management solution you can do that now
+without the fear of the situation quoted above.</p>
+
+<h2 id="lock-in">Lock In</h2>
+
+<p>There are two quotes from <a href="https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html">https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html</a> I want to
+address in this section.</p>
+
+<blockquote>
+<p>If the newly configured backup OpsCenter detects any DataStax Community or open source Cassandra clusters, it logs an entry and shuts itself down.</p>
+
+<p>Note: If a non-DataStax Enterprise cluster is added after enabling automatic failover, OpsCenter fires an alert that automatic failover will not work and the backup OpsCenter instance shuts down.</p>
+</blockquote>
+
+<p>While I don&rsquo;t currently have any plans to run community edition or open source Cassandra, having that option
+taken out of my hands is unsettling. Its not unreasonable to think we might leverage one of those other solutions
+for some of our less critical applications/workloads.</p>
+
+<p>They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
+the alternate solution of a single node keeps our options open.</p>
+
+<h2 id="costs">Costs</h2>
+
+<p>I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
+running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.</p>
+
+<p>There are a few cost considerations, and I fully admit all of them are probably pocket change compared to
+your monthly AWS spend but I think its important to understand them.</p>
+
+<p>The first cost we need to consider is the cross zone traffic charges. A lot of people don&rsquo;t know this but AWS
+does charge you for network traffic that crosses availability zones: <a href="https://aws.amazon.com/ec2/pricing/on-demand/">https://aws.amazon.com/ec2/pricing/on-demand/</a>
+Look at the section titled &laquo;Data Transfer OUT From Amazon EC2 To&raquo; and you&rsquo;ll see this entry</p>
+
+<blockquote>
+<p>Amazon EC2, Amazon RDS, Amazon Redshift or Amazon ElastiCache instances, Amazon Elastic Load Balancing, or Elastic Network Interfaces in another Availability Zone or peered VPC in the same AWS Region</p>
+</blockquote>
+
+<p>I&rsquo;ve omitted the actual cost as it may change by the time you read this, but the take away is that cross zone
+traffic isn&rsquo;t free, and there are a couple sources of cross zone traffic.</p>
+
+<p>The largest source (I suspect) will be the agents on each Cassandra node communicating with Opscenter (and vice versa).
+This cost will actually be the same in both configurations. Since OpsCenter is active passive two thirds of
+your agents will be crossing zones. That will be exactly the same in the proposed solution.</p>
+
+<p>The next source of cross zone traffic will be the heart beats between the primary and backup. In the proposed
+solution we do away with this charge since there is no backup to exchange information with. In additions to the
+heartbeats, if we were using the rsync solution, we&rsquo;d be paying for that well. To be clear, this data volume
+is so small, the charge will probably be extremely low.</p>
+
+<p>The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
+our compute charges in half by only running a single instance.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If you&rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
+center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
+where you&rsquo;ve got access to infrastructure APIs there are other options.</p>
+
+<p>As is the case with any solution there are pros and cons. This solution is no different, but for me the pros
+have the potential to outweigh the cons and I look forward to giving it a test drive in the real world.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/" data-toggle="tooltip" data-placement="top" title="Flashing DD-WRT On A Linksys WRT1200AC V2">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/misc/codemonkeyfm/" data-toggle="tooltip" data-placement="top" title="New Podcast: Code Monkey Talks">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2017
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

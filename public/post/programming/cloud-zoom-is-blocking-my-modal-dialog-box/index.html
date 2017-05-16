@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.20.7" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Cloud Zoom Is Blocking My Modal Dialog Box" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box//" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Cloud Zoom Is Blocking My Modal Dialog Box</h1>
+      
+
+      
+      <span class="post-meta">Posted on March 5, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>The issue I was having is that the Cloud Zoom enhanced image was being
+displayed in front of my drop down menu as well as my modal dialog box. At
+first I had only noticed the issue on the drop menu, and was having a hard time
+figuring out what was going on, and thought perhaps I had done something wrong
+on the superfish menu. Once I noticed it was also affecting my modal dialog,
+I became suspicious of cloud zoom.
+</p>
+
+<ul>
+<li>I&rsquo;ve got a page that is using a few different jQuery dependent features/functions.</li>
+<li>I&rsquo;m using the superfish drop down menu</li>
+<li>I&rsquo;m also using the jQuery UI Dialog for a modal dialog box</li>
+<li>And finally, I&rsquo;m using Cloud Zoom for some image excitement</li>
+</ul>
+
+<p>I went through and tried a few different things, and finally just disabled
+cloud zoom. At that point my drop down menu was now correctly displayed over
+top of the image. I spent some time looking through the cloud-zoom site with no
+luck. I spent quite a bit of time googling with no luck.</p>
+
+<p>I turned my attention to the jQuery UI documentation for anything that might be
+a clue. I was reading through the various options and came upon the zIndex
+option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
+I finally got to this article: <a href="http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/">http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/</a>
+So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
+So the question of the day is WHY? and what is the value of zIndex I need to
+use? Well on a hunch I started digging through the cloud zoom javascript and
+found line 350::</p>
+
+<pre><code class="language-javascript">  $(this).wrap('&lt;div id=&quot;wrap&quot; style=&quot;top:0px;z-index:9999;position:relative;&quot;&gt;&lt;/div&gt;');
+</code></pre>
+
+<p>So Cloud Zoom is using 9999. Any other components that has a z-index lower
+than that will be displayed behind my images. So of course, I put this to the
+test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.</p>
+
+<p>A quick refresh and everything is working perfect!. zIndex&hellip; who knew&hellip;</p>
+
+<p>In case you are wondering, yes I did test an iteration with the index of the
+menu and modal dialog set to be lower than 9999 and as expected they were
+hidden by the cloud zoom image.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/" data-toggle="tooltip" data-placement="top" title="Installing Apache Traffic Server 3.0.1 on Centos 5.7">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/" data-toggle="tooltip" data-placement="top" title="BIG IP LTM VE on VirtualBox">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2017
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

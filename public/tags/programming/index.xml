@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 08 May 2017 22:51:02 -0400</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>New Podcast: Code Monkey Talks</title>
@@ -20,10 +22,7 @@
       <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
       <description>&lt;p&gt;A few former colleagues of mine have recently started a new podcast they call &lt;code&gt;Code Monkey Talks&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;In their first few episodes they&amp;rsquo;ve already managed to line up some really great guests, so if you are
-looking for a new podcast to add to your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm&#34;&gt;http://www.codemonkey.fm&lt;/a&gt;.
-I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

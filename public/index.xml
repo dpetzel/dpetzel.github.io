@@ -9,8 +9,25 @@
     <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
-    <lastBuildDate>Mon, 08 May 2017 22:51:02 -0400</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 May 2017 20:02:38 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.dpetzel.info/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>The Case Of The Missing Cassandra Gossip Packets</title>
+      <link>http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/</link>
+      <pubDate>Mon, 15 May 2017 20:02:38 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/</guid>
+      <description>&lt;p&gt;One of my recent tasks was to automate the creation of multi-region Cassandra
+clusters. I&amp;rsquo;m still pretty green with Cassandra but have been having some recent
+success with creating multi-dc (replication group) clusters inside of a single
+AWS region. The story that follows summarizes what was a painful few days
+of debugging&amp;hellip;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>New Podcast: Code Monkey Talks</title>
@@ -20,268 +37,21 @@
       <guid>http://www.dpetzel.info/post/misc/codemonkeyfm/</guid>
       <description>&lt;p&gt;A few former colleagues of mine have recently started a new podcast they call &lt;code&gt;Code Monkey Talks&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;In their first few episodes they&amp;rsquo;ve already managed to line up some really great guests, so if you are
-looking for a new podcast to add to your playlist checkout &lt;a href=&#34;http://www.codemonkey.fm&#34;&gt;http://www.codemonkey.fm&lt;/a&gt;.
-I think you&amp;rsquo;ll enjoy it.&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Rethinking Datastax Opscenter HA on AWS</title>
-      <link>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</link>
+      <link>http://www.dpetzel.info/post/rethinking-datastax-opscenter-ha-on-aws/</link>
       <pubDate>Mon, 08 May 2017 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/Rethinking%20Datastax%20Opscenter%20HA%20on%20AWS/</guid>
-      <description>
-
-&lt;p&gt;Recently I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
+      <guid>http://www.dpetzel.info/post/rethinking-datastax-opscenter-ha-on-aws/</guid>
+      <description>&lt;p&gt;Recently I&amp;rsquo;ve been working on building a highly available installation of Datastax Opscenter in
 an automated fashion on AWS. I&amp;rsquo;ve decided to abandon my pursuit of installing Opscenter with automatic
 fail over and will propose an alternate solution which I believe still achieves high availability as well as
 much better self-healing.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt; This is not a proven solution, while I believe it should work, understand this is a proposal.&lt;/p&gt;
-
-&lt;p&gt;Before we get started lets define what &amp;laquo;High Availability&amp;raquo; or &amp;laquo;Highly Available&amp;raquo; means since this term is somewhat
-subjective to the individual. I think this quote from &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/what-is-high-availability&#34;&gt;https://www.digitalocean.com/community/tutorials/what-is-high-availability&lt;/a&gt; sums it up pretty well:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;High availability is a quality of a system or component that assures a high level of operational performance for a given period of time.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;For our purposes we won&amp;rsquo;t squabble over how many &lt;a href=&#34;https://en.wikipedia.org/wiki/High_availability#.22Nines.22&#34;&gt;Nines&lt;/a&gt; we need in order to be considered HA. We&amp;rsquo;ll simply agree it means &amp;laquo;keep downtime a minimum&amp;raquo;.&lt;/p&gt;
-
-&lt;p&gt;With that out of the way let me set the stage for how I got to this point. Over the last several weeks I&amp;rsquo;ve been
-getting up to speed with the Cassandra ecosystem. The company I work for already has an established relationship
-with Datastax, however we are looking to migrate a new application to Cassandra and I&amp;rsquo;ll be heavily involved
-in both building and maintaining some new Cassandra clusters. Up until this project I&amp;rsquo;ve had virtually zero
-exposure to Cassandra. As a result of this I&amp;rsquo;ve defaulted to trying to do things &amp;laquo;The Datastax Way&amp;raquo;, when that
-makes sense for our use cases.&lt;/p&gt;
-
-&lt;p&gt;Datastax has their own HA solution which they refer to as &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;Automatic Failover&lt;/a&gt;. Naturally I started down the path of implementing their solution as outlined, however along that path I ran into a number of rough patches which has left me believing a different approach will be better. Since my system will be deployed into AWS and not a traditional data center I have a very powerful infrastructure API at my disposal. If I were building this solution in a more traditional managed data center
-it is very likely I&amp;rsquo;d adhere much closer to the Datastax provided solution.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; The work I have done so far involved a decent amount of research and reviewing Datastax documentation.
-I&amp;rsquo;ve setup Opscenter a few times, however I have not fully deployed an automated fail over cluster (because of some
-of the issues I&amp;rsquo;ll describe below).
-As a result of this I can&amp;rsquo;t speak with any authority on how well their solution actually works, but I&amp;rsquo;m going to give
-them benefit of the doubt and assume it works. I&amp;rsquo;ll keep this assumption in mind as I compare the merits of my proposed
-design against theirs.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll start by outlining the proposed design, and compare the aspects of each design in the context of the
-challenges I see.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-alternate-design&#34;&gt;The Alternate Design&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Opscenter will be pre-installed on a &amp;laquo;Baked AMI&amp;raquo;.&lt;/li&gt;
-&lt;li&gt;There will be one, and only one, instance of Opscenter (please close your jaw if it just dropped,
-I promise this isn&amp;rsquo;t as insane as it sounds and I&amp;rsquo;ll explain more in a bit).&lt;/li&gt;
-&lt;li&gt;This single instance will be under the control of an autoscale group (yep, and ASG with a min of 1, and max of 1)&lt;/li&gt;
-&lt;li&gt;There will be a dedicated EFS (NFS) filesystem where opscenter files will be stored. A mount target will be
-exposed in each availability zone, and the instance will mount it using the zone independent DNS name&lt;/li&gt;
-&lt;li&gt;There will be three dedicated ENIs, one in each availability zone, separate from the instance&amp;rsquo;s auto-assigned one.
-Whenver a new instance is launched, it will detect its current AZ and mount the ENI that resides in the same AZ.&lt;/li&gt;
-&lt;li&gt;There will be a Route53 DNS entries that is mapped to the active ENI&lt;/li&gt;
-&lt;li&gt;The Datastax agents will be configured to point at this Route53 DNS entry.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This represents the minimum components required to replace Datastax&amp;rsquo;s solution.
-There are certainly other &amp;laquo;frills&amp;raquo; you can add, but I don&amp;rsquo;t consider them core to the design so I&amp;rsquo;m omitting them.
-Now lets get into the meat of how things will work.&lt;/p&gt;
-
-&lt;h2 id=&#34;upgrades&#34;&gt;Upgrades&lt;/h2&gt;
-
-&lt;p&gt;Based on the steps outlined in &lt;a href=&#34;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&#34;&gt;https://docs.datastax.com/en/upgrade/doc/upgrade/opscenter/upgradeOpscFailover.html&lt;/a&gt;
-you are ensured some amount of downtime to perform upgrades. The instructions have you shutting down the
-secondary before upgrading the primary. In this situation you&amp;rsquo;ve basically turned off automatic failover and
-you&amp;rsquo;re down for the duration of the upgrade. To be fair, this appears to basically just be an RPM upgrade so
-it probably won&amp;rsquo;t take very long.&lt;/p&gt;
-
-&lt;p&gt;The take away here is that the steps are manual. We can of course automate ourselves out of that situation, but
-that would require us to implement some sort of multiple machine orchestration/configuration management tool
-that would need to be programmed with a method to identify who the master is, and then down the secondary.
-Don&amp;rsquo;t get me wrong I fully agree that all this &lt;em&gt;can&lt;/em&gt; be automated, but it comes with a number of moving parts
- (any of which can fail).&lt;/p&gt;
-
-&lt;p&gt;I believe there is a simpler upgrade path we can take. I want to be clear here that what I am about to outline
-results in the overall upgrade time taking a little longer, but I believe its both safer and easier.&lt;/p&gt;
-
-&lt;p&gt;In this proposed design we&amp;rsquo;d have a fresh AMI already baked with the new version of Opscenter.&lt;/p&gt;
-
-&lt;p&gt;The next thing we do is upgrade the ASG launch configuration to tell it launch any new instances using the new
-AMI ID. Ideally you&amp;rsquo;re automating this with something like cloudformation or Terraform. At this point no changes
-have been made on your running Opscenter instance.&lt;/p&gt;
-
-&lt;p&gt;When the time is right, you then terminate the running instance (close that jaw). This is where the real magic
-of the process starts to come through. Lets step through the sequence of events:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;The termination signal is going to gracefully shutdown our instance, ensuring Opscenter gracefully closes
-file handles. At this point the EFS volume with all your Opscenter &amp;laquo;data&amp;raquo; remains intact and disconnected
-from the previous instance.&lt;/li&gt;
-&lt;li&gt;At this point the ASG will launch a fresh instance, using the new AMI ID which has our updated version of
-Opscenter installed. For those of you who have used auto-scaling you know this won&amp;rsquo;t be instant and might take
-a minute or two. Its this delay that causes this approach to be a little slower than the RPM upgrade&lt;/li&gt;
-&lt;li&gt;As the new instance boots up it will claim the appropriate ENI and configure itself to use it.&lt;/li&gt;
-&lt;li&gt;After claiming the ENI, and determining the private IP of that ENI, the instance will update the Route53 entry.&lt;/li&gt;
-&lt;li&gt;Next the new instance will mount the EFS volume.&lt;/li&gt;
-&lt;li&gt;Finally Opscenter will be started. At this point this new instance has all the data, and the secondary IP
-associated with the ENI. Since the agents were configured with DNS entries, they should reconnect.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So what happens if an upgrade goes bad? I&amp;rsquo;ll skip the troubleshooting process as that&amp;rsquo;ll be similar in both
-approaches. Lets assume we&amp;rsquo;ve gotten ourselves to a point where we need to rollback. In the traditional approach
-you&amp;rsquo;d likely attempt an RPM downgrade, which will probably work, however experience tells me that RPM downgrades
-are not always successful, leaving the system in odd states. In the proposed solution you would simply revert
-the launch configuration back to the previous AMI and terminate the currently running instance. At that point the
-steps outlined above would be executed and you&amp;rsquo;d get an older version up and running.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s move onto some of the challenges I found and how this alternate solution addresses them.&lt;/p&gt;
-
-&lt;h2 id=&#34;data-configuration-synchronization&#34;&gt;Data/Configuration Synchronization&lt;/h2&gt;
-
-&lt;p&gt;This section will focus on much of the material discussed in &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/enableFailover.html&lt;/a&gt;. The TLDR of the page is that you need to store your data/configuration on a shared file system such as NFS, or you need to sync the data between the nodes using something like rsync and cron.&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s face it, we&amp;rsquo;ve all been there and done that. It gets the job but its error prone. I don&amp;rsquo;t want to spend a bunch of time chasing the &amp;laquo;what ifs&amp;raquo; but a few need to be discussed.&lt;/p&gt;
-
-&lt;p&gt;rsync will require that machine keys get exchanged. This is doable and not terribly hard with automation, but
-what happens when one of the nodes eventually dies. Either you, or some automation/orchestration you&amp;rsquo;ve written
-needs to reconfigure these jobs so the two new nodes are now talking. Doable, but in the proposed solution all
-this data was stored on the NFS volume and you never had to sync anything. When nodes fail and/or are replaced you don&amp;rsquo;t
-need to reconfigure anything, the data is &amp;laquo;just there&amp;raquo;. So this is one of those places where we can both simplify
-things as well as raise the level of self healing the system is able to perform.&lt;/p&gt;
-
-&lt;p&gt;What about sharing the NFS across the instances you say? Sure, its an option, but look at those instructions and how specific some of those
-paths are. This one really made me winch a little:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Note: The failover_configuration_directory should not be mirrored across OpsCenter installs when configuring OpsCenter to support failover&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Well as it turns out &lt;code&gt;failover_configuration_directory&lt;/code&gt; by default is &lt;code&gt;/var/lib/opscenter/failover/&lt;/code&gt;.
-The docs having you syncing multiple things in &lt;code&gt;/var/lib/opscenter&lt;/code&gt;, so at this point you can&amp;rsquo;t simply
-mount/symlink that entire directory, and instead have to start cherry picking.&lt;/p&gt;
-
-&lt;p&gt;What happens if a future update adds another file to that directory that you need and you missed it in the
-release/upgrade notes. Don&amp;rsquo;t get me wrong, you can make this work, its just unnecessarily error prone.&lt;/p&gt;
-
-&lt;p&gt;I can already here someone saying &amp;laquo;just relocate &lt;code&gt;failover_configuration_directory&lt;/code&gt;&amp;raquo;. That would certainly
-make the sync configuration a little simpler, but now you&amp;rsquo;ve deviated away from &amp;laquo;factory defaults&amp;raquo; which can
-come with its own challenges down the road.&lt;/p&gt;
-
-&lt;p&gt;So I&amp;rsquo;ll wrap up this section by simply re-iterating that yes I&amp;rsquo;m confident we can make it work, but I also
-think we can just make it simpler by keeping all that stuff on the EFS volume, which is only mounted by a single instance, and avoiding syncing/sharing.&lt;/p&gt;
-
-&lt;h2 id=&#34;network-splits&#34;&gt;Network Splits&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s face it, sh*t happens in the network and splits (or partitions) happen. If your following Cassandra best
-practices for AWS you&amp;rsquo;re likely splitting your nodes across multiple availability zones (probably 3).
-Its not a matter of if, its a matter of when, a partition will happen.
-Lets look at what DataStax has to say on the matter:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Note: If a failover occurred due to a network split, the formerly primary OpsCenter must be manually shut down, and another backup configured when network connectivity has been restored. Upon startup, each OpsCenter instance generates a unique id (uuid), which is stored in the failover_id file. In the event of a network split, a failover_id uniquely identifies each OpsCenter to agents and prevents both OpsCenter machines from running operations post-failover, which could corrupt data. The location of failover_id file depends on the type of install and is configurable.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This part is especially troubling to me:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;must be manually shut down, and another backup configured when network connectivity has been restored&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This whole process feels brittle and error prone to recover from. If we only run a single instance we avoid this
-whole situation. There can&amp;rsquo;t be any split brain when there is only one brain :)&lt;/p&gt;
-
-&lt;p&gt;This does however warrant some thought on the impact of availability in the event that one or more zones are lost.
-Since OpsCenter clusters can only be 2 nodes, a failure of 2 zones (assuming its the two that Opscenter instances are in) will be just as impactful, so the real difference comes down to a single zone failure.&lt;/p&gt;
-
-&lt;p&gt;The specifics of how this play out could vary wildly depending on the nature of the failure, but if we are
-assuming the zone is &amp;laquo;gone&amp;raquo;, then the ASG (which is configured to span multiple zones) should launch a new
-instance into a functional zone. I fully admit, I&amp;rsquo;ve never seen a zone &amp;laquo;go way&amp;raquo; so this is more theory than
-practice.&lt;/p&gt;
-
-&lt;h2 id=&#34;agent-reconfiguration&#34;&gt;Agent Reconfiguration&lt;/h2&gt;
-
-&lt;p&gt;This section has some overlap with the previous section but is more general in nature. Datastax says the
-following about fail over events:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The backup OpsCenter automatically reconfigures the agents by automatically changing stomp_interface in address.yaml to connect to the backup instance instead of the failing primary instance.&lt;/p&gt;
-
-&lt;p&gt;Ensure that address.yaml is not being managed by third-party Configuration Management. During failover, OpsCenter automatically changes stomp_interface in address.yaml to point to the backup opscenterd instance. If a separate Configuration Management system is managing address.yaml, that change might be undone when the Configuration Management system pushes its next update.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To me this feels brittle. When everything is firing perfectly this might work well, but what happens in the
-case of the network split above? Its a little unclear to me how this works. If it fires that change only once
-what happens if some number of nodes can&amp;rsquo;t be reached?&lt;/p&gt;
-
-&lt;p&gt;Thinking about the network split situation above, it would seem some number of nodes wouldn&amp;rsquo;t be managed
-for a period of time. It just feels like there are lot of moving parts happening here, any of which could
-go wrong in unexpected ways.&lt;/p&gt;
-
-&lt;p&gt;Remember that Route53 entry we talked about before? That eliminates the need for ever changing the configuration on the
-agents, since it will simply &amp;laquo;move&amp;raquo; to the appropriate instance. If your one of those shops who like to
-manage &lt;em&gt;all&lt;/em&gt; your configuration files with your configuration management solution you can do that now
-without the fear of the situation quoted above.&lt;/p&gt;
-
-&lt;h2 id=&#34;lock-in&#34;&gt;Lock In&lt;/h2&gt;
-
-&lt;p&gt;There are two quotes from &lt;a href=&#34;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&#34;&gt;https://docs.datastax.com/en/latest-opsc/opsc/configure/configFailover.html&lt;/a&gt; I want to
-address in this section.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;If the newly configured backup OpsCenter detects any DataStax Community or open source Cassandra clusters, it logs an entry and shuts itself down.&lt;/p&gt;
-
-&lt;p&gt;Note: If a non-DataStax Enterprise cluster is added after enabling automatic failover, OpsCenter fires an alert that automatic failover will not work and the backup OpsCenter instance shuts down.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;While I don&amp;rsquo;t currently have any plans to run community edition or open source Cassandra, having that option
-taken out of my hands is unsettling. Its not unreasonable to think we might leverage one of those other solutions
-for some of our less critical applications/workloads.&lt;/p&gt;
-
-&lt;p&gt;They make is sound like having a single OpsCenter will allow you to manage these other editions. If that is case
-the alternate solution of a single node keeps our options open.&lt;/p&gt;
-
-&lt;h2 id=&#34;costs&#34;&gt;Costs&lt;/h2&gt;
-
-&lt;p&gt;I should note that the cost of running Opscenter will likely be a drop in the bucket compared to the costs of
-running the Cassandra cluster(s), however we should be aware of the cost ramifications of our decisions.&lt;/p&gt;
-
-&lt;p&gt;There are a few cost considerations, and I fully admit all of them are probably pocket change compared to
-your monthly AWS spend but I think its important to understand them.&lt;/p&gt;
-
-&lt;p&gt;The first cost we need to consider is the cross zone traffic charges. A lot of people don&amp;rsquo;t know this but AWS
-does charge you for network traffic that crosses availability zones: &lt;a href=&#34;https://aws.amazon.com/ec2/pricing/on-demand/&#34;&gt;https://aws.amazon.com/ec2/pricing/on-demand/&lt;/a&gt;
-Look at the section titled &amp;laquo;Data Transfer OUT From Amazon EC2 To&amp;raquo; and you&amp;rsquo;ll see this entry&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Amazon EC2, Amazon RDS, Amazon Redshift or Amazon ElastiCache instances, Amazon Elastic Load Balancing, or Elastic Network Interfaces in another Availability Zone or peered VPC in the same AWS Region&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I&amp;rsquo;ve omitted the actual cost as it may change by the time you read this, but the take away is that cross zone
-traffic isn&amp;rsquo;t free, and there are a couple sources of cross zone traffic.&lt;/p&gt;
-
-&lt;p&gt;The largest source (I suspect) will be the agents on each Cassandra node communicating with Opscenter (and vice versa).
-This cost will actually be the same in both configurations. Since OpsCenter is active passive two thirds of
-your agents will be crossing zones. That will be exactly the same in the proposed solution.&lt;/p&gt;
-
-&lt;p&gt;The next source of cross zone traffic will be the heart beats between the primary and backup. In the proposed
-solution we do away with this charge since there is no backup to exchange information with. In additions to the
-heartbeats, if we were using the rsync solution, we&amp;rsquo;d be paying for that well. To be clear, this data volume
-is so small, the charge will probably be extremely low.&lt;/p&gt;
-
-&lt;p&gt;The more obvious cost savings is the actual EC2 instance that we get to avoid running. We are basically cutting
-our compute charges in half by only running a single instance.&lt;/p&gt;
-
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;If you&amp;rsquo;ve made it this far I applaud and thank you! As I stated earlier if your still in a traditional data
-center I think the Datastax solution is a very solid option, but if your lucky enough to be running in a cloud
-where you&amp;rsquo;ve got access to infrastructure APIs there are other options.&lt;/p&gt;
-
-&lt;p&gt;As is the case with any solution there are pros and cons. This solution is no different, but for me the pros
-have the potential to outweigh the cons and I look forward to giving it a test drive in the real world.&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -290,71 +60,12 @@ have the potential to outweigh the cons and I look forward to giving it a test d
       <pubDate>Sun, 02 Apr 2017 20:00:52 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/networking/installing_ddwrt_on_linksys_wrt1200acv2/</guid>
-      <description>
-
-&lt;p&gt;This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
+      <description>&lt;p&gt;This weekend I decided it was time to replace the stock firmware on my WRT1200AC v2.
 I&amp;rsquo;ve had the unit for a while now and it&amp;rsquo;s been working well but I had a little time
 on my hands so I opted to give it a go.
 The process itself was pretty easy, but finding the right information was not. Hopefully this saves someone else some time&amp;hellip;&lt;/p&gt;
 
-&lt;h2 id=&#34;the-journey:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Journey&lt;/h2&gt;
-
-&lt;p&gt;If you aren&amp;rsquo;t interested in the narrative, jump down the &lt;code&gt;The Process&lt;/code&gt; for the actual steps
-I used to flash.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve been using Advanced Tomato on the last couple of routers I&amp;rsquo;ve had so that is where I started, however I couldn&amp;rsquo;t find any indication this was supported. The 1200 is not on &lt;a href=&#34;http://tomato.groov.pl/?page_id=69&#34;&gt;Shibby&amp;rsquo;s list&lt;/a&gt;. There is also a decent size thread on &lt;a href=&#34;http://www.linksysinfo.org/index.php?threads/porting-tomato-firmware-to-other-platforms.69976/page-2&#34;&gt;linksysinfo&lt;/a&gt; which didn&amp;rsquo;t leave me with the warm and fuzzies. I finally gave up hope after failing to find it on &lt;a href=&#34;https://www.flashrouters.com/routers/router-types/tomato?limit=36&#34;&gt;flashrouters.com&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I also checked support for OpenWRT, however only the &lt;a href=&#34;https://wiki.openwrt.org/toh/linksys/wrt_ac_series&#34;&gt;V1 is listed&lt;/a&gt; was listed so I moved to DD-WRT.&lt;/p&gt;
-
-&lt;p&gt;I finally started to have some hope when I found &lt;code&gt;Linksys WRT1200AC v2&lt;/code&gt; listed in the &lt;a href=&#34;https://www.dd-wrt.com/site/support/router-database&#34;&gt;router database&lt;/a&gt;. However the page simply presents you two files to download with no explanation of what you should do with them.
-On top of that these files are marked Beta. That never instills high levels of confidence.
-After several minutes of googling around all things pointed to the &lt;a href=&#34;http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486&#34;&gt;Peacock Thread&lt;/a&gt;. This is one of the most confusing set of instructions I&amp;rsquo;ve ever read and it left me wondering if I should really be proceeding here. I won&amp;rsquo;t go into all the confusion points but lets highlight a couple:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;DON&amp;rsquo;T USE THE ROUTER DATABASE! The router database has recommended some less stable builds&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;uhh&amp;hellip; OK&amp;hellip;.. Then why does it even exist?&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;FOLLOW THE PROCESS FOR FLASHING YOUR ROUTER THAT IS IN THE WIKI.
-&lt;a href=&#34;http://www.dd-wrt.com/wiki/index.php/Installation&#34;&gt;http://www.dd-wrt.com/wiki/index.php/Installation&lt;/a&gt;
-Once you have dd-wrt installed on your route&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;OK, fair enough, except there is one problem. The 1200 isn&amp;rsquo;t on that page&amp;hellip;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Read the WIKI and follow the wiki for INITIAL flashing of your router. There has been a lot of work recently to improve the wiki for broadcom devices and the wiki is now mostly up to date and using good files. Don&amp;rsquo;t flash firmware based on youtube or instructions on another non dd-wrt website. Often youtube or other internet instructions are out of date/incorrect! Read and follow the instructions here in the dd-wrt wiki.
-One thing you REALLY need to look at is the procedure for installing to your router. This is extremely important as there are a lot of subtle variation&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Uh&amp;hellip; They keep hammering home to use the WIKI but its not there&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;So at this point I&amp;rsquo;m feeling skeptical that this is going to work, but what the heck, its early enough that stores are still open and the wife is away for a few hours. I&amp;rsquo;ve got time to buy a new one if this all goes south and I brick this thing so I press on.&lt;/p&gt;
-
-&lt;h1 id=&#34;the-process:697a1993b899bbeb4e1dcb47f27cbd26&#34;&gt;The Process&lt;/h1&gt;
-
-&lt;p&gt;First up I did take their advice and download all the files I needed (instructions, firmware, etc) locally before proceeding.&lt;/p&gt;
-
-&lt;p&gt;I can&amp;rsquo;t recall exactly where I found it, but I found some mentions that the version in the database might not be the latest so I started browsing the &lt;a href=&#34;ftp://ftp.dd-wrt.com&#34;&gt;DD-WRT FTP Server&lt;/a&gt;. I finally landed in &lt;a href=&#34;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&#34;&gt;ftp://ftp.dd-wrt.com/betas/2017/03-30-2017-r31791/linksys-wrt1200acv2/&lt;/a&gt; which had the files I needed.
-There were two files in the directory so I grabbed them both not knowing which I needed. Turns out the only file needed was the &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. While I&amp;rsquo;m not positive, I believe the other file (&lt;code&gt;ddwrt-linksys-wrt1200acv2-webflash.bin&lt;/code&gt;) would be used I was already running DD-WRT and was looking to upgrade.&lt;/p&gt;
-
-&lt;p&gt;At this point I was ready to begin:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;I disconnected all ethernet cables, except for the PC I&amp;rsquo;m using to do the flashing&lt;/li&gt;
-&lt;li&gt;Perform the 30-30-30 reset. After this is complete you&amp;rsquo;re left with a factory reset device. Login to &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt; with the default password (&lt;code&gt;admin&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Navigate to Connectivity &amp;ndash;&amp;gt; Basic. Click the &lt;code&gt;Choose&lt;/code&gt; button and select &lt;code&gt;factory-to-ddwrt.bin&lt;/code&gt;. This will take a couple minutes. Once complete this the web UI again on &lt;a href=&#34;http://192.168.1.1&#34;&gt;http://192.168.1.1&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;At this point DD-WRT was in fact installed and forcing me to set a password. This felt like a pointless step since I was about to 30-30-30 it again, but I played it safe and it anyway.&lt;/li&gt;
-&lt;li&gt;Perform another 30-30-30 reset. I&amp;rsquo;m honestly skeptical that this is really needed at this point, but I figured 90 seconds of wasted time was better than a bricked 1200 so I complied.&lt;/li&gt;
-&lt;li&gt;Once it came back up I needed to do the password dance again&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;That&amp;rsquo;s it!!. At this point it was flashed and I started re-applying my configurations for my IP addresses, port forwards, etc.&lt;/p&gt;
-
-&lt;p&gt;I want to be very clear that I don&amp;rsquo;t believe what I did is &amp;laquo;supported&amp;raquo; so tread carefully, but it&amp;rsquo;s been 9 hours since I did the upgrade, I&amp;rsquo;ve streamed some content and done misc browsing without any issues. Obviously is hard to declare success and stability after only 9 hours, so fingers crossed!&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -363,294 +74,20 @@ There were two files in the directory so I grabbed them both not knowing which I
       <pubDate>Mon, 19 Sep 2016 10:47:07 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/welcome_hugo/</guid>
-      <description>
-
-&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
-using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;A long while back I had switched over to using Jekyll for generating the content
-for this site. After that I had taken an extended break from posting content
-to the site, however I&amp;rsquo;ll soon be taking on a new role, which I expect will
-result in me learning a whole bunch of new things that I&amp;rsquo;ll want to capture here.&lt;/p&gt;
-
-&lt;p&gt;So&amp;hellip; I brushed off the dust, and invoked my good old rake task I used to start
-a new post. And in typical Ruby fashion, I had gem related errors. While Ruby
-maybe a pretty popular language, I find dealing with Gems
-(specifically dependencies) to be a never ending losing battle. Once again,
-despite having a Gemfile.lock to start from, I was getting Gem version
-conflicts. I&amp;rsquo;ve been down this road at least a 100 times before so I was sure I
-&lt;em&gt;could&lt;/em&gt; resolve the issue, but I was simply to annoyed to deal with it. So like
-anyone in our industry, instead of just taking the 10 minutes to fix the problem
-at hand, I decided to spend the rest of my day learning and implementing something
-new.. That&amp;rsquo;s where Hugo enters the picture.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m by no means a &lt;code&gt;golang&lt;/code&gt; fanboy, but I do appreciate that it ships its binaries
-without any external dependencies. I&amp;rsquo;ve written a small utility using it as well
-so while I&amp;rsquo;m far from proficient, it is a language I have some experience with.&lt;/p&gt;
-
-&lt;p&gt;The thought of never needing to deal with another &lt;code&gt;Gemfile&lt;/code&gt;, or &lt;code&gt;requirements.txt&lt;/code&gt;
-was enough to get me investigating. Here are some of the highlights on why I
-opted to start down this path:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;The documentation site is well organized and comprehensive. While its too
-early to know if it will answer all the questions I might have, it certainly
-has a lot of stuff to get you started.&lt;/li&gt;
-&lt;li&gt;The getting started guide makes it look super easy to get started.&lt;/li&gt;
-&lt;li&gt;No external package dependencies.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;What&amp;rsquo;s listed below is not intended to be a &lt;em&gt;how-to&lt;/em&gt; document, but rather just
-capturing some of the challenges I personally encountered.&lt;/p&gt;
-
-&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
-
-&lt;p&gt;Hugo has done a good job with both the theme system, and the themes themselves.
-When it comes to creating aesthetic looking websites I have zero skills. I am
-completely dependent on others for this. As a result, a platform with good
-themes is important to me. Enter &lt;a href=&#34;http://themes.gohugo.io/&#34;&gt;http://themes.gohugo.io/&lt;/a&gt;, which has a good
-collection to start with. I spent &lt;em&gt;way&lt;/em&gt; to much time trying to decide which one
-I liked best.&lt;/p&gt;
-
-&lt;p&gt;Once I had the theme I wanted, there were some things I wanted to change. In
-theory, the system is designed in such a way that you can add override templates
-to your &lt;code&gt;layouts&lt;/code&gt; directory. I did do this in a few cases, but found myself
-falling back to just editing the actual theme. Since I had placed the theme into
-the same repo as the content for the site, and I was not directly pointing to an
-external copy, this was the fastest way (even if fastest is not always best). Since
-I wasn&amp;rsquo;t sure yet if this platform was going to stick I took the low road here.&lt;/p&gt;
-
-&lt;p&gt;The one place I did find lacking on the template system was the parameter
-documentation. Each template is free to use any number of parameters from your
-site&amp;rsquo;s configuration file, however a large number of them don&amp;rsquo;t document what
-the available parameters they support are.&lt;/p&gt;
-
-&lt;h2 id=&#34;content-conversion&#34;&gt;Content Conversion&lt;/h2&gt;
-
-&lt;p&gt;I don&amp;rsquo;t have a lot content so this one is not critical to me, but I did explore
-it simply out of curiosity. There are two tools listed on &lt;a href=&#34;https://gohugo.io/tools/&#34;&gt;https://gohugo.io/tools/&lt;/a&gt;
-for migrating data from Jekyll. I gave them both a shot, and while both did create
-&lt;em&gt;valid&lt;/em&gt; output files, some of the Jekyll specific tags were still in the resulting
-markdown files so you&amp;rsquo;d see the actual tags when viewing the rendered page.&lt;/p&gt;
-
-&lt;p&gt;I ended up just manually doing this since I have such a small amount of content.
-I could see this be challenging for someone with a large volume of content though.&lt;/p&gt;
-
-&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
-
-&lt;p&gt;There are a few approaches that Hugo takes to code syntax highlighting. They go
-into details about this at &lt;a href=&#34;https://gohugo.io/extras/highlighting&#34;&gt;https://gohugo.io/extras/highlighting&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I started off by using the server-side integration with Pygments. Since I have
-such little content I was not worried about the performance implications
-discussed.&lt;/p&gt;
-
-&lt;p&gt;This was relatively simply to setup, however this statement was a little
-frustrating:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;You can explore the different color styles on pygments.org after inserting some example code.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;That link will bring you to the site, but good luck trying to find the available
-styles (&lt;code&gt;pygmentsstyle&lt;/code&gt;) that you can choose from. After some exploring of
-their site I found myself on &lt;a href=&#34;http://pygments.org/docs/styles/&#34;&gt;http://pygments.org/docs/styles/&lt;/a&gt;.
-There is a little snippet at the bottom of the page that you can run to get the
-list of styles. To the best of my knowledge, this is the only way to get that
-list, and even when you run it, you have no clue what they look like. Pygments
-could really benefit from some sort of gallery showing off the built-in styles.&lt;/p&gt;
-
-&lt;p&gt;Here is the list of styles I saw after a fresh install of pygments:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; from pygments.styles import get_all_styles
-&amp;gt;&amp;gt;&amp;gt; list(get_all_styles())
-[&#39;manni&#39;, &#39;igor&#39;, &#39;lovelace&#39;, &#39;xcode&#39;, &#39;vim&#39;, &#39;autumn&#39;, &#39;vs&#39;, &#39;rrt&#39;, &#39;native&#39;, &#39;perldoc&#39;, &#39;borland&#39;, &#39;tango&#39;, &#39;emacs&#39;, &#39;friendly&#39;, &#39;monokai&#39;, &#39;paraiso-dark&#39;, &#39;colorful&#39;, &#39;murphy&#39;, &#39;bw&#39;, &#39;pastie&#39;, &#39;algol_nu&#39;, &#39;paraiso-light&#39;, &#39;trac&#39;, &#39;default&#39;, &#39;algol&#39;, &#39;fruity&#39;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Overall I couldn&amp;rsquo;t find a style I actually liked, so I moved onto the client
-side highlighting.&lt;/p&gt;
-
-&lt;p&gt;I gave &lt;a href=&#34;http://highlightjs.org/&#34;&gt;Highlight.js&lt;/a&gt; a run first. The provided
-instructions were simple enough to get it up and running, but once again I wasn&amp;rsquo;t
-really sold on the look. My biggest annoyance (which I spent more time on then I
-care to admit) was that it would line wrap all the code. I found some others with
-the same issue and attempted a workaround, which resulted in a scroll bar on every
-single block, even those that didn&amp;rsquo;t need it. Rather than keep messing around
-with this, I moved on to &lt;a href=&#34;http://prismjs.com/&#34;&gt;Prism&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Prism took a little more to get up and running. There isn&amp;rsquo;t some CDN endpoint you
-can just point to. Instead you have to select all the languages and features you
-want to use. This results in a couple minified files for you to download. I had
-no clue what things I would want so I selected everything. This results in a
-file that is close to 280K so this isn&amp;rsquo;t ideal long term, but should get me up
-and running quickly.&lt;/p&gt;
-
-&lt;p&gt;After wiring this up my code blocks had a look and feel that I really liked, with
-one very small annoyance. After each line I could see a &lt;em&gt;very small&lt;/em&gt; &lt;code&gt;lf&lt;/code&gt;. As it
-turns out I had included the &lt;code&gt;Show Invisibles&lt;/code&gt; plugin (since I had selected all).
-So I regenerated my download using everything &lt;em&gt;expect&lt;/em&gt; invisibles, and that
-fixed that issue.&lt;/p&gt;
-
-&lt;p&gt;So at this point I&amp;rsquo;m sticking with Prism as my code highlighting solution.&lt;/p&gt;
-
-&lt;h2 id=&#34;publishing-to-github-pages&#34;&gt;Publishing To GitHub Pages&lt;/h2&gt;
-
-&lt;p&gt;The Hugo site has a good tutorial at &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;https://gohugo.io/tutorials/github-pages-blog/&lt;/a&gt;
-but this didn&amp;rsquo;t fit &lt;em&gt;exactly&lt;/em&gt; how I wanted to do things.&lt;/p&gt;
-
-&lt;p&gt;I am hosting this site as a &lt;em&gt;personal&lt;/em&gt; site, rather than a &lt;em&gt;project&lt;/em&gt; site
-which means github expects to see the rendered content on the &lt;em&gt;master&lt;/em&gt; branch
-rather than the &lt;em&gt;gh-pages&lt;/em&gt; branch. Since they have some native support for
-Jekyll, the source is kept on master and just automatically rendered.&lt;/p&gt;
-
-&lt;p&gt;One of the side effects of switching to Hugo however is that you need to build
-your site yourself (using the &lt;code&gt;hugo&lt;/code&gt; command) and then push the &lt;strong&gt;rendered&lt;/strong&gt;
-content up to the master branch. I tackled this in the following way:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I tagged my master branch as-is so I can come back to it later as needed&lt;/li&gt;
-&lt;li&gt;I then created a new &lt;strong&gt;hugo&lt;/strong&gt; branch (&lt;code&gt;git checkout -b hugo&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;I removed all the non-hugo cruft that had accumulated over the years, leaving
-me with just the files needed for Hugo.&lt;/li&gt;
-&lt;li&gt;I ensured my &lt;code&gt;CNAME&lt;/code&gt; file is in Hugo&amp;rsquo;s &lt;code&gt;static&lt;/code&gt; directory. This is the magic
-that allows one to host their own domain name on Github.&lt;/li&gt;
-&lt;li&gt;I then wiped out everything &lt;strong&gt;except&lt;/strong&gt; my &lt;code&gt;.git&lt;/code&gt; folder on my &lt;code&gt;master&lt;/code&gt; branch&lt;/li&gt;
-&lt;li&gt;At this point, on the &lt;code&gt;hugo&lt;/code&gt; branch I run &lt;code&gt;hugo&lt;/code&gt; to generate my site into the
-&lt;em&gt;public&lt;/em&gt; subdirectory&lt;/li&gt;
-&lt;li&gt;Now we can run &lt;code&gt;git subtree push --prefix public origin master&lt;/code&gt;. This will take
-the contents of the &lt;code&gt;public&lt;/code&gt; directory and push to the &lt;strong&gt;root&lt;/strong&gt; of the &lt;code&gt;master&lt;/code&gt;
-branch.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Using this approach is a bit of hybrid of two methods listed on the Hugo site.
-I like this method best as I don&amp;rsquo;t need to have the rendered content and source
-in two different repositories. In the GitHub UI, I changed the default branch to
-Hugo, so now I simply work all the time in my Hugo branch and never touch master,
-expect when pushing out updates.&lt;/p&gt;
-
-&lt;p&gt;There is a great little &lt;code&gt;deploy.sh&lt;/code&gt; example on their site that I adopted to me
-my work flow above, so now whenever I add new content I simply run &lt;code&gt;sh build.sh&lt;/code&gt;
-and my changes are committed to the &lt;code&gt;hugo&lt;/code&gt; branch, built, and pushed live&lt;/p&gt;
-</description>
+      <description>&lt;p&gt;Well&amp;hellip; I&amp;rsquo;ve gone and done it again. I&amp;rsquo;ve decided to switch the platform I am
+using to generate this site. This time around I&amp;rsquo;m going with &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt;
+&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>My New UOKOO IP Camera</title>
-      <link>http://www.dpetzel.info/post/my_new_UOKOO_camera/</link>
+      <link>http://www.dpetzel.info/post/my_new_uokoo_camera/</link>
       <pubDate>Mon, 19 Sep 2016 10:46:10 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/my_new_UOKOO_camera/</guid>
-      <description>
-
-&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
+      <guid>http://www.dpetzel.info/post/my_new_uokoo_camera/</guid>
+      <description>&lt;p&gt;I recently purchased a &lt;a href=&#34;https://www.amazon.com/dp/B01ER7OCZU&#34;&gt;UOKOO Webcam from Amazon&lt;/a&gt;.
 At only $40.00 I didn&amp;rsquo;t have very high expectations but I was pleasantly
-surprised at what I got&lt;/p&gt;
-
-&lt;p&gt;This was a bit of an impulse buy. I had a small project I was wanted to do and
-I needed an IP based camera to do it. There is not shortage of these available
-on the Internet, and if you wanted to, you probably spend a full week
-researching them. I was &lt;em&gt;not&lt;/em&gt; in the mood for all the research on this project
-and it was my wife who actually found this guy.&lt;/p&gt;
-
-&lt;p&gt;I won&amp;rsquo;t re-iterate all the features as the Amazon product page does a good job
-at that. I&amp;rsquo;m just going to run down the functionality that I experimented with.&lt;/p&gt;
-
-&lt;h2 id=&#34;installation-and-setup&#34;&gt;Installation And Setup&lt;/h2&gt;
-
-&lt;p&gt;We had no issues with the order, the package arrived on schedule in some very
-unassuming packaging.&lt;/p&gt;
-
-&lt;p&gt;The camera comes with a small instruction booklet and a micro USB power cord.
-Its worth noting the cord is a decent length, probably 4 or 5 feet.&lt;/p&gt;
-
-&lt;p&gt;I was a little worried I&amp;rsquo;d need an extension cord to place it where I wanted,
-but the cord was long enough to reach without one.&lt;/p&gt;
-
-&lt;p&gt;Getting the camera configured for my Wifi was a little sketchy. To be fair, I&amp;rsquo;ve
-had issues with many devices connecting to my WiFi since I don&amp;rsquo;t broadcast my
-SSID. You have to first download the mobile app (discussed below). Once that
-installed, you have to press a configuration button on the side of the unit,
-which allows it to be programmed for a minute or two. If you don&amp;rsquo;t succeed in
-that amount of time you&amp;rsquo;ll have to start over.&lt;/p&gt;
-
-&lt;p&gt;Once its in its programming mode, you scan a QR code with your phone and your
-phone will start beeping at the camera. This series of beeps is supposed to
-configure the camera. It took me about half a dozen attempts to get it to take,
-but once it did take, the device was on my WiFi network.&lt;/p&gt;
-
-&lt;p&gt;Once it&amp;rsquo;s online you can hit a browser interface&lt;/p&gt;
-
-&lt;h2 id=&#34;ismartview-pro-pc-application&#34;&gt;iSmartView Pro PC Application&lt;/h2&gt;
-
-&lt;p&gt;They don&amp;rsquo;t make it overly obvious where to get the software from, but its
-available at &lt;a href=&#34;http://cd.ipcamdata.com/en/xseries.html&#34;&gt;http://cd.ipcamdata.com/en/xseries.html&lt;/a&gt;. This PC application can
-be used at no cost.&lt;/p&gt;
-
-&lt;p&gt;It allows you to view a number of these devices all in one window. This
-software also allows you to configure a recording from the camera. You have the
-ability to set the time(s) of day that you want record. It will record to the
-local hardware of the machine running the software.&lt;/p&gt;
-
-&lt;h2 id=&#34;ismartviewpro-android-app&#34;&gt;iSmartViewPro Android App&lt;/h2&gt;
-
-&lt;p&gt;Searching the Play Store for iSmartViewPro. Its very similar to the PC app, but
-geared for mobile devices. This application is also free to use with the
-camera.&lt;/p&gt;
-
-&lt;p&gt;The app will let you put 4 cameras on to your screen, each taking up a quarter
-of the screen.&lt;/p&gt;
-
-&lt;p&gt;Outside of the browser interface, this app is the primary method of configuring
-the device. You can take recordings and pictures, but I didn&amp;rsquo;t exercise this
-functionality very much&lt;/p&gt;
-
-&lt;h2 id=&#34;accessing-from-the-internet&#34;&gt;Accessing From The Internet&lt;/h2&gt;
-
-&lt;p&gt;The device allows you to stream the output via a web browser if you have Flash
-installed. Its all done over TCP port 80 (as best I could tell). So I configured
-a port forward on my router to send 80 to the camera. The following day, from
-work, I was able to load up my public IP and watch the camera from work.&lt;/p&gt;
-
-&lt;h2 id=&#34;nightvision&#34;&gt;Nightvision&lt;/h2&gt;
-
-&lt;p&gt;The camera sports some nightvision which doesn&amp;rsquo;t work all that well. When you
-engagne the nightvision 3 red lights on the face of the camera light up. They
-are pretty bright, so you&amp;rsquo;re not going to be concealing this from anyone at night.&lt;/p&gt;
-
-&lt;p&gt;I had hoped to hook this up in a window, looking outward. This works great
-during the day, however at night, once the night vision LEDs kick in they
-product a reflection off the glass of the window so you can&amp;rsquo;t see a thing&lt;/p&gt;
-
-&lt;h2 id=&#34;alarms&#34;&gt;Alarms&lt;/h2&gt;
-
-&lt;p&gt;The device has the ability to send emails, a notification to your mobile app,
-or save off to an FTP server when motion is detected. I did experiment with this
-for a little while, but it didn&amp;rsquo;t work very well. Every single time the alert
-tripped the resulting images it sent me didn&amp;rsquo;t have anyone in them. It seems
-as if the delay is so high, the person or thing walking by has already cleared
-the field of vision before the picture is taken&lt;/p&gt;
-
-&lt;h2 id=&#34;two-way-audio&#34;&gt;Two Way Audio&lt;/h2&gt;
-
-&lt;p&gt;Using the mobile app you can speak into your phone and you will indeed hear
-sound from the camera. I say sound, because its barely understandable. The
-volume is extremely low, and I didn&amp;rsquo;t see an option to increase that. In
-addition to the low volume, the voices don&amp;rsquo;t sound anything like the actual
-voice of the person speaking into it.&lt;/p&gt;
-
-&lt;p&gt;I have yet to get around to testing how well it picks up audio. Where I have it
-place in my house this would be annoying, so I&amp;rsquo;ve left that functionalit
-disabled.&lt;/p&gt;
-
-&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
-
-&lt;p&gt;Overall I&amp;rsquo;m pleased with the purchase. This is not a device I&amp;rsquo;d build a
-surveillance system around, but for the price it is a fun little device. This
-is actually the first IP based camera I&amp;rsquo;ve purchased and being able to check out
-whats going on at my house when I&amp;rsquo;m not there is a mildly addicting. It&amp;rsquo;s
-got me thinking about getting a kit of higher end units to let me view more
-angles of my property.&lt;/p&gt;
-</description>
+surprised at what I got&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -659,336 +96,8 @@ angles of my property.&lt;/p&gt;
       <pubDate>Sun, 18 Sep 2016 10:58:07 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/resume/</guid>
-      <description>
-
-&lt;h1 id=&#34;david-petzel-systems-engineer&#34;&gt;David Petzel, Systems Engineer&lt;/h1&gt;
-
-&lt;p&gt;website: &lt;a href=&#34;http://www.dpetzel.info&#34;&gt;http://www.dpetzel.info&lt;/a&gt;
-&lt;br /&gt;
-email: &lt;a href=&#34;dave@petzel.emai&#34;&gt;dave@petzel.email&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;summary-of-qualifications&#34;&gt;Summary Of Qualifications&lt;/h2&gt;
-
-&lt;p&gt;Extensive operational experience in organizations of all sizes. Driven
-self-starter who likes to learn new things and make existing things
-better. I&amp;rsquo;ve spent the last 5+ years providing operational support in a
-large scale and very complex environment. I have a strong desire to
-automate as much as possible, and take pride in ensuring things I do
-automate are well documented.&lt;/p&gt;
-
-&lt;h2 id=&#34;professional-experience&#34;&gt;Professional Experience&lt;/h2&gt;
-
-&lt;h3 id=&#34;espn-bristol-ct&#34;&gt;ESPN - Bristol CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;senior-software-engineer&#34;&gt;Senior Software Engineer&lt;/h4&gt;
-
-&lt;p&gt;September 2016 - Present&lt;/p&gt;
-
-&lt;p&gt;Responsible for a variety of espn.com backend applications including
-Personalization, Content Management, and API services. Work with
-several programming languages including Python and Ruby with a focus
-on Java based applications and services.&lt;/p&gt;
-
-&lt;p&gt;Responsibilities include:
-* Rearchitecting, Planning, and coordinating migration of applications
-  out of a traditional hosted data center, into the cloud.
-* Implementation of automated testing and continuous delivery
-* Datastore migration from MongoDB to Cassandra&lt;/p&gt;
-
-&lt;h3 id=&#34;the-walt-disney-company-bristol-ct&#34;&gt;The Walt Disney Company - Bristol CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;staff-systems-engineer-espn-com&#34;&gt;Staff Systems Engineer ESPN.com&lt;/h4&gt;
-
-&lt;p&gt;February 2013 - September 2016&lt;/p&gt;
-
-&lt;p&gt;Works closely with ESPN.com business Engineering and Production
-teams to gather requirements, troubleshoot issues, and provide
-superior customer support. Design and implementation of automation
-and configuration management systems including open source, and
-internally developed tools. Provide mentor-ship to junior team
-members and shepherd interactions between development and
-infrastructure teams to delivery highly reliable systems in a highly
-complex environment.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Work closely with build engineering team to help bridge the
-gap between operations and development.&lt;/li&gt;
-&lt;li&gt;Member of a Chef working team responsible for development of
-Chef cookbooks that are common across multiple business units.&lt;/li&gt;
-&lt;li&gt;Technical lead on a project to replace antiquated internal
-load testing appliance to a cloud based load testing solutions
-provider.&lt;/li&gt;
-&lt;li&gt;Implementation of automated Chef cookbook testing and
-promotion pipeline to ensure all cookbooks were tested before
-reaching the Chef server.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sr-systems-engineer-espn-com&#34;&gt;Sr. Systems Engineer  ESPN.com&lt;/h4&gt;
-
-&lt;p&gt;August 2008 - February 2013&lt;/p&gt;
-
-&lt;p&gt;Responsible for the operational support of ESPN.com and affiliate
-Internet properties. Collaborate closely with ESPN development teams
-and Disney technical teams to provide resilient, high performance
-solutions to achieve ESPN and Disney business goals. Responsible for
-planning and executing small-to-medium scale projects. Typical
-projects would include new business unit initiatives and updates to
-existing products and services that require planning, incredible
-attention to detail, and flawless execution.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Developed deployment tool which allowed engineering teams to
-perform self-service code deployments freeing up hundreds of
-human hours a month.&lt;/li&gt;
-&lt;li&gt;Implemented replacement of HTTP caching tier from an
-internally developed solution to Varnish.&lt;/li&gt;
-&lt;li&gt;Developed cache flush system which allowed editors as well as
-programmatic access to flush content across entire Varnish
-cluster.&lt;/li&gt;
-&lt;li&gt;Replace single instance Cacti server with a distributed Zenoss
-implementation.&lt;/li&gt;
-&lt;li&gt;Technical participant in large scale project to migrate data
-centers.&lt;/li&gt;
-&lt;li&gt;Development and support of CFEngine promises and bundles.
-Load testing of new applications as well as capacity planning
-around major sporting events.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;northwest-ct-community-college-winsted-ct&#34;&gt;Northwest CT Community College - Winsted CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;part-time-instructor&#34;&gt;Part Time Instructor&lt;/h4&gt;
-
-&lt;p&gt;January 2002 – Summer 2010&lt;/p&gt;
-
-&lt;p&gt;Part time instructor for undergraduate courses. Primary courses were
-&lt;em&gt;CST 120 Intro to Hardware&lt;/em&gt;, and &lt;em&gt;CST 240 Data Communications &amp;amp;
-Networks&lt;/em&gt;. Class forums started as primarily a classroom environment
-but eventually shifted to a completely on-line based structure.&lt;/p&gt;
-
-&lt;h3 id=&#34;blue-frog-solutions-pompano-beach-florida&#34;&gt;Blue Frog Solutions - Pompano Beach Florida&lt;/h3&gt;
-
-&lt;h4 id=&#34;systems-engineer&#34;&gt;Systems Engineer&lt;/h4&gt;
-
-&lt;p&gt;August 2006 - August 2008&lt;/p&gt;
-
-&lt;p&gt;Provide operational support for Production and UAT infrastructure
-for a medium size software development company.&lt;/p&gt;
-
-&lt;p&gt;Primary responsibilities include:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Infrastructure and Application support of the internal
-flagship application, Affirm for Annuities, based on the
-proprietary ADMServer framework.
-Backup administration using Veritas Backup Exec and Dell Tape
-Library&lt;/li&gt;
-&lt;li&gt;Server administration and monitoring for 30+ physical Vmware
-ESX servers and 200+ virtual machines, including Windows and
-Linux&lt;/li&gt;
-&lt;li&gt;Design, Implementation, and Administration of multiple ESX
-Clusters connected to SAN storage via both iSCSI and Fiber
-Channel&lt;/li&gt;
-&lt;li&gt;Reduce ESX Server build time by over 300% by creating a custom
-shell script to handle repetitive configuration tasks involved
-in a new server build.&lt;/li&gt;
-&lt;li&gt;Support of a multi domain Active Directory Forest, utilizing a
-combination of Group Policies and Custom Scripts to facilitate
-standardization.&lt;/li&gt;
-&lt;li&gt;Exchange 2003 administration&lt;/li&gt;
-&lt;li&gt;Design and implementation of customized file mover routines
-based on Windows Batch, as well as Biztalk Server 2006&lt;/li&gt;
-&lt;li&gt;Support of Customized in house application utilizing IIS 6,
-ASPNET 2.0 and SQL Server 2005 Clusters.&lt;/li&gt;
-&lt;li&gt;Change Control and Standardization documentation&lt;/li&gt;
-&lt;li&gt;Proactive server monitoring using MOM 2005 &amp;amp; Dell Open Manage
-IT Assistant. Including custom MOM scripts to support event
-log retrieval and archiving.&lt;/li&gt;
-&lt;li&gt;Design, Implementation, and Administration of IBM Websphere MQ
-V6 Environment.&lt;/li&gt;
-&lt;li&gt;Custom script creation using PERL, Linux Shell Scripting,
-Windows Batch Scripting and VBScripting.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;sun-sentinel-company-deerfield-beach-fl&#34;&gt;Sun-Sentinel Company - Deerfield Beach FL&lt;/h3&gt;
-
-&lt;h4 id=&#34;sr-systems-engineer&#34;&gt;Sr. Systems Engineer&lt;/h4&gt;
-
-&lt;p&gt;March 2005 – September 2006&lt;/p&gt;
-
-&lt;p&gt;Administration of enterprise level production servers including,
-Exchange 5.5, Windows 2000 File and Print, WINS, Active Directory
-Domain Controllers, Windows 2000 Application Clusters, and VMware
-ESX Servers. Daily responsibilities include user maintenance,
-mailbox maintenance, patch management, server administration and
-monitoring, and change controls.&lt;/p&gt;
-
-&lt;p&gt;Key Accomplishments:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Developed a WMI VBscript to pro-actively
-monitor disk space usage on 140+ Windows Server and 455 data
-volumes.&lt;/li&gt;
-&lt;li&gt;Designed and implemented a 2-node VMware ESX server
-infrastructure, which housed 7 production virtual
-machines.&lt;/li&gt;
-&lt;li&gt;Planned and implemented a Windows 2003 multi-domain
-Active Directory architecture for a 1400+ user network consisting of
-0+ physical locations.&lt;/li&gt;
-&lt;li&gt;Designed and implemented a 2 node
-Terminal Server 2003 cluster to provide MS Outlook to 100+ OS X MAC
-clients.&lt;/li&gt;
-&lt;li&gt;Designed and implemented an “All Virtual” SharePoint
-Team Services Architecture.&lt;/li&gt;
-&lt;li&gt;Developed a pre-production WMI VBscript to centralize windows event
-logs into a SQL 2000 database and publish the consolidated logs to
-the intranet using ASP.&lt;/li&gt;
-&lt;li&gt;Designed and implemented a Neoware EzUpdate infrastructure to
-provide a true “0-touch” thin client computing environment.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;sr-desktop-engineer&#34;&gt;Sr. Desktop Engineer&lt;/h4&gt;
-
-&lt;p&gt;June 2004 – March 2005&lt;/p&gt;
-
-&lt;p&gt;Sr. Desktop Engineer for level 2 support group of 1400+ PC’s and
-150+ Macs. Responsible for case queue management to ensure problem
-cases were resolved in a timely fashion while meeting customer
-satisfaction levels. Responsible for auditing of PC software
-utilizing SMS as well as software package distribution. Provided
-support to all divisions within the company including departmental
-specific software. Responsible for creation of Ghost images for new
-system models as well as updating existing images. Responsible for
-supporting CSSR group to assist them in handling difficult cases&lt;/p&gt;
-
-&lt;p&gt;Key Accomplishments:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Designed and implemented a centralized Norton Ghost
-architecture that allowed multiple PCs to be imaged
-simultaneously&lt;/li&gt;
-&lt;li&gt;Expanded the utilization of the existing SMS infrastructure from
-approximately 400 PCs to 1100+&lt;/li&gt;
-&lt;li&gt;Developed a KIXtart script to check for Duplicate machine SIDs
-on the network and automatically fix any problems that were found.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&#34;contractor-temp&#34;&gt;Contractor/Temp&lt;/h4&gt;
-
-&lt;p&gt;February 2004 – June 2004&lt;/p&gt;
-
-&lt;p&gt;Contract assignment to migrate domain user accounts to a new Active
-Directory domain, utilizing scripting techniques.&lt;/p&gt;
-
-&lt;h3 id=&#34;rkl-associates-llc-torrington-ct&#34;&gt;RKL &amp;amp; Associates, LLC  - Torrington CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;lead-sr-technician&#34;&gt;Lead Sr. Technician&lt;/h4&gt;
-
-&lt;p&gt;November 2001 – December 2003&lt;/p&gt;
-
-&lt;p&gt;Lead technician for a consulting firm. Responsibilities included
-procedure development to standardized technical solution
-deployments, administration of a Linux-Ensim web server for the web
-hosting side of the business. Routine support of clients maintaining
-service contracts, ranging from software updates, PC and server
-installations, LAN and WAN configurations/maintenance. Windows 2000
-and W2K SBS servers, including Exchange, ISA and SQL Server 2000.
-Support of a wide variety of applications found in the SMB market
-space. Project management of other technician’s larger projects.
-Point of contact for all new and potential clients.&lt;/p&gt;
-
-&lt;p&gt;Key Accomplishments:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Developed an Access 2000 database to track all clients’
-hardware and software assets.&lt;/li&gt;
-&lt;li&gt;Implemented standardized, documented procedures for how
-various solutions should be implemented to ensure consistency
-across clients.&lt;/li&gt;
-&lt;li&gt;Performed numerous NT 4 to Windows 2000 Active directory upgrades.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;wentworth-labs-brookfield-ct&#34;&gt;Wentworth Labs - Brookfield, CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;sr-it-support-specialist&#34;&gt;Sr. IT Support Specialist&lt;/h4&gt;
-
-&lt;p&gt;Oct 2000 – Oct 2001&lt;/p&gt;
-
-&lt;p&gt;Specify, administer, maintain, and upgrade enterprise network (WAN
-and LANS), servers, network printers, and personal computers.
-Administer and maintain system security, mission critical
-Manufacturing Software, and Intranet Web/FTP sites. Perform routine
-System Administrator functions such as backups/restores, user
-account maintenance, file system (NTFS and Network Share)
-Permissions, system performance monitoring, NT Scheduler, Exchange
-Maintenance, and Virus Prevention. Create and maintain procedures,
-policies, and other documentation on equipment and software attached
-to the network. Upgrade of LAN to 100BaseT Switching Network. PIX
-Firewall installation. VPN Installation. Replacement of Older Cisco
-Routers. Creating OS and Software Images for many different hardware
-models and software types. Microsoft Exchange administration.&lt;/p&gt;
-
-&lt;p&gt;Key Accomplishments:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Upgraded an existing Multi Domain NT 4 infrastructure to a Windows 2000
-Active directory architecture consisting of 300+ users and 5 sites.&lt;/li&gt;
-&lt;li&gt;Upgraded an existing Multi Domain NT 4 infrastructure to a Windows 2000
-Active directory architecture consisting of 300+ users and 5 sites.&lt;/li&gt;
-&lt;li&gt;Upgraded the existing Exchange 5.5 infrastructure to Exchange 2000.&lt;/li&gt;
-&lt;li&gt;Designed and Implemented a centralized backup strategy
-utilizing Veritas Backup Exec 8.6.&lt;/li&gt;
-&lt;li&gt;Developed an automated PC deployment process including OS images.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;priceline-webhouse-greenwich-ct&#34;&gt;Priceline Webhouse - Greenwich, CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;systems-analyst&#34;&gt;Systems Analyst&lt;/h4&gt;
-
-&lt;p&gt;Apr 2000 - Oct 2000&lt;/p&gt;
-
-&lt;p&gt;Responsible for the overall health and accuracy of website
-transactions in a very transaction intensive environment.
-Responsibilities included monitoring, load balancing, configuring,
-and troubleshooting more than 75 NT servers and monitoring 8+ Oracle
-databases. Utilized Active Server Page (ASP) Technology, database
-function and structure, IIS 4.0, MS Transaction Server (packages and
-components), COM+, and network infrastructure. Development of
-customized utilities to aid in the troubleshooting and maintenance
-of servers.&lt;/p&gt;
-
-&lt;h3 id=&#34;howmet-corporation-winsted-ct&#34;&gt;Howmet Corporation -  Winsted CT&lt;/h3&gt;
-
-&lt;h4 id=&#34;systems-support-specialist&#34;&gt;Systems Support Specialist&lt;/h4&gt;
-
-&lt;p&gt;July 1998 - Apr 2000&lt;/p&gt;
-
-&lt;p&gt;Primary responsibilities included desktop hardware and software
-support of a 125-user network. Applications included Lotus Notes,
-Microsoft Office along with Outlook, AutoCAD, Attachmate, Cyborg,
-Made 2 Manage and various vendor and home grown apps. Used Norton
-Ghost for OS imaging and SMS for software installation and
-management. Also responsible for NT server maintenance including
-backups, user account management and security. Created Access
-databases for use by various departments. Created VB applications
-for departmental use.&lt;/p&gt;
-
-&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
-
-&lt;p&gt;Northwestern Connecticut Community College Winsted, CT Computer System
-Technology, Associates Degree&lt;/p&gt;
-
-&lt;h2 id=&#34;certifications&#34;&gt;Certifications&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;MCSE - Microsoft Certified Systems Engineer (NT 4, 2000 &amp;amp; Windows 2003)&lt;/li&gt;
-&lt;li&gt;MCSA – Microsoft Certified Systems Administrator (Windows 2003)&lt;/li&gt;
-&lt;li&gt;MCP – Microsoft Certified Professional&lt;/li&gt;
-&lt;li&gt;MCP+I - Microsoft Certified Professional + Internet&lt;/li&gt;
-&lt;li&gt;Comptia (A+, INET+, Network+)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>David Petzel, Systems Engineer website: http://www.dpetzel.info email: dave@petzel.email
+Summary Of Qualifications Extensive operational experience in organizations of all sizes. Driven self-starter who likes to learn new things and make existing things better. I&amp;rsquo;ve spent the last 5+ years providing operational support in a large scale and very complex environment. I have a strong desire to automate as much as possible, and take pride in ensuring things I do automate are well documented.</description>
     </item>
     
     <item>
@@ -997,31 +106,8 @@ Technology, Associates Degree&lt;/p&gt;
       <pubDate>Sun, 18 Sep 2016 09:48:29 -0400</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/about/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;m a technology enthusiast, husband, dad, and
-&lt;a href=&#34;http://www.geocaching.com/profile/?guid=2b261b0d-15e3-4c16-902f-a51932dd9ff5&#34;&gt;Geocacher&lt;/a&gt;
-I&amp;rsquo;ve worked in technology for most of my working years. Even before that I had
-an interest in computers dating all the way back to my very first PC, a
-&lt;a href=&#34;http://en.wikipedia.org/wiki/Tandy_1000&#34;&gt;Tandy 1000&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I grew up (professionally) on the enterprise IT side of things, but later on
-moved into the web space (where I am today). I find the pace at which things
-move on the Internet interesting and exciting. There is never any shortage of
-new things to learn.&lt;/p&gt;
-
-&lt;p&gt;I started this site as a place to start collecting notes and thoughts on various
-things I was learning about and/working on. I&amp;rsquo;ve found over the years that
-you&amp;rsquo;ll spend a lot of time researching and learning how to do something and
-then about 6 months after you put it down you need it for real.
-At that point, you forget all the nuances of the thing you were doing. I generally
-try to keep some notes about these sorts of things, but I&amp;rsquo;ve never stored them
-in a way that made them easy to find again later. So I decided this would
-be that place.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m a fan of Opensource, but I don&amp;rsquo;t generally find the time to contribute
-back as much as I would like to. If you are curious what I&amp;rsquo;ve been up to
-lately &lt;a href=&#34;https://github.com/dpetzel&#34;&gt;Github&lt;/a&gt; is a pretty good way to keep
-tabs on me.&lt;/p&gt;
-</description>
+      <description>I&amp;rsquo;m a technology enthusiast, husband, dad, and Geocacher I&amp;rsquo;ve worked in technology for most of my working years. Even before that I had an interest in computers dating all the way back to my very first PC, a Tandy 1000.
+I grew up (professionally) on the enterprise IT side of things, but later on moved into the web space (where I am today). I find the pace at which things move on the Internet interesting and exciting.</description>
     </item>
     
     <item>
@@ -1030,31 +116,8 @@ tabs on me.&lt;/p&gt;
       <pubDate>Tue, 06 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/chef/speeding-up-test-kitchen/</guid>
-      <description>&lt;p&gt;This past week I was turned on to a tiny, but game changing (for me) gem named
-&lt;code&gt;kitchen-sync&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;I tend to use test-kitchen in a wide variety of configurations. Sometimes I&amp;rsquo;m
-using it to drive Vagrant, most of the time, I&amp;rsquo;m using it drive Docker, but
-there are times when I need it to drive remove instances such as EC2. One
-of my biggest pain points in this last configuration is the time it takes to
-copy of the cookbooks to the remote machine. If you&amp;rsquo;ve got a cookbook that
-has many dependencies (either directly or indirectly), this is a painful process.
-It is especially aggravating because you&amp;rsquo;re probably only testing a change to
-a single file, yet you have to wait for a billion other files that have not
-changed to get copied again.&lt;/p&gt;
-
-&lt;p&gt;Enter &lt;a href=&#34;https://github.com/coderanger/kitchen-sync&#34;&gt;kitchen-sync&lt;/a&gt;.  Put out
-by Noah Kantrowitz (a Chef super star), This little gem saves so much time when
-your doing iterative development. The initial creation of the instance still
-takes time as all the files have to be copied, however your second run will
-have the file copy step take only a second or two. In my case I&amp;rsquo;ve got one
-&lt;strong&gt;really nasty&lt;/strong&gt; cookbook that has so many dependencies it was taking 10-12
-minutes &lt;strong&gt;each converge&lt;/strong&gt;. Using kitchen-sync my subsequent runs take only a
-couple seconds to copy the file.&lt;/p&gt;
-
-&lt;p&gt;If you are doing any Chef development using test-kitchen and remote instances,
-this is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
-</description>
+      <description>This past week I was turned on to a tiny, but game changing (for me) gem named kitchen-sync.
+I tend to use test-kitchen in a wide variety of configurations. Sometimes I&amp;rsquo;m using it to drive Vagrant, most of the time, I&amp;rsquo;m using it drive Docker, but there are times when I need it to drive remove instances such as EC2. One of my biggest pain points in this last configuration is the time it takes to copy of the cookbooks to the remote machine.</description>
     </item>
     
     <item>
@@ -1063,46 +126,8 @@ this is a &lt;strong&gt;must have&lt;/strong&gt;.&lt;/p&gt;
       <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/jekyll-with-fenced-code-blocks/</guid>
-      <description>&lt;p&gt;While hacking up some markdown files to use under Jekyll I hit a weird
-issue where code blocks written with triple ticks (aka fenced code blocks)
-wouldn&amp;rsquo;t render correctly.&lt;/p&gt;
-
-&lt;p&gt;When writing markdown, I like to express code blocks using the
-&lt;a href=&#34;https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks&#34;&gt;fenced-code-blocks&lt;/a&gt;
-syntax. I&amp;rsquo;m just getting up to speed with using Jekyll and after reading their
-documentation I found I could use their &lt;code&gt;highlight&lt;/code&gt; liquid tag, but I just didn&amp;rsquo;t
-care for the look and feel of that. I&amp;rsquo;m just used to the fenced style, so I
-wanted to use that.&lt;/p&gt;
-
-&lt;p&gt;If I did something like this, it would work:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    ```
-    my code snippet
-    ```
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;But doing this would result in the language getting included inside the code
-block. Normally you&amp;rsquo;d see the language used as a guide for highlighting, and it
-would not get actually output in the rendered content.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    ```console
-    my code snippet
-    ```
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After a bit of digging and trial error I narrowed this down to the fact that
-I was rendering with &lt;code&gt;kramdown&lt;/code&gt;. There were some mentions of the fenced code
-blocks on &lt;a href=&#34;http://jekyllrb.com/docs/configuration/&#34;&gt;http://jekyllrb.com/docs/configuration/&lt;/a&gt; page, but it was not clear
-to me what needed to happen. This is almost certainly a result of me being new
-to Jekyll. I ended up determining that &lt;code&gt;Redcarpet&lt;/code&gt; is an alternate renderer to
-&lt;code&gt;kramdown&lt;/code&gt;. So I added the following to my &lt;code&gt;_config.yml&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;markdown: redcarpet
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After making that change the fenced code blocks were now properly rendering
-even with the language being specified.&lt;/p&gt;
-</description>
+      <description>While hacking up some markdown files to use under Jekyll I hit a weird issue where code blocks written with triple ticks (aka fenced code blocks) wouldn&amp;rsquo;t render correctly.
+When writing markdown, I like to express code blocks using the fenced-code-blocks syntax. I&amp;rsquo;m just getting up to speed with using Jekyll and after reading their documentation I found I could use their highlight liquid tag, but I just didn&amp;rsquo;t care for the look and feel of that.</description>
     </item>
     
     <item>
@@ -1111,83 +136,8 @@ even with the language being specified.&lt;/p&gt;
       <pubDate>Sat, 03 Jan 2015 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/modifying-your-poshgit-prompt/</guid>
-      <description>&lt;p&gt;If your using &lt;a href=&#34;https://windows.github.com/&#34;&gt;Github for Windows&lt;/a&gt;, there is a
-good chance you might be using the Powershell Git Shell. If your like me you
-may want to customize how that prompt looks. Turns out this is not nearly as
-trivial as it would initially seem.&lt;/p&gt;
-
-&lt;p&gt;If your not familiar with PoshGit, you can read a little more about it on their
-&lt;a href=&#34;https://github.com/dahlbyk/posh-git/blob/master/readme.md&#34;&gt;github page&lt;/a&gt;. In
-a nutshell, this integration enhances your current Powershell prompt to provide
-you with git related information right in your prompt. For anyone that uses
-&lt;a href=&#34;https://github.com/robbyrussell/oh-my-zsh&#34;&gt;oh-my-zsh&lt;/a&gt;, it provides similar
-functionality to that.&lt;/p&gt;
-
-&lt;p&gt;Powershell allows you to override the prompt by configuring a &lt;a href=&#34;http://ss64.com/ps/syntax-prompt.html&#34;&gt;prompt function&lt;/a&gt; inside your profile.  So let&amp;rsquo;s pause here..
-this &lt;em&gt;sounds&lt;/em&gt; simple enough, but the reality you&amp;rsquo;re profile is actually loaded
-from one of a possible 4 files. Knowing exactly which one to edit is an adventure
-on all on its own. That whole debacle is covered in detail at
-&lt;a href=&#34;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&#34;&gt;http://technet.microsoft.com/en-us/magazine/2008.10.windowspowershell.aspx&lt;/a&gt;
-so I&amp;rsquo;ll skip going into details there. We&amp;rsquo;ll leave it at knowing there is fairly
-well documented (albeit cumbersome) methods of changing your Powershell prompt.&lt;/p&gt;
-
-&lt;p&gt;Enter PoshGit. Since its nothing more than a wrapper around your existing
-Powershell, it would seem logical that any shell customizations you may have
-already applied would be used and PoshGit would extend upon that. Sad to say
-that is not the case&amp;hellip; Now to be fair, the README for PoshGit does cover this,
-but it takes a fair amount of connecting the dots to know that PoshGit is even
-a thing. For me there was a series of research and trial and error that lead me
-to learning what PoshGit was, the fact that it was part of Github for Windows,
-and ultimately how to hack it to do what I wanted.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll skip over the pain and agony I went through getting from A to B. I&amp;rsquo;ll keep it
-brief and say no amount of &lt;code&gt;profile.ps1&lt;/code&gt; hackery will work here.&lt;/p&gt;
-
-&lt;p&gt;Instead the key to success lies in &lt;code&gt;C:\Users\&amp;lt;you&amp;gt;\AppData\Local\GitHub\PoshGit_3874a02de8ce2b7d4908a8c0cb302294358b972c\profile.example.ps1&lt;/code&gt;
-(I don&amp;rsquo;t know if that GUID looking number changes between installations).
-Despite its name, this file is actually &lt;strong&gt;not&lt;/strong&gt; a sample, but is the actual
-profile that is loaded by GitHub for Windows when using Powershell as your shell.&lt;/p&gt;
-
-&lt;p&gt;Start by creating a function named &lt;code&gt;global:prompt&lt;/code&gt; (I think just prompt might
-also work). Inside that function make all your customizations, and then be sure
-to include a call to &lt;code&gt;Write-VcsStatus&lt;/code&gt;. The &lt;code&gt;Write-VcsStatus&lt;/code&gt; is the key to
-ensuring you continue to get all the git integration that PoshGit supplies.&lt;/p&gt;
-
-&lt;p&gt;Here is what my function looks like. In my case I was looking to not have
-super long directory structures included in the prompt, and instead just
-display the name of the directory I&amp;rsquo;m currently in. Credit for this goes to
-&lt;a href=&#34;http://winterdom.com/2008/08/mypowershellprompt&#34;&gt;http://winterdom.com/2008/08/mypowershellprompt&lt;/a&gt; which I used to figure out
-how to change the prompt, I adapted for my own tastes.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;function global:prompt {
-  $cdelim = [ConsoleColor]::DarkCyan
-  $chost = [ConsoleColor]::Green
-  $cloc = [ConsoleColor]::Cyan
-
-  write-host &amp;quot;$([char]0x0A7) &amp;quot; -n -f $cloc
-  write-host &#39; {&#39; -n -f $cdelim
-  write-host (split-path (pwd) -Leaf) -n -f $cloc
-  write-host &#39;}&#39; -n -f $cdelim
-
-  Write-VcsStatus
-
-  $global:LASTEXITCODE = $realLASTEXITCODE
-  return &amp;quot;&amp;gt; &amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If your curious, this makes my shell look something like this (but with colors):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;Windows PowerShell
-Copyright (C) 2009 Microsoft Corporation. All rights reserved.
-
-§  {dpetzel.github.io} [master +1 ~0 -0 !]&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;At the end of the day, the act of actually making the change wasn&amp;rsquo;t complicated
-at all, however figuring out the &amp;laquo;what and where&amp;raquo; of what to change was a time
-consuming process.&lt;/p&gt;
-</description>
+      <description>If your using Github for Windows, there is a good chance you might be using the Powershell Git Shell. If your like me you may want to customize how that prompt looks. Turns out this is not nearly as trivial as it would initially seem.
+If your not familiar with PoshGit, you can read a little more about it on their github page. In a nutshell, this integration enhances your current Powershell prompt to provide you with git related information right in your prompt.</description>
     </item>
     
     <item>
@@ -1196,21 +146,8 @@ consuming process.&lt;/p&gt;
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/remotely-enabling-rdp/</guid>
-      <description>&lt;p&gt;Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve
-had to go looking for this, so I figured I would write it down finally.&lt;/p&gt;
-
-&lt;p&gt;There are times when a domain attached PC has RDP disabled for some reason.
-The following snippet, which I adapted from
-&lt;a href=&#34;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&#34;&gt;http://oreilly.com/windows/archive/server-hacks-remote-desktop.html&lt;/a&gt; makes it a
-little quicker. Run this from a cmd prompt as a user with admin rights on the
-remote host.&lt;/p&gt;
-
-&lt;p&gt;{% highlight bat %}
-set node=remote_pc_name
-sc \%node% start RemoteRegistry
-reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server&amp;raquo; /v fDenyTSConnections /d 0 /f
-{% endhighlight %}&lt;/p&gt;
-</description>
+      <description>Nothing to exciting here, but its the 3rd or 4th time in recent history I&amp;rsquo;ve had to go looking for this, so I figured I would write it down finally.
+There are times when a domain attached PC has RDP disabled for some reason. The following snippet, which I adapted from http://oreilly.com/windows/archive/server-hacks-remote-desktop.html makes it a little quicker. Run this from a cmd prompt as a user with admin rights on the remote host.</description>
     </item>
     
     <item>
@@ -1219,21 +156,8 @@ reg add &amp;laquo;\%node%\HKLM\System\CurrentControlSet\Control\Terminal Server
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/chocolatey-is-awesome/</guid>
-      <description>&lt;p&gt;A while back a co-worker told me about Chocolately. I had taken a quick
-look and it seemed interesting, but I kind of forgot about it after
-that.&lt;/p&gt;
-
-&lt;p&gt;Well today, I was setting up a new machine and I had a handful of things
-I wanted to install. I was thinking to myself what a bummer it was going
-to be to have fire up Google and search for each of the package’s
-download sites. Then I recalled Chocolately. In under 10 minutes flat I
-had read the quick start, installed Chocolately, and installed a handful
-of packages on the box. It was awesome and is something Windows has been
-sorely missing for a very long time. So if you haven’t already, go check
-it out at &lt;a href=&#34;http://chocolatey.org/&#34;&gt;http://chocolatey.org/&lt;/a&gt;. Now I have to fight the urge to
-start packing up my own stuff, and focus on the task at hand. I’ll have
-to revisit the packaging process at a later date :).&lt;/p&gt;
-</description>
+      <description>A while back a co-worker told me about Chocolately. I had taken a quick look and it seemed interesting, but I kind of forgot about it after that.
+Well today, I was setting up a new machine and I had a handful of things I wanted to install. I was thinking to myself what a bummer it was going to be to have fire up Google and search for each of the package’s download sites.</description>
     </item>
     
     <item>
@@ -1242,190 +166,9 @@ to revisit the packaging process at a later date :).&lt;/p&gt;
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/migrating-from-windows-2003-sbs-to-windows-2012-standard-part-i/</guid>
-      <description>
-
-&lt;p&gt;I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server
-to Windows 2013 Standard.&lt;/p&gt;
-
-&lt;p&gt;Without getting into too much of the back story, the client purchased Windows
-2003 SBS many moons ago, however they never leveraged anything except Active
-Directory and File Sharing. They use their hosting provider&amp;rsquo;s web mail, and
-don&amp;rsquo;t have an appetite to change that.&lt;/p&gt;
-
-&lt;p&gt;Here are we many moons later and they are ready to upgrade. They&amp;rsquo;ve purchased a
-new, fairly beefy, box running Windows 2012 Standard.&lt;/p&gt;
-
-&lt;p&gt;After some discussions around the path they would prefer to take we&amp;rsquo;ve decided
-we don&amp;rsquo;t want to have to touch all of the PCs and move them to a new domain,
-and we&amp;rsquo;d like the upgrade to be as seamless as possible. To that end the decision
-was made to attempt a &lt;em&gt;migration&lt;/em&gt;. This document will hopefully capture my
-journey down this path. Its been at least 5 years since I&amp;rsquo;ve touched a &amp;laquo;real&amp;raquo;
-domain controller, so a decent amount of reading is order, but from what I have
-gathered so far this is not a standard conversion path, but it appears there
-are some options.&lt;/p&gt;
-
-&lt;h2 id=&#34;getting-prepared:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Getting Prepared&lt;/h2&gt;
-
-&lt;p&gt;So I decided I&amp;rsquo;d blow away the existing installation of 2012 on the box and
-lay down ESXi. I then re-installed 2012 fresh as a VM on the ESXi host. I also
-performed a P2V on the existing Windows 2003 SBS host. The P2V process is
-outside the scope of this document, but was actually pretty easy. This will
-allow me to take snapshots, and even clone the VM for some trial runs
-(I don&amp;rsquo;t have any lab hardware available for this).&lt;/p&gt;
-
-&lt;p&gt;fter getting the SBS server virtualized, I proceed to configure the new 2013 box as a member server with a static IP. I ensured its primary DNS server was set to the SBS server. I did not configure any roles or features at all yet.&lt;/p&gt;
-
-&lt;p&gt;Now that I&amp;rsquo;m ready to proceed, I started by installing the support tools
-from &lt;a href=&#34;http://www.microsoft.com/en-us/download/details.aspx?id=15326&#34;&gt;http://www.microsoft.com/en-us/download/details.aspx?id=15326&lt;/a&gt;. With those
-tools in place I ran through series of tests as outlined in &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;{% highlight console %}&lt;br /&gt;
-Dcdiag /v /c /d /e /s:&lt;sbs_server&gt; &amp;gt; c:\temp\dcdiag.log
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;The first error logged was:
-{% highlight console %}
-    * Checking Service: IsmServ
-        IsmServ Service is stopped on [SERVER]
-    &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip; SERVER failed test Services
- {% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;Based &lt;a href=&#34;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&#34;&gt;http://blog.mpecsinc.ca/2008/07/sbs-dcdiag-produces-ismserv-error.html&lt;/a&gt;,
-it appears this is expected on SBS and safe to ignore, so doing just that.&lt;/p&gt;
-
-&lt;p&gt;The next error up was:&lt;/p&gt;
-
-&lt;p&gt;{% highlight console %}
-      Starting test: systemlog
-         * The System Event log test
-         An Error Event occured.  EventID: 0xC0002719
-            Time Generated: 11/28/2013   18:05:14
-            (Event String could not be retrieved)
-         &amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;&amp;hellip;. SERVER failed test systemlog
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;This seems to be related to a single event in my event log:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;    Event Type: Error
-    Event Source:   DCOM
-    Event Category: None
-    Event ID:   10009
-    Date:       11/28/2013
-    Time:       6:05:14 PM
-    User:       N/A
-    Computer:   SERVER
-    Description:
-    DCOM was unable to communicate with the computer sbs.ip.add.ress using any of the configured protocols.
-
-    For more information, see Help and Support Center at http://go.microsoft.com/fwlink/events.asp.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I don&amp;rsquo;t see any other occurrences of this error. I&amp;rsquo;m assuming I could clear the
-event logs to not see, but I&amp;rsquo;d rather keep the event log history around, so I&amp;rsquo;m
-going to ignore this for now.&lt;/p&gt;
-
-&lt;p&gt;All the other tests passed, so I moved onto &lt;code&gt;Repadmin&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Repadmin /showrepl sbs_host /verbose /all /intersite &amp;gt;c:\repl.log
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Nothing jumped out at me in this output. Next up &lt;code&gt;dnslint&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;  Dnslint /v /ad /s &amp;quot;DCipaddress&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This one caught something interesting:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;Notes:
-One or more DNS servers is not authoritative for the domain
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After reviewing the output I found that at some point in time someone had
-created a local host file entry for localhost that was the IP of the server.
-Traditionally I believe localhost resolves to 127.0.0.1, rather than the actual
-box IP, so I simply commented out the file entry. After that &lt;code&gt;dnslint&lt;/code&gt; came
-back clean.&lt;/p&gt;
-
-&lt;p&gt;I skipped the &lt;code&gt;adreplstatus&lt;/code&gt; checks since this is a single node, and the tool
-wanted me to install .net framework 4.0, which seemed heavy handed for a test
-I didn&amp;rsquo;t care about.&lt;/p&gt;
-
-&lt;p&gt;Next up I confirmed that both the &lt;code&gt;_msdcs.domain.local&lt;/code&gt; and &lt;code&gt;domain.local&lt;/code&gt; zones
-were set to the &lt;code&gt;Active Directory-Integrated&lt;/code&gt; type.&lt;/p&gt;
-
-&lt;p&gt;Next, I confirmed what level AD was currently at:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;Dsquery * cn=schema,cn=configuration,dc=domain,dc=local -scope base -attr objectVersion
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This returned a value of &lt;code&gt;30&lt;/code&gt; for me, which based on the link above means I&amp;rsquo;m
-at the &lt;code&gt;Windows Server 2003&lt;/code&gt; which lines up with the version of SBS on the host.&lt;/p&gt;
-
-&lt;p&gt;At this point I took a snapshot of the host as we are going to start making
-changes soon.&lt;/p&gt;
-
-&lt;h2 id=&#34;upgrading:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Upgrading&lt;/h2&gt;
-
-&lt;h3 id=&#34;add-2012-server-as-new-domain-controller:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Add 2012 Server As New Domain Controller&lt;/h3&gt;
-
-&lt;p&gt;In my case the SBS server was at the &lt;code&gt;Windows 2000&lt;/code&gt; level for &lt;strong&gt;both&lt;/strong&gt; the
-Domain Functional Level, as well as the Forest Functional Level.
-Using &lt;code&gt;Active Directory Domains and Trusts&lt;/code&gt; I increased both of these to the
-&lt;code&gt;Windows 2003&lt;/code&gt; level. This was done on the SBS 2003 node. Since its a single
-SBS box, I figure replication time is essentially 0 so after trolling the Event
-Logs for a few minutes to ensure nothing weird popped up, I proceeded.&lt;/p&gt;
-
-&lt;p&gt;I then stepped through the process of promoting the 2012 as a domain controller
-which is well illustrated at  &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;After the restart I noticed a few things that seemed off at first. The first
-one was that I didn&amp;rsquo;t have a netlogon share on the new 2012 DC. Additionally
-there were some errors in the event log. I found that the
-&lt;code&gt;File Replication Service&lt;/code&gt; was stopped. It was set to automatic, so I started
-it. After starting that service, I now had the netlogon share as well.&lt;/p&gt;
-
-&lt;h3 id=&#34;update-dns-clients:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update DNS Clients&lt;/h3&gt;
-
-&lt;p&gt;At this point I updated the DNS settings on thew new 2012 server to reference
-itself first.&lt;/p&gt;
-
-&lt;p&gt;Once that was completed, I then update my DHCP configuration on the SBS 2003
-box (I&amp;rsquo;ll move DHCP later), I updated the options to pass the new box as the
-primary DNS server.&lt;/p&gt;
-
-&lt;h3 id=&#34;transferring-fsmo-roles:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Transferring FSMO Roles&lt;/h3&gt;
-
-&lt;p&gt;I then followed &lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;
-to transfer all the FSMO and related roles over to the new server.&lt;/p&gt;
-
-&lt;h3 id=&#34;update-time-configurations:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;Update Time Configurations&lt;/h3&gt;
-
-&lt;p&gt;As touched on toward the end of the &lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt; I updated time settings as follows&lt;/p&gt;
-
-&lt;p&gt;2012 Server:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /manualpeerlist:time.windows.com /syncfromflags:manual /reliable:yes /update
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;SBS 2003 Server:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;w32tm /config /syncfromflags:domhier /reliable:no /update
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;At this point I&amp;rsquo;m going to let things bake for a bit. I&amp;rsquo;ve got all the &amp;laquo;AD Stuff&amp;raquo;
-moved over. At this point I&amp;rsquo;m left with all the file shares and applications
-(IE Virus Console) that are configured to point at this host.  As I get to
-moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
-
-&lt;h2 id=&#34;references:b0ac1ba548e204fba0f8b1dc4a6cb41f&#34;&gt;References&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&#34;&gt;http://social.technet.microsoft.com/Forums/windowsserver/en-US/3f0062c8-80b1-4322-8a15-6529289fcc4b/migrate-ad-from-2003-to-2012&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&#34;&gt;http://msmvps.com/blogs/mweber/archive/2012/07/30/upgrading-an-active-directory-domain-from-windows-server-2003-or-windows-server-2003-r2-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/05/step-by-step-adding-a-windows-server-2012-domain-controller-to-an-existing-windows-2003-network.aspx&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&#34;&gt;http://blogs.technet.com/b/canitpro/archive/2013/05/27/step-by-step-active-directory-migration-from-windows-server-2003-to-windows-server-2012.aspx&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>I&amp;rsquo;ve recently been tasked with migrating a Windows 2003 Small Business Server to Windows 2013 Standard.
+Without getting into too much of the back story, the client purchased Windows 2003 SBS many moons ago, however they never leveraged anything except Active Directory and File Sharing. They use their hosting provider&amp;rsquo;s web mail, and don&amp;rsquo;t have an appetite to change that.
+Here are we many moons later and they are ready to upgrade.</description>
     </item>
     
     <item>
@@ -1434,131 +177,8 @@ moving some of these items I&amp;rsquo;ll add new parts.&lt;/p&gt;
       <pubDate>Sun, 24 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/virtualization/building-a-dell-t420-with-esxi-5/</guid>
-      <description>
-
-&lt;p&gt;I recently got the opportunity to play with a new Dell T420, and I decided I
-would run ESXi 5 on it.&lt;/p&gt;
-
-&lt;h2 id=&#34;background:ac95e98614deacca719c711e3f70f12b&#34;&gt;Background&lt;/h2&gt;
-
-&lt;p&gt;My day job does not really allow me much hands on access to hardware any more
-so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got
-the chance to work on this as a side project. The server came
-pre-installed with Windows 2012 Standard. I have a need to run a couple of VM&amp;rsquo;s and I
-decided I wanted to run ESXi on the host, and run the 2013 standard box as
-a VM. For anyone that is curious, I didn&amp;rsquo;t pick ESXi because its &amp;laquo;better&amp;raquo; than
-Hyper-V (I have no clue how they stack up anymore). I simply chose it because
-its been a couple of years since I&amp;rsquo;ve built an ESX host and I wanted to see
-how things have evolved.&lt;/p&gt;
-
-&lt;p&gt;The first thing I did was use the VMWare converter utility to P2V the existing
-installation out to a VMWare workstation format. I didn&amp;rsquo;t &lt;em&gt;really&lt;/em&gt; need to do
-this since the OS was not customized yet, and I could reinstall, but this
-was a chance to play with the converter, and see if if I could PBV the existing
-installation and have it running on the newly rebuilt box. It worked well,
-and maybe I&amp;rsquo;ll write about that experience some day, but for now its all
-about getting the box built.&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-open-manage-server-administrator:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Open Manage Server Administrator&lt;/h2&gt;
-
-&lt;p&gt;So step one was to grab the installation bits from
-&lt;a href=&#34;http://www.dell.com/support/drivers/us/en/19/DriverDetails/Product/poweredge-r710?driverId=WHYNF&amp;amp;fileId=3006491785&#34;&gt;Open Manage Download&lt;/a&gt;.
-I went with version 7.3.0.2 as it was the most recent available. It downloaded
-the file to my workstation, as opposed to directly on the ESX host.&lt;/p&gt;
-
-&lt;p&gt;Next I started following the ESXi specific instructions in the
-&lt;a href=&#34;ftp://ftp.dell.com/Manuals/all-products/esuprt_software/esuprt_ent_sys_mgmt/esuprt_ent_sys_mgmt_opnmng_sw/dell-opnmang-sw-v7.3_User%27s%20Guide2_en-us.pdf&#34;&gt;Open Manage User Guide&lt;/a&gt;.
-While I can appreciate the time it takes to work up instructions that cover such
-a wide array of platforms, I found these instructions a bit lacking. They had
-several typos (missing spaces in command line commands) as well as were unclear
-on a couple things, so I&amp;rsquo;ll spend a little more time to add some details here.&lt;/p&gt;
-
-&lt;p&gt;I chose to go with the &amp;laquo;Using The vSphere CLI&amp;raquo; portion of the instructions, as
-it seemed to be the most straight forward for folks without existing ESX
-infrastructures in place. So with that, I had to download and install the
-&lt;a href=&#34;http://www.vmware.com/support/developer/vcli/&#34;&gt;vSphere CLI&lt;/a&gt;. This was pretty quick and painless. I didn&amp;rsquo;t poke to much
-at it, but it feels like its nothing more than a set of Perl scripts and it
-adds a shortcut to a CMD session which I presume just tweaks the shell with
-some environment variables&lt;/p&gt;
-
-&lt;p&gt;Now I copied the file over the suggested directory per the docs (I had to enable
- and start SSH access using the vSphere Client before this would work).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;   pscp OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip root@192.168.1.1:/var/log/vmware/
-   Using keyboard-interactive authentication.
-   Password:
-   OM-SrvAdmin-Dell-Web-7.3. | 6490 kB | 1622.6 kB/s | ETA: 00:00:00 | 100%
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So I&amp;rsquo;m not sure how the docs assume you to unzip this, but I did it over an SSH
-session, and the part that I messed up on first was that I unzipped the file
-directly in &lt;code&gt;/var/log/vmware/&lt;/code&gt;, when in reality all you have to do is run the
-install command against the ZIP directly. There is no need to actually unzip it.&lt;/p&gt;
-
-&lt;p&gt;I later learned about the &lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
-which I think is geared toward keeping SSH out of the mix. for now I ran the
-command using the CLI&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   esxcli --server 192.168.1.1 software vib install -d /var/log/vmware/OM-SrvAdmin-Dell-Web-7.3.0-588_A00.VIB-ESX51i.zip
-
-   Installation Result
-      Message: The update completed successfully, but the system needs to be rebooted for the changes to be effective.
-      Reboot Required: true
-      VIBs Installed: Dell_bootbank_OpenManage_7.3.0.2-0000
-      VIBs Removed:
-      VIBs Skipped:
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And then comes a reboot. Following the reboot I expected I would be able
-to hit the OMSA HTTPS interface at &lt;a href=&#34;https://192.168.1.1:1311&#34;&gt;https://192.168.1.1:1311&lt;/a&gt;, however that didn&amp;rsquo;t
-work, and it turns out is more more involved, and covered in the &amp;laquo;Accessing Server Administrator on VMware ESXi&amp;raquo;
-section. Essentially it suggests that you have to a &lt;strong&gt;completely separate&lt;/strong&gt;,
-server running the web server. In my case, this is the only box on the network
-so this seems like a crappy solution, but I suppose the logic is possibly to
-keep the number of system daemons to an absolute minimum. In any event, I was
-a bit disappointed to lose the web UI I&amp;rsquo;ve grown to know.&lt;/p&gt;
-
-&lt;h2 id=&#34;vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;vSphere Management Assistant&lt;/h2&gt;
-
-&lt;p&gt;At this point, I was a bit annoyed that I needed another system.
-While trolling for ways to potentially hack the Web server in directly, I came
-across a YouTube video on the subject at &lt;a href=&#34;http://www.youtube.com/watch?v=hywERi8bc1c&#34;&gt;http://www.youtube.com/watch?v=hywERi8bc1c&lt;/a&gt;.
-While watching this at about 1:31 they jump to a screen I was not familiar with,
-and after a little digging I discovered the
-&lt;a href=&#34;http://www.vmware.com/support/developer/vima/&#34;&gt;vSphere Management Assistant&lt;/a&gt;,
-so I proceeded to download and &lt;em&gt;install&lt;/em&gt; the virtual appliance as it seems it
-will come in handy in the future as well.&lt;/p&gt;
-
-&lt;p&gt;So I downloaded the appliance, unzipped the file and and then followed the
-instructions at &lt;a href=&#34;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&#34;&gt;http://pubs.vmware.com/vsphere-55/index.jsp#com.vmware.vma.doc/vima_get_start.4.5.html&lt;/a&gt;.
-This all went really smooth.&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-dell-omsa-into-the-vsphere-management-assistant:ac95e98614deacca719c711e3f70f12b&#34;&gt;Installing Dell OMSA into the vSphere Management Assistant&lt;/h2&gt;
-
-&lt;p&gt;So I figured what the heck, at this point I have a VM already, lets install
-the OMSA web interface here since I couldn&amp;rsquo;t do it earlier. So I downloaded
-the file from the dell website (they make it harder than is should be to get a
-direct download link that I could wget from inside the VM so instead I
-downloaded it on my workstation and uploaded it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-batch&#34;&gt;pscp OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz vi-admin@192.168.1.2:/tmp
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then via an SSH into the VMA appliance:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-console&#34;&gt;   cd /tmp
-   tar -zxvf OM-SrvAdmin-Dell-Web-LX-7.3.0-350_A00.SLES11.x86_64.tar.gz
-   sudo ./setup.sh
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Accept the license agreement, and hit option 1 to install the Server Administrator Web Server Interface.
-Followed by pressing &amp;laquo;i&amp;raquo;&lt;/p&gt;
-
-&lt;p&gt;And about 2 minutes later, we have our good old friend, the Open Manager web
-interface available at https//vmaappliance_ip:1311, and I was able to use
-it to connect to my ESXi host. A bit of a round about where to get there, but
-something is better than nothing..&lt;/p&gt;
-</description>
+      <description>I recently got the opportunity to play with a new Dell T420, and I decided I would run ESXi 5 on it.
+Background My day job does not really allow me much hands on access to hardware any more so its been a while since I&amp;rsquo;ve gotten to build a new server, but I recently got the chance to work on this as a side project. The server came pre-installed with Windows 2012 Standard.</description>
     </item>
     
     <item>
@@ -1567,59 +187,224 @@ something is better than nothing..&lt;/p&gt;
       <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/chromecast-woes/</guid>
-      <description>&lt;p&gt;I finally got around to picking up a &lt;a href=&#34;http://en.wikipedia.org/wiki/Chromecast&#34;&gt;Chromecast&lt;/a&gt;. I had read some reviews
-so I didn&amp;rsquo;t have any high expectations, but I couldn&amp;rsquo;t resist the urge to
-tinker with it given its price point. Boy was I disappointed&amp;hellip;.&lt;/p&gt;
+      <description>I finally got around to picking up a Chromecast. I had read some reviews so I didn&amp;rsquo;t have any high expectations, but I couldn&amp;rsquo;t resist the urge to tinker with it given its price point. Boy was I disappointed&amp;hellip;.
+The instructions it came with made it look like it was going to be the easiest thing I ever hooked up. The physical hookup was simple enough, but then it came time to get it hooked up to my wireless.</description>
+    </item>
+    
+    <item>
+      <title>Django 1.2 to 1.5 Upgrade</title>
+      <link>http://www.dpetzel.info/post/programming/django-12-to-15-upgrade/</link>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/django-12-to-15-upgrade/</guid>
+      <description>Recently I kicked off an effort to perform a long over due upgrade of the version of Django I am using on a project. Without getting into all the gory details of why, I need to upgrade from Django 1.2 to 1.5. Technically I don&amp;rsquo;t really have to go to 1.5, but I figure since I&amp;rsquo;m going to be messing with it anyway I should probably just get current. This post will journal my adventure down this road for better or worse.</description>
+    </item>
+    
+    <item>
+      <title>Sphinx With External Image Annoyance</title>
+      <link>http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/</link>
+      <pubDate>Tue, 24 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/</guid>
+      <description>So today I was trying to clean up some of my Sphinx build warnings when rendering this site. I got everything fixed so I had no errors or warnings except for this little guy right here (truncated for easier reading):
+~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png  I know I&amp;rsquo;m linking to an external image. I don&amp;rsquo;t want to store my binary images in my Github repo .
+I search google for a bit and couldn&amp;rsquo;t find anything.</description>
+    </item>
+    
+    <item>
+      <title>Switched To Tinkerer</title>
+      <link>http://www.dpetzel.info/post/switched_to_tinkerer/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/switched_to_tinkerer/</guid>
+      <description>For anyone that might have been following along I&amp;rsquo;ve been trying out different solutions for static site generation of this site. I&amp;rsquo;d been running Pelican for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve gotten used to Sphinx at work for some project documentation and I wanted to see if I could leverage some of that. A little googling later and I found Tinkerer which is based on Sphinx but adds some workflow around the process to make blogging with Sphinx easier.</description>
+    </item>
+    
+    <item>
+      <title>Adventures in Django Performance Analysis</title>
+      <link>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/adventures_in_django_performance_analysis/</guid>
+      <description>&lt;p&gt;Nothing to eye opening here but I wanted to collect some thoughts and insights
+I had this week. While I&amp;rsquo;m more of an operations guy, a while back I hacked
+up a &lt;code&gt;Django&lt;/code&gt; based web application which uses &lt;code&gt;Celery&lt;/code&gt; and &lt;code&gt;RabbitMQ&lt;/code&gt;. I have
+recent set out to do some performance analysis on it.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chef Minitest and Slow Starting Web Application</title>
+      <link>http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/chef/chef_minitest_and_slow_starting_web_application/</guid>
+      <description>&lt;p&gt;As I have started to become proficient with &lt;code&gt;Chef&lt;/code&gt; I&amp;rsquo;ve also gotten used to
+using the &lt;code&gt;minitest-chef-handler&lt;/code&gt; for writing integration tests for my
+cookbooks. This quick post is to capture an approach I&amp;rsquo;ve grown to like for
+doing HTTP tests of slow starting web applications. I&amp;rsquo;ve noticed that many
+services will return from an &lt;code&gt;/sbin/service mysapp start&lt;/code&gt; well before
+the application has fully started and is accepting HTTP connections.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hello Pelican</title>
+      <link>http://www.dpetzel.info/post/hello_pelican/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/hello_pelican/</guid>
+      <description>&lt;p&gt;So I&amp;rsquo;ve gone live with a static site using &lt;a href=&#34;http://docs.getpelican.com&#34;&gt;Pelican&lt;/a&gt;.
+Originally I had kicked off my attempts at a static site using Mynt, which I
+detailed &lt;a href=&#34;http://www.dpetzel.info/post/live_with_mynt/&#34;&gt;here&lt;/a&gt;. There really wasn&amp;rsquo;t anything
+wrong with Mynt, it just didn&amp;rsquo;t feel right to me after having trying to use it.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Running Uptime on Heroku</title>
+      <link>http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/</link>
+      <pubDate>Sun, 08 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/cloud/running_uptime_on_heroku/</guid>
+      <description>&lt;p&gt;For today&amp;rsquo;s adventure I&amp;rsquo;ve decided to finally get my hands dirty with
+&lt;a href=&#34;http://heroku.com&#34;&gt;Heroku&lt;/a&gt;. I&amp;rsquo;ve know about it for a while now, and have gone
+so far as reading some of the documentation, however I&amp;rsquo;ve never actually
+tried using it. So today, I decided to change that.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Publishing A Zenoss ZenPack to PyPi Using Travis-CI</title>
+      <link>http://www.dpetzel.info/post/zenoss/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci/</link>
+      <pubDate>Sat, 07 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/zenoss/publishing_a_zenoss_zenpack_to_pypi_using_travis_ci/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: It was pointed out to me that while ZenPacks are technically eggs,
+it is not always safe to promote them as a standard Python module, which is
+why you don&amp;rsquo;t see more ZenPacks on PyPi.&lt;/p&gt;
 
-&lt;p&gt;The instructions it came with made it look like it was going to be the easiest thing
-I ever hooked up. The physical hookup was simple enough, but then it came time
-to get it hooked up to my wireless. I don&amp;rsquo;t have anything fancy, just a Linksys
-E3200 with &lt;code&gt;WPA2/WPA Mixed Mode&lt;/code&gt; security. I&amp;rsquo;ve hooked up a ton of devices
-and never had any issues.&lt;/p&gt;
+&lt;p&gt;So read on if you are curious about how it &lt;em&gt;might&lt;/em&gt; work, but please don&amp;rsquo;t
+make this part of your standard ZenPack release process.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Live With Mynt</title>
+      <link>http://www.dpetzel.info/post/live_with_mynt/</link>
+      <pubDate>Tue, 03 Sep 2013 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/live_with_mynt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debugging WinRM</title>
+      <link>http://www.dpetzel.info/post/windows/debugging_winrm/</link>
+      <pubDate>Mon, 11 Jun 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/windows/debugging_winrm/</guid>
+      <description>&lt;p&gt;Some notes on my first attempts at doing details debugging and troubleshooting of WinRM
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>BIG IP LTM VE on VirtualBox</title>
+      <link>http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/virtualization/big-ip-ltm-ve-on-virtualbox/</guid>
+      <description>&lt;p&gt;I wanted to do some testing on a Zenoss BIG-IP ZenPack I wrote today, and
+I didn&amp;rsquo;t have the access to a test box that I had when I initially wrote it.
+So I decided I&amp;rsquo;d give the BIG-IP LTM VE a whirl.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
+      <link>http://www.dpetzel.info/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box/</guid>
+      <description>&lt;p&gt;The issue I was having is that the Cloud Zoom enhanced image was being
+displayed in front of my drop down menu as well as my modal dialog box. At
+first I had only noticed the issue on the drop menu, and was having a hard time
+figuring out what was going on, and thought perhaps I had done something wrong
+on the superfish menu. Once I noticed it was also affecting my modal dialog,
+I became suspicious of cloud zoom.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7</title>
+      <link>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</guid>
+      <description>&lt;p&gt;A quick chronicle of my journey to install Apache Traffic Servers on
+Centos 5.7. In the end it ended up being a lot easier than I was expecting,
+given how sporadic and incomplete the documentation on their site is.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing Varnish Cache 3.0.2 on Centos 5.7</title>
+      <link>http://www.dpetzel.info/post/sysadmin/installing_varnish_cache_3_0_2_on_centos_5_7/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/sysadmin/installing_varnish_cache_3_0_2_on_centos_5_7/</guid>
+      <description>&lt;p&gt;If you are here, you probably already know what Varnish is, but in case you don’t….&lt;a href=&#34;https://www.varnish-cache.org/&#34;&gt;https://www.varnish-cache.org/&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;The Chromecast App was useless. It could see my Chromecast, but I
-just kept getting a grey exclamation mark with a message saying it couldn&amp;rsquo;t
-connect. I went back and forth with the online help and the only useful thing
-I found was the link to the web based setup instructions located at
-&lt;a href=&#34;https://cast.google.com/chromecast/setup?np=manualsetup&#34;&gt;https://cast.google.com/chromecast/setup?np=manualsetup&lt;/a&gt;. With this I was able
-able to get a little further. I got as far as it displaying a 4 letter code
-for me to confirm. Once I did that, it failed to connect again. What!?!?!
-You can &lt;strong&gt;obviously&lt;/strong&gt; connect, since you just synced up that 4 letter code!!!
-A bunch of google searching and nothing useful. Finally for no good reason other than
-a lucky guess, I changed the network type on my Laptop &amp;ndash;&amp;gt; Chromecast wifi
-network from Public to Home.&lt;/p&gt;
-
-&lt;p&gt;Once I made that switch the Web based setup got a little bit further and it
-prompted me for my wireless password. Entered and it failed to connect&amp;hellip;
-For kicks I tried the application again, it was still useless, so back to the
-web based setup.&lt;/p&gt;
-
-&lt;p&gt;I ended up having to power off the Chromecast one more time and then running
-through the setup wizard again. Finally I had it hooked up the wireless. While
-I can appreciate the target audience probably needs the &amp;laquo;magic config&amp;raquo; I really
-wish they would have just given me the &amp;laquo;I know what the eff I&amp;rsquo;m doing&amp;raquo; option
-and just entered my wifi info directly.&lt;/p&gt;
-
-&lt;p&gt;Once I had it connected, the native casting support in YouTube worked really well
-I have a YouTube app native on my TV and the quality of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Chromecast&#34;&gt;Chromecast&lt;/a&gt; was
-better than the native app. Sadly, the &amp;laquo;cast my Chrome tab&amp;raquo; option didn&amp;rsquo;t have
-the same quality. I tried to play a recent episode of the
-&lt;a href=&#34;http://www.cbs.com/shows/big_bang_theory/&#34;&gt;The Big Bang Theory&lt;/a&gt;,
-but the quality was terrible and it kept freezing. It was not watchable.&lt;/p&gt;
-
-&lt;p&gt;The next test I did was to stream the Thursday Night Football game from nfl.com
-This was a little better but still pretty choppy. I was able to reduce the
-choppiness by dropping the quality down to 480p. Given that I cut the cord a
-while back, the fact that I was able to watch a game that was not broadcast
-on one of the national network channels was pretty cool. The game was watchable
-(its playing as I write this), but its certainly not a great experience.&lt;/p&gt;
-
-&lt;p&gt;So at the end of the day, the only thing I would consider a success was the YouTube
-integration, but given I have the YouTube native app on my TV, I really don&amp;rsquo;t feel like
-I gained anything. If your a techy/gadget person its worth the $35 as something fun
-to play with, but as of right now I struggle to see it being a valuable addition
-to my media consumption choices.&lt;/p&gt;
-</description>
+&lt;blockquote&gt;
+&lt;p&gt;Varnish Cache is an open source, state of the art web application accelerator.
+  It is installed in front of your webserver where it will cache the content,
+  resulting in a huge performance boost.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Sending an SMTP email in Python 3</title>
+      <link>http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/sending_an_smtp_email_in_python_3/</guid>
+      <description>&lt;p&gt;This took me far longer than it should have, and while I&amp;rsquo;d like to blame
+shotty documentation and sparse examples it was probably my own stupidity
+causing the issue. Whatever the case maybe I wanted to jot down my results
+as I&amp;rsquo;m sure I&amp;rsquo;ll need to do this again.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Template Generated Array in Velocity</title>
+      <link>http://www.dpetzel.info/post/programming/template_generated_array_in_velocity/</link>
+      <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/programming/template_generated_array_in_velocity/</guid>
+      <description>&lt;p&gt;Today I was trying to do something in a velocity template that I found to be a little
+harder than I would have guessed. I was trying to manually generate an array from within my template.
+I had a single template that I needed to wrap some super crude IP checking around. I have a couple of
+ip addresses which are allowed to see the template code, but everyone else should get the boot.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Converting Zenoss VMWare Virtual Appliance to VirtualBox</title>
+      <link>http://www.dpetzel.info/post/zenoss/converting-zenoss-vmware-virtual-appliance-to-virtualbox/</link>
+      <pubDate>Fri, 10 Feb 2012 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/zenoss/converting-zenoss-vmware-virtual-appliance-to-virtualbox/</guid>
+      <description>&lt;p&gt;So you can use the VMWare Appliance Zenoss Inc. provides under VirtualBox
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Developing a Command Parser Based ZenPack</title>
+      <link>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</link>
+      <pubDate>Fri, 16 Dec 2011 00:00:00 +0000</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/zenoss/developing_a_command_parser_based_zenpack/</guid>
+      <description>Inspiration I still consider myself a relative newb with Zenoss as well as Python development. A while back I set out to write a custom ZenPack for use with F5 LTMs_. I never would have been able to figure this out without the assistance of a great guide written by Jane Curry. Her outstanding document can be found on the Zenoss community site: http://community.zenoss.org/docs/DOC-10268
+I recently had a need for a ZenPack to interact with a couple of Varnish 3.</description>
     </item>
     
   </channel>

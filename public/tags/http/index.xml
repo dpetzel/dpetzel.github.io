@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/http/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/http/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Installing Apache Traffic Server 3.0.1 on Centos 5.7</title>
@@ -20,53 +22,8 @@
       <guid>http://www.dpetzel.info/post/sysadmin/installing_apache_traffic_server_3_0_1_on_centos_5_7/</guid>
       <description>&lt;p&gt;A quick chronicle of my journey to install Apache Traffic Servers on
 Centos 5.7. In the end it ended up being a lot easier than I was expecting,
-given how sporadic and incomplete the documentation on their site is.&lt;/p&gt;
-
-&lt;p&gt;Start with a vanilla minimal install of Centos 5.7. I did perform a
-&lt;code&gt;yum update&lt;/code&gt; &amp;amp; &lt;code&gt;reboot&lt;/code&gt; after the initial installation of the OS, before
-starting with installing ATS&lt;/p&gt;
-
-&lt;p&gt;Do the installation:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd /tmp
-wget http://www.carfab.com/apachesoftware//trafficserver/trafficserver-3.0.1.tar.bz2
-yum -y install gcc gcc-c++ pcre pcre-devel tcl tcl-devel openssl-devel expat-devel
-tar -jxvf trafficserver-3.0.1.tar.bz2
-cd /tmp/trafficserver-3.0.1
-./configure --prefix=/opt/trafficserver
-make
-make install
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;At this point it was installed for me, however I ran into one &lt;em&gt;really&lt;/em&gt;
-boneheaded mistake. Mostly my own fault, but the documentation in the getting
-started guide is misleading as well. From this page
-&lt;a href=&#34;http://trafficserver.apache.org/docs/v2/admin/getstart.htm&#34;&gt;http://trafficserver.apache.org/docs/v2/admin/getstart.htm&lt;/a&gt; it says:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;#. Log on to the Traffic Server node as the Traffic Server administrator and navigate to the Traffic Server bin directory.&lt;/p&gt;
-
-&lt;p&gt;#. Enter the following command:&lt;/p&gt;
-
-&lt;p&gt;./start_traffic_server&lt;/p&gt;
-
-&lt;p&gt;./trafficserver start&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The problem is that start_traffic_server does not exist. Since I’m brand new to
-traffic server, I can’t be sure, but I suspect this is a relic from 2.x. The
-next challenge was running “./trafficserver start”. This gives the illusion
-that the server has started, but I ran into issues with traffic_line and
-traffic_shell errors. You can see the details of those errors in my
-&lt;a href=&#34;http://mail-archives.apache.org/mod_mbox/trafficserver-users/201111.mbox/browser&#34;&gt;semi-embarrassing forum post&lt;/a&gt;:&lt;/p&gt;
-
-&lt;p&gt;For those that want to cut to the chase, start traffic server with
-&lt;code&gt;trafficserver start&lt;/code&gt; notice the omission of the underscore. Running this
-command also starts traffic_cop and traffic_manager. I ended up finding this by
-reading the INSTALL file that was included in the source download. Yes, I did
-read the file before attempting to install, but as I already admitted, glossed
-right over the closely named file.&lt;/p&gt;
-</description>
+given how sporadic and incomplete the documentation on their site is.
+&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -80,59 +37,8 @@ right over the closely named file.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Varnish Cache is an open source, state of the art web application accelerator.
   It is installed in front of your webserver where it will cache the content,
-  resulting in a huge performance boost.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Now that we’ve gotten that out of way, lets get to it. As is the case with most
-things I post, this is not intended to be an official “how-to” document, but
-rather a journal of my adventures in doing it. As should always be the case
-I’m starting with the supplied installation documentation located here:
-&lt;a href=&#34;https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat&#34;&gt;https://www.varnish-cache.org/docs/3.0/installation/install.html#centos-redhat&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Start with a vanilla minimal install of Centos 5.7. I did perform a &lt;code&gt;yum update&lt;/code&gt;
-&amp;amp; &lt;code&gt;reboot&lt;/code&gt; after the initial installation of the OS, before starting with
-installing Varnish.&lt;/p&gt;
-
-&lt;p&gt;Lets create a repo file and leverage Varnish’s existing repo. We also need
-libedit out of EPEL, so enabling that repo as well. I suppose I could have just
-grabbed the single RPM just as easily…&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd /tmp
-wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
-rpm -i epel-release-5-4.noarch.rpm
-rpm --nosignature -i http://repo.varnish-cache.org/redhat/varnish-3.0/el5/noarch/varnish-release-3.0-1.noarch.rpm
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Install Varnish and its various dependencies&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;yum -y install varnish
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Fire it up!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;service varnish start
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Check that its alive (The 503 response code is expected right now)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;# curl -I http://localhost:6081
-HTTP/1.1 503 Service Unavailable
-Server: Varnish
-Content-Type: text/html; charset=utf-8
-Retry-After: 5
-Content-Length: 419
-Accept-Ranges: bytes
-Date: Thu, 01 Dec 2011 02:27:30 GMT
-X-Varnish: 1562514354
-Age: 0
-Via: 1.1 varnish
-Connection: close
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That’s about it, doesn’t get much easier than that. Perhaps if I get more
-ambitious I’ll post some configuration tweaks and or cool tricks
-(if I learn any).&lt;/p&gt;
-</description>
+  resulting in a huge performance boost.
+&lt;/p&gt;</description>
     </item>
     
   </channel>

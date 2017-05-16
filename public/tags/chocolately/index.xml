@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Thu, 28 Nov 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/chocolately/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/chocolately/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Chocolatey is Awesome</title>
@@ -18,21 +20,8 @@
       <pubDate>Thu, 28 Nov 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/windows/chocolatey-is-awesome/</guid>
-      <description>&lt;p&gt;A while back a co-worker told me about Chocolately. I had taken a quick
-look and it seemed interesting, but I kind of forgot about it after
-that.&lt;/p&gt;
-
-&lt;p&gt;Well today, I was setting up a new machine and I had a handful of things
-I wanted to install. I was thinking to myself what a bummer it was going
-to be to have fire up Google and search for each of the package’s
-download sites. Then I recalled Chocolately. In under 10 minutes flat I
-had read the quick start, installed Chocolately, and installed a handful
-of packages on the box. It was awesome and is something Windows has been
-sorely missing for a very long time. So if you haven’t already, go check
-it out at &lt;a href=&#34;http://chocolatey.org/&#34;&gt;http://chocolatey.org/&lt;/a&gt;. Now I have to fight the urge to
-start packing up my own stuff, and focus on the task at hand. I’ll have
-to revisit the packaging process at a later date :).&lt;/p&gt;
-</description>
+      <description>A while back a co-worker told me about Chocolately. I had taken a quick look and it seemed interesting, but I kind of forgot about it after that.
+Well today, I was setting up a new machine and I had a handful of things I wanted to install. I was thinking to myself what a bummer it was going to be to have fire up Google and search for each of the package’s download sites.</description>
     </item>
     
   </channel>

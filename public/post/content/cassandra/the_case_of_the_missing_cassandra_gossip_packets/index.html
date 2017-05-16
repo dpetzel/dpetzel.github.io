@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>The Case Of The Missing Cassandra Gossip Packets</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.20.7" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="The Case Of The Missing Cassandra Gossip Packets" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets//" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>The Case Of The Missing Cassandra Gossip Packets</h1>
+      
+
+      
+      <span class="post-meta">Posted on May 15, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#the-journey">The Journey</a></li>
+<li><a href="#the-solution">The Solution</a></li>
+<li><a href="#references">References</a></li>
+</ul></li>
+</ul>
+</nav>
+      <article role="main" class="blog-post">
+          <p>One of my recent tasks was to automate the creation of multi-region Cassandra
+clusters. I&rsquo;m still pretty green with Cassandra but have been having some recent
+success with creating multi-dc (replication group) clusters inside of a single
+AWS region. The story that follows summarizes what was a painful few days
+of debugging&hellip;.</p>
+
+<p></p>
+
+<h2 id="the-journey">The Journey</h2>
+
+<p>This story will take us all over the troubleshooting world from log files, to
+AWS security groups, and finally concluding with some tcpdump action.</p>
+
+<p>I&rsquo;ll start by trying to set the stage a little:</p>
+
+<ul>
+<li>I&rsquo;ve got an existing cluster already running in one AWS region. This cluster
+is configured with multiple &laquo;data centers&raquo; aka replication groups, inside
+this cluster. Each data center spans multiple available zones for redundancy
+purposes</li>
+<li>The regions are currently connected with an IPSec VPN tunnel, and all nodes
+are configured to communicate over private IPs. I am not using the commonly
+referenced design of having our Cassandra nodes communicate over public IP
+addresses.</li>
+<li>In this specific example I&rsquo;m testing Datastax Enterprise 5.1.0</li>
+</ul>
+
+<p>The key components of what follows looks like this:</p>
+
+<pre><code>======= Region 1 =====            ===== Region 2 ======
+node1 &lt;==&gt; VPN Term &lt;== Internet ==&gt; VPN Term &lt;==&gt; node2
+</code></pre>
+
+<p>As it turns out Datastax has some documentation for this exact situation located
+at <a href="http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsAddDCToCluster.html">http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsAddDCToCluster.html</a>.
+Its always nice to see you&rsquo;re not blazing any new trails.</p>
+
+<p>After going through the steps in the document I got up to step #7 and things
+went severely downhill from there. I was finding that sometimes my nodes
+were joining up, but most times they were not. Remember I&rsquo;m iterating on the
+process many times as my true goal is automating this, not simply getting it
+working one time.</p>
+
+<p>The one constant I did find was that every time it failed I saw the following
+exception in <code>/var/log/cassandra/system.log</code></p>
+
+<pre><code>ERROR [main] 2017-05-15 15:02:34,654  CassandraDaemon.java:705 - Exception encountered during startup
+java.lang.RuntimeException: Unable to gossip with any seeds
+        at org.apache.cassandra.gms.Gossiper.doShadowRound(Gossiper.java:1413) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at org.apache.cassandra.service.StorageService.checkForEndpointCollision(StorageService.java:555) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at org.apache.cassandra.service.StorageService.prepareToJoin(StorageService.java:810) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at org.apache.cassandra.service.StorageService.initServer(StorageService.java:671) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at org.apache.cassandra.service.StorageService.initServer(StorageService.java:617) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at org.apache.cassandra.service.CassandraDaemon.setup(CassandraDaemon.java:393) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at com.datastax.bdp.server.DseDaemon.setup(DseDaemon.java:471) ~[dse-core-5.1.0.jar:5.1.0]
+        at org.apache.cassandra.service.CassandraDaemon.activate(CassandraDaemon.java:599) ~[cassandra-all-3.10.0.1652.jar:3.10.0.1652]
+        at com.datastax.bdp.DseModule.main(DseModule.java:93) [dse-core-5.1.0.jar:5.1.0]
+
+</code></pre>
+
+<p>Live everyone does I turned to Google. There are no shortage of results for this
+error message, but no resounding solution. Most threads point at firewall and/or
+connectivity issues on the Gossip port (TCP 7000).</p>
+
+<p>Using <code>tcpdump</code> on both Cassandra nodes I confirmed that communications were in
+fact flowing between both nodes on port 7000. The logging around this error
+is completely unhelpful so my next trick is to increase the logging on both
+nodes. I started by changing all the <code>INFO</code> logging statements to trace:</p>
+
+<pre><code>sed -ie 's/INFO/TRACE/g' /etc/dse/cassandra/logback.xml
+service dse restart
+</code></pre>
+
+<p>This did increase the amount of logging, but still not enough. So I added a more
+specific configuration entry to the file:</p>
+
+<pre><code>&lt;logger name=&quot;org.apache.cassandra&quot; level=&quot;TRACE&quot;/&gt;
+</code></pre>
+
+<p>I added this right about the closing configuration element (<code>&lt;/configuration&gt;</code>)</p>
+
+<p>Now I was getting some pretty useful entries, but all they really did was confirm
+what I already knew, which was that gossip messages were not working properly.</p>
+
+<p>I did however expose what some of the classes involved were so I spent some time
+sifting through the <a href="https://github.com/apache/cassandra">Cassandra source code</a>.
+While educational, I didn&rsquo;t find any smoking guns here either. The key concept
+I personally took away from this is that while it uses TCP, the gossiping is
+&laquo;firing and forgetting&raquo; model so the sending of the digest isn&rsquo;t directly
+associated with an ACK. By that I mean a digest can be set and never get an ACK
+but the internals of the communications don&rsquo;t seem to care. Its actually felt
+more like a UDP flow&hellip;</p>
+
+<p>At this point I was suspicious that maybe the latency between regions was too
+high and while communications were happening they were not happening fast enough.
+This turned out to be a totally bogus theory, but it did land me on <a href="https://wiki.apache.org/cassandra/ArchitectureGossip">https://wiki.apache.org/cassandra/ArchitectureGossip</a>
+ which is where things started heading in the right direction (although I didn&rsquo;t
+know it yet).</p>
+
+<p>After reading up on this page, specifically the section on <code>GossipDigestAckMessage</code>
+I figured it was time to dive back into the packet captures, this time in more
+depth. I had previously just monitored the summary of info that tcpdump spits
+out on the command. This time I&rsquo;d actually log them to a file and review them
+in Wireshark.</p>
+
+<p>It&rsquo;s here that my first break through happened. I saw what appeared to be the
+payload of the digest ACK get sent from region 1, but it never showed up in
+region 2. Other messages were however getting there&hellip;.</p>
+
+<p>At this point I fired up a packet capture on all 4 boxes (Cassandra and VPN).
+I could see the digest ACK leave the Cassandra node in region 1, and see it
+show up on the VPN box in region 1. However, it doesn&rsquo;t show up on the VPN
+node in region 2, but still other packets were.</p>
+
+<p>So I started going through the pcap from the VPN box in region 1 with a fine
+tooth comb, and then I find it&hellip; Right after the packet that appears to
+be my payload, the VPN box sends an ICMP packet back to the Cassandra node.
+I had over looked this earlier as I was focused on TCP port 7000.</p>
+
+<p>The ICMP packet in question was a Type 3 (Destination unreachable), with Code 4
+(Fragmentation needed). For those that deal with networking every day they
+probably would have known what to do right away, but this was new to me so more
+Googling.</p>
+
+<p>I noticed that all the packets that were getting through were all under 1K, however
+this payload message was about 37K. Additionally these packets all the <code>DF</code> bit
+set which says &laquo;Don&rsquo;t Fragment this packet&raquo;.</p>
+
+<p>So I tried to figure out how to turn this flag off. I know enough to understand
+that fragmentation is normal part of getting data across a network. I looked
+at various OS and JVM configurations, none of which were the answer.</p>
+
+<p>So I started looking at MTU settings and I found the AMIs I were using, had an
+MTY size of 9001 on eth0. Based on some Internet results for working with the
+DF bit I opted to reduce the MTU size via <code>ifconfig eth0 mtu 1422</code>.</p>
+
+<p>From there it was like magic, nodes starting gossiping and all the nodes came
+online.</p>
+
+<p>Now, as we all know, a single success can&rsquo;t be trusted so I tore everything down,
+added a line in my userdata script to set this MTU and rebuilt the cluster
+again. I actually did this 3 more times, all of which were successful.</p>
+
+<h2 id="the-solution">The Solution</h2>
+
+<p>For those that don&rsquo;t care to read about the journey above the fix for me was to
+run <code>ifconfig eth0 mtu 1422</code> on all of my seed nodes that were participating
+in WAN gossiping across my VPN connection</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsAddDCToCluster.html">http://docs.datastax.com/en/dse/5.1/dse-admin/datastax_enterprise/operations/opsAddDCToCluster.html</a></li>
+<li><a href="https://github.com/apache/cassandra">https://github.com/apache/cassandra</a></li>
+<li><a href="https://wiki.apache.org/cassandra/ArchitectureGossip">https://wiki.apache.org/cassandra/ArchitectureGossip</a></li>
+</ul>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/misc/codemonkeyfm/" data-toggle="tooltip" data-placement="top" title="New Podcast: Code Monkey Talks">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2017
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

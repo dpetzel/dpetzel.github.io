@@ -10,7 +10,9 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Tue, 24 Sep 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/sphinx/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/sphinx/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Sphinx With External Image Annoyance</title>
@@ -18,47 +20,9 @@
       <pubDate>Tue, 24 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/sphinx-with-external-image-annoyance/</guid>
-      <description>&lt;p&gt;So today I was trying to clean up some of my Sphinx build warnings when
-rendering this site. I got everything fixed so I had no errors or
-warnings except for this little guy right here (truncated for easier
-reading):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I know I&amp;rsquo;m linking to an external image. I don&amp;rsquo;t want to store my binary
-images in my Github repo .&lt;/p&gt;
-
-&lt;p&gt;I search google for a bit and couldn&amp;rsquo;t find anything. This was so
-annoying!! I don&amp;rsquo;t want these warnings every build to numb me to real
-warnings so I I wanted to suppress them.&lt;/p&gt;
-
-&lt;p&gt;Well, since this is just Python lets get to work&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ grep -Rn &amp;quot;nonlocal image URI found&amp;quot; ~/virtualenvs/tinkerer/lib/python2.7/site-packages/
-/home/dave/virtualenvs/tinkerer/lib/python2.7/site-packages/sphinx/environment.py:779:                self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So I edited line 779 in the file from:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if imguri.find(&#39;://&#39;) != -1:
-        self.warn_node(&#39;nonlocal image URI found: %s&#39; % imguri, node)
-        candidates[&#39;?&#39;] = imguri
-        continue
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;to end up with:
-{% highlight python %}
-    if imguri.find(&amp;rsquo;://&amp;lsquo;) != -1:
-        # self.warn_node(&amp;lsquo;nonlocal image URI found: %s&amp;rsquo; % imguri, node)
-        candidates[&amp;lsquo;?&amp;rsquo;] = imguri
-        continue
-{% endhighlight %}&lt;/p&gt;
-
-&lt;p&gt;Voila! No more warning for external images. If anyone knows the
-&lt;strong&gt;right&lt;/strong&gt; way to suppress these warnings (Yes I&amp;rsquo;ve read all the reasons
-why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
-</description>
+      <description>So today I was trying to clean up some of my Sphinx build warnings when rendering this site. I got everything fixed so I had no errors or warnings except for this little guy right here (truncated for easier reading):
+~/dpetzel.info.tinkerer/2011/12/16/developing_a_command_parser_based_zenpack.rst:328: WARNING: nonlocal image URI found: https://external.domain/image.png  I know I&amp;rsquo;m linking to an external image. I don&amp;rsquo;t want to store my binary images in my Github repo .
+I search google for a bit and couldn&amp;rsquo;t find anything.</description>
     </item>
     
     <item>
@@ -67,29 +31,7 @@ why you shouldn&amp;rsquo;t) please let me know.&lt;/p&gt;
       <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
       <guid>http://www.dpetzel.info/post/switched_to_tinkerer/</guid>
-      <description>&lt;p&gt;For anyone that might have been following along I&amp;rsquo;ve been trying out different
-solutions for static site generation of this site. I&amp;rsquo;d been running &lt;code&gt;Pelican&lt;/code&gt;
-for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve
-gotten used to &lt;code&gt;Sphinx&lt;/code&gt; at work for some project documentation and I wanted
-to see if I could leverage some of that. A little googling later and I found
-&lt;code&gt;Tinkerer&lt;/code&gt; which is based on Sphinx but adds some workflow around the process
-to make blogging with &lt;code&gt;Sphinx&lt;/code&gt; easier.&lt;/p&gt;
-
-&lt;p&gt;So I&amp;rsquo;ve made the switch and what you are reading now was generated with Tinkerer.
-I didn&amp;rsquo;t have very much content yet so I just manually moved everything over,
-although from what I saw if you had a lot of content it would be pretty easy
-to whip up a script to do the transfer. The big difference for me was that
-Pelican had you organize your posts by category, while Tinkerer has you organize
-them by date. Aside form that they seemed to have roughly the same features
-with Tinkerer having full Sphinx support.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see if I continue to like it as time goes on. Thats all for now.&lt;/p&gt;
-
-&lt;p&gt;References:
-* &lt;a href=&#34;http://docs.getpelican.com/en/3.2/&#34;&gt;Pelican&lt;/a&gt;
-* &lt;a href=&#34;http://sphinx-doc.org/&#34;&gt;Sphinx&lt;/a&gt;
-* &lt;a href=&#34;http://tinkerer.me/&#34;&gt;Tinkerer&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>For anyone that might have been following along I&amp;rsquo;ve been trying out different solutions for static site generation of this site. I&amp;rsquo;d been running Pelican for a bit, but I was getting annoyed a bit with the limited directives. I&amp;rsquo;ve gotten used to Sphinx at work for some project documentation and I wanted to see if I could leverage some of that. A little googling later and I found Tinkerer which is based on Sphinx but adds some workflow around the process to make blogging with Sphinx easier.</description>
     </item>
     
   </channel>

@@ -10,55 +10,23 @@
     <webMaster>dave@petzel.email (David Petzel)</webMaster>
     <copyright>© 2016 David Petzel</copyright>
     <lastBuildDate>Mon, 05 Mar 2012 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.dpetzel.info/tags/jquery/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.dpetzel.info/tags/jquery/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Cloud Zoom Is Blocking My Modal Dialog Box</title>
-      <link>http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/</link>
+      <link>http://www.dpetzel.info/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box/</link>
       <pubDate>Mon, 05 Mar 2012 00:00:00 +0000</pubDate>
       <author>dave@petzel.email (David Petzel)</author>
-      <guid>http://www.dpetzel.info/post/programming/Cloud%20Zoom%20Is%20Blocking%20My%20Modal%20Dialog%20Box/</guid>
+      <guid>http://www.dpetzel.info/post/programming/cloud-zoom-is-blocking-my-modal-dialog-box/</guid>
       <description>&lt;p&gt;The issue I was having is that the Cloud Zoom enhanced image was being
 displayed in front of my drop down menu as well as my modal dialog box. At
 first I had only noticed the issue on the drop menu, and was having a hard time
 figuring out what was going on, and thought perhaps I had done something wrong
 on the superfish menu. Once I noticed it was also affecting my modal dialog,
-I became suspicious of cloud zoom.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;I&amp;rsquo;ve got a page that is using a few different jQuery dependent features/functions.&lt;/li&gt;
-&lt;li&gt;I&amp;rsquo;m using the superfish drop down menu&lt;/li&gt;
-&lt;li&gt;I&amp;rsquo;m also using the jQuery UI Dialog for a modal dialog box&lt;/li&gt;
-&lt;li&gt;And finally, I&amp;rsquo;m using Cloud Zoom for some image excitement&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I went through and tried a few different things, and finally just disabled
-cloud zoom. At that point my drop down menu was now correctly displayed over
-top of the image. I spent some time looking through the cloud-zoom site with no
-luck. I spent quite a bit of time googling with no luck.&lt;/p&gt;
-
-&lt;p&gt;I turned my attention to the jQuery UI documentation for anything that might be
-a clue. I was reading through the various options and came upon the zIndex
-option. I had no idea what zIndex was (I am no jQuery expert). Long story short,
-I finally got to this article: &lt;a href=&#34;http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/&#34;&gt;http://zenverse.net/how-to-fix-superfish-dropdown-menu-that-appear-under-floating-divs-in-ie6/&lt;/a&gt;
-So I randomly picked a stupid high zIndex (100,000), and sure enough it worked!
-So the question of the day is WHY? and what is the value of zIndex I need to
-use? Well on a hunch I started digging through the cloud zoom javascript and
-found line 350::&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;  $(this).wrap(&#39;&amp;lt;div id=&amp;quot;wrap&amp;quot; style=&amp;quot;top:0px;z-index:9999;position:relative;&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&#39;);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So Cloud Zoom is using 9999. Any other components that has a z-index lower
-than that will be displayed behind my images. So of course, I put this to the
-test. I set my z-index to 10,000 on my menu and 10,001 on my modal dialog.&lt;/p&gt;
-
-&lt;p&gt;A quick refresh and everything is working perfect!. zIndex&amp;hellip; who knew&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;In case you are wondering, yes I did test an iteration with the index of the
-menu and modal dialog set to be lower than 9999 and as expected they were
-hidden by the cloud zoom image.&lt;/p&gt;
-</description>
+I became suspicious of cloud zoom.
+&lt;/p&gt;</description>
     </item>
     
   </channel>
