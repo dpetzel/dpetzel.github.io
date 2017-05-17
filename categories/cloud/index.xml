@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloud on Dave&#39;s Site</title>
+    <link>http://www.dpetzel.info/categories/cloud/</link>
+    <description>Recent content in Cloud on Dave&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>dave@petzel.email (David Petzel)</managingEditor>
+    <webMaster>dave@petzel.email (David Petzel)</webMaster>
+    <copyright>© 2016 David Petzel</copyright>
+    <lastBuildDate>Tue, 16 May 2017 21:38:27 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.dpetzel.info/categories/cloud/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Free SSL Courtesy Of Cloudflare</title>
+      <link>http://www.dpetzel.info/post/cloud/free_ssl_courtesy_of_cloudflare/</link>
+      <pubDate>Tue, 16 May 2017 21:38:27 -0400</pubDate>
+      <author>dave@petzel.email (David Petzel)</author>
+      <guid>http://www.dpetzel.info/post/cloud/free_ssl_courtesy_of_cloudflare/</guid>
+      <description>&lt;p&gt;I was recently listening to an episode of &lt;a href=&#34;https://www.grc.com/securitynow.htm&#34;&gt;Security Now&lt;/a&gt;
+when I heard them mention that Cloudflare has a free tier. While I&amp;rsquo;ve never
+personally used their service I&amp;rsquo;ve heard about it a ton of times. Hearing that
+they have a free tier peaked my interest so I went exploring.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

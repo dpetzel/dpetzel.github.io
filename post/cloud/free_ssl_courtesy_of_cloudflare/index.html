@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Free SSL Courtesy Of Cloudflare</title>
+
+  <meta name="author" content="David Petzel" />
+
+  
+
+  <meta name="generator" content="Hugo 0.20.7" />
+
+  <link rel="alternate" href="http://www.dpetzel.info/index.xml" type="application/rss+xml" title="Dave&#39;s Site">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="http://www.dpetzel.info/css/pygment_highlights.css" />
+
+
+  
+  <link href="/css/prism.css" rel="stylesheet" />
+  <script src="/js/prism.js"></script>
+
+  
+  <meta property="og:title" content="Free SSL Courtesy Of Cloudflare" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/cloud/free_ssl_courtesy_of_cloudflare//" />
+  <meta property="og:image" content="" />
+
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="About Me" href="/about/">About Me</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Resume" href="/resume/">Resume</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          
+            <div id="googleads" class="site-content">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:320px;height:100px"
+       data-ad-client="ca-pub-3085354840505663"
+       data-ad-slot="8536675365"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+          
+          <h1>Free SSL Courtesy Of Cloudflare</h1>
+      
+
+      
+      <span class="post-meta">Posted on May 16, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      
+      <article role="main" class="blog-post">
+          <p>I was recently listening to an episode of <a href="https://www.grc.com/securitynow.htm">Security Now</a>
+when I heard them mention that Cloudflare has a free tier. While I&rsquo;ve never
+personally used their service I&rsquo;ve heard about it a ton of times. Hearing that
+they have a free tier peaked my interest so I went exploring.</p>
+
+<p></p>
+
+<p>I won&rsquo;t re-hash what Cloudflare is, they do have plenty of their own marketing
+material on their <a href="https://www.cloudflare.com/">website</a>. I&rsquo;ve always known
+them to be a bit of a hybrid between a CDN and guarding sites against DDOS attacks.</p>
+
+<p>They do in fact do those things and more, but I was surprised to find out
+that their free Tier includes free SSL.</p>
+
+<p>Now, if your reading this page then you&rsquo;ve probably already guessed there really
+is not anything on this site that warrants DDOS protection or requires SSL, but hey
+why not if its free?</p>
+
+<p>The setup process was very simple. After creating my new account they provided
+me a couple of DNS name servers, and they automatically imported all my existing
+records from my current zone. I then updated my NS records to the name servers
+they suggested. As with all things DNS, some waiting then occurred&hellip;</p>
+
+<p>While I was waiting on DNS TTLs to expire and propagation to occur I started
+browsing through all the options I had available to me in the free account. I
+won&rsquo;t go into all of them, but there were a couple I leveraged:</p>
+
+<ul>
+<li><p>I enabled SSL of course. This was so easy it was almost comical. They set up
+my domain as an additional SAN (Subject Alternate Name) on a shared certificate.
+If you&rsquo;re interested you can inspect the SANs value on the certificate and see
+who else you are sharing the certificate with.</p></li>
+
+<li><p>I also turned on automatic HTTPS rewrites. This is a neat feature that actually
+inspects your response payloads and changes and HTTP references to HTTPS (or
+at least that is how I understood the description).</p></li>
+
+<li><p>Auto minification of resources. I&rsquo;ll simply quote their description:
+<code>Reduce the file size of source code on your website.</code></p></li>
+
+<li><p>While Github Pages has always been super reliable for my needs, Cloudfare has
+an &lsquo;Always Online&rsquo; feature, which basically holds onto cached copies of your
+site in case your backend origin goes down. This would be a pretty handy feature
+if you were hosting a site out of basement, or some other low cost hosting
+provider.</p></li>
+
+<li><p>Always use HTTPS page rule. Page rules are a really powerful feature, and one
+you find on most CDNs. I was surprised to see that you&rsquo;re given a small set of
+page rules to implement as you see fit. I opted to use one of my rules to ensure
+SSL is enforced on the site. If someone requests a page via HTTP, they will
+be redirected to the same page via HTTPS.</p></li>
+</ul>
+
+<p>There are a ton of other features available so I&rsquo;d strongly suggest signing up
+for an account taking it for a test drive yourself. They really have made being
+more secure crazy easy.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="http://www.dpetzel.info/post/content/cassandra/the_case_of_the_missing_cassandra_gossip_packets/" data-toggle="tooltip" data-placement="top" title="The Case Of The Missing Cassandra Gossip Packets">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+      <div class="disqus-comments">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'dpetzel';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+		      
+		      
+          <li>
+            <a href="mailto:dave@petzel.email" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+	    	  
+          
+          
+
+    		  <li>
+      			<a href="http://www.dpetzel.info/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  David Petzel
+    		  &nbsp;&bull;&nbsp;
+    		  2017
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="http://www.dpetzel.info/">Dave&#39;s Site</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="http://www.dpetzel.info/js/jquery-1.11.2.min.js"></script>
+<script src="http://www.dpetzel.info/js/bootstrap.min.js"></script>
+<script src="http://www.dpetzel.info/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-16076153-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
